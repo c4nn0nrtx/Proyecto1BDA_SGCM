@@ -1,0 +1,3 @@
+Conexion\ConexionBD.class
+Conexion\IConexionBD.class
+Exception\PersistenciaException.class

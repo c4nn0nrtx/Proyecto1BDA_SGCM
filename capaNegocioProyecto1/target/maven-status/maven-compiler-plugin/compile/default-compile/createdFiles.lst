@@ -1,0 +1,5 @@
+BO\CitaBO.class
+Exception\NegocioException.class
+BO\MedicoBO.class
+BO\ConsultaBO.class
+BO\PacienteBO.class
