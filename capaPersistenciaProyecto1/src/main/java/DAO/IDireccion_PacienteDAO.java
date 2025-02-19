@@ -16,6 +16,9 @@ public interface IDireccion_PacienteDAO {
     
     public Direccion_Paciente consultarDireccionPorId(int id) throws PersistenciaException;
     
+    public int consultaIdDireccion(Direccion_Paciente direccion) throws PersistenciaException;
+    
     public Direccion_Paciente actualizarDireccion(Direccion_Paciente direccion) throws PersistenciaException;
     
 }
+

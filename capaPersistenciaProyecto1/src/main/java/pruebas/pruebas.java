@@ -8,9 +8,12 @@ import Conexion.ConexionBD;
 import Conexion.IConexionBD;
 import DAO.Direccion_PacienteDAO;
 import DAO.MedicoDAO;
+import DAO.PacienteDAO;
 import Entidades.Direccion_Paciente;
 import Entidades.Medico;
+import Entidades.Paciente;
 import Exception.PersistenciaException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,8 +32,8 @@ public class pruebas {
         IConexionBD conexionBD = new ConexionBD();
 
         MedicoDAO medico = new MedicoDAO(conexionBD);
-/*IGNORAR , SOLAMENTE LA HICE PARA PROBAR LOS METODOS DE LA CLASE MEDICODAO*/
-        /*try {
+        /*IGNORAR , SOLAMENTE LA HICE PARA PROBAR LOS METODOS DE LA CLASE MEDICODAO*/
+ /*try {
             int idConsulta = 1;  // ID a consultar
             Medico medicoConsultado = medico.consultarMedicoPorId(idConsulta);
 
@@ -66,8 +69,8 @@ public class pruebas {
         } catch (PersistenciaException ex) {
             Logger.getLogger(pruebas.class.getName()).log(Level.SEVERE, null, ex);
         }*/
- 
-        /*Direccion_PacienteDAO direccion = new Direccion_PacienteDAO(conexionBD);
+
+ /*Direccion_PacienteDAO direccion = new Direccion_PacienteDAO(conexionBD);
         
         direccion.consultarDireccionPorId(1);
         
@@ -76,9 +79,17 @@ public class pruebas {
         Direccion_Paciente dir = new Direccion_Paciente(1,"Martin Luis Guzman", "Villa de Cortes", 85000, "#308");
         
         direccion.actualizarDireccion(dir);
+        
+        PacienteDAO paciente = new PacienteDAO(conexionBD);
+
+        LocalDate fecha = LocalDate.parse("2005-05-19");
+
+        Paciente pa = new Paciente(1, "Jaime", "Lerma", "Cuevas", "Lerma@Coronel.com", fecha, "567587");
+
+        paciente.agregarPaciente(pa);
+
+        paciente.consultarPacientePorId(1);
         */
-        
-        
-    }
+}
 
 }

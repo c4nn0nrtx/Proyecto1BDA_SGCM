@@ -15,9 +15,8 @@ public interface IPacienteDAO {
     
     public Paciente agregarPaciente(Paciente paciente) throws PersistenciaException;
     
-    public Paciente consultarPacientePorId(Paciente paciente) throws PersistenciaException;
+    public Paciente consultarPacientePorId(int id) throws PersistenciaException;
     
-    //public Direccion agregarDireccion
-    
+    public Paciente actualizarPaciente(Paciente paciente) throws PersistenciaException;
     
 }

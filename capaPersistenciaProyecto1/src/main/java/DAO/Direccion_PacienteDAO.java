@@ -90,6 +90,34 @@ public class Direccion_PacienteDAO implements IDireccion_PacienteDAO{
         }
         return direccion;
     }
+    
+    @Override
+    public int consultaIdDireccion(Direccion_Paciente direccion) throws PersistenciaException {
+        int id = -1;
+        String consultaSQL = "SELECT idDireccion FROM DIRECCIONES_PACIENTES WHERE calle = ? AND colonia = ? AND cp = ? AND numero = ?";
+        
+        try(Connection con = this.conexionBD.crearConexion();
+                PreparedStatement ps = con.prepareStatement(consultaSQL)){
+            
+            ps.setString(1, direccion.getCalle());
+            ps.setString(2, direccion.getColonia());
+            ps.setInt(3, direccion.getCp());
+            ps.setString(4, direccion.getNumero());
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    id = rs.getInt("idDireccion");
+                    
+                    logger.info("ID Encontrado: " + id);
+                } else {
+                    logger.warning("No hay un direccion registrada con esos datos.");
+                }
+            }
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "ERROR: Hubo un error al consultar los datos de la direccion: " + direccion, ex);
+        }
+        return id;
+    }
 
     @Override
     public Direccion_Paciente actualizarDireccion(Direccion_Paciente direccion) throws PersistenciaException {
@@ -120,4 +148,6 @@ public class Direccion_PacienteDAO implements IDireccion_PacienteDAO{
             throw new PersistenciaException("ERROR: Hubo un problema con la base de datos y no se pudieron actualizar los datos.");
         }
     }
+
+    
 }
