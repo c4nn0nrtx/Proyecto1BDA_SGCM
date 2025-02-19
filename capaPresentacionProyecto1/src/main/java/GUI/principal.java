@@ -14,7 +14,9 @@ public class principal {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        FramePrincipal frame = new FramePrincipal();
+        frame.setSize(1000,700);
+        frame.setVisible(true);
     }
     
 }
