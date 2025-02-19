@@ -25,6 +25,10 @@ public class MedicoDAO implements IMedicoDAO {
 
     private IConexionBD conexion;
 
+    /**
+     *
+     * @param conexion
+     */
     public MedicoDAO(IConexionBD conexion) {
         this.conexion = conexion;
     }

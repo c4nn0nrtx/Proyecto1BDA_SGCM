@@ -12,10 +12,29 @@ import Exception.PersistenciaException;
  * @author Ramon
  */
 public interface IDireccion_PacienteDAO {
+
+    /**
+     *
+     * @param direccion
+     * @return
+     * @throws PersistenciaException
+     */
     public Direccion_Paciente agregarDireccion(Direccion_Paciente direccion) throws PersistenciaException;
     
+    /**
+     *
+     * @param id
+     * @return
+     * @throws PersistenciaException
+     */
     public Direccion_Paciente consultarDireccionPorId(int id) throws PersistenciaException;
     
+    /**
+     *
+     * @param direccion
+     * @return
+     * @throws PersistenciaException
+     */
     public Direccion_Paciente actualizarDireccion(Direccion_Paciente direccion) throws PersistenciaException;
     
 }

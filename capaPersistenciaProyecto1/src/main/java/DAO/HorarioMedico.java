@@ -26,11 +26,20 @@ public class HorarioMedico implements IHorarioMedicoDAO {
 
     private IConexionBD conexion;
     
+    /**
+     *
+     * @param conexion
+     */
     public HorarioMedico(IConexionBD conexion) {
         this.conexion = conexion;
     }
     private static final Logger logger = Logger.getLogger(MedicoDAO.class.getName());
     
+    /**
+     *
+     * @param dia
+     * @return
+     */
     public static String obtenerDiaEnEspanol(DayOfWeek dia) {
     switch (dia) {
         case MONDAY: return "Lunes";
@@ -44,7 +53,12 @@ public class HorarioMedico implements IHorarioMedicoDAO {
     }
 }
 
-
+    /**
+     *
+     * @param fechaHora
+     * @return
+     * @throws PersistenciaException
+     */
     @Override
     public List<Medico> obtenerMedicosDisponibles(LocalDateTime fechaHora) throws PersistenciaException {
         List<Medico> medicosDisponibles = new ArrayList<>();

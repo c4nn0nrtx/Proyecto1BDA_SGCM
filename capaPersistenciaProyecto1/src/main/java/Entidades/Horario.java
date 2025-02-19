@@ -42,38 +42,74 @@ public class Horario {
         this.horaFin = horaFin;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDiaSemana() {
         return diaSemana;
     }
 
+    /**
+     *
+     * @param diaSemana
+     */
     public void setDiaSemana(String diaSemana) {
         this.diaSemana = diaSemana;
     }
 
+    /**
+     *
+     * @return
+     */
     public LocalDateTime getHoraInicio() {
         return horaInicio;
     }
 
+    /**
+     *
+     * @param horaInicio
+     */
     public void setHoraInicio(LocalDateTime horaInicio) {
         this.horaInicio = horaInicio;
     }
 
+    /**
+     *
+     * @return
+     */
     public LocalDateTime getHoraFin() {
         return horaFin;
     }
 
+    /**
+     *
+     * @param horaFin
+     */
     public void setHoraFin(LocalDateTime horaFin) {
         this.horaFin = horaFin;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "Horario{" + "id=" + id + ", diaSemana=" + diaSemana + ", horaInicio=" + horaInicio + ", horaFin=" + horaFin + '}';

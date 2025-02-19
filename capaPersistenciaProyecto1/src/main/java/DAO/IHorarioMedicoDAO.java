@@ -9,6 +9,13 @@ import java.util.List;
  * @author Sebastian Moreno
  */
 public interface IHorarioMedicoDAO {
+
+    /**
+     *
+     * @param fechaHora
+     * @return
+     * @throws PersistenciaException
+     */
     public List<Medico> obtenerMedicosDisponibles(LocalDateTime fechaHora) throws PersistenciaException;
     
 }

@@ -16,6 +16,11 @@ public class ConexionBD implements IConexionBD{
     final String PASS = "itson";
     final String STR_CONECTION = "jdbc:mysql://localhost:3306/clinica"; /*ALTER USER 'root'@'localhost' IDENTIFIED BY 'itson';*/
 
+    /**
+     *
+     * @return
+     * @throws PersistenciaException
+     */
     @Override
     public Connection crearConexion() throws PersistenciaException {
             try {
