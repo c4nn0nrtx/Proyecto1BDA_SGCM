@@ -26,11 +26,73 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
+        txtSubTitulo = new javax.swing.JLabel();
+        txtTituloPantalla = new javax.swing.JLabel();
+        pnlCancelarCita = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 340, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 80, Short.MAX_VALUE)
+        );
+
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtSubTitulo.setFont(new java.awt.Font("Roboto", 1, 48)); // NOI18N
+        txtSubTitulo.setForeground(new java.awt.Color(0, 0, 0));
+        txtSubTitulo.setText("MENU PRINCIPAL");
+        add(txtSubTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 50, -1, -1));
+
+        txtTituloPantalla.setFont(new java.awt.Font("Roboto", 1, 44)); // NOI18N
+        txtTituloPantalla.setForeground(new java.awt.Color(0, 0, 0));
+        txtTituloPantalla.setText("Usuarios");
+        add(txtTituloPantalla, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 110, -1, -1));
+
+        pnlCancelarCita.setBackground(new java.awt.Color(255, 102, 120));
+
+        javax.swing.GroupLayout pnlCancelarCitaLayout = new javax.swing.GroupLayout(pnlCancelarCita);
+        pnlCancelarCita.setLayout(pnlCancelarCitaLayout);
+        pnlCancelarCitaLayout.setHorizontalGroup(
+            pnlCancelarCitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 340, Short.MAX_VALUE)
+        );
+        pnlCancelarCitaLayout.setVerticalGroup(
+            pnlCancelarCitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 80, Short.MAX_VALUE)
+        );
+
+        add(pnlCancelarCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 330, 340, 80));
+
+        jPanel3.setBackground(new java.awt.Color(60, 109, 232));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 340, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 80, Short.MAX_VALUE)
+        );
+
+        add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 330, 340, 80));
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel pnlCancelarCita;
+    private javax.swing.JLabel txtSubTitulo;
+    private javax.swing.JLabel txtTituloPantalla;
     // End of variables declaration//GEN-END:variables
 }
