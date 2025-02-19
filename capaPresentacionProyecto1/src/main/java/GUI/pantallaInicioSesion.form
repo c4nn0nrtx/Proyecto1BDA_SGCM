@@ -45,8 +45,8 @@
                       <Component id="txtTituloPantalla" min="-2" max="-2" attributes="0"/>
                       <Component id="txtContraseña" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="inputContraseña" alignment="0" pref="363" max="32767" attributes="0"/>
-                          <Component id="inputUsuario" alignment="0" max="32767" attributes="0"/>
+                          <Component id="inputContraseña" alignment="0" max="32767" attributes="0"/>
+                          <Component id="inputUsuario" alignment="0" pref="363" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace pref="877" max="32767" attributes="0"/>
@@ -71,14 +71,14 @@
                   <Component id="inputUsuario" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                   <Component id="txtContraseña" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="inputContraseña" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="inputContraseña" min="-2" pref="38" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="pnlBotonRegistrate" max="32767" attributes="0"/>
                       <Component id="pnlBotonInicioSesion" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="241" max="32767" attributes="0"/>
+                  <EmptySpace pref="245" max="32767" attributes="0"/>
               </Group>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
@@ -135,17 +135,6 @@
             <Property name="text" type="java.lang.String" value="Usuario :"/>
           </Properties>
         </Component>
-        <Component class="java.awt.TextField" name="inputContrase&#xf1;a">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Roboto" size="24" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Introduce una contrase&#xf1;a"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inputContrase&#xf1;aActionPerformed"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JLabel" name="txtContrase&#xf1;a">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -191,6 +180,9 @@
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="Iniciar Sesi&#xf3;n"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnIniciarSesionMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -251,6 +243,14 @@
             </Component>
           </SubComponents>
         </Container>
+        <Component class="javax.swing.JPasswordField" name="inputContrase&#xf1;a">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Dialog" size="24" style="0"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="inputContrase&#xf1;a"/>
+          </Properties>
+        </Component>
       </SubComponents>
     </Container>
   </SubComponents>

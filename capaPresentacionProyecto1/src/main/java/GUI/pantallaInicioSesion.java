@@ -34,12 +34,12 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
         txtSubTitulo = new javax.swing.JLabel();
         inputUsuario = new java.awt.TextField();
         txtUsuario = new javax.swing.JLabel();
-        inputContraseña = new java.awt.TextField();
         txtContraseña = new javax.swing.JLabel();
         pnlBotonInicioSesion = new javax.swing.JPanel();
         btnIniciarSesion = new javax.swing.JLabel();
         pnlBotonRegistrate = new javax.swing.JPanel();
         btnRegistrate = new javax.swing.JLabel();
+        inputContraseña = new javax.swing.JPasswordField();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -65,14 +65,6 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
         txtUsuario.setForeground(new java.awt.Color(0, 0, 0));
         txtUsuario.setText("Usuario :");
 
-        inputContraseña.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
-        inputContraseña.setText("Introduce una contraseña");
-        inputContraseña.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputContraseñaActionPerformed(evt);
-            }
-        });
-
         txtContraseña.setFont(new java.awt.Font("Roboto", 0, 26)); // NOI18N
         txtContraseña.setForeground(new java.awt.Color(0, 0, 0));
         txtContraseña.setText("Contraseña:");
@@ -84,6 +76,11 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
         btnIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
         btnIniciarSesion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnIniciarSesion.setText("Iniciar Sesión");
+        btnIniciarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnIniciarSesionMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlBotonInicioSesionLayout = new javax.swing.GroupLayout(pnlBotonInicioSesion);
         pnlBotonInicioSesion.setLayout(pnlBotonInicioSesionLayout);
@@ -131,6 +128,9 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
                     .addContainerGap()))
         );
 
+        inputContraseña.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        inputContraseña.setText("inputContraseña");
+
         javax.swing.GroupLayout panelPrincipalLayout = new javax.swing.GroupLayout(panelPrincipal);
         panelPrincipal.setLayout(panelPrincipalLayout);
         panelPrincipalLayout.setHorizontalGroup(
@@ -146,8 +146,8 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
                     .addComponent(txtTituloPantalla)
                     .addComponent(txtContraseña)
                     .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(inputContraseña, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
-                        .addComponent(inputUsuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(inputContraseña, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(inputUsuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)))
                 .addContainerGap(877, Short.MAX_VALUE))
             .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelPrincipalLayout.createSequentialGroup()
@@ -166,13 +166,13 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
                 .addComponent(inputUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44)
                 .addComponent(txtContraseña)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(inputContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(91, 91, 91)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(inputContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(80, 80, 80)
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pnlBotonRegistrate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlBotonInicioSesion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(241, Short.MAX_VALUE))
+                .addContainerGap(245, Short.MAX_VALUE))
             .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelPrincipalLayout.createSequentialGroup()
                     .addGap(57, 57, 57)
@@ -187,19 +187,25 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_inputUsuarioActionPerformed
 
-    private void inputContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputContraseñaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputContraseñaActionPerformed
-
     private void btnRegistrateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrateMouseClicked
        framePrincipal.cambiarPanel("pantallaRegistro");
     }//GEN-LAST:event_btnRegistrateMouseClicked
+
+    private void btnIniciarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIniciarSesionMouseClicked
+        String usuario = inputUsuario.getText();
+        char[] listadoContraseña = inputContraseña.getPassword();
+        String contraseña = new String(listadoContraseña);
+        
+        System.out.println(usuario + contraseña);
+        
+        //CONDICION
+    }//GEN-LAST:event_btnIniciarSesionMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnIniciarSesion;
     private javax.swing.JLabel btnRegistrate;
-    private java.awt.TextField inputContraseña;
+    private javax.swing.JPasswordField inputContraseña;
     private java.awt.TextField inputUsuario;
     private javax.swing.JPanel panelPrincipal;
     private javax.swing.JPanel pnlBotonInicioSesion;
@@ -209,4 +215,8 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
     private javax.swing.JLabel txtTituloPantalla;
     private javax.swing.JLabel txtUsuario;
     // End of variables declaration//GEN-END:variables
+
+        //METODOS APOYO PARA INICIO DE SESION//
+   
+    
 }
