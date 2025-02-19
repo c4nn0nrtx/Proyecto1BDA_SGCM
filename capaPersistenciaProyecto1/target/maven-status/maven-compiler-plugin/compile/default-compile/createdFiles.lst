@@ -1,8 +1,15 @@
-DAO\IMedicoDAO.class
 Conexion\ConexionBD.class
 Exception\PersistenciaException.class
-Entidades\Horario.class
 Entidades\Medico.class
+Entidades\Usuario.class
 Conexion\IConexionBD.class
 DAO\MedicoDAO.class
 pruebas\pruebas.class
+DAO\IDireccion_PacienteDAO.class
+Entidades\Direccion_Paciente.class
+DAO\Direccion_PacienteDAO.class
+Entidades\Paciente.class
+DAO\IMedicoDAO.class
+DAO\PacienteDAO.class
+DAO\IPacienteDAO.class
+Entidades\Horario.class

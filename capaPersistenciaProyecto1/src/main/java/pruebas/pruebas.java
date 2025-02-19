@@ -6,7 +6,9 @@ package pruebas;
 
 import Conexion.ConexionBD;
 import Conexion.IConexionBD;
+import DAO.Direccion_PacienteDAO;
 import DAO.MedicoDAO;
+import Entidades.Direccion_Paciente;
 import Entidades.Medico;
 import Exception.PersistenciaException;
 import java.util.List;
@@ -22,7 +24,7 @@ public class pruebas {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws PersistenciaException {
         // Crear la conexión a la base de datos
         IConexionBD conexionBD = new ConexionBD();
 
@@ -64,6 +66,19 @@ public class pruebas {
         } catch (PersistenciaException ex) {
             Logger.getLogger(pruebas.class.getName()).log(Level.SEVERE, null, ex);
         }*/
+ 
+        /*Direccion_PacienteDAO direccion = new Direccion_PacienteDAO(conexionBD);
+        
+        direccion.consultarDireccionPorId(1);
+        
+        direccion.agregarDireccion(dir);
+        
+        Direccion_Paciente dir = new Direccion_Paciente(1,"Martin Luis Guzman", "Villa de Cortes", 85000, "#308");
+        
+        direccion.actualizarDireccion(dir);
+        */
+        
+        
     }
 
 }

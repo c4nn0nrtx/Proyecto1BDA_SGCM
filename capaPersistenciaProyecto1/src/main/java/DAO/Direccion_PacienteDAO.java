@@ -36,7 +36,7 @@ public class Direccion_PacienteDAO implements IDireccion_PacienteDAO{
                 PreparedStatement ps = con.prepareStatement(consultaSQL)){
             
             ps.setString(1, direccion.getCalle());
-            ps.setString(1, direccion.getColonia());
+            ps.setString(2, direccion.getColonia());
             ps.setInt(3, direccion.getCp());
             ps.setString(4, direccion.getNumero());
             
@@ -93,7 +93,7 @@ public class Direccion_PacienteDAO implements IDireccion_PacienteDAO{
 
     @Override
     public Direccion_Paciente actualizarDireccion(Direccion_Paciente direccion) throws PersistenciaException {
-        String consultaSQL = "UPDATE DIRECCION_PACIENTES SET calle, colonia, cp, numero WHERE idDireccion = ?";
+        String consultaSQL = "UPDATE DIRECCIONES_PACIENTES SET calle = ?, colonia = ?, cp = ?, numero = ? WHERE idDireccion = ?";
         
         try (Connection con = this.conexionBD.crearConexion(); 
                 PreparedStatement ps = con.prepareStatement(consultaSQL)){
@@ -106,6 +106,7 @@ public class Direccion_PacienteDAO implements IDireccion_PacienteDAO{
             ps.setString(2, direccion.getColonia());
             ps.setInt(3, direccion.getCp());
             ps.setString(4, direccion.getNumero());
+            ps.setInt(5, direccion.getIdDireccion());
             
             int filasAfectadas = ps.executeUpdate();
             if (filasAfectadas == 0) {
