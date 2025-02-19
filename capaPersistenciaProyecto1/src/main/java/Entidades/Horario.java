@@ -1,7 +1,7 @@
 
 package Entidades;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Representa un horario para un doctor.
@@ -10,8 +10,8 @@ import java.time.LocalDate;
 public class Horario {
     private int id;
     private String diaSemana;
-    private LocalDate horaInicio;
-    private LocalDate horaFin;
+    private LocalDateTime horaInicio;
+    private LocalDateTime horaFin;
     /**
      * Constuctor vacio.
      */
@@ -24,7 +24,7 @@ public class Horario {
      * @param horaInicio
      * @param horaFin 
      */
-    public Horario(int id, String diaSemana, LocalDate horaInicio, LocalDate horaFin) {
+    public Horario(int id, String diaSemana, LocalDateTime horaInicio, LocalDateTime horaFin) {
         this.id = id;
         this.diaSemana = diaSemana;
         this.horaInicio = horaInicio;
@@ -36,7 +36,7 @@ public class Horario {
      * @param horaInicio
      * @param horaFin 
      */
-    public Horario(String diaSemana, LocalDate horaInicio, LocalDate horaFin) {
+    public Horario(String diaSemana, LocalDateTime horaInicio, LocalDateTime horaFin) {
         this.diaSemana = diaSemana;
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
@@ -58,19 +58,19 @@ public class Horario {
         this.diaSemana = diaSemana;
     }
 
-    public LocalDate getHoraInicio() {
+    public LocalDateTime getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(LocalDate horaInicio) {
+    public void setHoraInicio(LocalDateTime horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public LocalDate getHoraFin() {
+    public LocalDateTime getHoraFin() {
         return horaFin;
     }
 
-    public void setHoraFin(LocalDate horaFin) {
+    public void setHoraFin(LocalDateTime horaFin) {
         this.horaFin = horaFin;
     }
 
