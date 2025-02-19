@@ -36,6 +36,7 @@ public interface IMedicoDAO {
     /**
      *  Metodo para actualizar el estado de un Medico
      * @param medico
+     * @param estado
      * @return regresa Verdadero si se actualizo
      * @throws PersistenciaException 
      */

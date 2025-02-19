@@ -21,12 +21,22 @@ import java.util.logging.Logger;
 public class Direccion_PacienteDAO implements IDireccion_PacienteDAO{
     private IConexionBD conexionBD;
 
+    /**
+     *
+     * @param conexionBD
+     */
     public Direccion_PacienteDAO(IConexionBD conexionBD) {
         this.conexionBD = conexionBD;
     }
     
     private static final Logger logger = Logger.getLogger(Direccion_PacienteDAO.class.getName());
     
+    /**
+     *
+     * @param direccion
+     * @return
+     * @throws PersistenciaException
+     */
     @Override
     public Direccion_Paciente agregarDireccion(Direccion_Paciente direccion) throws PersistenciaException{
         String consultaSQL = "INSERT INTO DIRECCIONES_PACIENTES (calle, colonia, cp, numero)"
@@ -60,6 +70,12 @@ public class Direccion_PacienteDAO implements IDireccion_PacienteDAO{
         return null;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     * @throws PersistenciaException
+     */
     @Override
     public Direccion_Paciente consultarDireccionPorId(int id) throws PersistenciaException {
         Direccion_Paciente direccion = null;
@@ -119,6 +135,12 @@ public class Direccion_PacienteDAO implements IDireccion_PacienteDAO{
         return id;
     }
 
+    /**
+     *
+     * @param direccion
+     * @return
+     * @throws PersistenciaException
+     */
     @Override
     public Direccion_Paciente actualizarDireccion(Direccion_Paciente direccion) throws PersistenciaException {
         String consultaSQL = "UPDATE DIRECCIONES_PACIENTES SET calle = ?, colonia = ?, cp = ?, numero = ? WHERE idDireccion = ?";
