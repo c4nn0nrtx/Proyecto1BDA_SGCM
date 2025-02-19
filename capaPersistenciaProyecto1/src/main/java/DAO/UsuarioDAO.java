@@ -1,0 +1,116 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package DAO;
+
+import Conexion.IConexionBD;
+import Entidades.Usuario;
+import Exception.PersistenciaException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author PC
+ */
+public class UsuarioDAO implements IUsuarioDAO{
+    private IConexionBD conexionBD;
+
+    public UsuarioDAO(IConexionBD conexion) {
+        this.conexionBD = conexion;
+    }
+    
+    private static final Logger logger = Logger.getLogger(MedicoDAO.class.getName());
+    
+    @Override
+    public Usuario agregarUsuario(Usuario usuario) throws PersistenciaException{
+        String consultaSQL = "INSERT INTO USUARIO (nombreUsuario, contrasenha)"
+                + "VALUES (?, ?)";
+        
+        try(Connection con = this.conexionBD.crearConexion(); 
+                PreparedStatement ps = con.prepareStatement(consultaSQL)){
+            
+            ps.setString(1, usuario.getNombreUsuario());
+            ps.setString(2, usuario.getContrasenha());
+            
+            int filasAfectadas = ps.executeUpdate();
+            if (filasAfectadas == 0) {
+                logger.severe("ERROR: Hubo un fallo al agregar al usuario, no se inserto niguna fila.");
+            }
+            
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()){
+                if (generatedKeys.next()) {
+                    usuario.setIdUsuario(generatedKeys.getInt(1));
+                    logger.info("Usuario agregado exitosamente");
+                } else {
+                    logger.severe("ERROR: La agregacion del usuario fallo, no se pudo obtener el id.");
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Direccion_PacienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return usuario;
+    }
+    
+    @Override
+    public Usuario consultarUsuarioPorId(int id) throws PersistenciaException{
+        Usuario usuario = null;
+        
+        String consutlaSQL = "SELECT idUsuario, nombreUsuario, contrasenha WHERE idUsuario = ?";
+        
+        
+        try (Connection con = this.conexionBD.crearConexion();
+                PreparedStatement ps = con.prepareStatement(consutlaSQL)) {
+            
+            ps.setInt(1, id);
+            
+            try(ResultSet rs = ps.executeQuery()) {
+                if(rs.next()) {
+                    usuario = new Usuario();
+                    usuario.setIdUsuario(rs.getInt("idUsuario"));
+                    usuario.setNombreUsuario(rs.getString("nombreUsuario"));
+                    usuario.setContrasenha(rs.getString("contrasenha"));
+                    
+                    logger.info("Usuario encontrado: " + usuario);
+                } else {
+                    logger.warning("No hay un paciente registrado con esos datos.");
+                }
+            }
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "ERROR: Hubo un error al consultar los datos del usuario: " + usuario, ex);
+        }
+        return usuario;
+    }
+    
+    @Override
+    public Usuario actualizarUsuario(Usuario usuario) throws PersistenciaException{
+        String consultaSQL = "UPDATE USUARIOS SET nombreUsuario = ?, contrasenha = ? WHERE idUsuario = ?";
+        
+        try (Connection con = this.conexionBD.crearConexion(); 
+                PreparedStatement ps = con.prepareStatement(consultaSQL)){
+            
+            if (consultarUsuarioPorId(usuario.getIdUsuario()) == null){
+                throw new PersistenciaException("ERROR: No se encontro al usuario");
+            }
+            
+            ps.setString(1, usuario.getNombreUsuario());
+            ps.setString(2, usuario.getContrasenha());
+            ps.setInt(3, usuario.getIdUsuario());
+            
+            int filasAfectadas = ps.executeUpdate();
+            if (filasAfectadas == 0) {
+                logger.severe("ERROR: No se pudo ejecutar la actualizacion del usuario, no se modifico ninguna fila");
+            }
+            
+            return usuario;
+        } catch (SQLException ex) {
+            Logger.getLogger(PacienteDAO.class.getName()).log(Level.SEVERE, "ERROR: No se pudo actualizar el usuario");
+            throw new PersistenciaException("ERROR: Hubo un problema con la base de datos y no se pudieron actualizar los datos.");
+        }
+    }
+}
