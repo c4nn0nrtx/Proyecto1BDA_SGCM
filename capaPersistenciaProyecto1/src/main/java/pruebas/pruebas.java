@@ -6,9 +6,11 @@ package pruebas;
 
 import Conexion.ConexionBD;
 import Conexion.IConexionBD;
+import DAO.HorarioMedico;
 import DAO.MedicoDAO;
 import Entidades.Medico;
 import Exception.PersistenciaException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,6 +63,19 @@ public class pruebas {
                 System.out.println("Hubo un error.");
             };
 
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(pruebas.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+ 
+ 
+        /*HorarioMedico horarios = new HorarioMedico(conexionBD);
+        try {
+            List<Medico> listaMedicos = horarios.obtenerMedicosDisponibles(LocalDateTime.now());
+            for(Medico a : listaMedicos){
+                System.out.println(a);
+            }
+            
+            
         } catch (PersistenciaException ex) {
             Logger.getLogger(pruebas.class.getName()).log(Level.SEVERE, null, ex);
         }*/
