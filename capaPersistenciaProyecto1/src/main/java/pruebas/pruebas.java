@@ -68,7 +68,7 @@ public class pruebas {
         }*/
  
  
-        /*HorarioMedico horarios = new HorarioMedico(conexionBD);
+        HorarioMedico horarios = new HorarioMedico(conexionBD);
         try {
             List<Medico> listaMedicos = horarios.obtenerMedicosDisponibles(LocalDateTime.now());
             for(Medico a : listaMedicos){
@@ -78,7 +78,7 @@ public class pruebas {
             
         } catch (PersistenciaException ex) {
             Logger.getLogger(pruebas.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
     }
 
 }

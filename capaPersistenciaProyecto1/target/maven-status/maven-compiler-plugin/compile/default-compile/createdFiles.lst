@@ -7,10 +7,10 @@ Conexion\IConexionBD.class
 DAO\MedicoDAO.class
 pruebas\pruebas.class
 DAO\IDireccion_PacienteDAO.class
+DAO\HorarioMedico$1.class
 Entidades\Direccion_Paciente.class
 DAO\Direccion_PacienteDAO.class
 Entidades\Paciente.class
 DAO\IHorarioMedicoDAO.class
 DAO\IMedicoDAO.class
-DAO\IPacienteDAO.class
 Entidades\Horario.class
