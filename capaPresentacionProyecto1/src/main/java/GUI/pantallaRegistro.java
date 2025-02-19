@@ -4,6 +4,10 @@
  */
 package GUI;
 
+import com.toedter.calendar.JDateChooser;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author Sebastian Moreno
@@ -16,6 +20,9 @@ public class pantallaRegistro extends javax.swing.JPanel {
     private FramePrincipal framePrincipal;
     public pantallaRegistro(FramePrincipal frame) {
         this.framePrincipal = frame;
+        JDateChooser selectorFechas = new JDateChooser();
+        selectorFechas.setBounds(650, 300, 200, 40);
+        this.add(selectorFechas);
         initComponents();
     }
 
@@ -53,8 +60,11 @@ public class pantallaRegistro extends javax.swing.JPanel {
         inputApellidoP = new javax.swing.JTextField();
         inputCelular = new javax.swing.JTextField();
         inputApellidoM = new javax.swing.JTextField();
+        pnlBotonVolver = new javax.swing.JPanel();
+        btnVolver = new javax.swing.JLabel();
+        txtCelular1 = new javax.swing.JLabel();
         pnlBotonRegistrate = new javax.swing.JPanel();
-        btnRegistrate = new javax.swing.JLabel();
+        btnRegistrate1 = new javax.swing.JLabel();
 
         panelPrincipal.setBackground(new java.awt.Color(255, 255, 255));
         panelPrincipal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -96,8 +106,8 @@ public class pantallaRegistro extends javax.swing.JPanel {
 
         txtCelular.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         txtCelular.setForeground(new java.awt.Color(0, 0, 0));
-        txtCelular.setText("Celular*:");
-        panelPrincipal.add(txtCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 170, -1, -1));
+        txtCelular.setText("Fecha de Nacimiento*:");
+        panelPrincipal.add(txtCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 260, -1, -1));
 
         txtCorreoElectronico.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         txtCorreoElectronico.setForeground(new java.awt.Color(0, 0, 0));
@@ -146,11 +156,6 @@ public class pantallaRegistro extends javax.swing.JPanel {
         panelPrincipal.add(inputCodigoPostal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 540, 200, 40));
 
         inputNombre.setBorder(null);
-        inputNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputNombreActionPerformed(evt);
-            }
-        });
         panelPrincipal.add(inputNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, 200, 40));
 
         inputApellidoP.setBorder(null);
@@ -162,16 +167,55 @@ public class pantallaRegistro extends javax.swing.JPanel {
         inputApellidoM.setBorder(null);
         panelPrincipal.add(inputApellidoM, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, 230, 40));
 
+        pnlBotonVolver.setBackground(new java.awt.Color(0, 0, 0));
+        pnlBotonVolver.setForeground(new java.awt.Color(0, 0, 0));
+
+        btnVolver.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        btnVolver.setForeground(new java.awt.Color(255, 255, 255));
+        btnVolver.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnVolver.setText("Volver");
+        btnVolver.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVolver.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnVolverMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlBotonVolverLayout = new javax.swing.GroupLayout(pnlBotonVolver);
+        pnlBotonVolver.setLayout(pnlBotonVolverLayout);
+        pnlBotonVolverLayout.setHorizontalGroup(
+            pnlBotonVolverLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlBotonVolverLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnVolver, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlBotonVolverLayout.setVerticalGroup(
+            pnlBotonVolverLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBotonVolverLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnVolver, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        panelPrincipal.add(pnlBotonVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 600, 150, 40));
+
+        txtCelular1.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        txtCelular1.setForeground(new java.awt.Color(0, 0, 0));
+        txtCelular1.setText("Celular*:");
+        panelPrincipal.add(txtCelular1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 170, -1, -1));
+
+        pnlBotonRegistrate.setBackground(new java.awt.Color(0, 0, 0));
         pnlBotonRegistrate.setForeground(new java.awt.Color(0, 0, 0));
 
-        btnRegistrate.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btnRegistrate.setForeground(new java.awt.Color(255, 255, 255));
-        btnRegistrate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnRegistrate.setText("Registrate");
-        btnRegistrate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnRegistrate.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnRegistrate1.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        btnRegistrate1.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegistrate1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnRegistrate1.setText("Registrate");
+        btnRegistrate1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRegistrate1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnRegistrateMouseClicked(evt);
+                btnRegistrate1MouseClicked(evt);
             }
         });
 
@@ -183,7 +227,7 @@ public class pantallaRegistro extends javax.swing.JPanel {
             .addGroup(pnlBotonRegistrateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnlBotonRegistrateLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(btnRegistrate, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRegistrate1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
         pnlBotonRegistrateLayout.setVerticalGroup(
@@ -192,7 +236,7 @@ public class pantallaRegistro extends javax.swing.JPanel {
             .addGroup(pnlBotonRegistrateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnlBotonRegistrateLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(btnRegistrate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRegistrate1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
@@ -210,17 +254,18 @@ public class pantallaRegistro extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnRegistrateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrateMouseClicked
-        framePrincipal.cambiarPanel("pantallaRegistro");
-    }//GEN-LAST:event_btnRegistrateMouseClicked
+    private void btnVolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseClicked
+        framePrincipal.cambiarPanel("pantallaInicioSesion");
+    }//GEN-LAST:event_btnVolverMouseClicked
 
-    private void inputNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputNombreActionPerformed
+    private void btnRegistrate1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrate1MouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_inputNombreActionPerformed
+    }//GEN-LAST:event_btnRegistrate1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel btnRegistrate;
+    private javax.swing.JLabel btnRegistrate1;
+    private javax.swing.JLabel btnVolver;
     private javax.swing.JTextField inputApellidoM;
     private javax.swing.JTextField inputApellidoP;
     private javax.swing.JTextField inputCalle;
@@ -234,10 +279,12 @@ public class pantallaRegistro extends javax.swing.JPanel {
     private javax.swing.JTextField inputUsuario;
     private javax.swing.JPanel panelPrincipal;
     private javax.swing.JPanel pnlBotonRegistrate;
+    private javax.swing.JPanel pnlBotonVolver;
     private javax.swing.JLabel txtApellidoM;
     private javax.swing.JLabel txtApellidoP;
     private javax.swing.JLabel txtCalle;
     private javax.swing.JLabel txtCelular;
+    private javax.swing.JLabel txtCelular1;
     private javax.swing.JLabel txtCodigoPostal;
     private javax.swing.JLabel txtColonia;
     private javax.swing.JLabel txtContraseña;
