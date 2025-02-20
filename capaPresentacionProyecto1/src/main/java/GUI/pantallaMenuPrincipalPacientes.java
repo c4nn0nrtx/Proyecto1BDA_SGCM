@@ -38,6 +38,7 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         pnlCerrarSesion = new javax.swing.JPanel();
         btnCerrarSesion = new javax.swing.JLabel();
         txtTituloPantalla1 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -141,12 +142,15 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
-        add(pnlCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 630, 190, 40));
+        add(pnlCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 600, 190, 40));
 
         txtTituloPantalla1.setFont(new java.awt.Font("Roboto", 1, 44)); // NOI18N
         txtTituloPantalla1.setForeground(new java.awt.Color(0, 0, 0));
         txtTituloPantalla1.setText("Usuarios");
         add(txtTituloPantalla1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 110, -1, -1));
+
+        jLabel1.setText("info");
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 40, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -154,6 +158,7 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
     private javax.swing.JLabel btnAgendarCita;
     private javax.swing.JLabel btnCancelarCita;
     private javax.swing.JLabel btnCerrarSesion;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel pnlAgendarCita;
     private javax.swing.JPanel pnlCancelarCita;

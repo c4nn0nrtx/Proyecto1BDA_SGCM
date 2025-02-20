@@ -329,7 +329,7 @@ public class pantallaRegistro extends javax.swing.JPanel {
             String ApellidoM = inputApellidoM.getText();
             String Telefono = inputCelular.getText();
             String Correo = inputCorreo.getText();
-            
+
             java.util.Date Fecha = selectorFechas.getDate();
 
             if (Fecha != null) {
@@ -345,16 +345,6 @@ public class pantallaRegistro extends javax.swing.JPanel {
             UsuarioNuevoDTO usuario = new UsuarioNuevoDTO(nombreUsuario, contrasenha);
             PacienteNuevoDTO paciente = new PacienteNuevoDTO(nombre, ApellidoP, ApellidoM, Correo, fechaLocal, Telefono);
             Direccion_PacienteNuevaDTO direccion = new Direccion_PacienteNuevaDTO(calle, colonia, cp, numeroExt);
-            
-            if (!validarCorreo(Correo)) {
-                JOptionPane.showMessageDialog(null, "Ingrese un correo que sea valido", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            if (validarTelefono(Telefono)) {
-                JOptionPane.showMessageDialog(null, "Ingrese un telefono que sea valido y que tenga 10 digitos", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            if (validarCodigoPostal(cp)) {
-                JOptionPane.showMessageDialog(null, "Ingrese un codigo postal de 5 digitos", "Error", JOptionPane.ERROR_MESSAGE);
-            }
 
             boolean exito = usuarioBO.agregarUsuario(usuario, paciente, direccion);
             // Verificar si la operación fue exitosa
@@ -391,8 +381,19 @@ public class pantallaRegistro extends javax.swing.JPanel {
         inputNumExt.setText("");
     }
 
-
     public boolean validarCampos() {
+        
+        
+        if (!validarNombre()
+                || !validarApellidoP()
+                || !validarTelefono()
+                || !validarCorreo()
+                || !validarColonia()
+                || !validarCodigoPostal()) {
+
+            return false; // Si alguna validación falla, no continuar
+        }
+
         if (inputUsuario.getText() != null && !inputUsuario.getText().isEmpty()
                 && inputContraseña.getText() != null && !inputContraseña.getText().isEmpty()
                 && inputNombre.getText() != null && !inputNombre.getText().isEmpty()
@@ -411,21 +412,92 @@ public class pantallaRegistro extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Llena todos los campos obligatorios(*) para completar el registro.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-    }
-         
 
-    private boolean validarCorreo(String correo) {
+    }
+
+    private boolean validarCorreo() {
+        String correo = inputCorreo.getText();
         String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-        return correo != null && correo.matches(regex);
+        if (correo == null || !correo.matches(regex)) {
+            JOptionPane.showMessageDialog(null, "Correo inválido. Debe tener el formato usuario@dominio.com", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
     }
 
-    private boolean validarCodigoPostal(int cp) {
-        return cp >= 10000 && cp <= 99999; // Asegura que el CP tenga exactamente 5 dígitos
+    private boolean validarCodigoPostal() {
+        String cpTexto = inputCodigoPostal.getText();
+        try {
+            int cp = Integer.parseInt(cpTexto);
+            if (cp < 10000 || cp > 99999) {
+                JOptionPane.showMessageDialog(null, "Código Postal inválido. Debe tener exactamente 5 dígitos.", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            return true;
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Código Postal inválido. Debe ser un número de 5 dígitos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+
+    private boolean validarTelefono() {
+    String telefono = inputCelular.getText().trim(); // Elimina espacios en blanco
+    String regex = "^[0-9]{5,10}$"; // Permite entre 5 y 10 dígitos numéricos
+    
+    if (telefono.isEmpty() || !telefono.matches(regex)) { // Si está vacío o no cumple con la validación
+        JOptionPane.showMessageDialog(null, 
+            "Número de teléfono inválido. Debe contener entre 5 y 10 dígitos numéricos.", 
+            "Error", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+    return true;
+}
+
+
+
+    private boolean validarNombre() {
+        String nombre = inputNombre.getText();
+        String regex = "^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+( [A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)*$";
+        if (nombre == null || !nombre.matches(regex)) {
+            JOptionPane.showMessageDialog(null, "Nombre inválido. Debe iniciar con mayúscula y solo contener letras.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validarApellidoP() {
+    String apellido = inputApellidoP.getText().trim(); // Eliminamos espacios en blanco
+    String regex = "^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+$";
+    
+    if (apellido.isEmpty() || !apellido.matches(regex)) { // Verificamos si está vacío o no cumple con el regex
+        JOptionPane.showMessageDialog(null, 
+            "Apellido paterno inválido. Debe iniciar con mayúscula y solo contener letras.", 
+            "Error", JOptionPane.ERROR_MESSAGE);
+        return false;
     }
     
-    private boolean validarTelefono(String telefono) {
-        String regex = "^[0-9]{10}$"; // Asegura que el número tenga exactamente 10 dígitos numéricos
-        return telefono != null && telefono.matches(regex);
+    return true;
+}
+
+
+    private boolean validarApellidoM() {
+        String apellido = inputApellidoM.getText();
+        String regex = "^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+$";
+        if (apellido == null || !apellido.matches(regex)) {
+            JOptionPane.showMessageDialog(null, "Apellido materno inválido. Debe iniciar con mayúscula y solo contener letras.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
     }
-    
+
+    private boolean validarColonia() {
+        String colonia = inputColonia.getText();
+        String regex = "^[A-ZÁÉÍÓÚÑa-záéíóúñ0-9 ]+$"; // Permite letras, números y espacios
+        if (colonia == null || !colonia.matches(regex)) {
+            JOptionPane.showMessageDialog(null, "Colonia inválida. Solo se permiten letras, números y espacios.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
 }

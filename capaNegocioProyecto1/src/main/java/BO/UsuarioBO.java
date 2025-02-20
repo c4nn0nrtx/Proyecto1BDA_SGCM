@@ -60,7 +60,7 @@ public class UsuarioBO {
             logger.log(Level.SEVERE, "Error al guardar usuario en la BD", ex);
 
             // Lanzar una excepción de negocio con un mensaje más amigable
-            throw new NegocioException("Hubo un error al guardar el activista.", ex);
+            throw new NegocioException("Hubo un error al agregar el usuario.", ex);
         }
     }
     
@@ -91,7 +91,7 @@ public class UsuarioBO {
             logger.log(Level.SEVERE, "Error al guardar usuario en la BD", ex);
 
             // Lanzar una excepción de negocio con un mensaje más amigable
-            throw new NegocioException("Hubo un error al guardar el activista.", ex);
+            throw new NegocioException("Hubo un error al guardar el usuario.", ex);
         }
     
     }
