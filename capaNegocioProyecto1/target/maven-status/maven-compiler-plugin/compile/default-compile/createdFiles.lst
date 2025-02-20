@@ -1,5 +1,10 @@
 BO\CitaBO.class
+DTO\UsuarioNuevoDTO.class
 Exception\NegocioException.class
+configuracion\DependencyInjector.class
+BO\UsuarioBO.class
+Mapper\Mapper.class
 BO\MedicoBO.class
 BO\ConsultaBO.class
+DTO\PacienteNuevoDTO.class
 BO\PacienteBO.class

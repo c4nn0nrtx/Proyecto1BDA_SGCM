@@ -35,7 +35,7 @@ public class UsuarioDAO implements IUsuarioDAO {
                 + "VALUES (?, ?)";
         String contraseñaEncriptada = BCrypt.hashpw(usuario.getContrasenha(), BCrypt.gensalt());
 
-        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL,PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, usuario.getNombreUsuario());
             ps.setString(2, contraseñaEncriptada);
@@ -116,34 +116,33 @@ public class UsuarioDAO implements IUsuarioDAO {
     }
 
     @Override
-public boolean autenticarUsuario(Usuario usuario) throws PersistenciaException {
-    String sql = "SELECT contrasenha FROM usuarios WHERE nombreUsuario = ?";
+    public boolean autenticarUsuario(Usuario usuario) throws PersistenciaException {
+        String sql = "SELECT contrasenha FROM usuarios WHERE nombreUsuario = ?";
 
-    try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-        ps.setString(1, usuario.getNombreUsuario());
-        try (ResultSet rs = ps.executeQuery()) { 
-            if (rs.next()) {
-                String hashedPassword = rs.getString("contrasenha");
+            ps.setString(1, usuario.getNombreUsuario());
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String hashedPassword = rs.getString("contrasenha");
 
-                // Verificar si la contraseña ingresada coincide con la almacenada
-                if (BCrypt.checkpw(usuario.getContrasenha(), hashedPassword)) {
-                    logger.info("Autenticación exitosa para usuario: " + usuario.getNombreUsuario());
-                    return true;
+                    // Verificar si la contraseña ingresada coincide con la almacenada
+                    if (BCrypt.checkpw(usuario.getContrasenha(), hashedPassword)) {
+                        logger.info("Autenticación exitosa para usuario: " + usuario.getNombreUsuario());
+                        return true;
+                    } else {
+                        logger.warning("Contraseña incorrecta para usuario: " + usuario.getNombreUsuario());
+                        return false;
+                    }
                 } else {
-                    logger.warning("Contraseña incorrecta para usuario: " + usuario.getNombreUsuario());
+                    logger.warning("Usuario no encontrado: " + usuario.getNombreUsuario());
                     return false;
                 }
-            } else {
-                logger.warning("Usuario no encontrado: " + usuario.getNombreUsuario());
-                return false;
             }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error en la autenticación del usuario", e);
+            throw new PersistenciaException("Error al autenticar al usuario en la base de datos: " + e.getMessage());
         }
-    } catch (SQLException e) {
-        logger.log(Level.SEVERE, "Error en la autenticación del usuario", e);
-        throw new PersistenciaException("Error al autenticar al usuario en la base de datos: " + e.getMessage());
     }
-}
-
 
 }
