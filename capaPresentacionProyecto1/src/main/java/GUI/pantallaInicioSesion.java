@@ -4,17 +4,23 @@
  */
 package GUI;
 
+import BO.UsuarioBO;
+import DTO.UsuarioNuevoDTO;
+import Exception.NegocioException;
+import configuracion.DependencyInjector;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Sebastian Moreno
  */
 public class pantallaInicioSesion extends javax.swing.JPanel {
-
+    private UsuarioBO usuarioBO = DependencyInjector.crearUsuarioBO();
     /**
      * Creates new form pantallaInicioSesion
      */
     private FramePrincipal framePrincipal;
-    
+
     public pantallaInicioSesion(FramePrincipal frame) {
         this.framePrincipal = frame;
         initComponents();
@@ -188,16 +194,13 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
     }//GEN-LAST:event_inputUsuarioActionPerformed
 
     private void btnRegistrateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrateMouseClicked
-       framePrincipal.cambiarPanel("pantallaRegistro");
+        framePrincipal.cambiarPanel("pantallaRegistro");
     }//GEN-LAST:event_btnRegistrateMouseClicked
 
     private void btnIniciarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIniciarSesionMouseClicked
-        String usuario = inputUsuario.getText();
-        char[] listadoContraseña = inputContraseña.getPassword();
-        String contraseña = new String(listadoContraseña);
-        
-        System.out.println(usuario + contraseña);
-        
+
+      autenticarUsuario();
+
         //CONDICION
     }//GEN-LAST:event_btnIniciarSesionMouseClicked
 
@@ -216,7 +219,30 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
     private javax.swing.JLabel txtUsuario;
     // End of variables declaration//GEN-END:variables
 
-        //METODOS APOYO PARA INICIO DE SESION//
-   
-    
+    //METODOS APOYO PARA INICIO DE SESION//
+    public void autenticarUsuario() {
+
+        try {
+            String nombreUsuario = inputUsuario.getText();
+            char[] listadoContraseña = inputContraseña.getPassword();
+            String contraseña = new String(listadoContraseña);
+
+            UsuarioNuevoDTO usuario = new UsuarioNuevoDTO(nombreUsuario, contraseña);
+            
+            boolean exito = usuarioBO.autenticarUsuario(usuario);
+            
+            if (exito){
+             JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso!");
+            } else{
+             JOptionPane.showMessageDialog(this, "Contraseñas incorrectas.");
+            }
+            
+            
+        } catch (NegocioException ex) {
+              // Manejo de excepciones específicas de la capa de negocio
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);   
+        }
+        
+    }
+
 }

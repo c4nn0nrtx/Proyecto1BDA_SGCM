@@ -4,9 +4,16 @@
  */
 package GUI;
 
+import BO.UsuarioBO;
+import DTO.UsuarioNuevoDTO;
+import Exception.NegocioException;
 import com.toedter.calendar.JDateChooser;
+import configuracion.DependencyInjector;
 import java.awt.Image;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,10 +21,12 @@ import javax.swing.ImageIcon;
  */
 public class pantallaRegistro extends javax.swing.JPanel {
 
+    private UsuarioBO usuarioBO = DependencyInjector.crearUsuarioBO();
     /**
      * Creates new form pantallaRegistro
      */
     private FramePrincipal framePrincipal;
+
     public pantallaRegistro(FramePrincipal frame) {
         this.framePrincipal = frame;
         JDateChooser selectorFechas = new JDateChooser();
@@ -259,7 +268,7 @@ public class pantallaRegistro extends javax.swing.JPanel {
     }//GEN-LAST:event_btnVolverMouseClicked
 
     private void btnRegistrate1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrate1MouseClicked
-        // TODO add your handling code here:
+        agregarUsuario();
     }//GEN-LAST:event_btnRegistrate1MouseClicked
 
 
@@ -295,4 +304,32 @@ public class pantallaRegistro extends javax.swing.JPanel {
     private javax.swing.JLabel txtTituloPantalla;
     private javax.swing.JLabel txtUsuario;
     // End of variables declaration//GEN-END:variables
+
+    /*METODOS NECESARIOS PARA LA CREACION DE USUARIOS Y PACIENTES*/
+    public void agregarUsuario() {
+        try {
+            String nombreUsuario = inputUsuario.getText();
+            String contrasenha = inputContraseña.getText();
+
+            UsuarioNuevoDTO usuario = new UsuarioNuevoDTO(nombreUsuario, contrasenha);
+
+            boolean exito = usuarioBO.agregarUsuario(usuario);
+            // Verificar si la operación fue exitosa
+            if (exito) {
+                JOptionPane.showMessageDialog(this, "Usuario agregado correctamente");
+                //limpiarCampos(); // Me falta este metodo
+                //cargarActivistas(); // Falta este metodo Actualizar la tabla para reflejar los cambios
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al agregar usuario");
+            }
+        } catch (NegocioException ex) {
+            // Manejo de excepciones específicas de la capa de negocio
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+        } catch (Exception ex) {
+            // Captura de errores inesperados, logueo y mensaje genérico al usuario. Se debería especificar si es posible exactamente que falló
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "Error inesperado", ex);
+            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado. Intente nuevamente.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
 }
