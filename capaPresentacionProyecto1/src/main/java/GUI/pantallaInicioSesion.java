@@ -87,6 +87,7 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
         btnIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
         btnIniciarSesion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnIniciarSesion.setText("Iniciar Sesión");
+        btnIniciarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnIniciarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnIniciarSesionMouseClicked(evt);
@@ -209,7 +210,9 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
 
     private void btnIniciarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIniciarSesionMouseClicked
 
-      autenticarUsuario();
+     if(autenticarUsuario() == true){
+         framePrincipal.cambiarPanel("pantallaPacientes");
+     } ;
 
         //CONDICION
     }//GEN-LAST:event_btnIniciarSesionMouseClicked
@@ -238,7 +241,7 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     //METODOS APOYO PARA INICIO DE SESION//
-    public void autenticarUsuario() {
+    public boolean autenticarUsuario() {
 
         try {
             String nombreUsuario = inputUsuario.getText();
@@ -251,6 +254,7 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
             
             if (exito){
              JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso!");
+             return true;
             } else{
              JOptionPane.showMessageDialog(this, "Contraseñas incorrectas.");
             }
@@ -260,7 +264,7 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
               // Manejo de excepciones específicas de la capa de negocio
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);   
         }
-        
+       return false; 
     }
 
 }

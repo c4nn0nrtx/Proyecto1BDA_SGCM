@@ -13,7 +13,9 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
     /**
      * Creates new form pantallaMenuPrincipalPacientes
      */
-    public pantallaMenuPrincipalPacientes() {
+    private FramePrincipal framePrincipal;
+    public pantallaMenuPrincipalPacientes(FramePrincipal frame) {
+        this.framePrincipal = frame;
         initComponents();
     }
 
@@ -28,9 +30,14 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
 
         jPanel2 = new javax.swing.JPanel();
         txtSubTitulo = new javax.swing.JLabel();
-        txtTituloPantalla = new javax.swing.JLabel();
+        txtTituloEmergencia = new javax.swing.JLabel();
         pnlCancelarCita = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
+        btnCancelarCita = new javax.swing.JLabel();
+        pnlAgendarCita = new javax.swing.JPanel();
+        btnAgendarCita = new javax.swing.JLabel();
+        pnlCerrarSesion = new javax.swing.JPanel();
+        btnCerrarSesion = new javax.swing.JLabel();
+        txtTituloPantalla1 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -51,48 +58,109 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         txtSubTitulo.setText("MENU PRINCIPAL");
         add(txtSubTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 50, -1, -1));
 
-        txtTituloPantalla.setFont(new java.awt.Font("Roboto", 1, 44)); // NOI18N
-        txtTituloPantalla.setForeground(new java.awt.Color(0, 0, 0));
-        txtTituloPantalla.setText("Usuarios");
-        add(txtTituloPantalla, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 110, -1, -1));
+        txtTituloEmergencia.setFont(new java.awt.Font("Roboto", 1, 44)); // NOI18N
+        txtTituloEmergencia.setForeground(new java.awt.Color(0, 0, 0));
+        txtTituloEmergencia.setText("¿Situacion de Emergencia?");
+        add(txtTituloEmergencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 440, -1, -1));
 
         pnlCancelarCita.setBackground(new java.awt.Color(255, 102, 120));
+
+        btnCancelarCita.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        btnCancelarCita.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnCancelarCita.setText("Cancelar Cita");
 
         javax.swing.GroupLayout pnlCancelarCitaLayout = new javax.swing.GroupLayout(pnlCancelarCita);
         pnlCancelarCita.setLayout(pnlCancelarCitaLayout);
         pnlCancelarCitaLayout.setHorizontalGroup(
             pnlCancelarCitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 340, Short.MAX_VALUE)
+            .addGroup(pnlCancelarCitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlCancelarCitaLayout.createSequentialGroup()
+                    .addGap(8, 8, 8)
+                    .addComponent(btnCancelarCita, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
+                    .addGap(8, 8, 8)))
         );
         pnlCancelarCitaLayout.setVerticalGroup(
             pnlCancelarCitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 80, Short.MAX_VALUE)
+            .addGroup(pnlCancelarCitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlCancelarCitaLayout.createSequentialGroup()
+                    .addGap(11, 11, 11)
+                    .addComponent(btnCancelarCita, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                    .addGap(11, 11, 11)))
         );
 
         add(pnlCancelarCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 330, 340, 80));
 
-        jPanel3.setBackground(new java.awt.Color(60, 109, 232));
+        pnlAgendarCita.setBackground(new java.awt.Color(60, 109, 232));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 340, Short.MAX_VALUE)
+        btnAgendarCita.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        btnAgendarCita.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnAgendarCita.setText("Agendar una Cita");
+
+        javax.swing.GroupLayout pnlAgendarCitaLayout = new javax.swing.GroupLayout(pnlAgendarCita);
+        pnlAgendarCita.setLayout(pnlAgendarCitaLayout);
+        pnlAgendarCitaLayout.setHorizontalGroup(
+            pnlAgendarCitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnAgendarCita, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 80, Short.MAX_VALUE)
+        pnlAgendarCitaLayout.setVerticalGroup(
+            pnlAgendarCitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAgendarCitaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnAgendarCita, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 330, 340, 80));
+        add(pnlAgendarCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 330, 340, 80));
+
+        pnlCerrarSesion.setBackground(new java.awt.Color(60, 109, 232));
+
+        btnCerrarSesion.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        btnCerrarSesion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnCerrarSesion.setText("Cerrar Sesión");
+
+        javax.swing.GroupLayout pnlCerrarSesionLayout = new javax.swing.GroupLayout(pnlCerrarSesion);
+        pnlCerrarSesion.setLayout(pnlCerrarSesionLayout);
+        pnlCerrarSesionLayout.setHorizontalGroup(
+            pnlCerrarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 190, Short.MAX_VALUE)
+            .addGroup(pnlCerrarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCerrarSesionLayout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(11, Short.MAX_VALUE)))
+        );
+        pnlCerrarSesionLayout.setVerticalGroup(
+            pnlCerrarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 40, Short.MAX_VALUE)
+            .addGroup(pnlCerrarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCerrarSesionLayout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCerrarSesion)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        add(pnlCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 630, 190, 40));
+
+        txtTituloPantalla1.setFont(new java.awt.Font("Roboto", 1, 44)); // NOI18N
+        txtTituloPantalla1.setForeground(new java.awt.Color(0, 0, 0));
+        txtTituloPantalla1.setText("Usuarios");
+        add(txtTituloPantalla1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 110, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnAgendarCita;
+    private javax.swing.JLabel btnCancelarCita;
+    private javax.swing.JLabel btnCerrarSesion;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel pnlAgendarCita;
     private javax.swing.JPanel pnlCancelarCita;
+    private javax.swing.JPanel pnlCerrarSesion;
     private javax.swing.JLabel txtSubTitulo;
-    private javax.swing.JLabel txtTituloPantalla;
+    private javax.swing.JLabel txtTituloEmergencia;
+    private javax.swing.JLabel txtTituloPantalla1;
     // End of variables declaration//GEN-END:variables
+
 }

@@ -19,6 +19,7 @@ public class FramePrincipal extends javax.swing.JFrame {
     private CardLayout cardLayout;
     pantallaInicioSesion pantallaInicioSesion;
     pantallaRegistro pantallaRegistro;
+    pantallaMenuPrincipalPacientes pantallaPacientes;
 
     public FramePrincipal() {
         setTitle("Sistema clinica");
@@ -45,6 +46,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         panelPrincipal = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setSize(new java.awt.Dimension(1000, 700));
 
         panelPrincipal.setLayout(new java.awt.CardLayout());
 
@@ -56,7 +58,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelPrincipal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
         );
 
         pack();
@@ -78,10 +80,12 @@ public class FramePrincipal extends javax.swing.JFrame {
         panelPrincipal.setLayout(cardLayout);
         pantallaInicioSesion = new pantallaInicioSesion(this);
         pantallaRegistro = new pantallaRegistro(this);
+        pantallaPacientes = new pantallaMenuPrincipalPacientes(this);
         
         
         panelPrincipal.add(pantallaInicioSesion,"pantallaInicioSesion");
         panelPrincipal.add(pantallaRegistro,"pantallaRegistro");
+        panelPrincipal.add(pantallaPacientes,"pantallaPacientes");
         
         SwingUtilities.updateComponentTreeUI(this);
         this.repaint();

@@ -274,8 +274,14 @@ public class pantallaRegistro extends javax.swing.JPanel {
     }//GEN-LAST:event_btnVolverMouseClicked
 
     private void btnRegistrate1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrate1MouseClicked
+        
+        if(validarCampos() == true){
         agregarUsuario();
         limpiarCampos();
+        } else{
+        
+        }
+        
     }//GEN-LAST:event_btnRegistrate1MouseClicked
 
 
@@ -325,7 +331,7 @@ public class pantallaRegistro extends javax.swing.JPanel {
             String Correo = inputCorreo.getText();
             java.util.Date Fecha = selectorFechas.getDate();
             if (Fecha != null) {
-                fechaLocal = Fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();   
+                fechaLocal = Fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             } else {
                 System.out.println("No se ha seleccionado una fecha.");
             }
@@ -371,5 +377,27 @@ public class pantallaRegistro extends javax.swing.JPanel {
         inputColonia.setText("");
         inputCodigoPostal.setText("");
         inputNumExt.setText("");
+    }
+
+    public boolean validarCampos() {
+        if (inputUsuario.getText() != null && !inputUsuario.getText().isEmpty()
+                && inputContraseña.getText() != null && !inputContraseña.getText().isEmpty()
+                && inputNombre.getText() != null && !inputNombre.getText().isEmpty()
+                && inputApellidoP.getText() != null && !inputApellidoP.getText().isEmpty()
+                && inputCelular.getText() != null && !inputCelular.getText().isEmpty()
+                && inputCorreo.getText() != null && !inputCorreo.getText().isEmpty()
+                && selectorFechas.getDate() != null
+                && inputCalle.getText() != null && !inputCalle.getText().isEmpty()
+                && inputColonia.getText() != null && !inputColonia.getText().isEmpty()
+                && inputCodigoPostal.getText() != null && !inputCodigoPostal.getText().isEmpty()
+                && inputNumExt.getText() != null && !inputNumExt.getText().isEmpty()) {
+                 
+                return true;
+            // Aquí puedes continuar con la lógica si todos los campos están completos.
+        } else {
+            JOptionPane.showMessageDialog(null, "Llena todos los campos obligatorios(*) para completar el registro.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
     }
 }
