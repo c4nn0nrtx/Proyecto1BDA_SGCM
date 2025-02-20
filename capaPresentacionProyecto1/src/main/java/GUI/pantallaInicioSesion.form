@@ -121,6 +121,7 @@
             <Property name="text" type="java.lang.String" value="Introduce tu nombre de usuario"/>
           </Properties>
           <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="inputUsuarioMouseClicked"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inputUsuarioActionPerformed"/>
           </Events>
         </Component>
@@ -250,6 +251,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="inputContrase&#xf1;a"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="inputContrase&#xf1;aMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

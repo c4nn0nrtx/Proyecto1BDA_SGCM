@@ -14,6 +14,7 @@ import com.toedter.calendar.JDateChooser;
 import configuracion.DependencyInjector;
 import java.awt.Image;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -26,6 +27,7 @@ import javax.swing.JOptionPane;
 public class pantallaRegistro extends javax.swing.JPanel {
 
     private UsuarioBO usuarioBO = DependencyInjector.crearUsuarioBO();
+    private JDateChooser selectorFechas;
     /**
      * Creates new form pantallaRegistro
      */
@@ -33,7 +35,7 @@ public class pantallaRegistro extends javax.swing.JPanel {
 
     public pantallaRegistro(FramePrincipal frame) {
         this.framePrincipal = frame;
-        JDateChooser selectorFechas = new JDateChooser();
+        selectorFechas = new JDateChooser();
         selectorFechas.setBounds(650, 300, 200, 40);
         this.add(selectorFechas);
         initComponents();
@@ -273,6 +275,7 @@ public class pantallaRegistro extends javax.swing.JPanel {
 
     private void btnRegistrate1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrate1MouseClicked
         agregarUsuario();
+        limpiarCampos();
     }//GEN-LAST:event_btnRegistrate1MouseClicked
 
 
@@ -312,6 +315,7 @@ public class pantallaRegistro extends javax.swing.JPanel {
     /*METODOS NECESARIOS PARA LA CREACION DE USUARIOS Y PACIENTES*/
     public void agregarUsuario() {
         try {
+            LocalDate fechaLocal = LocalDate.now();
             String nombreUsuario = inputUsuario.getText();
             String contrasenha = inputContraseña.getText();
             String nombre = inputNombre.getText();
@@ -319,22 +323,27 @@ public class pantallaRegistro extends javax.swing.JPanel {
             String ApellidoM = inputApellidoM.getText();
             String Telefono = inputCelular.getText();
             String Correo = inputCorreo.getText();
-            LocalDate Fecha = LocalDate.now();
+            java.util.Date Fecha = selectorFechas.getDate();
+            if (Fecha != null) {
+                fechaLocal = Fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();   
+            } else {
+                System.out.println("No se ha seleccionado una fecha.");
+            }
             String calle = inputCalle.getText();
             String colonia = inputColonia.getText();
             int cp = Integer.parseInt(inputCodigoPostal.getText());
             String numeroExt = inputNumExt.getText();
 
             UsuarioNuevoDTO usuario = new UsuarioNuevoDTO(nombreUsuario, contrasenha);
-            PacienteNuevoDTO paciente = new PacienteNuevoDTO(nombre, ApellidoP, ApellidoM, Correo, Fecha, Telefono);
+            PacienteNuevoDTO paciente = new PacienteNuevoDTO(nombre, ApellidoP, ApellidoM, Correo, fechaLocal, Telefono);
             Direccion_PacienteNuevaDTO direccion = new Direccion_PacienteNuevaDTO(calle, colonia, cp, numeroExt);
 
-            boolean exito = usuarioBO.agregarUsuario(usuario,paciente,direccion);
+            boolean exito = usuarioBO.agregarUsuario(usuario, paciente, direccion);
             // Verificar si la operación fue exitosa
             if (exito) {
                 JOptionPane.showMessageDialog(this, "Usuario agregado correctamente");
-                //limpiarCampos(); // Me falta este metodo
-                //cargarActivistas(); // Falta este metodo Actualizar la tabla para reflejar los cambios
+                limpiarCampos();
+
             } else {
                 JOptionPane.showMessageDialog(this, "Error al agregar usuario");
             }
@@ -347,5 +356,20 @@ public class pantallaRegistro extends javax.swing.JPanel {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "Error inesperado", ex);
             JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado. Intente nuevamente.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public void limpiarCampos() {
+        inputUsuario.setText("");
+        inputContraseña.setText("");
+        inputNombre.setText("");
+        inputApellidoP.setText("");
+        inputApellidoM.setText("");
+        inputCelular.setText("");
+        selectorFechas.setDate(null);
+        inputCorreo.setText("");
+        inputCalle.setText("");
+        inputColonia.setText("");
+        inputCodigoPostal.setText("");
+        inputNumExt.setText("");
     }
 }

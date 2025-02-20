@@ -61,6 +61,11 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
 
         inputUsuario.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         inputUsuario.setText("Introduce tu nombre de usuario");
+        inputUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                inputUsuarioMouseClicked(evt);
+            }
+        });
         inputUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputUsuarioActionPerformed(evt);
@@ -136,6 +141,11 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
 
         inputContraseña.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         inputContraseña.setText("inputContraseña");
+        inputContraseña.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                inputContraseñaMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelPrincipalLayout = new javax.swing.GroupLayout(panelPrincipal);
         panelPrincipal.setLayout(panelPrincipalLayout);
@@ -203,6 +213,14 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
 
         //CONDICION
     }//GEN-LAST:event_btnIniciarSesionMouseClicked
+
+    private void inputUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputUsuarioMouseClicked
+        inputUsuario.setText("");
+    }//GEN-LAST:event_inputUsuarioMouseClicked
+
+    private void inputContraseñaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputContraseñaMouseClicked
+        inputContraseña.setText("");
+    }//GEN-LAST:event_inputContraseñaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
