@@ -9,9 +9,11 @@ import Conexion.IConexionBD;
 import DAO.Direccion_PacienteDAO;
 import DAO.MedicoDAO;
 import DAO.PacienteDAO;
+import DAO.UsuarioDAO;
 import Entidades.Direccion_Paciente;
 import Entidades.Medico;
 import Entidades.Paciente;
+import Entidades.Usuario;
 import Exception.PersistenciaException;
 import java.time.LocalDate;
 import java.util.List;
@@ -90,6 +92,18 @@ public class pruebas {
 
         paciente.consultarPacientePorId(1);
         */
+ 
+ Usuario usuario = new Usuario(7,"Juanchito", "Locura");
+ UsuarioDAO usuarioDAO = new UsuarioDAO(conexionBD);
+ 
+
+ 
+ Usuario nombre = usuarioDAO.actualizarUsuario(usuario);
+        System.out.println(nombre);
+ }
+
+
+ 
 }
 
-}
+

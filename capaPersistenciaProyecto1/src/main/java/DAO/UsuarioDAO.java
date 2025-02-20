@@ -13,37 +13,40 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
  * @author PC
  */
-public class UsuarioDAO implements IUsuarioDAO{
+public class UsuarioDAO implements IUsuarioDAO {
+
     private IConexionBD conexionBD;
 
     public UsuarioDAO(IConexionBD conexion) {
         this.conexionBD = conexion;
     }
-    
+
     private static final Logger logger = Logger.getLogger(MedicoDAO.class.getName());
-    
+
     @Override
-    public Usuario agregarUsuario(Usuario usuario) throws PersistenciaException{
-        String consultaSQL = "INSERT INTO USUARIO (nombreUsuario, contrasenha)"
+    public Usuario agregarUsuario(Usuario usuario) throws PersistenciaException {
+        String consultaSQL = "INSERT INTO USUARIOS (nombreUsuario, contrasenha)"
                 + "VALUES (?, ?)";
-        
-        try(Connection con = this.conexionBD.crearConexion(); 
-                PreparedStatement ps = con.prepareStatement(consultaSQL)){
-            
+        String contraseñaEncriptada = BCrypt.hashpw(usuario.getContrasenha(), BCrypt.gensalt());
+
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL,PreparedStatement.RETURN_GENERATED_KEYS)) {
+
             ps.setString(1, usuario.getNombreUsuario());
-            ps.setString(2, usuario.getContrasenha());
-            
+            ps.setString(2, contraseñaEncriptada);
+
             int filasAfectadas = ps.executeUpdate();
             if (filasAfectadas == 0) {
                 logger.severe("ERROR: Hubo un fallo al agregar al usuario, no se inserto niguna fila.");
+                throw new PersistenciaException("Error: no se inserto ninguna fila.");
             }
-            
-            try (ResultSet generatedKeys = ps.getGeneratedKeys()){
+
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     usuario.setIdUsuario(generatedKeys.getInt(1));
                     logger.info("Usuario agregado exitosamente");
@@ -52,30 +55,29 @@ public class UsuarioDAO implements IUsuarioDAO{
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Direccion_PacienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenciaException("Error al registrar un usuario en la base de datos.");
         }
         return usuario;
     }
-    
+
     @Override
-    public Usuario consultarUsuarioPorId(int id) throws PersistenciaException{
+    public Usuario consultarUsuarioPorId(int id) throws PersistenciaException {
         Usuario usuario = null;
-        
-        String consutlaSQL = "SELECT idUsuario, nombreUsuario, contrasenha WHERE idUsuario = ?";
-        
-        
-        try (Connection con = this.conexionBD.crearConexion();
-                PreparedStatement ps = con.prepareStatement(consutlaSQL)) {
-            
+
+        String consutlaSQL = "SELECT idUsuario, nombreUsuario, contrasenha FROM USUARIOS WHERE idUsuario = ?";
+
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(consutlaSQL)) {
+
             ps.setInt(1, id);
-            
-            try(ResultSet rs = ps.executeQuery()) {
-                if(rs.next()) {
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
                     usuario = new Usuario();
                     usuario.setIdUsuario(rs.getInt("idUsuario"));
                     usuario.setNombreUsuario(rs.getString("nombreUsuario"));
                     usuario.setContrasenha(rs.getString("contrasenha"));
-                    
+
                     logger.info("Usuario encontrado: " + usuario);
                 } else {
                     logger.warning("No hay un paciente registrado con esos datos.");
@@ -86,31 +88,62 @@ public class UsuarioDAO implements IUsuarioDAO{
         }
         return usuario;
     }
-    
+
     @Override
-    public Usuario actualizarUsuario(Usuario usuario) throws PersistenciaException{
+    public Usuario actualizarUsuario(Usuario usuario) throws PersistenciaException {
         String consultaSQL = "UPDATE USUARIOS SET nombreUsuario = ?, contrasenha = ? WHERE idUsuario = ?";
-        
-        try (Connection con = this.conexionBD.crearConexion(); 
-                PreparedStatement ps = con.prepareStatement(consultaSQL)){
-            
-            if (consultarUsuarioPorId(usuario.getIdUsuario()) == null){
+
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL)) {
+
+            if (consultarUsuarioPorId(usuario.getIdUsuario()) == null) {
                 throw new PersistenciaException("ERROR: No se encontro al usuario");
             }
-            
+
             ps.setString(1, usuario.getNombreUsuario());
             ps.setString(2, usuario.getContrasenha());
             ps.setInt(3, usuario.getIdUsuario());
-            
+
             int filasAfectadas = ps.executeUpdate();
             if (filasAfectadas == 0) {
                 logger.severe("ERROR: No se pudo ejecutar la actualizacion del usuario, no se modifico ninguna fila");
             }
-            
+
             return usuario;
         } catch (SQLException ex) {
-            Logger.getLogger(PacienteDAO.class.getName()).log(Level.SEVERE, "ERROR: No se pudo actualizar el usuario");
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, "ERROR: No se pudo actualizar el usuario");
             throw new PersistenciaException("ERROR: Hubo un problema con la base de datos y no se pudieron actualizar los datos.");
         }
     }
+
+    @Override
+public boolean autenticarUsuario(Usuario usuario) throws PersistenciaException {
+    String sql = "SELECT contrasenha FROM usuarios WHERE nombreUsuario = ?";
+
+    try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setString(1, usuario.getNombreUsuario());
+        try (ResultSet rs = ps.executeQuery()) { 
+            if (rs.next()) {
+                String hashedPassword = rs.getString("contrasenha");
+
+                // Verificar si la contraseña ingresada coincide con la almacenada
+                if (BCrypt.checkpw(usuario.getContrasenha(), hashedPassword)) {
+                    logger.info("Autenticación exitosa para usuario: " + usuario.getNombreUsuario());
+                    return true;
+                } else {
+                    logger.warning("Contraseña incorrecta para usuario: " + usuario.getNombreUsuario());
+                    return false;
+                }
+            } else {
+                logger.warning("Usuario no encontrado: " + usuario.getNombreUsuario());
+                return false;
+            }
+        }
+    } catch (SQLException e) {
+        logger.log(Level.SEVERE, "Error en la autenticación del usuario", e);
+        throw new PersistenciaException("Error al autenticar al usuario en la base de datos: " + e.getMessage());
+    }
+}
+
+
 }
