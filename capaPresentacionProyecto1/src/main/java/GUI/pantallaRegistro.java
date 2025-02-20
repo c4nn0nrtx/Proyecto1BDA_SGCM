@@ -382,8 +382,7 @@ public class pantallaRegistro extends javax.swing.JPanel {
     }
 
     public boolean validarCampos() {
-        
-        
+
         if (!validarNombre()
                 || !validarApellidoP()
                 || !validarTelefono()
@@ -441,44 +440,59 @@ public class pantallaRegistro extends javax.swing.JPanel {
     }
 
     private boolean validarTelefono() {
-    String telefono = inputCelular.getText().trim(); // Elimina espacios en blanco
-    String regex = "^[0-9]{5,10}$"; // Permite entre 5 y 10 dígitos numéricos
-    
-    if (telefono.isEmpty() || !telefono.matches(regex)) { // Si está vacío o no cumple con la validación
-        JOptionPane.showMessageDialog(null, 
-            "Número de teléfono inválido. Debe contener entre 5 y 10 dígitos numéricos.", 
-            "Error", JOptionPane.ERROR_MESSAGE);
-        return false;
-    }
-    return true;
-}
+        String telefono = inputCelular.getText().trim(); // Elimina espacios en blanco
+        String regex = "^[0-9]{5,10}$"; // Permite entre 5 y 10 dígitos numéricos
 
-
-
-    private boolean validarNombre() {
-        String nombre = inputNombre.getText();
-        String regex = "^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+( [A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)*$";
-        if (nombre == null || !nombre.matches(regex)) {
-            JOptionPane.showMessageDialog(null, "Nombre inválido. Debe iniciar con mayúscula y solo contener letras.", "Error", JOptionPane.ERROR_MESSAGE);
+        if (telefono.isEmpty() || !telefono.matches(regex)) { // Si está vacío o no cumple con la validación
+            JOptionPane.showMessageDialog(null,
+                    "Número de teléfono inválido. Debe contener entre 5 y 10 dígitos numéricos.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;
     }
 
-    private boolean validarApellidoP() {
-    String apellido = inputApellidoP.getText().trim(); // Eliminamos espacios en blanco
-    String regex = "^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+$";
-    
-    if (apellido.isEmpty() || !apellido.matches(regex)) { // Verificamos si está vacío o no cumple con el regex
-        JOptionPane.showMessageDialog(null, 
-            "Apellido paterno inválido. Debe iniciar con mayúscula y solo contener letras.", 
-            "Error", JOptionPane.ERROR_MESSAGE);
-        return false;
-    }
-    
-    return true;
-}
+    private boolean validarNombre() {
+        String nombre = inputNombre.getText();
+        // Se establece un patrón el cual el nombre debe cumplir
+        String regex = "^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+( [A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)*$";
+        // verificar que no sea un campo vacío
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El campo del nombre no fue rellenado. Ingrese un nombre válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+            // verificar que el nombre esté dentro de los límites establecidos
+        } else if (nombre.length() < 3 || nombre.length() > 50) {
+            JOptionPane.showMessageDialog(null, "Nombre inválido. La cantidad de caracteres está fuera del límite.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+            // verificar que el nombre cumpla con el patrón establecido
+        } else if (!nombre.matches(regex)) {
+            JOptionPane.showMessageDialog(null, "Nombre inválido. Debe iniciar con mayúscula y solo contener letras.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
 
+        return true;
+    }
+
+    private boolean validarApellidoP() {
+        String apellido = inputApellidoP.getText().trim(); // Eliminamos espacios en blanco
+        String regex = "^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+$";
+
+        if (apellido.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El campo del apellido paterno no fue rellenado. Ingrese un nombre válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (apellido.length() < 3 || apellido.length() > 50) {
+            JOptionPane.showMessageDialog(null, "Apellido paterno inválido. La cantidad de caracteres está fuera del límite.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (!apellido.matches(regex)) { // Verificamos si está vacío o no cumple con el regex
+            JOptionPane.showMessageDialog(null,
+                    "Apellido paterno inválido. Debe iniciar con mayúscula y solo contener letras.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+
+        return true;
+    }
 
     private boolean validarApellidoM() {
         String apellido = inputApellidoM.getText();
@@ -493,7 +507,13 @@ public class pantallaRegistro extends javax.swing.JPanel {
     private boolean validarColonia() {
         String colonia = inputColonia.getText();
         String regex = "^[A-ZÁÉÍÓÚÑa-záéíóúñ0-9 ]+$"; // Permite letras, números y espacios
-        if (colonia == null || !colonia.matches(regex)) {
+        if (colonia.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El campo de la colonia no fue rellenado. Ingrese una colonia válida.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (colonia.length() < 3 || colonia.length() > 50) {
+            JOptionPane.showMessageDialog(null, "Colonia inválida. La cantidad de caracteres está fuera del límite.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } if (colonia == null || !colonia.matches(regex)) {
             JOptionPane.showMessageDialog(null, "Colonia inválida. Solo se permiten letras, números y espacios.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }

@@ -30,69 +30,104 @@ public class UsuarioBO {
         this.usuarioDAO = new UsuarioDAO(conexion);
     }
 
-    public boolean agregarUsuario(UsuarioNuevoDTO usuarioNuevo,PacienteNuevoDTO pacienteNuevo, Direccion_PacienteNuevaDTO direccionNuevo) throws NegocioException {
-        if (usuarioNuevo == null) {
-            throw new NegocioException("El usuario no puede ser nulo.");
+    public boolean agregarUsuario(UsuarioNuevoDTO usuarioNuevo, PacienteNuevoDTO pacienteNuevo, Direccion_PacienteNuevaDTO direccionNuevo) throws NegocioException {
+        if (usuarioNuevo == null || pacienteNuevo == null || direccionNuevo == null) {
+            throw new NegocioException("Los datos del usuario, paciente y dirección no pueden ser nulos.");
         }
 
-        // Validaciones básicas: verificar que los campos obligatorios no estén vacíos
+        // verificar que los campos obligatorios no estén vacíos
         if (usuarioNuevo.getUsuario().isEmpty() || usuarioNuevo.getContrasenha().isEmpty()) {
             throw new NegocioException("Todos los campos son obligatorios.");
         }
-        Paciente paciente = mapper.DTOPacienteToEntity(pacienteNuevo);
-        Direccion_Paciente pacienteDireccion= mapper.DTODireccion_PacienteToEntity(direccionNuevo);
-        Usuario usuario = mapper.DTOUsuarioToEntity(usuarioNuevo);
+
+        // Validar longitud de usuario y contraseña
+        if (usuarioNuevo.getUsuario().length() < 3 || usuarioNuevo.getUsuario().length() > 20) {
+            throw new NegocioException("El nombre de usuario debe tener entre 3 y 20 caracteres.");
+        }
+
+        if (usuarioNuevo.getContrasenha().length() < 8 || usuarioNuevo.getContrasenha().length() > 50) {
+            throw new NegocioException("La contraseña debe tener entre 8 y 50 caracteres.");
+        }
+
+        // Validar que la contraseña contenga al menos una letra y un número
+        if (!usuarioNuevo.getContrasenha().matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")) {
+            throw new NegocioException("La contraseña debe contener al menos una letra y un número.");
+        }
+
+        // Validar caracteres permitidos en el usuario
+        if (!usuarioNuevo.getUsuario().matches("^[a-zA-Z0-9._-]{3,}$")) {
+            throw new NegocioException("El nombre de usuario solo puede contener letras, números, puntos, guiones y guiones bajos.");
+        }
+
+        Paciente paciente;
+        Direccion_Paciente pacienteDireccion;
+        Usuario usuario;
+        try {
+            paciente = mapper.DTOPacienteToEntity(pacienteNuevo);
+            pacienteDireccion = mapper.DTODireccion_PacienteToEntity(direccionNuevo);
+            usuario = mapper.DTOUsuarioToEntity(usuarioNuevo);
+        } catch (Exception e) {
+            throw new NegocioException("Error al mapear los datos del usuario, paciente o dirección.", e);
+        }
 
         try {
-            // Intentar guardar el activista en la base de datos
-
-
-           boolean usuarioGuardado2 = usuarioDAO.agregarUsuarioPaciente(usuario, pacienteDireccion, paciente);
-
-            // Si el activista fue guardado con éxito, devuelve true, si no, devuelve false
-            if (usuarioGuardado2 == true){
-                return true;
-            } else {
-            return false;
+            // Verificar si el usuario ya existe en la base de datos
+            if (usuarioDAO.autenticarUsuario(usuario)) {
+                throw new NegocioException("El nombre de usuario ya existe. Por favor, elige otro.");
             }
+
+            // Intentar guardar el usuario, paciente y dirección en la base de datos
+            boolean usuarioGuardado = usuarioDAO.agregarUsuarioPaciente(usuario, pacienteDireccion, paciente);
+            return usuarioGuardado;
         } catch (PersistenciaException ex) {
             // Registrar el error en los logs
             logger.log(Level.SEVERE, "Error al guardar usuario en la BD", ex);
-
-            // Lanzar una excepción de negocio con un mensaje más amigable
-            throw new NegocioException("Hubo un error al agregar el usuario.", ex);
+            throw new NegocioException("Hubo un error al guardar el usuario, paciente o dirección.", ex);
         }
     }
-    
-    public boolean autenticarUsuario(UsuarioNuevoDTO usuarioNuevo)throws NegocioException{
-        if(usuarioNuevo == null){
+
+    public boolean autenticarUsuario(UsuarioNuevoDTO usuarioNuevo) throws NegocioException {
+        if (usuarioNuevo == null) {
             throw new NegocioException("El usuario no puede ser nulo");
         }
+
         if (usuarioNuevo.getUsuario().isEmpty() || usuarioNuevo.getContrasenha().isEmpty()) {
             throw new NegocioException("Todos los campos son obligatorios.");
         }
-        
-        Usuario usuario = mapper.DTOUsuarioToEntity(usuarioNuevo);
-        
-        try {
-            // Intentar guardar el activista en la base de datos
-            boolean usuarioGuardado = usuarioDAO.autenticarUsuario(usuario);
 
-            // Si el activista fue guardado con éxito, devuelve true, si no, devuelve false
-            if(usuarioGuardado == true){
-                return true;
-            } else {
-                return false;
-            }
-            
-            
+        // Validar longitud y formato de usuario y contraseña
+        if (usuarioNuevo.getUsuario().length() < 3 || usuarioNuevo.getUsuario().length() > 20) {
+            throw new NegocioException("El nombre de usuario debe tener entre 3 y 20 caracteres.");
+        }
+
+        if (usuarioNuevo.getContrasenha().length() < 8 || usuarioNuevo.getContrasenha().length() > 50) {
+            throw new NegocioException("La contraseña debe tener entre 8 y 50 caracteres.");
+        }
+
+        if (!usuarioNuevo.getContrasenha().matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")) {
+            throw new NegocioException("La contraseña debe contener al menos una letra y un número.");
+        }
+
+        if (!usuarioNuevo.getUsuario().matches("^[a-zA-Z0-9._-]{3,}$")) {
+            throw new NegocioException("El nombre de usuario solo puede contener letras, números, puntos, guiones y guiones bajos.");
+        }
+
+        Usuario usuario;
+        try {
+            usuario = mapper.DTOUsuarioToEntity(usuarioNuevo);
+        } catch (Exception e) {
+            throw new NegocioException("Error al mapear los datos del usuario.", e);
+        }
+
+        try {
+            // Intentar autenticar el usuario en la base de datos
+            boolean usuarioAutenticado = usuarioDAO.autenticarUsuario(usuario);
+            return usuarioAutenticado;
         } catch (PersistenciaException ex) {
             // Registrar el error en los logs
-            logger.log(Level.SEVERE, "Error al guardar usuario en la BD", ex);
-
-            // Lanzar una excepción de negocio con un mensaje más amigable
-            throw new NegocioException("Hubo un error al guardar el usuario.", ex);
+            logger.log(Level.SEVERE, "Error al autenticar usuario en la BD", ex);
+            throw new NegocioException("Hubo un error al autenticar el usuario.", ex);
         }
-    
     }
+
 }
