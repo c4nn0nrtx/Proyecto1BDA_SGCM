@@ -31,7 +31,7 @@ public class PacienteNuevoDTO {
         this.fechaNacimiento = fechaNacimiento;
         this.telefono = telefono;
     }
-
+    
     public String getNombre() {
         return nombre;
     }
@@ -84,5 +84,7 @@ public class PacienteNuevoDTO {
     public String toString() {
         return "PacienteNuevoDTO{" + "nombre=" + nombre + ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", correo=" + correo + ", fechaNacimiento=" + fechaNacimiento + ", telefono=" + telefono + '}';
     }
+
+    
 
 }

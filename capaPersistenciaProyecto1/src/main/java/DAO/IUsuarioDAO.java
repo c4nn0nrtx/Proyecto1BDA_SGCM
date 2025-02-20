@@ -4,6 +4,8 @@
  */
 package DAO;
 
+import Entidades.Direccion_Paciente;
+import Entidades.Paciente;
 import Entidades.Usuario;
 import Exception.PersistenciaException;
 
@@ -21,4 +23,7 @@ public interface IUsuarioDAO {
      public boolean autenticarUsuario(Usuario usuario)throws PersistenciaException;
      
      public int consultarIdUsuario (Usuario usuario) throws PersistenciaException;
+     
+     public boolean agregarUsuarioPaciente(Usuario usuario, Direccion_Paciente direccion, Paciente paciente)throws PersistenciaException;
+
 }

@@ -4,6 +4,7 @@
  */
 package configuracion;
 
+import BO.PacienteBO;
 import BO.UsuarioBO;
 import Conexion.ConexionBD;
 import Conexion.IConexionBD;
@@ -23,5 +24,16 @@ public class DependencyInjector {
 
         // Retornar la instancia completamente configurada
         return usuarioBO;
+    }
+    
+    public static PacienteBO crearPacienteBO() {
+        // Crear una instancia de la conexión a la base de datos, utilizando la implementación de IConexionBD
+        IConexionBD conexion = new ConexionBD();
+
+        // Inyectar la dependencia de conexión a la instancia de ActivistaBO
+        PacienteBO pacienteBO = new PacienteBO(conexion);
+
+        // Retornar la instancia completamente configurada
+        return pacienteBO;
     }
 }

@@ -4,8 +4,10 @@
  */
 package Mapper;
 
+import DTO.Direccion_PacienteNuevaDTO;
 import DTO.PacienteNuevoDTO;
 import DTO.UsuarioNuevoDTO;
+import Entidades.Direccion_Paciente;
 import Entidades.Paciente;
 import Entidades.Usuario;
 
@@ -72,6 +74,37 @@ public class Mapper {
                 paciente.getCorreo(),
                 paciente.getFechaNacimiento(),
                 paciente.getTelefono()
+        );
+    }
+    
+    /**
+     * 
+     */
+    public Direccion_Paciente DTODireccion_PacienteToEntity(Direccion_PacienteNuevaDTO direccionNueva) {
+        if (direccionNueva == null) {
+            return null;
+        }
+        return new Direccion_Paciente(
+                direccionNueva.getCalle(),
+                direccionNueva.getColonia(),
+                direccionNueva.getCp(),
+                direccionNueva.getNumero()
+        );
+    }
+    
+    
+    /**
+     * 
+     */
+    public Direccion_PacienteNuevaDTO Direccion_PacienteToNuevaDTO(Direccion_Paciente direccion) {
+        if (direccion == null) {
+            return null;
+        }
+        return new Direccion_PacienteNuevaDTO(
+                direccion.getCalle(),
+                direccion.getColonia(),
+                direccion.getCp(),
+                direccion.getNumero()
         );
     }
 }

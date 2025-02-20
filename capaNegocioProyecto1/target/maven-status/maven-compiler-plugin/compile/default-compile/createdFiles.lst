@@ -3,8 +3,10 @@ DTO\UsuarioNuevoDTO.class
 Exception\NegocioException.class
 configuracion\DependencyInjector.class
 BO\UsuarioBO.class
+BO\Direccion_PacienteBO.class
 Mapper\Mapper.class
 BO\MedicoBO.class
 BO\ConsultaBO.class
 DTO\PacienteNuevoDTO.class
 BO\PacienteBO.class
+DTO\Direccion_PacienteNuevaDTO.class

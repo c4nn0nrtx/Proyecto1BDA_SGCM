@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,7 +44,7 @@ public class Direccion_PacienteDAO implements IDireccion_PacienteDAO{
                 + "VALUES (?, ?, ?, ?)";
         
         try(Connection con = this.conexionBD.crearConexion();
-                PreparedStatement ps = con.prepareStatement(consultaSQL)){
+                PreparedStatement ps = con.prepareStatement(consultaSQL, Statement.RETURN_GENERATED_KEYS)){
             
             ps.setString(1, direccion.getCalle());
             ps.setString(2, direccion.getColonia());

@@ -3,7 +3,11 @@ package BO;
 import Conexion.IConexionBD;
 import DAO.IUsuarioDAO;
 import DAO.UsuarioDAO;
+import DTO.Direccion_PacienteNuevaDTO;
+import DTO.PacienteNuevoDTO;
 import DTO.UsuarioNuevoDTO;
+import Entidades.Direccion_Paciente;
+import Entidades.Paciente;
 import Entidades.Usuario;
 import Mapper.Mapper;
 import java.util.logging.Logger;
@@ -26,7 +30,7 @@ public class UsuarioBO {
         this.usuarioDAO = new UsuarioDAO(conexion);
     }
 
-    public boolean agregarUsuario(UsuarioNuevoDTO usuarioNuevo) throws NegocioException {
+    public boolean agregarUsuario(UsuarioNuevoDTO usuarioNuevo,PacienteNuevoDTO pacienteNuevo, Direccion_PacienteNuevaDTO direccionNuevo) throws NegocioException {
         if (usuarioNuevo == null) {
             throw new NegocioException("El usuario no puede ser nulo.");
         }
@@ -35,15 +39,22 @@ public class UsuarioBO {
         if (usuarioNuevo.getUsuario().isEmpty() || usuarioNuevo.getContrasenha().isEmpty()) {
             throw new NegocioException("Todos los campos son obligatorios.");
         }
-
+        Paciente paciente = mapper.DTOPacienteToEntity(pacienteNuevo);
+        Direccion_Paciente pacienteDireccion= mapper.DTODireccion_PacienteToEntity(direccionNuevo);
         Usuario usuario = mapper.DTOUsuarioToEntity(usuarioNuevo);
 
         try {
             // Intentar guardar el activista en la base de datos
-            Usuario usuarioGuardado = usuarioDAO.agregarUsuario(usuario);
+
+
+           boolean usuarioGuardado2 = usuarioDAO.agregarUsuarioPaciente(usuario, pacienteDireccion, paciente);
 
             // Si el activista fue guardado con éxito, devuelve true, si no, devuelve false
-            return usuarioGuardado != null;
+            if (usuarioGuardado2 == true){
+                return true;
+            } else {
+            return false;
+            }
         } catch (PersistenciaException ex) {
             // Registrar el error en los logs
             logger.log(Level.SEVERE, "Error al guardar usuario en la BD", ex);

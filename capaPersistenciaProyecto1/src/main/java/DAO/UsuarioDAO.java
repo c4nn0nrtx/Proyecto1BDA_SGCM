@@ -5,12 +5,15 @@
 package DAO;
 
 import Conexion.IConexionBD;
+import Entidades.Direccion_Paciente;
+import Entidades.Paciente;
 import Entidades.Usuario;
 import Exception.PersistenciaException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.mindrot.jbcrypt.BCrypt;
@@ -174,6 +177,77 @@ public class UsuarioDAO implements IUsuarioDAO {
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Error en la autenticación del usuario", e);
             throw new PersistenciaException("Error al autenticar al usuario en la base de datos: " + e.getMessage());
+        }
+    }
+    
+    @Override
+    public boolean agregarUsuarioPaciente(Usuario usuario, Direccion_Paciente direccion, Paciente paciente) throws PersistenciaException {
+        String insertUsuarioSQL = "INSERT INTO USUARIOS (nombreUsuario, contrasenha) VALUES (?, ?)";
+        String insertDireccionSQL = "INSERT INTO DIRECCIONES_PACIENTES (calle, colonia, cp, numero) VALUES (?, ?, ?, ?)";
+        String insertPacienteSQL = "INSERT INTO PACIENTES (idPaciente, idDireccion, nombre, apellidoPat, apellidoMat, correo, fechaNac, telefono) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = this.conexionBD.crearConexion()) {
+            conn.setAutoCommit(false); // Inicia la transacción
+
+            // Insertar el usuario
+            try (PreparedStatement psUsuario = conn.prepareStatement(insertUsuarioSQL, Statement.RETURN_GENERATED_KEYS)) {
+                psUsuario.setString(1, usuario.getNombreUsuario());
+                psUsuario.setString(2, BCrypt.hashpw(usuario.getContrasenha(), BCrypt.gensalt()));
+                int filasUsuario = psUsuario.executeUpdate();
+                if (filasUsuario == 0) {
+                    throw new SQLException("Error: No se pudo insertar el usuario.");
+                }
+                try (ResultSet rsUsuario = psUsuario.getGeneratedKeys()) {
+                    if (rsUsuario.next()) {
+                        usuario.setIdUsuario(rsUsuario.getInt(1));
+                        paciente.setIdPaciente(usuario.getIdUsuario());
+                    } else {
+                        throw new SQLException("Error: No se pudo obtener el ID del usuario.");
+                    }
+                }
+            }
+
+            // Insertar la dirección
+            try (PreparedStatement psDireccion = conn.prepareStatement(insertDireccionSQL, Statement.RETURN_GENERATED_KEYS)) {
+                psDireccion.setString(1, direccion.getCalle());
+                psDireccion.setString(2, direccion.getColonia());
+                psDireccion.setInt(3, direccion.getCp());
+                psDireccion.setString(4, direccion.getNumero());
+                int filasDireccion = psDireccion.executeUpdate();
+                if (filasDireccion == 0) {
+                    throw new SQLException("Error: No se pudo insertar la dirección.");
+                }
+                try (ResultSet rsDireccion = psDireccion.getGeneratedKeys()) {
+                    if (rsDireccion.next()) {
+                        direccion.setIdDireccion(rsDireccion.getInt(1));
+                        paciente.setIdDireccion(direccion.getIdDireccion());
+                    } else {
+                        throw new SQLException("Error: No se pudo obtener el ID de la dirección.");
+                    }
+                }
+            }
+
+            // Insertar el paciente
+            try (PreparedStatement psPaciente = conn.prepareStatement(insertPacienteSQL)) {
+                psPaciente.setInt(1, paciente.getIdPaciente());
+                psPaciente.setInt(2, paciente.getIdDireccion());
+                psPaciente.setString(3, paciente.getNombre());
+                psPaciente.setString(4, paciente.getApellidoPaterno());
+                psPaciente.setString(5, paciente.getApellidoMaterno());
+                psPaciente.setString(6, paciente.getCorreo());
+                psPaciente.setObject(7, paciente.getFechaNacimiento());
+                psPaciente.setString(8, paciente.getTelefono());
+                int filasPaciente = psPaciente.executeUpdate();
+                if (filasPaciente == 0) {
+                    throw new SQLException("Error: No se pudo insertar el paciente.");
+                }
+            }
+
+            conn.commit(); // Confirma la transacción
+            return true;
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error en agregarUsuarioPaciente", e);
+            throw new PersistenciaException("Error al registrar usuario y paciente: " + e.getMessage());
         }
     }
 

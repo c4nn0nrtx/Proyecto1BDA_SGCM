@@ -4,12 +4,16 @@
  */
 package GUI;
 
+import BO.PacienteBO;
 import BO.UsuarioBO;
+import DTO.Direccion_PacienteNuevaDTO;
+import DTO.PacienteNuevoDTO;
 import DTO.UsuarioNuevoDTO;
 import Exception.NegocioException;
 import com.toedter.calendar.JDateChooser;
 import configuracion.DependencyInjector;
 import java.awt.Image;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -310,10 +314,22 @@ public class pantallaRegistro extends javax.swing.JPanel {
         try {
             String nombreUsuario = inputUsuario.getText();
             String contrasenha = inputContraseña.getText();
+            String nombre = inputNombre.getText();
+            String ApellidoP = inputApellidoP.getText();
+            String ApellidoM = inputApellidoM.getText();
+            String Telefono = inputCelular.getText();
+            String Correo = inputCorreo.getText();
+            LocalDate Fecha = LocalDate.now();
+            String calle = inputCalle.getText();
+            String colonia = inputColonia.getText();
+            int cp = Integer.parseInt(inputCodigoPostal.getText());
+            String numeroExt = inputNumExt.getText();
 
             UsuarioNuevoDTO usuario = new UsuarioNuevoDTO(nombreUsuario, contrasenha);
+            PacienteNuevoDTO paciente = new PacienteNuevoDTO(nombre, ApellidoP, ApellidoM, Correo, Fecha, Telefono);
+            Direccion_PacienteNuevaDTO direccion = new Direccion_PacienteNuevaDTO(calle, colonia, cp, numeroExt);
 
-            boolean exito = usuarioBO.agregarUsuario(usuario);
+            boolean exito = usuarioBO.agregarUsuario(usuario,paciente,direccion);
             // Verificar si la operación fue exitosa
             if (exito) {
                 JOptionPane.showMessageDialog(this, "Usuario agregado correctamente");
@@ -322,6 +338,7 @@ public class pantallaRegistro extends javax.swing.JPanel {
             } else {
                 JOptionPane.showMessageDialog(this, "Error al agregar usuario");
             }
+
         } catch (NegocioException ex) {
             // Manejo de excepciones específicas de la capa de negocio
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -330,6 +347,5 @@ public class pantallaRegistro extends javax.swing.JPanel {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "Error inesperado", ex);
             JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado. Intente nuevamente.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-
     }
 }
