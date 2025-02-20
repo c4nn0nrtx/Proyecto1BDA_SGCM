@@ -6,7 +6,7 @@ package Entidades;
 
 /**
  *
- * @author Ramon
+ * @author Ramon Valencia
  */
 public class Direccion_Paciente {
 

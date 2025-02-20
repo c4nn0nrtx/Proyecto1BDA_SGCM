@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Ramon
+ * @author Ramon Valencia
  */
 public class Direccion_PacienteDAO implements IDireccion_PacienteDAO{
     private IConexionBD conexionBD;

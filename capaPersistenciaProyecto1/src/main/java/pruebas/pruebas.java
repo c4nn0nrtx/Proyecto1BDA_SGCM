@@ -33,74 +33,16 @@ public class pruebas {
         // Crear la conexión a la base de datos
         IConexionBD conexionBD = new ConexionBD();
 
-        MedicoDAO medico = new MedicoDAO(conexionBD);
-        /*IGNORAR , SOLAMENTE LA HICE PARA PROBAR LOS METODOS DE LA CLASE MEDICODAO*/
- /*try {
-            int idConsulta = 1;  // ID a consultar
-            Medico medicoConsultado = medico.consultarMedicoPorId(idConsulta);
-
-            if (medicoConsultado != null) {
-                System.out.println("Activista encontrado: " + medicoConsultado);
-            } else {
-                System.out.println("No se encontró ningún activista con ID: " + idConsulta);
-            }
-        } catch (PersistenciaException e) {
-            System.err.println("Error al consultar activista: " + e.getMessage());
-            e.printStackTrace();
-        }**/
- /*
-        try {
-            List<Medico> lista =  medico.obtenerPorEspecialidad("Ginecologia");
-            for(Medico a : lista){
-                System.out.println(a);
-            }
-
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(pruebas.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
- /*
-        Medico m = new Medico(1, "Juan Manuel", "Perez ", "Montoya", "ABC313 ", "Ginecologia", "Activo");
-
-        try {
-            if (medico.actualizarEstadoMedico(m, "Inactiv")) {
-                System.out.println("Correctamente actualizado.");
-            } else {
-                System.out.println("Hubo un error.");
-            };
-
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(pruebas.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-
- /*Direccion_PacienteDAO direccion = new Direccion_PacienteDAO(conexionBD);
+        Usuario usuario = new Usuario("Soqui", "Jaime");
+        UsuarioDAO usuarioDAO = new UsuarioDAO(conexionBD);
         
-        direccion.consultarDireccionPorId(1);
         
-        direccion.agregarDireccion(dir);
-        
-        Direccion_Paciente dir = new Direccion_Paciente(1,"Martin Luis Guzman", "Villa de Cortes", 85000, "#308");
-        
-        direccion.actualizarDireccion(dir);
-        
-        PacienteDAO paciente = new PacienteDAO(conexionBD);
 
-        LocalDate fecha = LocalDate.parse("2005-05-19");
+        //Usuario usere = usuarioDAO.consultarUsuarioPorId(1);
+      
+        int user = usuarioDAO.consultarIdUsuario(usuario);
 
-        Paciente pa = new Paciente(1, "Jaime", "Lerma", "Cuevas", "Lerma@Coronel.com", fecha, "567587");
-
-        paciente.agregarPaciente(pa);
-
-        paciente.consultarPacientePorId(1);
-        */
- 
- Usuario usuario = new Usuario(7,"Juanchito", "Locura");
- UsuarioDAO usuarioDAO = new UsuarioDAO(conexionBD);
- 
-
- 
- Usuario nombre = usuarioDAO.actualizarUsuario(usuario);
-        System.out.println(nombre);
- }
+}
 
 
  

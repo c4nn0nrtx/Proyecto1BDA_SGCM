@@ -7,7 +7,7 @@ package Entidades;
 /**
  * Esta clase representa a un usuario del sistema
  *
- * @author Ramon
+ * @author Ramon Valencia
  */
 public class Usuario {
 

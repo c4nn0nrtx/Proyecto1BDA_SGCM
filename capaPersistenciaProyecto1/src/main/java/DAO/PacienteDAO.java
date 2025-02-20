@@ -11,12 +11,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Esta clase sirve para ingresar los datos de 
  * @author Ramon
  */
 public class PacienteDAO implements IPacienteDAO{
@@ -30,19 +31,20 @@ public class PacienteDAO implements IPacienteDAO{
     
     @Override
     public Paciente agregarPaciente(Paciente paciente) throws PersistenciaException{
-        String consultaSQL = "INSERT INTO PACIENTES (idDireccion, nombre, apellidoPat, apellidoMat, correo, fechaNac, telefono) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String consultaSQL = "INSERT INTO PACIENTES (idPaciente, idDireccion, nombre, apellidoPat, apellidoMat, correo, fechaNac, telefono) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
         try(Connection con = this.conexionBD.crearConexion(); 
-                PreparedStatement ps = con.prepareStatement(consultaSQL)){
+                PreparedStatement ps = con.prepareStatement(consultaSQL, Statement.RETURN_GENERATED_KEYS)){
             
-            ps.setInt(1, paciente.getIdDireccion());
-            ps.setString(2, paciente.getNombre());
-            ps.setString(3, paciente.getApellidoPaterno());
-            ps.setString(4, paciente.getApellidoMaterno());
-            ps.setString(5, paciente.getCorreo());
-            ps.setObject(6, paciente.getFechaNacimiento());
-            ps.setString(7, paciente.getTelefono());
+            ps.setInt(1, paciente.getIdPaciente());
+            ps.setInt(2, paciente.getIdDireccion());
+            ps.setString(3, paciente.getNombre());
+            ps.setString(4, paciente.getApellidoPaterno());
+            ps.setString(5, paciente.getApellidoMaterno());
+            ps.setString(6, paciente.getCorreo());
+            ps.setObject(7, paciente.getFechaNacimiento());
+            ps.setString(8, paciente.getTelefono());
             
             int filasAfectadas = ps.executeUpdate();
             if (filasAfectadas == 0) {
@@ -67,7 +69,8 @@ public class PacienteDAO implements IPacienteDAO{
     public Paciente consultarPacientePorId(int id) throws PersistenciaException{
         Paciente paciente = null;
         
-        String consutlaSQL = "SELECT idPaciente, idDireccion, nombre, apellidoPat, apellidoMat, correo, fechaNac, telefono WHERE idPaciente = ?";
+        String consutlaSQL = "SELECT idPaciente, idDireccion, nombre, apellidoPat, apellidoMat, correo, fechaNac, telefono "
+                + "FROM PACIENTES WHERE idPaciente = ?";
         
         
         try (Connection con = this.conexionBD.crearConexion();
@@ -99,7 +102,7 @@ public class PacienteDAO implements IPacienteDAO{
     
     @Override
     public Paciente actualizarPaciente(Paciente paciente) throws PersistenciaException{
-        String consultaSQL = "UPDATE DIRECCIONES_PACIENTES SET nombre = ?, apellidoPat = ?, apellidoMat = ?, correo = ?, fechaNac = ? WHERE idPaciente = ?";
+        String consultaSQL = "UPDATE PACIENTES SET nombre = ?, apellidoPat = ?, apellidoMat = ?, correo = ?, fechaNac = ? WHERE idPaciente = ?";
         
         try (Connection con = this.conexionBD.crearConexion(); 
                 PreparedStatement ps = con.prepareStatement(consultaSQL)){

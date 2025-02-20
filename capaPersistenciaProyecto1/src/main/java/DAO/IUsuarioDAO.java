@@ -9,11 +9,16 @@ import Exception.PersistenciaException;
 
 /**
  *
- * @author Sebastian Moreno
+ * @author Ramon Valencia
  */
 public interface IUsuarioDAO {
      public Usuario consultarUsuarioPorId(int id) throws PersistenciaException;
+     
      public Usuario agregarUsuario(Usuario usuario) throws PersistenciaException;
+     
      public Usuario actualizarUsuario(Usuario usuario) throws PersistenciaException;
+     
      public boolean autenticarUsuario(Usuario usuario)throws PersistenciaException;
+     
+     public int consultarIdUsuario (Usuario usuario) throws PersistenciaException;
 }

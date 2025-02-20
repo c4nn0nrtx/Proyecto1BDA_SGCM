@@ -9,7 +9,7 @@ import Exception.PersistenciaException;
 
 /**
  *
- * @author Ramon
+ * @author Ramon Valencia
  */
 public interface IPacienteDAO {
     

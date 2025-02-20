@@ -9,7 +9,7 @@ import java.time.LocalDate;
 /**
  * Esta clase representa a un paciente del sistema
  *
- * @author Ramon
+ * @author Ramon Valencia
  */
 public class Paciente {
 
