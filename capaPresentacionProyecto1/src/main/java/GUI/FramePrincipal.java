@@ -1,14 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package GUI;
 
 import java.awt.CardLayout;
 import javax.swing.SwingUtilities;
 
 /**
- *
+ * Frame Principal
+ * Tiene un cardLayout para cambiar a todas las pantallas necesarias.
  * @author Sebastian Moreno
  */
 public class FramePrincipal extends javax.swing.JFrame {

@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package configuracion;
 
 import BO.Direccion_PacienteBO;
@@ -11,7 +8,8 @@ import Conexion.ConexionBD;
 import Conexion.IConexionBD;
 
 /**
- *
+ * Clase de injector de dependencias
+ * Sirve para crear conexiones mas privadas a las bases de datos.
  * @author Sebastian Moreno
  */
 public class DependencyInjector {

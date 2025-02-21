@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Mapper;
 
 import DTO.Direccion_PacienteNuevaDTO;
@@ -80,9 +77,9 @@ public class Mapper {
                 paciente.getTelefono()
         );
     }
-    
+
     /**
-     * 
+     * Conviere una DireccionDTO a una entidad.
      */
     public Direccion_Paciente DTODireccion_PacienteToEntity(Direccion_PacienteNuevaDTO direccionNueva) {
         if (direccionNueva == null) {
@@ -95,10 +92,9 @@ public class Mapper {
                 direccionNueva.getNumero()
         );
     }
-    
-    
+
     /**
-     * 
+     * Convierte una entidad a una DireccionDTO.
      */
     public Direccion_PacienteNuevaDTO Direccion_PacienteToNuevaDTO(Direccion_Paciente direccion) {
         if (direccion == null) {

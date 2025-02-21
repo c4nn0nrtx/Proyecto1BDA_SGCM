@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Esta clase representa la conexion hacia la base de datos.
  * @author Brandon Valenzuela
  */
 public class ConexionBD implements IConexionBD{

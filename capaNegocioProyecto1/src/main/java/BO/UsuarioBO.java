@@ -26,10 +26,21 @@ public class UsuarioBO {
     private final IUsuarioDAO usuarioDAO;
     Mapper mapper = new Mapper();
 
+    /**
+     * Constructor que inicializa la conexion
+     * @param conexion
+     */
     public UsuarioBO(IConexionBD conexion) {
         this.usuarioDAO = new UsuarioDAO(conexion);
-    }
 
+    }
+    /**
+     * Agrega un usuario dado utilizando los DAO.
+     * Tiene las validaciones necesarias.
+     * @param usuario
+     * @return el usuario agregado
+     * @throws NegocioException 
+     */
     public Usuario agregarUsuario(UsuarioNuevoDTO usuario) throws NegocioException {
         if (usuario == null) {
             throw new NegocioException("Los datos del usuario, paciente y dirección no pueden ser nulos.");
@@ -53,11 +64,8 @@ public class UsuarioBO {
         if (!usuario.getContrasenha().matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")) {
             throw new NegocioException("La contraseña debe contener al menos una letra y un número.");
         }
-    
-      
-            Usuario usuarioEntidad = mapper.DTOUsuarioToEntity(usuario);
-        
-        
+
+        Usuario usuarioEntidad = mapper.DTOUsuarioToEntity(usuario);
 
         try {
             // Verificar si el usuario ya existe en la base de datos
@@ -74,7 +82,13 @@ public class UsuarioBO {
             throw new NegocioException("Hubo un error al guardar el paciente", ex);
         }
     }
-
+    /**
+     * Autentica un usuario para verificar credenciales
+     * Contiene validaciones necesarias
+     * @param usuarioNuevo
+     * @return Verdadero si las credenciales son correctas.
+     * @throws NegocioException 
+     */
     public boolean autenticarUsuario(UsuarioNuevoDTO usuarioNuevo) throws NegocioException {
         if (usuarioNuevo == null) {
             throw new NegocioException("El usuario no puede ser nulo");
@@ -82,23 +96,6 @@ public class UsuarioBO {
 
         if (usuarioNuevo.getUsuario().isEmpty() || usuarioNuevo.getContrasenha().isEmpty()) {
             throw new NegocioException("Todos los campos son obligatorios.");
-        }
-
-        // Validar longitud y formato de usuario y contraseña
-        if (usuarioNuevo.getUsuario().length() < 3 || usuarioNuevo.getUsuario().length() > 20) {
-            throw new NegocioException("El nombre de usuario debe tener entre 3 y 20 caracteres.");
-        }
-
-        if (usuarioNuevo.getContrasenha().length() < 8 || usuarioNuevo.getContrasenha().length() > 50) {
-            throw new NegocioException("La contraseña debe tener entre 8 y 50 caracteres.");
-        }
-
-        if (!usuarioNuevo.getContrasenha().matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")) {
-            throw new NegocioException("La contraseña debe contener al menos una letra y un número.");
-        }
-
-        if (!usuarioNuevo.getUsuario().matches("^[a-zA-Z0-9._-]{3,}$")) {
-            throw new NegocioException("El nombre de usuario solo puede contener letras, números, puntos, guiones y guiones bajos.");
         }
 
         Usuario usuario;
@@ -115,7 +112,7 @@ public class UsuarioBO {
         } catch (PersistenciaException ex) {
             // Registrar el error en los logs
             logger.log(Level.SEVERE, "Error al autenticar usuario en la BD", ex);
-            throw new NegocioException("Hubo un error al autenticar el usuario.", ex);
+            throw new NegocioException("Contraseña incorrecta", ex);
         }
     }
 

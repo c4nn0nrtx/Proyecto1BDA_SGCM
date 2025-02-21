@@ -5,7 +5,7 @@
 package GUI;
 
 /**
- *
+ * Pantalla Menu Principal.
  * @author Sebastian Moreno
  */
 public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
@@ -38,7 +38,8 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         pnlCerrarSesion = new javax.swing.JPanel();
         btnCerrarSesion = new javax.swing.JLabel();
         txtTituloPantalla1 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        imgUsuario = new javax.swing.JLabel();
+        imgRegistros = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -57,12 +58,12 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         txtSubTitulo.setFont(new java.awt.Font("Roboto", 1, 48)); // NOI18N
         txtSubTitulo.setForeground(new java.awt.Color(0, 0, 0));
         txtSubTitulo.setText("MENU PRINCIPAL");
-        add(txtSubTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 50, -1, -1));
+        add(txtSubTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 50, -1, -1));
 
         txtTituloEmergencia.setFont(new java.awt.Font("Roboto", 1, 44)); // NOI18N
         txtTituloEmergencia.setForeground(new java.awt.Color(0, 0, 0));
         txtTituloEmergencia.setText("¿Situacion de Emergencia?");
-        add(txtTituloEmergencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 440, -1, -1));
+        add(txtTituloEmergencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 440, -1, -1));
 
         pnlCancelarCita.setBackground(new java.awt.Color(255, 102, 120));
 
@@ -91,7 +92,7 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
                     .addGap(11, 11, 11)))
         );
 
-        add(pnlCancelarCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 330, 340, 80));
+        add(pnlCancelarCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 330, 340, 80));
 
         pnlAgendarCita.setBackground(new java.awt.Color(60, 109, 232));
 
@@ -113,7 +114,7 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        add(pnlAgendarCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 330, 340, 80));
+        add(pnlAgendarCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 330, 340, 80));
 
         pnlCerrarSesion.setBackground(new java.awt.Color(60, 109, 232));
 
@@ -147,10 +148,13 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         txtTituloPantalla1.setFont(new java.awt.Font("Roboto", 1, 44)); // NOI18N
         txtTituloPantalla1.setForeground(new java.awt.Color(0, 0, 0));
         txtTituloPantalla1.setText("Usuarios");
-        add(txtTituloPantalla1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 110, -1, -1));
+        add(txtTituloPantalla1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 110, -1, -1));
 
-        jLabel1.setText("info");
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 40, -1, -1));
+        imgUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/usuario.png")));
+        add(imgUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 80, 70, 70));
+
+        imgRegistros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario-de-llenado.png"))); // NOI18N
+        add(imgRegistros, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 80, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -158,7 +162,8 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
     private javax.swing.JLabel btnAgendarCita;
     private javax.swing.JLabel btnCancelarCita;
     private javax.swing.JLabel btnCerrarSesion;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel imgRegistros;
+    private javax.swing.JLabel imgUsuario;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel pnlAgendarCita;
     private javax.swing.JPanel pnlCancelarCita;

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 import Conexion.IConexionBD;
@@ -26,6 +22,7 @@ public class MedicoDAO implements IMedicoDAO {
     private IConexionBD conexion;
 
     /**
+     * Constructor que inicializa la conexion.
      *
      * @param conexion
      */
@@ -34,11 +31,13 @@ public class MedicoDAO implements IMedicoDAO {
     }
     private static final Logger logger = Logger.getLogger(MedicoDAO.class.getName());
 
-    @Override // AUN DESCONOZCO LA NECESIDAD DE AGREGAR MEDICOS EN EL SISTEMA POR ESO NO TIENE FUNCIONALIDAD
-    public Medico agregarMedico(Medico medico) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+    /**
+     * Consulta un medico por un id dado.
+     *
+     * @param id
+     * @return el medico consultado.
+     * @throws PersistenciaException
+     */
     @Override
     public Medico consultarMedicoPorId(int id) throws PersistenciaException {
         Medico medico = null;
@@ -71,7 +70,12 @@ public class MedicoDAO implements IMedicoDAO {
         }
         return medico;
     }
-
+    /**
+     * Obtiene los medicos de una especialidad especifica.
+     * @param especialidad
+     * @return una lista de medicos.
+     * @throws PersistenciaException 
+     */
     @Override
     public List<Medico> obtenerPorEspecialidad(String especialidad) throws PersistenciaException {
 
@@ -102,19 +106,24 @@ public class MedicoDAO implements IMedicoDAO {
             throw new PersistenciaException("Error al obtener la lista de medicos por especialidad desde la base de datos.", ex);
         }
     }
-
+    /**
+     * Actualiza el estado de un medico
+     * @param medico
+     * @param estado activo o inactivo
+     * @return verdadero si, se actualizo el estado.
+     * @throws PersistenciaException 
+     */
     @Override
-    public boolean actualizarEstadoMedico(Medico medico , String estado) throws PersistenciaException {
+    public boolean actualizarEstadoMedico(Medico medico, String estado) throws PersistenciaException {
         String sqlQuery = "UPDATE MEDICOS SET ESTADO = ? WHERE IDMEDICO = ?";
 
         try (Connection con = this.conexion.crearConexion(); PreparedStatement ps = con.prepareStatement(sqlQuery)) {
 
             ps.setString(1, estado); // seteo el valor del estado para remplazar el ?
-            ps.setInt(2, medico.getId()); 
-           
+            ps.setInt(2, medico.getId());
 
             int lineasAfectadas = ps.executeUpdate(); // ejecuto la consulta y guardo los rows afectados en un int
-            
+
             if (lineasAfectadas == 0) { // validacion 
                 logger.severe("Error: no se encontro medico con el id: " + medico.getId());
                 throw new PersistenciaException("No se encontro el medico con el id: " + medico.getId());
@@ -125,11 +134,11 @@ public class MedicoDAO implements IMedicoDAO {
             }
 
         } catch (SQLException e) {
-             if ("22001".equals(e.getSQLState()) || e.getErrorCode() == 1265) { // obtenemos el codigo del error de SQL por ejemplo 23000 es el código estándar para errores de integridad
+            if ("22001".equals(e.getSQLState()) || e.getErrorCode() == 1265) { // obtenemos el codigo del error de SQL por ejemplo 23000 es el código estándar para errores de integridad
                 throw new PersistenciaException("Error: No se puede actualizar a un valor que no sea (Activo o Inactivo) ", e);
             }
             logger.log(Level.SEVERE, "Error: ", e.getSQLState()); //Ultima validacion
             throw new PersistenciaException("Hubo un error actualizando", e);
+        }
     }
-   }
 }

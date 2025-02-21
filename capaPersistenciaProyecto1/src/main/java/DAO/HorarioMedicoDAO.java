@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package DAO;
 
 import Conexion.IConexionBD;
@@ -19,26 +16,25 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- *
+ * Esta clase representa el horario de un medico.
  * @author Sebastian Moreno
  */
-public class HorarioMedico implements IHorarioMedicoDAO {
+public class HorarioMedicoDAO implements IHorarioMedicoDAO {
 
     private IConexionBD conexion;
-    
+    private static final Logger logger = Logger.getLogger(MedicoDAO.class.getName());
     /**
-     *
+     * Constructor que inicializa la conexion con la base de datos.
      * @param conexion
      */
-    public HorarioMedico(IConexionBD conexion) {
+    public HorarioMedicoDAO(IConexionBD conexion) {
         this.conexion = conexion;
     }
-    private static final Logger logger = Logger.getLogger(MedicoDAO.class.getName());
-    
+
     /**
-     *
+     * Metodo auxiliar para obtener dias en español
      * @param dia
-     * @return
+     * @return un string del dia en español.
      */
     public static String obtenerDiaEnEspanol(DayOfWeek dia) {
     switch (dia) {
@@ -54,9 +50,9 @@ public class HorarioMedico implements IHorarioMedicoDAO {
 }
 
     /**
-     *
+     * Metodo para obtener medicos disponibles en una hora especifica.
      * @param fechaHora
-     * @return
+     * @return Una lista de medicos en caso de encontrar.
      * @throws PersistenciaException
      */
     @Override

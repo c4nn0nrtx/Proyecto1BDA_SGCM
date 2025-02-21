@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package DTO;
 
 import Entidades.Direccion_Paciente;
@@ -9,7 +6,7 @@ import Entidades.Usuario;
 import java.time.LocalDate;
 
 /**
- * Paciente DTO sin idPaciente ni direccion.
+ * Paciente DTO .
  *
  * @author Sebastian Moreno
  */

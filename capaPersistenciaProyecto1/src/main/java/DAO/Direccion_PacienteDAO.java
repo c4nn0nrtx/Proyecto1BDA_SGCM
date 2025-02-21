@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 import Conexion.IConexionBD;
@@ -16,27 +12,27 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Esta clase representa una Direccion de un Paciente DAO
  *
  * @author Ramon Valencia
  */
 public class Direccion_PacienteDAO implements IDireccion_PacienteDAO {
 
     private IConexionBD conexionBD;
+    private static final Logger logger = Logger.getLogger(Direccion_PacienteDAO.class.getName());
 
     /**
-     *
+     * Constructor que inicializa la conexion
      * @param conexionBD
      */
     public Direccion_PacienteDAO(IConexionBD conexionBD) {
         this.conexionBD = conexionBD;
     }
 
-    private static final Logger logger = Logger.getLogger(Direccion_PacienteDAO.class.getName());
-
     /**
-     *
+     * Agrega una direccion
      * @param direccion
-     * @return
+     * @return La direccion creada.
      * @throws PersistenciaException
      */
     @Override
@@ -74,9 +70,9 @@ public class Direccion_PacienteDAO implements IDireccion_PacienteDAO {
     }
 
     /**
-     *
+     * Consulta una direccion por un id
      * @param id
-     * @return
+     * @return La Direccion consultada por el id dado.
      * @throws PersistenciaException
      */
     @Override
@@ -108,7 +104,12 @@ public class Direccion_PacienteDAO implements IDireccion_PacienteDAO {
         }
         return direccion;
     }
-
+    /**
+     * Consulta el id de una direccion dada.
+     * @param direccion
+     * @return el id de la direccion.
+     * @throws PersistenciaException 
+     */
     @Override
     public int consultaIdDireccion(Direccion_Paciente direccion) throws PersistenciaException {
         int id = -1;
@@ -137,9 +138,9 @@ public class Direccion_PacienteDAO implements IDireccion_PacienteDAO {
     }
 
     /**
-     *
+     * Actualiza la direccion
      * @param direccion
-     * @return
+     * @return la direccion actualizada.
      * @throws PersistenciaException
      */
     @Override

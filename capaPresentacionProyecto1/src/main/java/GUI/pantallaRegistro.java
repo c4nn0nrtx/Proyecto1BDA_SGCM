@@ -16,16 +16,14 @@ import Entidades.Usuario;
 import Exception.NegocioException;
 import com.toedter.calendar.JDateChooser;
 import configuracion.DependencyInjector;
-import java.awt.Image;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Pantalla de registro 
  * @author Sebastian Moreno
  */
 public class pantallaRegistro extends javax.swing.JPanel {
@@ -33,10 +31,9 @@ public class pantallaRegistro extends javax.swing.JPanel {
     private UsuarioBO usuarioBO = DependencyInjector.crearUsuarioBO();
     private PacienteBO pacienteBO = DependencyInjector.crearPacienteBO();
     private Direccion_PacienteBO direccionBO = DependencyInjector.crearDireccionBO();
+    private Usuario usuario;
+    private Direccion_Paciente direccion;
     private JDateChooser selectorFechas;
-    /**
-     * Creates new form pantallaRegistro
-     */
     private FramePrincipal framePrincipal;
 
     public pantallaRegistro(FramePrincipal frame) {
@@ -335,7 +332,7 @@ public class pantallaRegistro extends javax.swing.JPanel {
             String Telefono = inputCelular.getText();
             String Correo = inputCorreo.getText();
 
-            java.util.Date Fecha = selectorFechas.getDate();
+            java.util.Date Fecha = selectorFechas.getDate(); // obtener fecha seleccionada en el selector.
 
             if (Fecha != null) {
                 fechaLocal = Fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -347,20 +344,15 @@ public class pantallaRegistro extends javax.swing.JPanel {
             int cp = Integer.parseInt(inputCodigoPostal.getText());
             String numeroExt = inputNumExt.getText();
 
-            UsuarioNuevoDTO usuario = new UsuarioNuevoDTO(nombreUsuario, contrasenha);
-            Direccion_PacienteNuevaDTO direccion = new Direccion_PacienteNuevaDTO(calle, colonia, cp, numeroExt);
+            UsuarioNuevoDTO usuarioDTO = new UsuarioNuevoDTO(nombreUsuario, contrasenha);
+            Direccion_PacienteNuevaDTO direccionDTO = new Direccion_PacienteNuevaDTO(calle, colonia, cp, numeroExt);
+            PacienteNuevoDTO paciente = new PacienteNuevoDTO(usuario, direccion, nombre, ApellidoP, ApellidoM, Correo, fechaLocal, Telefono);
+            boolean pacienteExito = pacienteBO.agregarPaciente(paciente, usuarioDTO, direccionDTO);
 
-            Usuario usuarioExito = usuarioBO.agregarUsuario(usuario);
-            Direccion_Paciente direccionExito = direccionBO.agregarDireccionPaciente(direccion);
-
-            PacienteNuevoDTO paciente = new PacienteNuevoDTO(usuarioExito, direccionExito, nombre, ApellidoP, ApellidoM, Correo, fechaLocal, Telefono);
-            Paciente pacienteExito = pacienteBO.agregarPaciente(paciente);
-
-            // Verificar si la operación fue exitosa
-            if (pacienteExito != null || usuarioExito != null || direccionExito != null) {
+            // Verificar si la operación fue exitosa.
+            if (pacienteExito == true) {
                 JOptionPane.showMessageDialog(this, "Usuario agregado correctamente");
                 limpiarCampos();
-
             } else {
                 JOptionPane.showMessageDialog(this, "Error al agregar usuario");
             }

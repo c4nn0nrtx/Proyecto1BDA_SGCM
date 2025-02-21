@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package GUI;
 
 import BO.UsuarioBO;
@@ -11,7 +8,7 @@ import configuracion.DependencyInjector;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Pantalla Inicio de Sesión.
  * @author Sebastian Moreno
  */
 public class pantallaInicioSesion extends javax.swing.JPanel {

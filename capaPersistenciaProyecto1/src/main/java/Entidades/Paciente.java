@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Entidades;
 
 import java.time.LocalDate;
@@ -26,7 +23,17 @@ public class Paciente {
      */
     public Paciente() {
     }
-    
+    /**
+     * Constructor con ids
+     * @param usuario
+     * @param direccion
+     * @param nombre
+     * @param apellidoPaterno
+     * @param apellidoMaterno
+     * @param correo
+     * @param fechaNacimiento
+     * @param telefono 
+     */
     public Paciente(Usuario usuario, Direccion_Paciente direccion, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, LocalDate fechaNacimiento, String telefono) {
         this.usuario = usuario;
         this.direccion = direccion;
@@ -37,7 +44,15 @@ public class Paciente {
         this.fechaNacimiento = fechaNacimiento;
         this.telefono = telefono;
     }
-
+    /**
+     * Constructor sin ids.
+     * @param nombre
+     * @param apellidoPaterno
+     * @param apellidoMaterno
+     * @param correo
+     * @param fechaNacimiento
+     * @param telefono 
+     */
     public Paciente(String nombre, String apellidoPaterno, String apellidoMaterno, String correo, LocalDate fechaNacimiento, String telefono) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;

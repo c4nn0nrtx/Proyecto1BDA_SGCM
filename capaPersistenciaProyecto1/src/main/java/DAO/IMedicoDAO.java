@@ -9,13 +9,6 @@ import java.util.List;
  * @author Sebastian Moreno
  */ 
 public interface IMedicoDAO {
-    /**
-     * Agrega un medico a la base de datos.
-     * @param medico
-     * @return un Objeto del tipo Medico.
-     * @throws PersistenciaException 
-     */
-    public Medico agregarMedico(Medico medico)throws PersistenciaException;
     
     /**
      * Consulta un Medico por su id.

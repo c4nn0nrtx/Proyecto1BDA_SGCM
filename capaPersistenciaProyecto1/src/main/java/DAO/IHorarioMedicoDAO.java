@@ -11,7 +11,7 @@ import java.util.List;
 public interface IHorarioMedicoDAO {
 
     /**
-     *
+     * Obtiene los medicos disponibles en el horario dado.
      * @param fechaHora
      * @return
      * @throws PersistenciaException

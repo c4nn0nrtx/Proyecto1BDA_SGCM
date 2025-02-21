@@ -1,18 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package GUI;
 
 /**
- *
+ * Pantalla tu información.
  * @author Sebastian Moreno
  */
 public class pantallaInformacionUsuario extends javax.swing.JPanel {
 
-    /**
-     * Creates new form pantallaInformacionUsuario
-     */
     public pantallaInformacionUsuario() {
         initComponents();
     }

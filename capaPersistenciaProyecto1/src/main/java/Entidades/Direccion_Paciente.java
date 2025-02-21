@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Entidades;
 
 /**
- *
+ * Esta clase representa la direccion de un paciente
  * @author Ramon Valencia
  */
 public class Direccion_Paciente {
@@ -17,13 +14,13 @@ public class Direccion_Paciente {
     private String numero;
 
     /**
-     *
+     * Constructor vacio.
      */
     public Direccion_Paciente() {
     }
 
     /**
-     *
+     *Constructor con id
      * @param idDireccion
      * @param calle
      * @param colonia
@@ -39,7 +36,7 @@ public class Direccion_Paciente {
     }
 
     /**
-     *
+     * Constructor sin id
      * @param calle
      * @param colonia
      * @param cp

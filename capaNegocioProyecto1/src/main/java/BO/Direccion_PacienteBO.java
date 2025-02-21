@@ -1,40 +1,43 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package BO;
 
 import Conexion.IConexionBD;
 import DAO.Direccion_PacienteDAO;
 import DAO.IDireccion_PacienteDAO;
-import DAO.IPacienteDAO;
 import DTO.Direccion_PacienteNuevaDTO;
 import Entidades.Direccion_Paciente;
 import Exception.NegocioException;
 import Exception.PersistenciaException;
 import Mapper.Mapper;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Representa una clase de Direccion con logica de Negocio.
  *
  * @author PC
  */
 public class Direccion_PacienteBO {
 
     private static final Logger logger = Logger.getLogger(PacienteBO.class.getName());
-
     private final IDireccion_PacienteDAO direccionPacienteDAO;
     private final IConexionBD conexionBD;
     Mapper mapper = new Mapper();
 
+    /**
+     * Inicializa la conexion en el constructor.
+     *
+     * @param conexion
+     */
     public Direccion_PacienteBO(IConexionBD conexion) {
         this.direccionPacienteDAO = new Direccion_PacienteDAO(conexion);
         this.conexionBD = conexion;
     }
-
+    /**
+     * Metodo para agregar una nueva Direccion.
+     * @param direccionNueva
+     * @return la direccion creada
+     * @throws NegocioException 
+     */
     public Direccion_Paciente agregarDireccionPaciente(Direccion_PacienteNuevaDTO direccionNueva) throws NegocioException {
         if (direccionNueva == null) {
             throw new NegocioException("La dirección no puede ser nula.");
