@@ -51,6 +51,8 @@ public class Mapper {
             return null;
         }
         return new Paciente(
+                pacienteNuevo.getUsuario(),
+                pacienteNuevo.getDireccion(),
                 pacienteNuevo.getNombre(),
                 pacienteNuevo.getApellidoPaterno(),
                 pacienteNuevo.getApellidoMaterno(),
@@ -68,6 +70,8 @@ public class Mapper {
             return null;
         }
         return new PacienteNuevoDTO(
+                paciente.getUsuario(),
+                paciente.getDireccion(),
                 paciente.getNombre(),
                 paciente.getApellidoPaterno(),
                 paciente.getApellidoMaterno(),

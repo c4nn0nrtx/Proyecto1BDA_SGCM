@@ -11,12 +11,14 @@ import Exception.PersistenciaException;
  *
  * @author Ramon Valencia
  */
+
+//ESTA CLASE Y PACIENTE DAO SE REMOVERAN DEPENDIENDO DE SI SON NECESARIOS AL FINAL DEL DIA
 public interface IPacienteDAO {
-    
+   /* 
     public Paciente agregarPaciente(Paciente paciente) throws PersistenciaException;
     
     public Paciente consultarPacientePorId(int id) throws PersistenciaException;
     
     public Paciente actualizarPaciente(Paciente paciente) throws PersistenciaException;
-    
+    */
 }
