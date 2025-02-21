@@ -16,6 +16,6 @@ public interface IHorarioMedicoDAO {
      * @return
      * @throws PersistenciaException
      */
-    public List<Medico> obtenerMedicosDisponibles(LocalDateTime fechaHora) throws PersistenciaException;
+    //public List<Medico> obtenerMedicosDisponibles(LocalDateTime fechaHora) throws PersistenciaException;
     
 }

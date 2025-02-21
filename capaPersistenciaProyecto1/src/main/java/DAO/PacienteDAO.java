@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 /**
  * Esta clase representan los metodos DAO de un paciente.
  *
- * @author Ramon
+ * @author Ramon Valencia
  */
 public class PacienteDAO implements IPacienteDAO {
 

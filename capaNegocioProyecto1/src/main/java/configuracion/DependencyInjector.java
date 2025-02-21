@@ -1,6 +1,7 @@
 
 package configuracion;
 
+import BO.CitaBO;
 import BO.Direccion_PacienteBO;
 import BO.PacienteBO;
 import BO.UsuarioBO;
@@ -18,7 +19,7 @@ public class DependencyInjector {
         // Crear una instancia de la conexión a la base de datos, utilizando la implementación de IConexionBD
         IConexionBD conexion = new ConexionBD();
 
-        // Inyectar la dependencia de conexión a la instancia de ActivistaBO
+        // Inyectar la dependencia de conexión a la instancia de UsuarioBO
         UsuarioBO usuarioBO = new UsuarioBO(conexion);
 
         // Retornar la instancia completamente configurada
@@ -29,7 +30,7 @@ public class DependencyInjector {
         // Crear una instancia de la conexión a la base de datos, utilizando la implementación de IConexionBD
         IConexionBD conexion = new ConexionBD();
 
-        // Inyectar la dependencia de conexión a la instancia de ActivistaBO
+        // Inyectar la dependencia de conexión a la instancia de PacienteBO
         PacienteBO pacienteBO = new PacienteBO(conexion);
 
         // Retornar la instancia completamente configurada
@@ -39,11 +40,21 @@ public class DependencyInjector {
         // Crear una instancia de la conexión a la base de datos, utilizando la implementación de IConexionBD
         IConexionBD conexion = new ConexionBD();
 
-        // Inyectar la dependencia de conexión a la instancia de ActivistaBO
+        // Inyectar la dependencia de conexión a la instancia de Direccion_PacienteBO
         Direccion_PacienteBO direccion = new Direccion_PacienteBO(conexion);
 
         // Retornar la instancia completamente configurada
         return direccion;
+    }
+    public static CitaBO crearCitaBO() {
+        // Crear una instancia de la conexión a la base de datos, utilizando la implementación de IConexionBD
+        IConexionBD conexion = new ConexionBD();
+
+        // Inyectar la dependencia de conexión a la instancia de CitaBO
+        CitaBO cita = new CitaBO(conexion);
+
+        // Retornar la instancia completamente configurada
+        return cita;
     }
     
 }

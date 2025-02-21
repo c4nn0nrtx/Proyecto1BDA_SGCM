@@ -1,12 +1,15 @@
 
 package Mapper;
 
+import DTO.CitaNuevoDTO;
 import DTO.Direccion_PacienteNuevaDTO;
 import DTO.PacienteNuevoDTO;
 import DTO.UsuarioNuevoDTO;
+import Entidades.Cita;
 import Entidades.Direccion_Paciente;
 import Entidades.Paciente;
 import Entidades.Usuario;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -105,6 +108,40 @@ public class Mapper {
                 direccion.getColonia(),
                 direccion.getCp(),
                 direccion.getNumero()
+        );
+    }
+    
+    /**
+     * Convierte una CitaDTO a una entidad.
+     */
+    public Cita DTOCitaToEntity(CitaNuevoDTO citaNueva) {
+        if (citaNueva == null) {
+            return null;
+        }
+        return new Cita(
+                citaNueva.getEstado(),
+                citaNueva.getFechaHora(),
+                citaNueva.getFolio(),
+                citaNueva.getTipo(),
+                citaNueva.getMedico(),
+                citaNueva.getPaciente()
+        );
+    }
+    
+    /**
+     * Convierte una entidad a una CitaDTO.
+     */
+    public CitaNuevoDTO CitaToNuevaDTO(Cita cita) {
+        if (cita == null) {
+            return null;
+        }
+        return  new CitaNuevoDTO(
+                cita.getEstado(), 
+                cita.getFechaHora(), 
+                cita.getFolio(), 
+                cita.getTipo(), 
+                cita.getMedico(), 
+                cita.getPaciente()
         );
     }
 }

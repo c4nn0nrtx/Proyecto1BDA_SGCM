@@ -1,31 +1,33 @@
-package Entidades;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package DTO;
 
+import Entidades.Medico;
+import Entidades.Paciente;
 import java.time.LocalDateTime;
 
 /**
- * Cita.java
- * 
- * Clase Entidad que representa una cita en el sistema
- * 
- * @author Brandon Valenzuela
+ *
+ * @author Ramon Valencia
  */
-public class Cita {
-    private int idCita;
+public class CitaNuevoDTO {
+    
     private String estado;
     private LocalDateTime fechaHora;
     private String folio;
     private String tipo;
     private Medico medico;
     private Paciente paciente;
-
+    
     /**
-     * Constructor vacío
+     * Constructor Vacio
      */
-    public Cita() {
+    public CitaNuevoDTO() {
     }
     /**
-     * Contructor con todos los atributos incluido el id
-     * @param idCita
+     * Constructor con todos los atributos.
      * @param estado
      * @param fechaHora
      * @param folio
@@ -33,45 +35,13 @@ public class Cita {
      * @param medico
      * @param paciente 
      */
-    public Cita(int idCita, String estado, LocalDateTime fechaHora, String folio, String tipo, Medico medico, Paciente paciente) {
-        this.idCita = idCita;
+    public CitaNuevoDTO(String estado, LocalDateTime fechaHora, String folio, String tipo, Medico medico, Paciente paciente) {
         this.estado = estado;
         this.fechaHora = fechaHora;
         this.folio = folio;
         this.tipo = tipo;
         this.medico = medico;
         this.paciente = paciente;
-    }
-    /**
-     * Constructor con todos los atributos excepto el id
-     * @param estado
-     * @param fechaHora
-     * @param folio
-     * @param tipo
-     * @param medico
-     * @param paciente 
-     */
-    public Cita(String estado, LocalDateTime fechaHora, String folio, String tipo, Medico medico, Paciente paciente) {
-        this.estado = estado;
-        this.fechaHora = fechaHora;
-        this.folio = folio;
-        this.tipo = tipo;
-        this.medico = medico;
-        this.paciente = paciente;
-    }
-    /**
-     * 
-     * @return 
-     */
-    public int getIdCita() {
-        return idCita;
-    }
-    /**
-     * 
-     * @param idCita 
-     */
-    public void setIdCita(int idCita) {
-        this.idCita = idCita;
     }
     /**
      * 
@@ -163,7 +133,8 @@ public class Cita {
      */
     @Override
     public String toString() {
-        return "Cita{" + "idCita=" + idCita + ", estado=" + estado + ", fechaHora=" + fechaHora + ", folio=" + folio + ", tipo=" + tipo + ", medico=" + medico + ", paciente=" + paciente + '}';
+        return "CitaNuevoDTO{" + "estado=" + estado + ", fechaHora=" + fechaHora + ", folio=" + folio + ", tipo=" + tipo + ", medico=" + medico + ", paciente=" + paciente + '}';
     }
+    
     
 }

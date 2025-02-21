@@ -30,12 +30,13 @@ public class HorarioMedicoDAO implements IHorarioMedicoDAO {
     public HorarioMedicoDAO(IConexionBD conexion) {
         this.conexion = conexion;
     }
-
+    //Quite momentaneamente los metodos de Horarios Medicos de igual manera para que no haya errores por el momento
+    /*
     /**
      * Metodo auxiliar para obtener dias en español
      * @param dia
      * @return un string del dia en español.
-     */
+     *
     public static String obtenerDiaEnEspanol(DayOfWeek dia) {
     switch (dia) {
         case MONDAY: return "Lunes";
@@ -54,7 +55,7 @@ public class HorarioMedicoDAO implements IHorarioMedicoDAO {
      * @param fechaHora
      * @return Una lista de medicos en caso de encontrar.
      * @throws PersistenciaException
-     */
+     *
     @Override
     public List<Medico> obtenerMedicosDisponibles(LocalDateTime fechaHora) throws PersistenciaException {
         List<Medico> medicosDisponibles = new ArrayList<>();
@@ -90,6 +91,6 @@ public class HorarioMedicoDAO implements IHorarioMedicoDAO {
             throw new PersistenciaException("Hubo un error consultando a los medicos." + ex.getSQLState());
         }
         return medicosDisponibles;
-    }
+    } */
 
 }

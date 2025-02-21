@@ -29,6 +29,9 @@ public class MedicoDAO implements IMedicoDAO {
     public MedicoDAO(IConexionBD conexion) {
         this.conexion = conexion;
     }
+    //Quite momentaneamente los metodos de MedicoDAO para que no marcara errores
+    /*
+    
     private static final Logger logger = Logger.getLogger(MedicoDAO.class.getName());
 
     /**
@@ -37,7 +40,7 @@ public class MedicoDAO implements IMedicoDAO {
      * @param id
      * @return el medico consultado.
      * @throws PersistenciaException
-     */
+  
     @Override
     public Medico consultarMedicoPorId(int id) throws PersistenciaException {
         Medico medico = null;
@@ -75,7 +78,7 @@ public class MedicoDAO implements IMedicoDAO {
      * @param especialidad
      * @return una lista de medicos.
      * @throws PersistenciaException 
-     */
+     
     @Override
     public List<Medico> obtenerPorEspecialidad(String especialidad) throws PersistenciaException {
 
@@ -112,7 +115,7 @@ public class MedicoDAO implements IMedicoDAO {
      * @param estado activo o inactivo
      * @return verdadero si, se actualizo el estado.
      * @throws PersistenciaException 
-     */
+     
     @Override
     public boolean actualizarEstadoMedico(Medico medico, String estado) throws PersistenciaException {
         String sqlQuery = "UPDATE MEDICOS SET ESTADO = ? WHERE IDMEDICO = ?";
@@ -140,5 +143,5 @@ public class MedicoDAO implements IMedicoDAO {
             logger.log(Level.SEVERE, "Error: ", e.getSQLState()); //Ultima validacion
             throw new PersistenciaException("Hubo un error actualizando", e);
         }
-    }
+    } */
 }
