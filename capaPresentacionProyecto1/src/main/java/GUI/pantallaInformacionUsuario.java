@@ -1,13 +1,22 @@
-
 package GUI;
+
+import com.toedter.calendar.JDateChooser;
 
 /**
  * Pantalla tu información.
+ *
  * @author Sebastian Moreno
  */
 public class pantallaInformacionUsuario extends javax.swing.JPanel {
 
-    public pantallaInformacionUsuario() {
+    private JDateChooser selectorFechas;
+    private FramePrincipal framePrincipal;
+
+    public pantallaInformacionUsuario(FramePrincipal frame) {
+        this.framePrincipal = frame;
+        selectorFechas = new JDateChooser();
+        selectorFechas.setBounds(550, 300, 200, 40);
+        this.add(selectorFechas);
         initComponents();
     }
 
@@ -26,16 +35,12 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         txtNombre = new javax.swing.JLabel();
         txtApellidoP = new javax.swing.JLabel();
         txtApellidoM = new javax.swing.JLabel();
-        txtUsuario = new javax.swing.JLabel();
         txtCelular = new javax.swing.JLabel();
         txtCorreoElectronico = new javax.swing.JLabel();
         txtColonia = new javax.swing.JLabel();
-        txtContraseña = new javax.swing.JLabel();
         txtCalle = new javax.swing.JLabel();
         txtNumeroExt = new javax.swing.JLabel();
         inputCorreo = new javax.swing.JTextField();
-        inputUsuario = new javax.swing.JTextField();
-        inputContraseña = new javax.swing.JTextField();
         inputCalle = new javax.swing.JTextField();
         inputNumExt = new javax.swing.JTextField();
         inputColonia = new javax.swing.JTextField();
@@ -44,6 +49,11 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         inputApellidoP = new javax.swing.JTextField();
         inputCelular = new javax.swing.JTextField();
         inputApellidoM = new javax.swing.JTextField();
+        pnlRestablecerDatos = new javax.swing.JPanel();
+        btnRestablecer = new javax.swing.JLabel();
+        pnlBotonGuardar1 = new javax.swing.JPanel();
+        btnGuardar1 = new javax.swing.JLabel();
+        btnVolver = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -51,17 +61,17 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         txtSubTitulo.setFont(new java.awt.Font("Roboto", 1, 48)); // NOI18N
         txtSubTitulo.setForeground(new java.awt.Color(0, 0, 0));
         txtSubTitulo.setText("Tu Información");
-        add(txtSubTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 50, -1, -1));
+        add(txtSubTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 30, -1, -1));
 
         txtTituloPantalla.setFont(new java.awt.Font("Roboto", 1, 44)); // NOI18N
         txtTituloPantalla.setForeground(new java.awt.Color(0, 0, 0));
         txtTituloPantalla.setText("Registro Médico");
-        add(txtTituloPantalla, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, -1, -1));
+        add(txtTituloPantalla, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, -1, -1));
 
         txtCodigoPostal.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         txtCodigoPostal.setForeground(new java.awt.Color(0, 0, 0));
         txtCodigoPostal.setText("Codigo Postal*:");
-        add(txtCodigoPostal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 510, -1, -1));
+        add(txtCodigoPostal, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 440, -1, -1));
 
         txtNombre.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         txtNombre.setForeground(new java.awt.Color(0, 0, 0));
@@ -78,15 +88,10 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         txtApellidoM.setText("Apellido Materno (Opcional):");
         add(txtApellidoM, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 260, -1, -1));
 
-        txtUsuario.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        txtUsuario.setForeground(new java.awt.Color(0, 0, 0));
-        txtUsuario.setText("Usuario*:");
-        add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 430, -1, -1));
-
         txtCelular.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         txtCelular.setForeground(new java.awt.Color(0, 0, 0));
         txtCelular.setText("Fecha de Nacimiento*:");
-        add(txtCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 260, -1, -1));
+        add(txtCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 260, -1, -1));
 
         txtCorreoElectronico.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         txtCorreoElectronico.setForeground(new java.awt.Color(0, 0, 0));
@@ -98,11 +103,6 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         txtColonia.setText("Colonia*:");
         add(txtColonia, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 260, -1, -1));
 
-        txtContraseña.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        txtContraseña.setForeground(new java.awt.Color(0, 0, 0));
-        txtContraseña.setText("Contraseña*:");
-        add(txtContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 510, -1, -1));
-
         txtCalle.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         txtCalle.setForeground(new java.awt.Color(0, 0, 0));
         txtCalle.setText("Calle*:");
@@ -111,28 +111,22 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         txtNumeroExt.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         txtNumeroExt.setForeground(new java.awt.Color(0, 0, 0));
         txtNumeroExt.setText("Numero Ext*:");
-        add(txtNumeroExt, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 430, -1, -1));
+        add(txtNumeroExt, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 440, -1, -1));
 
         inputCorreo.setBorder(null);
         add(inputCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 380, 230, 40));
-
-        inputUsuario.setBorder(null);
-        add(inputUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 460, 260, 40));
-
-        inputContraseña.setBorder(null);
-        add(inputContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 540, 260, 40));
 
         inputCalle.setBorder(null);
         add(inputCalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 380, 200, 40));
 
         inputNumExt.setBorder(null);
-        add(inputNumExt, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 460, 110, 40));
+        add(inputNumExt, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 470, 110, 40));
 
         inputColonia.setBorder(null);
         add(inputColonia, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 290, 200, 40));
 
         inputCodigoPostal.setBorder(null);
-        add(inputCodigoPostal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 540, 200, 40));
+        add(inputCodigoPostal, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 470, 200, 40));
 
         inputNombre.setBorder(null);
         add(inputNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, 200, 40));
@@ -145,33 +139,130 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
 
         inputApellidoM.setBorder(null);
         add(inputApellidoM, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, 230, 40));
+
+        pnlRestablecerDatos.setBackground(new java.awt.Color(255, 102, 102));
+        pnlRestablecerDatos.setForeground(new java.awt.Color(0, 0, 0));
+
+        btnRestablecer.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        btnRestablecer.setForeground(new java.awt.Color(255, 255, 255));
+        btnRestablecer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnRestablecer.setText("Restablecer datos");
+        btnRestablecer.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRestablecer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnRestablecerMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlRestablecerDatosLayout = new javax.swing.GroupLayout(pnlRestablecerDatos);
+        pnlRestablecerDatos.setLayout(pnlRestablecerDatosLayout);
+        pnlRestablecerDatosLayout.setHorizontalGroup(
+            pnlRestablecerDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 340, Short.MAX_VALUE)
+            .addGroup(pnlRestablecerDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlRestablecerDatosLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(btnRestablecer, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        pnlRestablecerDatosLayout.setVerticalGroup(
+            pnlRestablecerDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(pnlRestablecerDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlRestablecerDatosLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(btnRestablecer, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        add(pnlRestablecerDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 600, 340, 40));
+
+        pnlBotonGuardar1.setBackground(new java.awt.Color(0, 123, 255));
+        pnlBotonGuardar1.setForeground(new java.awt.Color(0, 0, 0));
+
+        btnGuardar1.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        btnGuardar1.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnGuardar1.setText("Guardar Cambios");
+        btnGuardar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGuardar1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnGuardar1MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlBotonGuardar1Layout = new javax.swing.GroupLayout(pnlBotonGuardar1);
+        pnlBotonGuardar1.setLayout(pnlBotonGuardar1Layout);
+        pnlBotonGuardar1Layout.setHorizontalGroup(
+            pnlBotonGuardar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 330, Short.MAX_VALUE)
+            .addGroup(pnlBotonGuardar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlBotonGuardar1Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(btnGuardar1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        pnlBotonGuardar1Layout.setVerticalGroup(
+            pnlBotonGuardar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(pnlBotonGuardar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlBotonGuardar1Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(btnGuardar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        add(pnlBotonGuardar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 600, 330, 40));
+
+        btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/atras (1).png"))); // NOI18N
+        btnVolver.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVolver.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnVolverMouseClicked(evt);
+            }
+        });
+        add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRestablecerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRestablecerMouseClicked
+
+   
+    }//GEN-LAST:event_btnRestablecerMouseClicked
+
+    private void btnGuardar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardar1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGuardar1MouseClicked
+
+    private void btnVolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseClicked
+        framePrincipal.cambiarPanel("pantallaPacientes");
+    }//GEN-LAST:event_btnVolverMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnGuardar1;
+    private javax.swing.JLabel btnRestablecer;
+    private javax.swing.JLabel btnVolver;
     private javax.swing.JTextField inputApellidoM;
     private javax.swing.JTextField inputApellidoP;
     private javax.swing.JTextField inputCalle;
     private javax.swing.JTextField inputCelular;
     private javax.swing.JTextField inputCodigoPostal;
     private javax.swing.JTextField inputColonia;
-    private javax.swing.JTextField inputContraseña;
     private javax.swing.JTextField inputCorreo;
     private javax.swing.JTextField inputNombre;
     private javax.swing.JTextField inputNumExt;
-    private javax.swing.JTextField inputUsuario;
+    private javax.swing.JPanel pnlBotonGuardar1;
+    private javax.swing.JPanel pnlRestablecerDatos;
     private javax.swing.JLabel txtApellidoM;
     private javax.swing.JLabel txtApellidoP;
     private javax.swing.JLabel txtCalle;
     private javax.swing.JLabel txtCelular;
     private javax.swing.JLabel txtCodigoPostal;
     private javax.swing.JLabel txtColonia;
-    private javax.swing.JLabel txtContraseña;
     private javax.swing.JLabel txtCorreoElectronico;
     private javax.swing.JLabel txtNombre;
     private javax.swing.JLabel txtNumeroExt;
     private javax.swing.JLabel txtSubTitulo;
     private javax.swing.JLabel txtTituloPantalla;
-    private javax.swing.JLabel txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

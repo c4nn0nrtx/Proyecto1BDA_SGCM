@@ -38,8 +38,9 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         pnlCerrarSesion = new javax.swing.JPanel();
         btnCerrarSesion = new javax.swing.JLabel();
         txtTituloPantalla1 = new javax.swing.JLabel();
-        imgUsuario = new javax.swing.JLabel();
-        imgRegistros = new javax.swing.JLabel();
+        btnPerfil = new javax.swing.JLabel();
+        btnRegistros = new javax.swing.JLabel();
+        btnEmergencia = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -70,6 +71,7 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         btnCancelarCita.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         btnCancelarCita.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnCancelarCita.setText("Cancelar Cita");
+        btnCancelarCita.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout pnlCancelarCitaLayout = new javax.swing.GroupLayout(pnlCancelarCita);
         pnlCancelarCita.setLayout(pnlCancelarCitaLayout);
@@ -99,6 +101,7 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         btnAgendarCita.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         btnAgendarCita.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnAgendarCita.setText("Agendar una Cita");
+        btnAgendarCita.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout pnlAgendarCitaLayout = new javax.swing.GroupLayout(pnlAgendarCita);
         pnlAgendarCita.setLayout(pnlAgendarCitaLayout);
@@ -121,6 +124,12 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         btnCerrarSesion.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         btnCerrarSesion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnCerrarSesion.setText("Cerrar Sesión");
+        btnCerrarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCerrarSesionMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlCerrarSesionLayout = new javax.swing.GroupLayout(pnlCerrarSesion);
         pnlCerrarSesion.setLayout(pnlCerrarSesionLayout);
@@ -150,20 +159,49 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         txtTituloPantalla1.setText("Usuarios");
         add(txtTituloPantalla1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 110, -1, -1));
 
-        imgUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/usuario.png")));
-        add(imgUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 80, 70, 70));
+        btnPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/usuario.png")));
+        btnPerfil.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnPerfil.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPerfilMouseClicked(evt);
+            }
+        });
+        add(btnPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 80, 70, 70));
 
-        imgRegistros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario-de-llenado.png"))); // NOI18N
-        add(imgRegistros, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 80, -1, -1));
+        btnRegistros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario-de-llenado.png"))); // NOI18N
+        btnRegistros.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRegistros.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnRegistrosMouseClicked(evt);
+            }
+        });
+        add(btnRegistros, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 80, -1, -1));
+
+        btnEmergencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/llamada-de-socorro.png"))); // NOI18N
+        btnEmergencia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        add(btnEmergencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 510, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRegistrosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrosMouseClicked
+        //framePrincipal.cambiarPanel("pantallaRegistrosPaciente");
+    }//GEN-LAST:event_btnRegistrosMouseClicked
+
+    private void btnPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPerfilMouseClicked
+        framePrincipal.cambiarPanel("pantallaInformacionUsuarios");
+    }//GEN-LAST:event_btnPerfilMouseClicked
+
+    private void btnCerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarSesionMouseClicked
+        framePrincipal.cambiarPanel("pantallaInicioSesion");
+    }//GEN-LAST:event_btnCerrarSesionMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAgendarCita;
     private javax.swing.JLabel btnCancelarCita;
     private javax.swing.JLabel btnCerrarSesion;
-    private javax.swing.JLabel imgRegistros;
-    private javax.swing.JLabel imgUsuario;
+    private javax.swing.JLabel btnEmergencia;
+    private javax.swing.JLabel btnPerfil;
+    private javax.swing.JLabel btnRegistros;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel pnlAgendarCita;
     private javax.swing.JPanel pnlCancelarCita;
