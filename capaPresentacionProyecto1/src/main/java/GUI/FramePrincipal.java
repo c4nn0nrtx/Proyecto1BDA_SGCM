@@ -1,6 +1,7 @@
 
 package GUI;
 
+import Entidades.Usuario;
 import java.awt.CardLayout;
 import javax.swing.SwingUtilities;
 
@@ -19,7 +20,7 @@ public class FramePrincipal extends javax.swing.JFrame {
     pantallaRegistro pantallaRegistro;
     pantallaMenuPrincipalPacientes pantallaPacientes;
     pantallaInformacionUsuario pantallaInformacionUsuarios;
-    
+    private Usuario usuarioAutenticado;
     
 
     public FramePrincipal() {
@@ -95,5 +96,12 @@ public class FramePrincipal extends javax.swing.JFrame {
     }
     public void cambiarPanel(String nombrePanel) {
         cardLayout.show(panelPrincipal, nombrePanel);
+    }
+      public void setUsuarioAutenticado(Usuario usuario) {
+        this.usuarioAutenticado = usuario;
+    }
+
+    public Usuario getUsuarioAutenticado() {
+        return usuarioAutenticado;
     }
 }

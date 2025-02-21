@@ -69,7 +69,7 @@ public class UsuarioBO {
 
         try {
             // Verificar si el usuario ya existe en la base de datos
-            if (usuarioDAO.autenticarUsuario(usuarioEntidad)) {
+            if (usuarioDAO.autenticarUsuario(usuarioEntidad) != null) {
                 throw new NegocioException("El nombre de usuario ya existe. Por favor, elige otro.");
             }
 
@@ -89,7 +89,7 @@ public class UsuarioBO {
      * @return Verdadero si las credenciales son correctas.
      * @throws NegocioException 
      */
-    public boolean autenticarUsuario(UsuarioNuevoDTO usuarioNuevo) throws NegocioException {
+    public Usuario autenticarUsuario(UsuarioNuevoDTO usuarioNuevo) throws NegocioException {
         if (usuarioNuevo == null) {
             throw new NegocioException("El usuario no puede ser nulo");
         }
@@ -107,7 +107,7 @@ public class UsuarioBO {
 
         try {
             // Intentar autenticar el usuario en la base de datos
-            boolean usuarioAutenticado = usuarioDAO.autenticarUsuario(usuario);
+            Usuario usuarioAutenticado = usuarioDAO.autenticarUsuario(usuario);
             return usuarioAutenticado;
         } catch (PersistenciaException ex) {
             // Registrar el error en los logs

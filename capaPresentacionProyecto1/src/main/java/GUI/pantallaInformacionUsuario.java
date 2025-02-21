@@ -11,7 +11,7 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
 
     private JDateChooser selectorFechas;
     private FramePrincipal framePrincipal;
-
+    pantallaInicioSesion pantalla = new pantallaInicioSesion(framePrincipal);
     public pantallaInformacionUsuario(FramePrincipal frame) {
         this.framePrincipal = frame;
         selectorFechas = new JDateChooser();
@@ -35,7 +35,7 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         txtNombre = new javax.swing.JLabel();
         txtApellidoP = new javax.swing.JLabel();
         txtApellidoM = new javax.swing.JLabel();
-        txtCelular = new javax.swing.JLabel();
+        txtFecha = new javax.swing.JLabel();
         txtCorreoElectronico = new javax.swing.JLabel();
         txtColonia = new javax.swing.JLabel();
         txtCalle = new javax.swing.JLabel();
@@ -54,6 +54,7 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         pnlBotonGuardar1 = new javax.swing.JPanel();
         btnGuardar1 = new javax.swing.JLabel();
         btnVolver = new javax.swing.JLabel();
+        txtFecha1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -66,7 +67,7 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         txtTituloPantalla.setFont(new java.awt.Font("Roboto", 1, 44)); // NOI18N
         txtTituloPantalla.setForeground(new java.awt.Color(0, 0, 0));
         txtTituloPantalla.setText("Registro Médico");
-        add(txtTituloPantalla, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, -1, -1));
+        add(txtTituloPantalla, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 110, -1, -1));
 
         txtCodigoPostal.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         txtCodigoPostal.setForeground(new java.awt.Color(0, 0, 0));
@@ -88,10 +89,10 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         txtApellidoM.setText("Apellido Materno (Opcional):");
         add(txtApellidoM, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 260, -1, -1));
 
-        txtCelular.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        txtCelular.setForeground(new java.awt.Color(0, 0, 0));
-        txtCelular.setText("Fecha de Nacimiento*:");
-        add(txtCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 260, -1, -1));
+        txtFecha.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        txtFecha.setForeground(new java.awt.Color(0, 0, 0));
+        txtFecha.setText("Celular*:");
+        add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 170, -1, -1));
 
         txtCorreoElectronico.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         txtCorreoElectronico.setForeground(new java.awt.Color(0, 0, 0));
@@ -222,6 +223,11 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
             }
         });
         add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        txtFecha1.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        txtFecha1.setForeground(new java.awt.Color(0, 0, 0));
+        txtFecha1.setText("Fecha de Nacimiento*:");
+        add(txtFecha1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 260, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRestablecerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRestablecerMouseClicked
@@ -235,6 +241,7 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
 
     private void btnVolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseClicked
         framePrincipal.cambiarPanel("pantallaPacientes");
+        System.out.println(framePrincipal.getUsuarioAutenticado());
     }//GEN-LAST:event_btnVolverMouseClicked
 
 
@@ -256,10 +263,11 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
     private javax.swing.JLabel txtApellidoM;
     private javax.swing.JLabel txtApellidoP;
     private javax.swing.JLabel txtCalle;
-    private javax.swing.JLabel txtCelular;
     private javax.swing.JLabel txtCodigoPostal;
     private javax.swing.JLabel txtColonia;
     private javax.swing.JLabel txtCorreoElectronico;
+    private javax.swing.JLabel txtFecha;
+    private javax.swing.JLabel txtFecha1;
     private javax.swing.JLabel txtNombre;
     private javax.swing.JLabel txtNumeroExt;
     private javax.swing.JLabel txtSubTitulo;

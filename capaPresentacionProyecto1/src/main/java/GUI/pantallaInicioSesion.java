@@ -3,6 +3,7 @@ package GUI;
 
 import BO.UsuarioBO;
 import DTO.UsuarioNuevoDTO;
+import Entidades.Usuario;
 import Exception.NegocioException;
 import configuracion.DependencyInjector;
 import javax.swing.JOptionPane;
@@ -17,7 +18,7 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
      * Creates new form pantallaInicioSesion
      */
     private FramePrincipal framePrincipal;
-
+    public Usuario usuarioGlobal;
     public pantallaInicioSesion(FramePrincipal frame) {
         this.framePrincipal = frame;
         initComponents();
@@ -206,8 +207,10 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRegistrateMouseClicked
 
     private void btnIniciarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIniciarSesionMouseClicked
-
-     if(autenticarUsuario() == true){
+         usuarioGlobal = autenticarUsuario();
+     if( usuarioGlobal != null){
+         framePrincipal.setUsuarioAutenticado(usuarioGlobal);
+         framePrincipal.cambiarPanel("pantallaPacientes");
          framePrincipal.cambiarPanel("pantallaPacientes");
      } ;
 
@@ -238,7 +241,7 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     //METODOS APOYO PARA INICIO DE SESION//
-    public boolean autenticarUsuario() {
+    public Usuario autenticarUsuario() {
 
         try {
             String nombreUsuario = inputUsuario.getText();
@@ -247,13 +250,14 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
 
             UsuarioNuevoDTO usuario = new UsuarioNuevoDTO(nombreUsuario, contraseña);
             
-            boolean exito = usuarioBO.autenticarUsuario(usuario);
+            Usuario usuarioGuardado = usuarioBO.autenticarUsuario(usuario);
             
-            if (exito){
+            if (usuarioGuardado != null ){
              JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso!");
-             return true;
+             return usuarioGuardado;
             } else{
              JOptionPane.showMessageDialog(this, "Contraseñas incorrectas.");
+             return null;
             }
             
             
@@ -261,7 +265,7 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
               // Manejo de excepciones específicas de la capa de negocio
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);   
         }
-       return false; 
+       return null;
     }
-
+    
 }

@@ -29,7 +29,7 @@ public interface IUsuarioDAO {
       * @return verdadero si las credenciales son validas
       * @throws PersistenciaException si algo falla.
       */
-     public boolean autenticarUsuario(Usuario usuario)throws PersistenciaException;
+     public Usuario autenticarUsuario(Usuario usuario)throws PersistenciaException;
      /**
       * Consulta el id de un usuario.
       * @param usuario

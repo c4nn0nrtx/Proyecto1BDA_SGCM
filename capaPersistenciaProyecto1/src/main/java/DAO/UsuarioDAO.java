@@ -145,8 +145,8 @@ public class UsuarioDAO implements IUsuarioDAO {
      * @throws PersistenciaException
      */
     @Override
-    public boolean autenticarUsuario(Usuario usuario) throws PersistenciaException {
-        String sql = "SELECT contrasenha FROM usuarios WHERE nombreUsuario = ?";
+    public Usuario autenticarUsuario(Usuario usuario) throws PersistenciaException {
+        String sql = "SELECT idUsuario, contrasenha FROM usuarios WHERE nombreUsuario = ?";
 
         try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -154,18 +154,19 @@ public class UsuarioDAO implements IUsuarioDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     String hashedPassword = rs.getString("contrasenha");
-
+                    int idUsuario  = rs.getInt("idUsuario");
+                    usuario.setIdUsuario(idUsuario);
                     // Verificar si la contraseña ingresada coincide con la almacenada
                     if (BCrypt.checkpw(usuario.getContrasenha(), hashedPassword)) {
                         logger.info("Autenticación exitosa para usuario: " + usuario.getNombreUsuario());
-                        return true;
+                        return usuario;
                     } else {
                         logger.warning("Contraseña incorrecta para usuario: " + usuario.getNombreUsuario());
-                        return false;
+                        return null;
                     }
                 } else {
                     logger.warning("Usuario no encontrado: " + usuario.getNombreUsuario());
-                    return false;
+                    return null;
                 }
             }
         } catch (SQLException e) {

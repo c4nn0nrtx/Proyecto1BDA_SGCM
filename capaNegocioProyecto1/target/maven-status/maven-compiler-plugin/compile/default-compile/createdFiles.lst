@@ -1,12 +1,13 @@
 BO\CitaBO.class
 DTO\UsuarioNuevoDTO.class
-Exception\NegocioException.class
 configuracion\DependencyInjector.class
+DTO\CitaNuevoDTO.class
+BO\ConsultaBO.class
+BO\PacienteBO.class
+Exception\NegocioException.class
 BO\UsuarioBO.class
 BO\Direccion_PacienteBO.class
 Mapper\Mapper.class
 BO\MedicoBO.class
-BO\ConsultaBO.class
 DTO\PacienteNuevoDTO.class
-BO\PacienteBO.class
 DTO\Direccion_PacienteNuevaDTO.class
