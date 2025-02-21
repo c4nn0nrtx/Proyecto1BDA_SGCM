@@ -26,7 +26,7 @@ public class PacienteDAO implements IPacienteDAO{
     public PacienteDAO(IConexionBD conexion) {
         this.conexionBD = conexion;
     }
-    
+    /*
     private static final Logger logger = Logger.getLogger(MedicoDAO.class.getName());
     
     @Override
@@ -130,5 +130,5 @@ public class PacienteDAO implements IPacienteDAO{
         }
     }
     
-    
+    */
 }

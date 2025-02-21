@@ -13,10 +13,10 @@ import Exception.PersistenciaException;
  */
 public interface IPacienteDAO {
     
-    public Paciente agregarPaciente(Paciente paciente) throws PersistenciaException;
+    //public Paciente agregarPaciente(Paciente paciente) throws PersistenciaException;
     
-    public Paciente consultarPacientePorId(int id) throws PersistenciaException;
+    //public Paciente consultarPacientePorId(int id) throws PersistenciaException;
     
-    public Paciente actualizarPaciente(Paciente paciente) throws PersistenciaException;
+    //public Paciente actualizarPaciente(Paciente paciente) throws PersistenciaException;
     
 }

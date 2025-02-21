@@ -30,7 +30,7 @@ import java.util.logging.Logger;
  * @author brand
  */
 public class PacienteBO {
-
+    
     private static final Logger logger = Logger.getLogger(PacienteBO.class.getName());
 
     private final IUsuarioDAO usuarioDAO;
@@ -45,7 +45,7 @@ public class PacienteBO {
         this.direccionDAO = new Direccion_PacienteDAO(conexion);
         this.conexionBD = conexion;
     }
-
+    /*
     public boolean agregarUsuario(UsuarioNuevoDTO usuarioNuevo, PacienteNuevoDTO pacienteNuevo, Direccion_PacienteNuevaDTO direccionNueva) throws NegocioException, PersistenciaException, SQLException {
 
         if (usuarioNuevo == null) {
@@ -100,4 +100,5 @@ public class PacienteBO {
         }
         return false;
     }
+    */
 }
