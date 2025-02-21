@@ -30,7 +30,7 @@ import java.util.logging.Logger;
  * @author brand
  */
 public class PacienteBO {
-
+    
     private static final Logger logger = Logger.getLogger(PacienteBO.class.getName());
 
     private final IUsuarioDAO usuarioDAO;

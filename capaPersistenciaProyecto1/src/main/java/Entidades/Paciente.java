@@ -116,6 +116,7 @@ public class Paciente {
     public String toString() {
         return "Paciente{" + "usuario=" + usuario + ", direccion=" + direccion + ", nombre=" + nombre + ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", correo=" + correo + ", fechaNacimiento=" + fechaNacimiento + ", telefono=" + telefono + '}';
     }
+
     
-    
+
 }
