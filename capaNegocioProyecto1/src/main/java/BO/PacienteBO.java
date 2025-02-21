@@ -34,14 +34,18 @@ public class PacienteBO {
     private static final Logger logger = Logger.getLogger(PacienteBO.class.getName());
 
     private final IUsuarioDAO usuarioDAO;
+    private final IPacienteDAO pacienteDAO;
+    private final IDireccion_PacienteDAO direccionDAO;
     private final IConexionBD conexionBD;
     Mapper mapper = new Mapper();
 
     public PacienteBO(IConexionBD conexion) {
         this.usuarioDAO = new UsuarioDAO(conexion);
+        this.pacienteDAO = new PacienteDAO(conexion);
+        this.direccionDAO = new Direccion_PacienteDAO(conexion);
         this.conexionBD = conexion;
     }
-    /*
+
     public boolean agregarUsuario(UsuarioNuevoDTO usuarioNuevo, PacienteNuevoDTO pacienteNuevo, Direccion_PacienteNuevaDTO direccionNueva) throws NegocioException, PersistenciaException, SQLException {
 
         if (usuarioNuevo == null) {
@@ -96,6 +100,4 @@ public class PacienteBO {
         }
         return false;
     }
-    */
 }
-

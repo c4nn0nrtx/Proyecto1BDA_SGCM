@@ -20,9 +20,7 @@ import java.util.logging.Logger;
  * Esta clase sirve para ingresar los datos de 
  * @author Ramon
  */
-
 public class PacienteDAO implements IPacienteDAO{
-/*
     private IConexionBD conexionBD;
 
     public PacienteDAO(IConexionBD conexion) {
@@ -130,7 +128,7 @@ public class PacienteDAO implements IPacienteDAO{
             Logger.getLogger(PacienteDAO.class.getName()).log(Level.SEVERE, "ERROR: no se pudo actualizar el activista");
             throw new PersistenciaException("ERROR: Hubo un problema con la base de datos y no se pudieron actualizar los datos");
         }
-    }*/
+    }
     
     
 }

@@ -24,6 +24,6 @@ public interface IUsuarioDAO {
      
      public int consultarIdUsuario (Usuario usuario) throws PersistenciaException;
      
-     public boolean agregarUsuarioPaciente(Paciente paciente)throws PersistenciaException;
+     public boolean agregarUsuarioPaciente(Usuario usuario, Direccion_Paciente direccion, Paciente paciente)throws PersistenciaException;
 
 }
