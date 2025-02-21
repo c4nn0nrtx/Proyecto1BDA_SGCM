@@ -13,8 +13,8 @@ import java.time.LocalDate;
  */
 public class Paciente {
 
-    private int idPaciente;
-    private int idDireccion;
+    private Usuario usuario;
+    private Direccion_Paciente direccion;
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
@@ -28,21 +28,9 @@ public class Paciente {
     public Paciente() {
     }
 
-    /**
-     * Constructor con todos los atributos
-     *
-     * @param idPaciente
-     * @param idDireccion
-     * @param nombre
-     * @param apellidoPaterno
-     * @param apellidoMaterno
-     * @param correo
-     * @param fechaNacimiento
-     * @param telefono
-     */
-    public Paciente(int idPaciente, int idDireccion, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, LocalDate fechaNacimiento, String telefono) {
-        this.idPaciente = idPaciente;
-        this.idDireccion = idDireccion;
+    public Paciente(Usuario usuario, Direccion_Paciente direccion, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, LocalDate fechaNacimiento, String telefono) {
+        this.usuario = usuario;
+        this.direccion = direccion;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -51,37 +39,6 @@ public class Paciente {
         this.telefono = telefono;
     }
 
-    /**
-     * Constructor sin idMedico
-     *
-     * @param idDireccion
-     * @param nombre
-     * @param apellidoPaterno
-     * @param apellidoMaterno
-     * @param correo
-     * @param fechaNacimiento
-     * @param telefono
-     */
-    public Paciente(int idDireccion, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, LocalDate fechaNacimiento, String telefono) {
-        this.idDireccion = idDireccion;
-        this.nombre = nombre;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
-        this.correo = correo;
-        this.fechaNacimiento = fechaNacimiento;
-        this.telefono = telefono;
-    }
-
-    /**
-     * Constructor sin ids
-     *
-     * @param nombre
-     * @param apellidoPaterno
-     * @param apellidoMaterno
-     * @param correo
-     * @param fechaNacimiento
-     * @param telefono
-     */
     public Paciente(String nombre, String apellidoPaterno, String apellidoMaterno, String correo, LocalDate fechaNacimiento, String telefono) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -91,141 +48,74 @@ public class Paciente {
         this.telefono = telefono;
     }
 
-    /**
-     *
-     * @return
-     */
-    public int getIdPaciente() {
-        return idPaciente;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    /**
-     *
-     * @param idPaciente
-     */
-    public void setIdPaciente(int idPaciente) {
-        this.idPaciente = idPaciente;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    /**
-     *
-     * @return
-     */
-    public int getIdDireccion() {
-        return idDireccion;
+    public Direccion_Paciente getDireccion() {
+        return direccion;
     }
 
-    /**
-     *
-     * @param idDireccion
-     */
-    public void setIdDireccion(int idDireccion) {
-        this.idDireccion = idDireccion;
+    public void setDireccion(Direccion_Paciente direccion) {
+        this.direccion = direccion;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getNombre() {
         return nombre;
     }
 
-    /**
-     *
-     * @param nombre
-     */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getApellidoPaterno() {
         return apellidoPaterno;
     }
 
-    /**
-     *
-     * @param apellidoPaterno
-     */
     public void setApellidoPaterno(String apellidoPaterno) {
         this.apellidoPaterno = apellidoPaterno;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getApellidoMaterno() {
         return apellidoMaterno;
     }
 
-    /**
-     *
-     * @param apellidoMaterno
-     */
     public void setApellidoMaterno(String apellidoMaterno) {
         this.apellidoMaterno = apellidoMaterno;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getCorreo() {
         return correo;
     }
 
-    /**
-     *
-     * @param correo
-     */
     public void setCorreo(String correo) {
         this.correo = correo;
     }
 
-    /**
-     *
-     * @return
-     */
     public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    /**
-     *
-     * @param fechaNacimiento
-     */
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getTelefono() {
         return telefono;
     }
 
-    /**
-     *
-     * @param telefono
-     */
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
-        return "Paciente{" + "idPaciente=" + idPaciente + ", idDireccion=" + idDireccion + ", nombre=" + nombre + ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", correo=" + correo + ", fechaNacimiento=" + fechaNacimiento + ", telefono=" + telefono + '}';
+        return "Paciente{" + "usuario=" + usuario + ", direccion=" + direccion + ", nombre=" + nombre + ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", correo=" + correo + ", fechaNacimiento=" + fechaNacimiento + ", telefono=" + telefono + '}';
     }
-
+    
+    
 }
