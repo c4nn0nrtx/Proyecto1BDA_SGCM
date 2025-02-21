@@ -66,8 +66,8 @@ public class UsuarioBO {
             }
 
             // Intentar guardar el usuario, paciente y dirección en la base de datos
-            Usuario usuarioGuardado = usuarioDAO.agregarUsuario(usuarioEntidad);
-            return usuarioGuardado;
+            
+            return usuarioEntidad;
         } catch (PersistenciaException ex) {
             // Registrar el error en los logs
             logger.log(Level.SEVERE, "Error al guardar usuario en la BD", ex);

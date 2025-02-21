@@ -30,39 +30,57 @@ import java.util.logging.Logger;
  * @author brand
  */
 public class PacienteBO {
-    
+
     private static final Logger logger = Logger.getLogger(PacienteBO.class.getName());
 
+    private final IUsuarioDAO usuarioDAO;
+    private final IDireccion_PacienteDAO direccionDAO;
     private final IPacienteDAO pacienteDAO;
     private final IConexionBD conexionBD;
     Mapper mapper = new Mapper();
 
     public PacienteBO(IConexionBD conexion) {
+        this.usuarioDAO = new UsuarioDAO(conexion);
         this.pacienteDAO = new PacienteDAO(conexion);
+        this.direccionDAO = new Direccion_PacienteDAO(conexion);
         this.conexionBD = conexion;
     }
-    
-    public Paciente agregarPaciente(PacienteNuevoDTO pacienteNuevo) throws NegocioException, SQLException{
+
+    public Paciente agregarPaciente(PacienteNuevoDTO pacienteNuevo) throws NegocioException, SQLException, PersistenciaException {
         if (pacienteNuevo == null) {
             throw new NegocioException("El paciente no puede ser nulo.");
         }
-       
-        
-        Paciente pacienteEntidad  = mapper.DTOPacienteToEntity(pacienteNuevo);
-        try (Connection con = this.conexionBD.crearConexion()) {
 
+        Paciente pacienteEntidad = mapper.DTOPacienteToEntity(pacienteNuevo);
+        Connection con = this.conexionBD.crearConexion();
+        try  {
+            con.setAutoCommit(false);
+
+            Usuario usuario = usuarioDAO.agregarUsuario(pacienteNuevo.getUsuario());
+            Direccion_Paciente direccion = direccionDAO.agregarDireccion(pacienteNuevo.getDireccion());
             Paciente pacienteGuardado = pacienteDAO.agregarPaciente(pacienteEntidad);
-            
-            return pacienteGuardado ;
+
+            con.commit();
+            return pacienteGuardado;
         } catch (PersistenciaException ex) {
             logger.log(Level.SEVERE, "Error, No se pudo agregar al paciente. Intenta de nuevo.", ex);
-            
+
+        } catch (SQLException e) {
+            if (con != null) {
+                con.rollback(); 
+            }
+            throw e;
+        } finally {
+            if (con != null) {
+                con.setAutoCommit(true);
+                con.close();
+            }
         }
         return null;
     }
-    }
-    
-    /*
+}
+
+/*
     public boolean agregarUsuario(UsuarioNuevoDTO usuarioNuevo, PacienteNuevoDTO pacienteNuevo, Direccion_PacienteNuevaDTO direccionNueva) throws NegocioException, PersistenciaException, SQLException {
 
         if (usuarioNuevo == null) {
@@ -117,6 +135,4 @@ public class PacienteBO {
         }
         return false;
     }
-    */
-
-
+ */

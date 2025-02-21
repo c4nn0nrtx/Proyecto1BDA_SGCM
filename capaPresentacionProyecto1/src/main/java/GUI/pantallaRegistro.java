@@ -7,6 +7,7 @@ package GUI;
 import BO.Direccion_PacienteBO;
 import BO.PacienteBO;
 import BO.UsuarioBO;
+import Conexion.ConexionBD;
 import DTO.Direccion_PacienteNuevaDTO;
 import DTO.PacienteNuevoDTO;
 import DTO.UsuarioNuevoDTO;
@@ -17,6 +18,7 @@ import Exception.NegocioException;
 import com.toedter.calendar.JDateChooser;
 import configuracion.DependencyInjector;
 import java.awt.Image;
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.logging.Level;
@@ -325,7 +327,10 @@ public class pantallaRegistro extends javax.swing.JPanel {
 
     /*METODOS NECESARIOS PARA LA CREACION DE USUARIOS Y PACIENTES*/
     public void agregarUsuario() {
+        Connection conn = null;
+        
         try {
+            
             LocalDate fechaLocal = LocalDate.now();
             String nombreUsuario = inputUsuario.getText();
             String contrasenha = inputContraseña.getText();
@@ -346,7 +351,7 @@ public class pantallaRegistro extends javax.swing.JPanel {
             String colonia = inputColonia.getText();
             int cp = Integer.parseInt(inputCodigoPostal.getText());
             String numeroExt = inputNumExt.getText();
-
+            
             UsuarioNuevoDTO usuario = new UsuarioNuevoDTO(nombreUsuario, contrasenha);
             Direccion_PacienteNuevaDTO direccion = new Direccion_PacienteNuevaDTO(calle, colonia, cp, numeroExt);
 

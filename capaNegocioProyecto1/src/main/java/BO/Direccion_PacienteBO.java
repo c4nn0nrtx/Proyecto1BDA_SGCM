@@ -42,16 +42,7 @@ public class Direccion_PacienteBO {
 
         Direccion_Paciente direccionEntidad = mapper.DTODireccion_PacienteToEntity(direccionNueva);
 
-        try {
-            Direccion_Paciente direccionGuardada = direccionPacienteDAO.agregarDireccion(direccionEntidad);
-            if (direccionGuardada == null) {
-                throw new NegocioException("No se pudo registrar la dirección en la base de datos.");
-            }
-            return direccionGuardada;
-        } catch (PersistenciaException ex) {
-            logger.log(Level.SEVERE, "Error al registrar la dirección.", ex);
-            throw new NegocioException("Ocurrió un error al guardar la dirección. Inténtalo de nuevo.");
-        }
+        return direccionEntidad;
     }
 
 }
