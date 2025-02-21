@@ -9,8 +9,6 @@ import BO.UsuarioBO;
 import DTO.Direccion_PacienteNuevaDTO;
 import DTO.PacienteNuevoDTO;
 import DTO.UsuarioNuevoDTO;
-import Entidades.Direccion_Paciente;
-import Entidades.Usuario;
 import Exception.NegocioException;
 import com.toedter.calendar.JDateChooser;
 import configuracion.DependencyInjector;
@@ -344,28 +342,11 @@ public class pantallaRegistro extends javax.swing.JPanel {
             int cp = Integer.parseInt(inputCodigoPostal.getText());
             String numeroExt = inputNumExt.getText();
 
-<<<<<<< Updated upstream
             UsuarioNuevoDTO usuario = new UsuarioNuevoDTO(nombreUsuario, contrasenha);
             PacienteNuevoDTO paciente = new PacienteNuevoDTO(nombre, ApellidoP, ApellidoM, Correo, fechaLocal, Telefono);
             Direccion_PacienteNuevaDTO direccion = new Direccion_PacienteNuevaDTO(calle, colonia, cp, numeroExt);
-=======
-            Usuario usuario = new Usuario(nombreUsuario, contrasenha);
-            Direccion_Paciente direccion = new Direccion_Paciente(calle, colonia, cp, numeroExt);
-            PacienteNuevoDTO paciente = new PacienteNuevoDTO(usuario, direccion, nombre, ApellidoP, ApellidoM, Correo, fechaLocal, Telefono);
-            
-            
-            if (!validarCorreo(Correo)) {
-                JOptionPane.showMessageDialog(null, "Ingrese un correo que sea valido", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            if (!validarTelefono(Telefono)) {
-                JOptionPane.showMessageDialog(null, "Ingrese un telefono que sea valido y que tenga 10 digitos", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            if (!validarCodigoPostal(cp)) {
-                JOptionPane.showMessageDialog(null, "Ingrese un codigo postal de 5 digitos", "Error", JOptionPane.ERROR_MESSAGE);
-            }
->>>>>>> Stashed changes
 
-            boolean exito = usuarioBO.agregarUsuario(paciente);
+            boolean exito = usuarioBO.agregarUsuario(usuario, paciente, direccion);
             // Verificar si la operación fue exitosa
             if (exito) {
                 JOptionPane.showMessageDialog(this, "Usuario agregado correctamente");

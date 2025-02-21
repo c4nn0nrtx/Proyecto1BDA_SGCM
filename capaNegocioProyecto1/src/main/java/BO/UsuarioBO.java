@@ -30,7 +30,6 @@ public class UsuarioBO {
         this.usuarioDAO = new UsuarioDAO(conexion);
     }
 
-<<<<<<< Updated upstream
     public boolean agregarUsuario(UsuarioNuevoDTO usuarioNuevo, PacienteNuevoDTO pacienteNuevo, Direccion_PacienteNuevaDTO direccionNuevo) throws NegocioException {
         if (usuarioNuevo == null || pacienteNuevo == null || direccionNuevo == null) {
             throw new NegocioException("Los datos del usuario, paciente y dirección no pueden ser nulos.");
@@ -75,29 +74,6 @@ public class UsuarioBO {
             // Verificar si el usuario ya existe en la base de datos
             if (usuarioDAO.autenticarUsuario(usuario)) {
                 throw new NegocioException("El nombre de usuario ya existe. Por favor, elige otro.");
-=======
-    public boolean agregarUsuario(PacienteNuevoDTO pacienteNuevo) throws NegocioException {
-        if (pacienteNuevo.getUsuario() == null) {
-            throw new NegocioException("El usuario no puede ser nulo.");
-        }
-
-        // Validaciones básicas: verificar que los campos obligatorios no estén vacíos
-        if (pacienteNuevo.getUsuario().getNombreUsuario().isEmpty() || pacienteNuevo.getUsuario().getContrasenha().isEmpty()) {
-            throw new NegocioException("Todos los campos son obligatorios.");
-        }
-        Paciente paciente = mapper.DTOPacienteToEntity(pacienteNuevo);
-
-        try {
-            // Intentar guardar el activista en la base de datos
-
-           boolean usuarioGuardado2 = usuarioDAO.agregarUsuarioPaciente(paciente);
-
-            // Si el activista fue guardado con éxito, devuelve true, si no, devuelve false
-            if (usuarioGuardado2 == true){
-                return true;
-            } else {
-                return false;
->>>>>>> Stashed changes
             }
 
             // Intentar guardar el usuario, paciente y dirección en la base de datos
@@ -106,13 +82,7 @@ public class UsuarioBO {
         } catch (PersistenciaException ex) {
             // Registrar el error en los logs
             logger.log(Level.SEVERE, "Error al guardar usuario en la BD", ex);
-<<<<<<< Updated upstream
             throw new NegocioException("Hubo un error al guardar el usuario, paciente o dirección.", ex);
-=======
-
-            // Lanzar una excepción de negocio con un mensaje más amigable
-            throw new NegocioException("Hubo un error al guardar el paciente.", ex);
->>>>>>> Stashed changes
         }
     }
 
