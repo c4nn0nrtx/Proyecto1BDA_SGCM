@@ -33,14 +33,35 @@ public class PacienteBO {
     
     private static final Logger logger = Logger.getLogger(PacienteBO.class.getName());
 
-    private final IUsuarioDAO usuarioDAO;
+    private final IPacienteDAO pacienteDAO;
     private final IConexionBD conexionBD;
     Mapper mapper = new Mapper();
 
     public PacienteBO(IConexionBD conexion) {
-        this.usuarioDAO = new UsuarioDAO(conexion);
+        this.pacienteDAO = new PacienteDAO(conexion);
         this.conexionBD = conexion;
     }
+    
+    public Paciente agregarPaciente(PacienteNuevoDTO pacienteNuevo) throws NegocioException, SQLException{
+        if (pacienteNuevo == null) {
+            throw new NegocioException("El paciente no puede ser nulo.");
+        }
+       
+        
+        Paciente pacienteEntidad  = mapper.DTOPacienteToEntity(pacienteNuevo);
+        try (Connection con = this.conexionBD.crearConexion()) {
+
+            Paciente pacienteGuardado = pacienteDAO.agregarPaciente(pacienteEntidad);
+            
+            return pacienteGuardado ;
+        } catch (PersistenciaException ex) {
+            logger.log(Level.SEVERE, "Error, No se pudo agregar al paciente. Intenta de nuevo.", ex);
+            
+        }
+        return null;
+    }
+    }
+    
     /*
     public boolean agregarUsuario(UsuarioNuevoDTO usuarioNuevo, PacienteNuevoDTO pacienteNuevo, Direccion_PacienteNuevaDTO direccionNueva) throws NegocioException, PersistenciaException, SQLException {
 
@@ -97,5 +118,5 @@ public class PacienteBO {
         return false;
     }
     */
-}
+
 

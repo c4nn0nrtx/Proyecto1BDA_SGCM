@@ -4,12 +4,14 @@
  */
 package GUI;
 
+import BO.Direccion_PacienteBO;
 import BO.PacienteBO;
 import BO.UsuarioBO;
 import DTO.Direccion_PacienteNuevaDTO;
 import DTO.PacienteNuevoDTO;
 import DTO.UsuarioNuevoDTO;
 import Entidades.Direccion_Paciente;
+import Entidades.Paciente;
 import Entidades.Usuario;
 import Exception.NegocioException;
 import com.toedter.calendar.JDateChooser;
@@ -29,6 +31,8 @@ import javax.swing.JOptionPane;
 public class pantallaRegistro extends javax.swing.JPanel {
 
     private UsuarioBO usuarioBO = DependencyInjector.crearUsuarioBO();
+    private PacienteBO pacienteBO = DependencyInjector.crearPacienteBO();
+    private Direccion_PacienteBO direccionBO = DependencyInjector.crearDireccionBO();
     private JDateChooser selectorFechas;
     /**
      * Creates new form pantallaRegistro
@@ -279,7 +283,6 @@ public class pantallaRegistro extends javax.swing.JPanel {
 
         if (validarCampos() == true) {
             agregarUsuario();
-            limpiarCampos();
         } else {
 
         }
@@ -344,20 +347,31 @@ public class pantallaRegistro extends javax.swing.JPanel {
             int cp = Integer.parseInt(inputCodigoPostal.getText());
             String numeroExt = inputNumExt.getText();
 
-            Usuario usuario = new Usuario(nombreUsuario, contrasenha);
-            Direccion_Paciente direccion = new Direccion_Paciente(calle, colonia, cp, numeroExt);
-            PacienteNuevoDTO paciente = new PacienteNuevoDTO(usuario, direccion, nombre, ApellidoP, ApellidoM, Correo, fechaLocal, Telefono);
-            
+            UsuarioNuevoDTO usuario = new UsuarioNuevoDTO(nombreUsuario, contrasenha);
+            Direccion_PacienteNuevaDTO direccion = new Direccion_PacienteNuevaDTO(calle, colonia, cp, numeroExt);
 
-            boolean exito = usuarioBO.agregarUsuario(paciente);
+            Usuario usuarioExito = usuarioBO.agregarUsuario(usuario);
+            Direccion_Paciente direccionExito = direccionBO.agregarDireccionPaciente(direccion);
+            
+              System.out.println(direccionExito.getIdDireccion());
+              JOptionPane.showMessageDialog(this, "Error: " + direccionExito.getIdDireccion(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+            
+            PacienteNuevoDTO paciente = new PacienteNuevoDTO(usuarioExito, direccionExito, nombre, ApellidoP, ApellidoM, Correo, fechaLocal, Telefono);
+            Paciente pacienteExito = pacienteBO.agregarPaciente(paciente);
+            
+            
+          
+            
             // Verificar si la operación fue exitosa
-            if (exito) {
+            if (pacienteExito != null || usuarioExito !=  null || direccionExito != null) {
                 JOptionPane.showMessageDialog(this, "Usuario agregado correctamente");
                 limpiarCampos();
 
             } else {
                 JOptionPane.showMessageDialog(this, "Error al agregar usuario");
             }
+            
+            
 
         } catch (NegocioException ex) {
             // Manejo de excepciones específicas de la capa de negocio

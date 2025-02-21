@@ -22,25 +22,26 @@ import java.util.logging.Logger;
  */
 
 public class PacienteDAO implements IPacienteDAO{
-/*
+
     private IConexionBD conexionBD;
 
     public PacienteDAO(IConexionBD conexion) {
         this.conexionBD = conexion;
     }
-    /*
+    
     private static final Logger logger = Logger.getLogger(MedicoDAO.class.getName());
     
+    //Util para caso de uso.
     @Override
     public Paciente agregarPaciente(Paciente paciente) throws PersistenciaException{
         String consultaSQL = "INSERT INTO PACIENTES (idPaciente, idDireccion, nombre, apellidoPat, apellidoMat, correo, fechaNac, telefono) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
         try(Connection con = this.conexionBD.crearConexion(); 
-                PreparedStatement ps = con.prepareStatement(consultaSQL, Statement.RETURN_GENERATED_KEYS)){
+                PreparedStatement ps = con.prepareStatement(consultaSQL)){
             
-            ps.setInt(1, paciente.getIdPaciente());
-            ps.setInt(2, paciente.getIdDireccion());
+            ps.setInt(1, paciente.getUsuario().getIdUsuario());
+            ps.setInt(2, paciente.getDireccion().getIdDireccion());
             ps.setString(3, paciente.getNombre());
             ps.setString(4, paciente.getApellidoPaterno());
             ps.setString(5, paciente.getApellidoMaterno());
@@ -52,21 +53,13 @@ public class PacienteDAO implements IPacienteDAO{
             if (filasAfectadas == 0) {
                 logger.severe("ERROR: Hubo un fallo al agregar al paciente, no se inserto niguna fila.");
             }
-            
-            try (ResultSet generatedKeys = ps.getGeneratedKeys()){
-                if (generatedKeys.next()) {
-                    paciente.setIdPaciente(generatedKeys.getInt(1));
-                    logger.info("Paciente agregado exitosamente");
-                } else {
-                    logger.severe("ERROR: La agregacion del paciente fallo, no se pudo obtener el id.");
-                }
-            }
+           
         } catch (SQLException ex) {
             Logger.getLogger(Direccion_PacienteDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return paciente;
     }
-    
+    /*
     @Override
     public Paciente consultarPacientePorId(int id) throws PersistenciaException{
         Paciente paciente = null;
@@ -131,5 +124,15 @@ public class PacienteDAO implements IPacienteDAO{
             throw new PersistenciaException("ERROR: Hubo un problema con la base de datos y no se pudieron actualizar los datos");
         }
     }*/
+
+    @Override
+    public Paciente consultarPacientePorId(int id) throws PersistenciaException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Paciente actualizarPaciente(Paciente paciente) throws PersistenciaException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }

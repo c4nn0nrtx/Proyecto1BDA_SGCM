@@ -30,50 +30,43 @@ public class UsuarioBO {
         this.usuarioDAO = new UsuarioDAO(conexion);
     }
 
-    public boolean agregarUsuario(PacienteNuevoDTO pacienteNuevo) throws NegocioException {
-        if (pacienteNuevo == null) {
+    public Usuario agregarUsuario(UsuarioNuevoDTO usuario) throws NegocioException {
+        if (usuario == null) {
             throw new NegocioException("Los datos del usuario, paciente y dirección no pueden ser nulos.");
         }
 
         // verificar que los campos obligatorios no estén vacíos
-        if (pacienteNuevo.getUsuario().getNombreUsuario().isEmpty() || pacienteNuevo.getUsuario().getContrasenha().isEmpty()) {
+        if (usuario.getUsuario().isEmpty() || usuario.getContrasenha().isEmpty()) {
             throw new NegocioException("Todos los campos son obligatorios.");
         }
 
         // Validar longitud de usuario y contraseña
-        if (pacienteNuevo.getUsuario().getNombreUsuario().length() < 3 || pacienteNuevo.getUsuario().getNombreUsuario().length() > 20) {
+        if (usuario.getUsuario().length() < 3 || usuario.getUsuario().length() > 20) {
             throw new NegocioException("El nombre de usuario debe tener entre 3 y 20 caracteres.");
         }
 
-        if (pacienteNuevo.getUsuario().getContrasenha().length() < 8 || pacienteNuevo.getUsuario().getContrasenha().length() > 50) {
+        if (usuario.getContrasenha().length() < 8 || usuario.getContrasenha().length() > 50) {
             throw new NegocioException("La contraseña debe tener entre 8 y 50 caracteres.");
         }
 
         // Validar que la contraseña contenga al menos una letra y un número
-        if (!pacienteNuevo.getUsuario().getContrasenha().matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")) {
+        if (!usuario.getContrasenha().matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")) {
             throw new NegocioException("La contraseña debe contener al menos una letra y un número.");
         }
-
-        // Validar caracteres permitidos en el usuario
-        if (!pacienteNuevo.getUsuario().getNombreUsuario().matches("^[a-zA-Z0-9._-]{3,}$")) {
-            throw new NegocioException("El nombre de usuario solo puede contener letras, números, puntos, guiones y guiones bajos.");
-        }
-
-        Paciente paciente;
-        try {
-            paciente = mapper.DTOPacienteToEntity(pacienteNuevo);
-        } catch (Exception e) {
-            throw new NegocioException("Error al mapear los datos del usuario, paciente o dirección.", e);
-        }
+    
+      
+            Usuario usuarioEntidad = mapper.DTOUsuarioToEntity(usuario);
+        
+        
 
         try {
             // Verificar si el usuario ya existe en la base de datos
-            if (usuarioDAO.autenticarUsuario(paciente.getUsuario())) {
+            if (usuarioDAO.autenticarUsuario(usuarioEntidad)) {
                 throw new NegocioException("El nombre de usuario ya existe. Por favor, elige otro.");
             }
 
             // Intentar guardar el usuario, paciente y dirección en la base de datos
-            boolean usuarioGuardado = usuarioDAO.agregarUsuarioPaciente(paciente);
+            Usuario usuarioGuardado = usuarioDAO.agregarUsuario(usuarioEntidad);
             return usuarioGuardado;
         } catch (PersistenciaException ex) {
             // Registrar el error en los logs

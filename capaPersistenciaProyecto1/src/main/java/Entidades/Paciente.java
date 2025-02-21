@@ -12,7 +12,6 @@ import java.time.LocalDate;
  * @author Ramon Valencia
  */
 public class Paciente {
-
     private Usuario usuario;
     private Direccion_Paciente direccion;
     private String nombre;
@@ -27,7 +26,7 @@ public class Paciente {
      */
     public Paciente() {
     }
-
+    
     public Paciente(Usuario usuario, Direccion_Paciente direccion, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, LocalDate fechaNacimiento, String telefono) {
         this.usuario = usuario;
         this.direccion = direccion;
