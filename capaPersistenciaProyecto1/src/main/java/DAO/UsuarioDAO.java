@@ -181,11 +181,14 @@ public class UsuarioDAO implements IUsuarioDAO {
     }
     
     @Override
-    public boolean agregarUsuarioPaciente(Usuario usuario, Direccion_Paciente direccion, Paciente paciente) throws PersistenciaException {
+    public boolean agregarUsuarioPaciente(Paciente paciente) throws PersistenciaException {
         String insertUsuarioSQL = "INSERT INTO USUARIOS (nombreUsuario, contrasenha) VALUES (?, ?)";
         String insertDireccionSQL = "INSERT INTO DIRECCIONES_PACIENTES (calle, colonia, cp, numero) VALUES (?, ?, ?, ?)";
         String insertPacienteSQL = "INSERT INTO PACIENTES (idPaciente, idDireccion, nombre, apellidoPat, apellidoMat, correo, fechaNac, telefono) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
+        
+        Usuario usuario = paciente.getUsuario();
+        Direccion_Paciente direccion = paciente.getDireccion();
+        
         try (Connection conn = this.conexionBD.crearConexion()) {
             conn.setAutoCommit(false); // Inicia la transacción
 
@@ -200,7 +203,6 @@ public class UsuarioDAO implements IUsuarioDAO {
                 try (ResultSet rsUsuario = psUsuario.getGeneratedKeys()) {
                     if (rsUsuario.next()) {
                         usuario.setIdUsuario(rsUsuario.getInt(1));
-                        paciente.setIdPaciente(usuario.getIdUsuario());
                     } else {
                         throw new SQLException("Error: No se pudo obtener el ID del usuario.");
                     }
@@ -220,7 +222,6 @@ public class UsuarioDAO implements IUsuarioDAO {
                 try (ResultSet rsDireccion = psDireccion.getGeneratedKeys()) {
                     if (rsDireccion.next()) {
                         direccion.setIdDireccion(rsDireccion.getInt(1));
-                        paciente.setIdDireccion(direccion.getIdDireccion());
                     } else {
                         throw new SQLException("Error: No se pudo obtener el ID de la dirección.");
                     }
@@ -229,8 +230,8 @@ public class UsuarioDAO implements IUsuarioDAO {
 
             // Insertar el paciente
             try (PreparedStatement psPaciente = conn.prepareStatement(insertPacienteSQL)) {
-                psPaciente.setInt(1, paciente.getIdPaciente());
-                psPaciente.setInt(2, paciente.getIdDireccion());
+                psPaciente.setInt(1, usuario.getIdUsuario());
+                psPaciente.setInt(2, direccion.getIdDireccion());
                 psPaciente.setString(3, paciente.getNombre());
                 psPaciente.setString(4, paciente.getApellidoPaterno());
                 psPaciente.setString(5, paciente.getApellidoMaterno());
