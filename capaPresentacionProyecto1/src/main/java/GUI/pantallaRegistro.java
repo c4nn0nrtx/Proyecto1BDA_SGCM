@@ -352,26 +352,18 @@ public class pantallaRegistro extends javax.swing.JPanel {
 
             Usuario usuarioExito = usuarioBO.agregarUsuario(usuario);
             Direccion_Paciente direccionExito = direccionBO.agregarDireccionPaciente(direccion);
-            
-              System.out.println(direccionExito.getIdDireccion());
-              JOptionPane.showMessageDialog(this, "Error: " + direccionExito.getIdDireccion(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            
+
             PacienteNuevoDTO paciente = new PacienteNuevoDTO(usuarioExito, direccionExito, nombre, ApellidoP, ApellidoM, Correo, fechaLocal, Telefono);
             Paciente pacienteExito = pacienteBO.agregarPaciente(paciente);
-            
-            
-          
-            
+
             // Verificar si la operación fue exitosa
-            if (pacienteExito != null || usuarioExito !=  null || direccionExito != null) {
+            if (pacienteExito != null || usuarioExito != null || direccionExito != null) {
                 JOptionPane.showMessageDialog(this, "Usuario agregado correctamente");
                 limpiarCampos();
 
             } else {
                 JOptionPane.showMessageDialog(this, "Error al agregar usuario");
             }
-            
-            
 
         } catch (NegocioException ex) {
             // Manejo de excepciones específicas de la capa de negocio
@@ -507,7 +499,6 @@ public class pantallaRegistro extends javax.swing.JPanel {
             return false;
         }
 
-
         return true;
     }
 
@@ -530,7 +521,8 @@ public class pantallaRegistro extends javax.swing.JPanel {
         } else if (colonia.length() < 3 || colonia.length() > 50) {
             JOptionPane.showMessageDialog(null, "Colonia inválida. La cantidad de caracteres está fuera del límite.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
-        } if (colonia == null || !colonia.matches(regex)) {
+        }
+        if (colonia == null || !colonia.matches(regex)) {
             JOptionPane.showMessageDialog(null, "Colonia inválida. Solo se permiten letras, números y espacios.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }

@@ -23,6 +23,7 @@ import java.util.logging.Logger;
  * @author PC
  */
 public class Direccion_PacienteBO {
+
     private static final Logger logger = Logger.getLogger(PacienteBO.class.getName());
 
     private final IDireccion_PacienteDAO direccionPacienteDAO;
@@ -33,23 +34,24 @@ public class Direccion_PacienteBO {
         this.direccionPacienteDAO = new Direccion_PacienteDAO(conexion);
         this.conexionBD = conexion;
     }
-    
-    public Direccion_Paciente agregarDireccionPaciente(Direccion_PacienteNuevaDTO direccionNueva) throws NegocioException, SQLException, PersistenciaException{
+
+    public Direccion_Paciente agregarDireccionPaciente(Direccion_PacienteNuevaDTO direccionNueva) throws NegocioException {
         if (direccionNueva == null) {
-            throw new NegocioException("La direccion no puede ser nula.");
+            throw new NegocioException("La dirección no puede ser nula.");
         }
 
-        Direccion_Paciente direccionEntidad  = mapper.DTODireccion_PacienteToEntity(direccionNueva);
-        try (Connection con = this.conexionBD.crearConexion()) {
+        Direccion_Paciente direccionEntidad = mapper.DTODireccion_PacienteToEntity(direccionNueva);
 
+        try {
             Direccion_Paciente direccionGuardada = direccionPacienteDAO.agregarDireccion(direccionEntidad);
-            
+            if (direccionGuardada == null) {
+                throw new NegocioException("No se pudo registrar la dirección en la base de datos.");
+            }
             return direccionGuardada;
         } catch (PersistenciaException ex) {
-            logger.log(Level.SEVERE, "Error, No se pudo agregar al paciente. Intenta de nuevo.", ex);
-            
+            logger.log(Level.SEVERE, "Error al registrar la dirección.", ex);
+            throw new NegocioException("Ocurrió un error al guardar la dirección. Inténtalo de nuevo.");
         }
-        return null;
     }
-    
+
 }
