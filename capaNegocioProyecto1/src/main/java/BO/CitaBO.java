@@ -7,6 +7,7 @@ import DAO.ICitaDAO;
 import DAO.MedicoDAO;
 import DAO.PacienteDAO;
 import DTO.CitaNuevoDTO;
+import DTO.MedicoNuevoDTO;
 import DTO.PacienteNuevoDTO;
 import Entidades.Cita;
 import Entidades.Paciente;
@@ -38,17 +39,16 @@ public class CitaBO {
     }
     
     // QUITAR TODO LO DE LOS COMENTARIOS CUANDO SE AGREGUEN TODO LA LOGICA DE LOS MEDICOS
-    public boolean agendarCita(CitaNuevoDTO citaNueva, PacienteNuevoDTO pacienteNuevo/*, MedicoNuevoDTO medicoNuevo Este parametro sera agregado cuando se cree la clase medicoNuevo*/) throws NegocioException, SQLException {
+    public boolean agendarCita(CitaNuevoDTO citaNueva, PacienteNuevoDTO pacienteNuevo, MedicoNuevoDTO medicoNuevo) throws NegocioException, SQLException {
         if (citaNueva == null){
             throw new NegocioException("La cita no puede ser nula");
         }
         if (pacienteNuevo == null){
             throw new NegocioException("El paciente no puede ser nulo");
         }
-        /* Agregar cuando se cree el metodo MedicoNuevoDTO
         if (medicoNuevo == null){
             throw new NegocioException("El medico no puede ser nulo");
-        }*/
+        }
         
         Connection con = null;
         try {
@@ -69,7 +69,7 @@ public class CitaBO {
             logger.log(Level.SEVERE, "Error, No se pudo agregar la cita. Intenta de nuevo.", ex);
             
         } catch (SQLException e){
-            con.rollback(); // por si no funciona utilizamos el rollback de la transaccion.
+            con.rollback(); 
         }
         return false;
     } 

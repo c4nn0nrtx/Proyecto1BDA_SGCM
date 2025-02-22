@@ -4,11 +4,13 @@ package Mapper;
 import DTO.CitaNuevoDTO;
 import DTO.ConsultaNuevaDTO;
 import DTO.Direccion_PacienteNuevaDTO;
+import DTO.MedicoNuevoDTO;
 import DTO.PacienteNuevoDTO;
 import DTO.UsuarioNuevoDTO;
 import Entidades.Cita;
 import Entidades.Consulta;
 import Entidades.Direccion_Paciente;
+import Entidades.Medico;
 import Entidades.Paciente;
 import Entidades.Usuario;
 import java.time.LocalDateTime;
@@ -178,6 +180,34 @@ public class Mapper {
                 consulta.getTratamiento(),
                 consulta.getObservaciones(),
                 consulta.getFechaHora()
+        );
+    }
+    public Medico DTOMedicoToEntity(MedicoNuevoDTO medicoNuevo) {
+        if (medicoNuevo == null) {
+            return null;
+        }
+        return new Medico(
+                medicoNuevo.getUsuario(),
+                medicoNuevo.getNombre(),
+                medicoNuevo.getApellidoPaterno(),
+                medicoNuevo.getApellidoMaterno(),
+                medicoNuevo.getCedulaProfesional(),
+                medicoNuevo.getEspecialidad(),
+                medicoNuevo.getEstado()
+        );
+    }
+    public MedicoNuevoDTO MedicoToNuevoDTO(Medico medico) {
+        if (medico == null) {
+            return null;
+        }
+        return new MedicoNuevoDTO(
+                medico.getUsuario(),
+                medico.getNombre(),
+                medico.getApellidoPaterno(),
+                medico.getApellidoMaterno(),
+                medico.getCedulaProfesional(),
+                medico.getEspecialidad(),
+                medico.getEstado()
         );
     }
 }

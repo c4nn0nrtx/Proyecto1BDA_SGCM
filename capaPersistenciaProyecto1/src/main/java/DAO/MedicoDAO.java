@@ -2,6 +2,7 @@ package DAO;
 
 import Conexion.IConexionBD;
 import Entidades.Medico;
+import Entidades.Usuario;
 import Exception.PersistenciaException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,6 +21,7 @@ import java.util.logging.Logger;
 public class MedicoDAO implements IMedicoDAO {
 
     private IConexionBD conexion;
+    private UsuarioDAO usuarioDAO;
 
     /**
      * Constructor que inicializa la conexion.
@@ -28,9 +30,8 @@ public class MedicoDAO implements IMedicoDAO {
      */
     public MedicoDAO(IConexionBD conexion) {
         this.conexion = conexion;
+        this.usuarioDAO = new UsuarioDAO(conexion);
     }
-    //Quite momentaneamente los metodos de MedicoDAO para que no marcara errores
-    /*
     
     private static final Logger logger = Logger.getLogger(MedicoDAO.class.getName());
 
@@ -40,20 +41,21 @@ public class MedicoDAO implements IMedicoDAO {
      * @param id
      * @return el medico consultado.
      * @throws PersistenciaException
-  
+     */
     @Override
     public Medico consultarMedicoPorId(int id) throws PersistenciaException {
         Medico medico = null;
-        String sqlQuery = "SELECT idMedico, nombre, apellidoPat, apellidoMat, cedulaProf, estado, especialidad FROM MEDICOS WHERE idMedico = ?";
+        String consultaSQL = "SELECT nombre, apellidoPat, apellidoMat, cedulaProf, estado, especialidad FROM MEDICOS WHERE idMedico = ?";
         //inicializo la conexion y le paso la consulta.
-        try (Connection con = this.conexion.crearConexion(); PreparedStatement ps = con.prepareStatement(sqlQuery)) {
+        try (Connection con = this.conexion.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL)) {
 
             ps.setInt(1, id);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     medico = new Medico();
-                    medico.setId(rs.getInt("idMedico"));
+                    Usuario usuario = usuarioDAO.consultarUsuarioPorId(id);
+                    medico.setUsuario(usuario);
                     medico.setNombre(rs.getString("nombre"));
                     medico.setApellidoPaterno(rs.getString("apellidoPat"));
                     medico.setApellidoMaterno(rs.getString("apellidoMat"));
@@ -78,28 +80,28 @@ public class MedicoDAO implements IMedicoDAO {
      * @param especialidad
      * @return una lista de medicos.
      * @throws PersistenciaException 
-     
+    */ 
     @Override
     public List<Medico> obtenerPorEspecialidad(String especialidad) throws PersistenciaException {
 
-        String sqlQuery = "SELECT idMedico, nombre, apellidoPat, apellidoMat, cedulaProf, estado, especialidad from medicos where especialidad = ?";
+        String consultaSQL = "SELECT idMedico, nombre, apellidoPat, apellidoMat, cedulaProf, estado, especialidad "
+                + "FROM MEDICOS WHERE especialidad = ?";
         List<Medico> listaMedicos = new ArrayList<>();
 
-        try (Connection con = conexion.crearConexion(); PreparedStatement ps = con.prepareStatement(sqlQuery)) {
+        try (Connection con = conexion.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL)) {
 
             ps.setString(1, especialidad);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Medico medico = new Medico(
-                        rs.getInt("idMedico"),
-                        rs.getString("nombre"),
-                        rs.getString("apellidoPat"),
-                        rs.getString("apellidoMat"),
-                        rs.getString("cedulaProf"),
-                        rs.getString("estado"),
-                        rs.getString("especialidad")
-                );
+                Medico medico = new Medico();
+                //medico.setId(rs.getInt("idMedico"));
+                medico.setNombre(rs.getString("nombre"));
+                medico.setApellidoPaterno(rs.getString("apellidoPat"));
+                medico.setApellidoMaterno(rs.getString("apellidoMat"));
+                medico.setCedulaProfesional(rs.getString("cedulaProf"));
+                medico.setEstado(rs.getString("estado"));
+                medico.setEspecialidad(rs.getString("especialidad"));
                 listaMedicos.add(medico);
             }
             return listaMedicos;
@@ -115,24 +117,24 @@ public class MedicoDAO implements IMedicoDAO {
      * @param estado activo o inactivo
      * @return verdadero si, se actualizo el estado.
      * @throws PersistenciaException 
-     
+    */ 
     @Override
     public boolean actualizarEstadoMedico(Medico medico, String estado) throws PersistenciaException {
-        String sqlQuery = "UPDATE MEDICOS SET ESTADO = ? WHERE IDMEDICO = ?";
+        String consultaSQL = "UPDATE MEDICOS SET ESTADO = ? WHERE idMedico = ?";
 
-        try (Connection con = this.conexion.crearConexion(); PreparedStatement ps = con.prepareStatement(sqlQuery)) {
+        try (Connection con = this.conexion.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL)) {
 
             ps.setString(1, estado); // seteo el valor del estado para remplazar el ?
-            ps.setInt(2, medico.getId());
+            ps.setInt(2, medico.getUsuario().getIdUsuario());
 
             int lineasAfectadas = ps.executeUpdate(); // ejecuto la consulta y guardo los rows afectados en un int
 
             if (lineasAfectadas == 0) { // validacion 
-                logger.severe("Error: no se encontro medico con el id: " + medico.getId());
-                throw new PersistenciaException("No se encontro el medico con el id: " + medico.getId());
+                logger.severe("Error: no se encontro medico con el id: " + medico.getUsuario().getIdUsuario());
+                throw new PersistenciaException("No se encontro el medico con el id: " + medico.getUsuario().getIdUsuario());
 
             } else {
-                logger.info("Correctamente actualizado el activista con el id: " + medico.getId() + "!");
+                logger.info("Correctamente actualizado el medico con el id: " + medico.getUsuario().getIdUsuario() + "!");
                 return true;
             }
 
@@ -143,5 +145,5 @@ public class MedicoDAO implements IMedicoDAO {
             logger.log(Level.SEVERE, "Error: ", e.getSQLState()); //Ultima validacion
             throw new PersistenciaException("Hubo un error actualizando", e);
         }
-    } */
+    } 
 }

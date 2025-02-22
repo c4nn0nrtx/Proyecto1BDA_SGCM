@@ -16,7 +16,7 @@ public interface IMedicoDAO {
      * @return un objeto del tipo Medico.
      * @throws PersistenciaException 
      */
-    //public Medico consultarMedicoPorId(int id) throws PersistenciaException;
+    public Medico consultarMedicoPorId(int id) throws PersistenciaException;
     
     /**
      * Devuelve una lista de medicos filtrados por especialidad.
@@ -24,7 +24,7 @@ public interface IMedicoDAO {
      * @return Una lista de Medicos filtrados por su especialidad.
      * @throws PersistenciaException 
      */
-    //public List<Medico> obtenerPorEspecialidad(String especialidad) throws PersistenciaException;
+    public List<Medico> obtenerPorEspecialidad(String especialidad) throws PersistenciaException;
     
     /**
      *  Metodo para actualizar el estado de un Medico
@@ -33,7 +33,7 @@ public interface IMedicoDAO {
      * @return regresa Verdadero si se actualizo
      * @throws PersistenciaException 
      */
-    //public boolean actualizarEstadoMedico(Medico medico, String estado)throws PersistenciaException;
+    public boolean actualizarEstadoMedico(Medico medico, String estado)throws PersistenciaException;
     
   
     

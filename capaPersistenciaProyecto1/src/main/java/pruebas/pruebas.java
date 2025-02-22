@@ -32,11 +32,15 @@ public class pruebas {
     public static void main(String[] args) throws PersistenciaException {
         // Crear la conexión a la base de datos
         IConexionBD conexionBD = new ConexionBD();
-
-        Usuario usuario = new Usuario("Medico1", "gusanitos123");
+        MedicoDAO medicoDAO = new MedicoDAO(conexionBD);
+        
+        
+        Usuario usuario = new Usuario(23, "Medico1", "gusanitos123");
         UsuarioDAO usuarioDAO = new UsuarioDAO(conexionBD);
-        usuarioDAO.agregarUsuario(usuario);
-
+        //usuarioDAO.agregarUsuario(usuario);
+        
+        Medico medico = new Medico(usuario, "Juan", "Topo", "Cabada", "JA123", "Nutriologo", "Activo");
+        boolean nose = medicoDAO.actualizarEstadoMedico(medico, "Inactivo");
 }
 
     
