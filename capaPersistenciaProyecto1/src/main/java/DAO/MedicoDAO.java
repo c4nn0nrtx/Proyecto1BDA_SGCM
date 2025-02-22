@@ -95,7 +95,8 @@ public class MedicoDAO implements IMedicoDAO {
 
             while (rs.next()) {
                 Medico medico = new Medico();
-                //medico.setId(rs.getInt("idMedico"));
+                Usuario usuario = usuarioDAO.consultarUsuarioPorId(rs.getInt("idMedico"));
+                medico.setUsuario(usuario);
                 medico.setNombre(rs.getString("nombre"));
                 medico.setApellidoPaterno(rs.getString("apellidoPat"));
                 medico.setApellidoMaterno(rs.getString("apellidoMat"));

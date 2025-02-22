@@ -146,9 +146,9 @@ public class UsuarioDAO implements IUsuarioDAO {
      */
     @Override
     public Usuario autenticarUsuario(Usuario usuario) throws PersistenciaException {
-        String sql = "SELECT idUsuario, contrasenha FROM usuarios WHERE nombreUsuario = ?";
+        String consultaSQL = "SELECT idUsuario, contrasenha FROM usuarios WHERE nombreUsuario = ?";
 
-        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL)) {
 
             ps.setString(1, usuario.getNombreUsuario());
             try (ResultSet rs = ps.executeQuery()) {

@@ -1,7 +1,9 @@
 
 package DAO;
+import Entidades.Horario_Medico;
 import Entidades.Medico;
 import Exception.PersistenciaException;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 /**
@@ -16,6 +18,8 @@ public interface IHorarioMedicoDAO {
      * @return
      * @throws PersistenciaException
      */
-    //public List<Medico> obtenerMedicosDisponibles(LocalDateTime fechaHora) throws PersistenciaException;
+    public List<Medico> obtenerMedicosDisponibles(LocalDateTime fechaHora) throws PersistenciaException;
+    
+    public List<Horario_Medico> obtenerHorariosMedicos() throws PersistenciaException, SQLException;
     
 }

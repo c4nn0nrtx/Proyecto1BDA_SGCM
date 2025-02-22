@@ -1,15 +1,17 @@
-C:\Users\Sebastian Moreno\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\BO\ConsultaBO.java
-C:\Users\Sebastian Moreno\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\configuracion\DependencyInjector.java
-C:\Users\Sebastian Moreno\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\DTO\PacienteNuevoDTO.java
-C:\Users\Sebastian Moreno\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\DTO\Direccion_PacienteNuevaDTO.java
-C:\Users\Sebastian Moreno\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\BO\UsuarioBO.java
-C:\Users\Sebastian Moreno\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\DTO\UsuarioNuevoDTO.java
-C:\Users\Sebastian Moreno\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\Mapper\Mapper.java
-C:\Users\Sebastian Moreno\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\BO\Direccion_PacienteBO.java
-C:\Users\Sebastian Moreno\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\BO\CitaBO.java
-C:\Users\Sebastian Moreno\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\DTO\ConsultaNuevaDTO.java
-C:\Users\Sebastian Moreno\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\Exception\NegocioException.java
-C:\Users\Sebastian Moreno\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\BO\MedicoBO.java
-C:\Users\Sebastian Moreno\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\BO\PacienteBO.java
-C:\Users\Sebastian Moreno\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\DTO\CitaNuevoDTO.java
-C:\Users\Sebastian Moreno\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\DTO\MedicoNuevoDTO.java
+C:\Users\PC\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\BO\HorarioMedicoBO.java
+C:\Users\PC\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\DTO\PacienteNuevoDTO.java
+C:\Users\PC\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\BO\CitaBO.java
+C:\Users\PC\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\DTO\MedicoNuevoDTO.java
+C:\Users\PC\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\BO\ConsultaBO.java
+C:\Users\PC\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\Mapper\Mapper.java
+C:\Users\PC\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\BO\PacienteBO.java
+C:\Users\PC\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\BO\Direccion_PacienteBO.java
+C:\Users\PC\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\BO\MedicoBO.java
+C:\Users\PC\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\DTO\UsuarioNuevoDTO.java
+C:\Users\PC\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\Exception\NegocioException.java
+C:\Users\PC\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\DTO\ConsultaNuevaDTO.java
+C:\Users\PC\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\DTO\HorarioMedicoNuevoDTO.java
+C:\Users\PC\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\DTO\Direccion_PacienteNuevaDTO.java
+C:\Users\PC\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\configuracion\DependencyInjector.java
+C:\Users\PC\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\DTO\CitaNuevoDTO.java
+C:\Users\PC\Documents\GitHub\Proyecto1BDA_SGCM\capaNegocioProyecto1\src\main\java\BO\UsuarioBO.java

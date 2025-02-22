@@ -1,17 +1,17 @@
 
 package Entidades;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * Representa un horario para un doctor.
  * @author Sebastian Moreno
  */
 public class Horario {
-    private int id;
+    private int idHorario;
     private String diaSemana;
-    private LocalDateTime horaInicio;
-    private LocalDateTime horaFin;
+    private LocalTime horaInicio;
+    private LocalTime horaFin;
     /**
      * Constuctor vacio.
      */
@@ -24,8 +24,8 @@ public class Horario {
      * @param horaInicio
      * @param horaFin 
      */
-    public Horario(int id, String diaSemana, LocalDateTime horaInicio, LocalDateTime horaFin) {
-        this.id = id;
+    public Horario(int idHorario, String diaSemana, LocalTime horaInicio, LocalTime horaFin) {
+        this.idHorario = idHorario;
         this.diaSemana = diaSemana;
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
@@ -36,7 +36,7 @@ public class Horario {
      * @param horaInicio
      * @param horaFin 
      */
-    public Horario(String diaSemana, LocalDateTime horaInicio, LocalDateTime horaFin) {
+    public Horario(String diaSemana, LocalTime horaInicio, LocalTime horaFin) {
         this.diaSemana = diaSemana;
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
@@ -46,16 +46,16 @@ public class Horario {
      *
      * @return
      */
-    public int getId() {
-        return id;
+    public int getIdHorario() {
+        return idHorario;
     }
 
     /**
      *
      * @param id
      */
-    public void setId(int id) {
-        this.id = id;
+    public void setIdHorario(int idHorario) {
+        this.idHorario = idHorario;
     }
 
     /**
@@ -78,7 +78,7 @@ public class Horario {
      *
      * @return
      */
-    public LocalDateTime getHoraInicio() {
+    public LocalTime getHoraInicio() {
         return horaInicio;
     }
 
@@ -86,7 +86,7 @@ public class Horario {
      *
      * @param horaInicio
      */
-    public void setHoraInicio(LocalDateTime horaInicio) {
+    public void setHoraInicio(LocalTime horaInicio) {
         this.horaInicio = horaInicio;
     }
 
@@ -94,7 +94,7 @@ public class Horario {
      *
      * @return
      */
-    public LocalDateTime getHoraFin() {
+    public LocalTime getHoraFin() {
         return horaFin;
     }
 
@@ -102,7 +102,7 @@ public class Horario {
      *
      * @param horaFin
      */
-    public void setHoraFin(LocalDateTime horaFin) {
+    public void setHoraFin(LocalTime horaFin) {
         this.horaFin = horaFin;
     }
 
@@ -112,7 +112,7 @@ public class Horario {
      */
     @Override
     public String toString() {
-        return "Horario{" + "id=" + id + ", diaSemana=" + diaSemana + ", horaInicio=" + horaInicio + ", horaFin=" + horaFin + '}';
+        return "Horario{" + "idHorario=" + idHorario + ", diaSemana=" + diaSemana + ", horaInicio=" + horaInicio + ", horaFin=" + horaFin + '}';
     }
     
     

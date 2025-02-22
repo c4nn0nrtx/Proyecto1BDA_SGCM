@@ -4,12 +4,14 @@ package Mapper;
 import DTO.CitaNuevoDTO;
 import DTO.ConsultaNuevaDTO;
 import DTO.Direccion_PacienteNuevaDTO;
+import DTO.HorarioMedicoNuevoDTO;
 import DTO.MedicoNuevoDTO;
 import DTO.PacienteNuevoDTO;
 import DTO.UsuarioNuevoDTO;
 import Entidades.Cita;
 import Entidades.Consulta;
 import Entidades.Direccion_Paciente;
+import Entidades.Horario_Medico;
 import Entidades.Medico;
 import Entidades.Paciente;
 import Entidades.Usuario;
@@ -208,6 +210,24 @@ public class Mapper {
                 medico.getCedulaProfesional(),
                 medico.getEspecialidad(),
                 medico.getEstado()
+        );
+    }
+    public Horario_Medico DTOHorMedToEntity(HorarioMedicoNuevoDTO horMedNuevo) {
+        if (horMedNuevo == null) {
+            return null;
+        }
+        return new Horario_Medico(
+                horMedNuevo.getHorario(),
+                horMedNuevo.getMedico()
+        );
+    }
+    public HorarioMedicoNuevoDTO Horario_MedicoToNuevoDTO(Horario_Medico horMed) {
+        if  (horMed == null) {
+            return null;
+        }
+        return new HorarioMedicoNuevoDTO(
+                horMed.getMedico(),
+                horMed.getHorario()
         );
     }
 }

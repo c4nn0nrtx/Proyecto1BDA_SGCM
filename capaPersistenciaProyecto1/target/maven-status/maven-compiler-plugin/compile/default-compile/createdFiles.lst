@@ -3,11 +3,13 @@ Conexion\ConexionBD.class
 DAO\CitaDAO.class
 DAO\UsuarioDAO.class
 Entidades\Usuario.class
+DAO\HorarioDAO.class
 DAO\MedicoDAO.class
 pruebas\pruebas.class
 DAO\IDireccion_PacienteDAO.class
 DAO\ICitaDAO.class
 DAO\Direccion_PacienteDAO.class
+DAO\IHorarioDAO.class
 DAO\IConsultaDAO.class
 Entidades\Consulta.class
 Exception\PersistenciaException.class
@@ -22,4 +24,6 @@ DAO\IPacienteDAO.class
 DAO\IUsuarioDAO.class
 DAO\ConsultaDAO.class
 Entidades\Horario.class
+Entidades\Horario_Medico.class
 Entidades\Cita.class
+DAO\HorarioMedicoDAO$1.class
