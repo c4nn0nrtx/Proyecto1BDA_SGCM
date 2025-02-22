@@ -77,11 +77,6 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
 
         pnlBotonInicioSesion.setBackground(new java.awt.Color(0, 0, 0));
         pnlBotonInicioSesion.setForeground(new java.awt.Color(0, 0, 0));
-        pnlBotonInicioSesion.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                pnlBotonInicioSesionMouseEntered(evt);
-            }
-        });
 
         btnIniciarSesion.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
         btnIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
@@ -89,6 +84,9 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
         btnIniciarSesion.setText("Iniciar Sesión");
         btnIniciarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnIniciarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnIniciarSesionMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnIniciarSesionMouseEntered(evt);
             }
@@ -217,19 +215,15 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
     }//GEN-LAST:event_inputContraseñaMouseClicked
 
     private void inputContraseñaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputContraseñaKeyPressed
-                                                  
-    if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-        try {
-            autenticarUsuario(); // Ahora este método se encarga de todo
-        } catch (PersistenciaException | SQLException ex) {
-            Logger.getLogger(pantallaInicioSesion.class.getName()).log(Level.SEVERE, null, ex);
+
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            try {
+                autenticarUsuario(); // Ahora este método se encarga de todo
+            } catch (PersistenciaException | SQLException ex) {
+                Logger.getLogger(pantallaInicioSesion.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-    }
     }//GEN-LAST:event_inputContraseñaKeyPressed
-
-    private void pnlBotonInicioSesionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlBotonInicioSesionMouseEntered
-
-    }//GEN-LAST:event_pnlBotonInicioSesionMouseEntered
 
     private void btnIniciarSesionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIniciarSesionMouseEntered
         pnlBotonInicioSesion.setBackground(Color.lightGray);
@@ -246,6 +240,13 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
     private void btnRegistrateMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrateMouseExited
         pnlBotonRegistrate.setBackground(Color.black);
     }//GEN-LAST:event_btnRegistrateMouseExited
+
+    private void btnIniciarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIniciarSesionMouseClicked
+        try {
+            autenticarUsuario(); // Ahora este método se encarga de todo
+        } catch (PersistenciaException | SQLException ex) {
+            Logger.getLogger(pantallaInicioSesion.class.getName()).log(Level.SEVERE, null, ex);
+        }    }//GEN-LAST:event_btnIniciarSesionMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
