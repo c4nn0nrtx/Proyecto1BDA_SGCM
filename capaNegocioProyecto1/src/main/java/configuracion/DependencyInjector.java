@@ -2,6 +2,7 @@
 package configuracion;
 
 import BO.CitaBO;
+import BO.ConsultaBO;
 import BO.Direccion_PacienteBO;
 import BO.PacienteBO;
 import BO.UsuarioBO;
@@ -55,6 +56,16 @@ public class DependencyInjector {
 
         // Retornar la instancia completamente configurada
         return cita;
+    }
+    public static ConsultaBO crearConsultaBO() {
+        // Crear una instancia de la conexión a la base de datos, utilizando la implementación de IConexionBD
+        IConexionBD conexion = new ConexionBD();
+
+        // Inyectar la dependencia de conexión a la instancia de ConsultaBO
+        ConsultaBO consulta = new ConsultaBO(conexion);
+
+        // Retornar la instancia completamente configurada
+        return consulta;
     }
     
 }

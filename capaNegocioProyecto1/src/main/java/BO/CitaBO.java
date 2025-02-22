@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  * @author Ramon Valencia
  */
 public class CitaBO {
-    private static final Logger logger = Logger.getLogger(PacienteBO.class.getName());
+    private static final Logger logger = Logger.getLogger(CitaBO.class.getName());
     private final ICitaDAO citaDAO;
     private final IConexionBD conexionBD;
     private PacienteBO pacienteBO;
@@ -37,7 +37,7 @@ public class CitaBO {
         //this.medicoBO = new MedicoBO(conexion);
     }
     
-    // QUITAR TODO LO DE LOS PARENTESIS CUANDO SE AGREGUEN TODO LA LOGICA DE LOS MEDICOS
+    // QUITAR TODO LO DE LOS COMENTARIOS CUANDO SE AGREGUEN TODO LA LOGICA DE LOS MEDICOS
     public boolean agendarCita(CitaNuevoDTO citaNueva, PacienteNuevoDTO pacienteNuevo/*, MedicoNuevoDTO medicoNuevo Este parametro sera agregado cuando se cree la clase medicoNuevo*/) throws NegocioException, SQLException {
         if (citaNueva == null){
             throw new NegocioException("La cita no puede ser nula");

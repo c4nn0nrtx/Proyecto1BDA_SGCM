@@ -2,10 +2,12 @@
 package Mapper;
 
 import DTO.CitaNuevoDTO;
+import DTO.ConsultaNuevaDTO;
 import DTO.Direccion_PacienteNuevaDTO;
 import DTO.PacienteNuevoDTO;
 import DTO.UsuarioNuevoDTO;
 import Entidades.Cita;
+import Entidades.Consulta;
 import Entidades.Direccion_Paciente;
 import Entidades.Paciente;
 import Entidades.Usuario;
@@ -142,6 +144,40 @@ public class Mapper {
                 cita.getTipo(), 
                 cita.getMedico(), 
                 cita.getPaciente()
+        );
+    }
+    
+    /**
+     * Convierte una ConsultaNuevaDTO a una entidad.
+     */
+    public Consulta DTOConsultaToEntity(ConsultaNuevaDTO consultaNueva) {
+        if (consultaNueva == null) {
+            return null;
+        }
+        return new Consulta(
+                consultaNueva.getCita(),
+                consultaNueva.getEstado(),
+                consultaNueva.getDiagnostico(),
+                consultaNueva.getTratamiento(),
+                consultaNueva.getObservaciones(),
+                consultaNueva.getFechaHora()
+        );
+    }
+    
+    /**
+     * Convierte una entidad a una CoonsultaDTO.
+     */
+    public ConsultaNuevaDTO ConsultaToNuevaDTO(Consulta consulta) {
+        if (consulta == null) {
+            return null;
+        }
+        return new ConsultaNuevaDTO(
+                consulta.getCita(),
+                consulta.getEstado(),
+                consulta.getDiagnostico(),
+                consulta.getTratamiento(),
+                consulta.getObservaciones(),
+                consulta.getFechaHora()
         );
     }
 }

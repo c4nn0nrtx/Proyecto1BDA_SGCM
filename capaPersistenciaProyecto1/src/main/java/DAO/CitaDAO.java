@@ -58,7 +58,7 @@ public class CitaDAO implements ICitaDAO {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CitaDAO.class.getName()).log(Level.SEVERE, null, ex);
             throw new PersistenciaException("Error al registrar una cita en la base de datos.");
         }
         return cita;
