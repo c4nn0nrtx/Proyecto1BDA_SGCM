@@ -1,6 +1,22 @@
 package GUI;
 
+import BO.Direccion_PacienteBO;
+import BO.PacienteBO;
+import BO.UsuarioBO;
+import DTO.Direccion_PacienteNuevaDTO;
+import DTO.PacienteNuevoDTO;
+import Entidades.Direccion_Paciente;
+import Entidades.Paciente;
+import Exception.NegocioException;
+import Exception.PersistenciaException;
 import com.toedter.calendar.JDateChooser;
+import configuracion.DependencyInjector;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  * Pantalla tu información.
@@ -8,14 +24,17 @@ import com.toedter.calendar.JDateChooser;
  * @author Sebastian Moreno
  */
 public class pantallaInformacionUsuario extends javax.swing.JPanel {
-
+    private UsuarioBO usuarioBO = DependencyInjector.crearUsuarioBO();
+    private PacienteBO pacienteBO = DependencyInjector.crearPacienteBO();
+    private Direccion_PacienteBO direccionBO = DependencyInjector.crearDireccionBO();
     private JDateChooser selectorFechas;
     private FramePrincipal framePrincipal;
     pantallaInicioSesion pantalla = new pantallaInicioSesion(framePrincipal);
+    
     public pantallaInformacionUsuario(FramePrincipal frame) {
         this.framePrincipal = frame;
         selectorFechas = new JDateChooser();
-        selectorFechas.setBounds(550, 300, 200, 40);
+        selectorFechas.setBounds(610, 285, 200, 40);
         this.add(selectorFechas);
         initComponents();
     }
@@ -143,6 +162,11 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
 
         pnlRestablecerDatos.setBackground(new java.awt.Color(255, 102, 102));
         pnlRestablecerDatos.setForeground(new java.awt.Color(0, 0, 0));
+        pnlRestablecerDatos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlRestablecerDatosMouseClicked(evt);
+            }
+        });
 
         btnRestablecer.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btnRestablecer.setForeground(new java.awt.Color(255, 255, 255));
@@ -162,18 +186,18 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
             .addGap(0, 340, Short.MAX_VALUE)
             .addGroup(pnlRestablecerDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnlRestablecerDatosLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(btnRestablecer, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addContainerGap()
+                    .addComponent(btnRestablecer, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         pnlRestablecerDatosLayout.setVerticalGroup(
             pnlRestablecerDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 40, Short.MAX_VALUE)
             .addGroup(pnlRestablecerDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnlRestablecerDatosLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlRestablecerDatosLayout.createSequentialGroup()
+                    .addContainerGap(7, Short.MAX_VALUE)
                     .addComponent(btnRestablecer, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addContainerGap(8, Short.MAX_VALUE)))
         );
 
         add(pnlRestablecerDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 600, 340, 40));
@@ -231,18 +255,29 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRestablecerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRestablecerMouseClicked
-
-   
+        try {
+            cargarPaciente();
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(pantallaInformacionUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnRestablecerMouseClicked
 
     private void btnGuardar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardar1MouseClicked
-        // TODO add your handling code here:
+        try {
+            actualizarPaciente();
+        } catch (NegocioException ex) {
+            Logger.getLogger(pantallaInformacionUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnGuardar1MouseClicked
 
     private void btnVolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseClicked
         framePrincipal.cambiarPanel("pantallaPacientes");
         System.out.println(framePrincipal.getUsuarioAutenticado());
     }//GEN-LAST:event_btnVolverMouseClicked
+
+    private void pnlRestablecerDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlRestablecerDatosMouseClicked
+        
+    }//GEN-LAST:event_pnlRestablecerDatosMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -273,4 +308,72 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
     private javax.swing.JLabel txtSubTitulo;
     private javax.swing.JLabel txtTituloPantalla;
     // End of variables declaration//GEN-END:variables
+
+public void cargarPaciente() throws PersistenciaException{
+    Paciente pacienteConsultado =  pacienteBO.buscarPacientePorID(framePrincipal.getUsuarioAutenticado().getIdUsuario());
+    
+       if (pacienteConsultado != null) {
+        // Datos personales del paciente
+        inputNombre.setText(pacienteConsultado.getNombre());
+        inputApellidoM.setText(pacienteConsultado.getApellidoMaterno());
+        inputApellidoP.setText(pacienteConsultado.getApellidoPaterno());
+        inputCorreo.setText(pacienteConsultado.getCorreo());
+        inputCelular.setText(pacienteConsultado.getTelefono());
+ 
+        // Datos de la dirección 
+        inputCalle.setText(pacienteConsultado.getDireccion().getCalle());
+        inputColonia.setText(pacienteConsultado.getDireccion().getColonia());
+        inputCodigoPostal.setText(String.valueOf(pacienteConsultado.getDireccion().getCp()));
+        inputNumExt.setText(pacienteConsultado.getDireccion().getNumero());
+        LocalDate fechaNacimiento = pacienteConsultado.getFechaNacimiento();
+        Date date = Date.from(fechaNacimiento.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        selectorFechas.setDate(date);
+    } else {
+        JOptionPane.showMessageDialog(null, "No se encontró información del paciente.", "Error", JOptionPane.ERROR_MESSAGE);
+        
+    }
 }
+public void actualizarPaciente() throws NegocioException {
+    try {
+        // Obtener el ID del usuario autenticado
+        int id = framePrincipal.getUsuarioAutenticado().getIdUsuario();
+
+        // Obtener la información de los inputs
+        String nombre = inputNombre.getText().trim();
+        String apellidoP = inputApellidoP.getText().trim();
+        String apellidoM = inputApellidoM.getText().trim();
+        String correo = inputCorreo.getText().trim();
+        String celular = inputCelular.getText().trim();
+        String calle = inputCalle.getText().trim();
+        String colonia = inputColonia.getText().trim();
+        String numero = inputNumExt.getText().trim();
+        int codigoPostal = Integer.parseInt(inputCodigoPostal.getText().trim());
+
+        // Obtener la fecha seleccionada en JDateChooser y convertirla a LocalDate
+        Date fechaSeleccionada = selectorFechas.getDate();
+        LocalDate fechaNacimiento = fechaSeleccionada.toInstant()
+                                      .atZone(ZoneId.systemDefault())
+                                      .toLocalDate();
+
+        // Crear objeto Direccion
+        Direccion_Paciente direccion = new Direccion_Paciente(calle, colonia,codigoPostal,numero);
+
+        // Crear objeto Paciente con los datos actualizados
+        PacienteNuevoDTO pacienteActualizado = new PacienteNuevoDTO(framePrincipal.getUsuarioAutenticado(),direccion, nombre, apellidoP, apellidoM, correo,fechaNacimiento,celular);
+        // Llamar a la capa de negocio para actualizar los datos
+        pacienteBO.actualizarPaciente(id, pacienteActualizado);
+
+        // Mostrar mensaje de éxito
+        JOptionPane.showMessageDialog(null, "Paciente actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Error: Código postal debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (NullPointerException e) {
+        JOptionPane.showMessageDialog(null, "Error: Por favor, seleccione una fecha válida.", "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (PersistenciaException e) {
+        JOptionPane.showMessageDialog(null, "Error al actualizar el paciente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
+
+}
+

@@ -56,5 +56,24 @@ public class Direccion_PacienteBO {
             throw new NegocioException("Ocurrió un error al guardar la dirección. Inténtalo de nuevo.");
         }
     }
+    
+    public Direccion_Paciente actualizarDireccionPaciente(Direccion_Paciente direccionNueva)throws NegocioException{
+       if (direccionNueva == null) {
+            throw new NegocioException("La dirección no puede ser nula.");
+        }
+        
+        try {
+            Direccion_Paciente direccionGuardada = direccionPacienteDAO.actualizarDireccion(direccionNueva);
+            if (direccionGuardada == null) {
+                throw new NegocioException("No se pudo actualizar la dirección en la base de datos.");
+            }
+            return direccionGuardada;
+        } catch (PersistenciaException ex) {
+            logger.log(Level.SEVERE, "Error al actualizar la dirección.", ex);
+            throw new NegocioException("Ocurrió un error al actualizar la dirección. Inténtalo de nuevo.");
+        }
+        
+       
+    }
 
 }

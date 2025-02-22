@@ -24,11 +24,11 @@ public interface IPacienteDAO {
      */
     public Paciente consultarPacientePorId(int id) throws PersistenciaException;
     /**
-     * Actualiza los atributos de un paciente.
+     * Actualiza los atributos de un paciente .
      * @param paciente
      * @return El paciente actualizado.
      * @throws PersistenciaException 
      */
-    public Paciente actualizarPaciente(Paciente paciente) throws PersistenciaException;
+    public Paciente actualizarPacientePorID(int id, Paciente paciente) throws PersistenciaException;
     
 }
