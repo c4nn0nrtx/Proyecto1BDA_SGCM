@@ -5,7 +5,9 @@
 package DAO;
 
 import Entidades.Cita;
+import Entidades.Horario_Medico;
 import Exception.PersistenciaException;
+import java.util.List;
 
 /**
  *
@@ -20,6 +22,6 @@ public interface ICitaDAO {
      */
     public Cita agendarCita(Cita cita) throws PersistenciaException;
     
-    public Cita consultarCitasProgramadasAgenda() throws PersistenciaException;
+    public List<Cita> consultarCitasProgramadasAgenda(Cita cita,Horario_Medico horario) throws PersistenciaException;
     
 }
