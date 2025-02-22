@@ -121,7 +121,9 @@ public class HorarioMedicoDAO implements IHorarioMedicoDAO {
                 
                 Medico medico = medicoDAO.consultarMedicoPorId(rs.getInt("idMedico"));
                 Horario horario = horarioDAO.consultarHorarioPorId(rs.getInt("idHorario"));
+                
                 Horario_Medico horarioMedico = new Horario_Medico(rs.getInt("idHorarioMedicos"), horario, medico);
+                
                 horariosMedicos.add(horarioMedico);
             }
             

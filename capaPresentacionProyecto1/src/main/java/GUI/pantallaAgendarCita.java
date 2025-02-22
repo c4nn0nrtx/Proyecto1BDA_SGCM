@@ -4,20 +4,51 @@
  */
 package GUI;
 
+import BO.HorarioMedicoBO;
+import DTO.HorarioMedicoNuevoDTO;
+import Entidades.Horario;
+import Entidades.Medico;
+import Exception.NegocioException;
+import configuracion.DependencyInjector;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.util.List;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+
 /**
  *
  * @author Sebastian Moreno
  */
 public class pantallaAgendarCita extends javax.swing.JPanel {
+    
+    private HorarioMedicoBO horarioMedicoBO = DependencyInjector.crearHorarioMedicoBO();
 
     /**
      * Creates new form pantallaAgendarCita1
      */
     
     FramePrincipal framePrincipal;
-    public pantallaAgendarCita(FramePrincipal frame) {
+    public pantallaAgendarCita(FramePrincipal frame) throws NegocioException, SQLException {
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                try {
+                    consultarHorariosMedicos();
+                } catch (NegocioException ex) {
+                    Logger.getLogger(pantallaAgendarCita.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(pantallaAgendarCita.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
         this.framePrincipal = frame;
         initComponents();
+        
     }
 
     /**
@@ -73,6 +104,7 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
         tblCitasDisponibles.setBackground(new java.awt.Color(255, 255, 255));
         tblCitasDisponibles.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null},
                 {null, null, null},
                 {null, null, null},
                 {null, null, null},
@@ -163,4 +195,37 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
     private javax.swing.JTable tblCitasDisponibles;
     private javax.swing.JLabel txtSubTitulo;
     // End of variables declaration//GEN-END:variables
+    
+    private void consultarHorariosMedicos() throws NegocioException, SQLException {
+        try {
+            List<HorarioMedicoNuevoDTO> horariosMedicoDTO = horarioMedicoBO.obtenerHorariosMedicos();
+            String[] columnas = {"DOCTOR", "ESPECIALIDAD", "HORARIO"};
+
+            // Inicializar el arreglo de datos con el tamaño correcto
+            String[][] datos = new String[horariosMedicoDTO.size()][3]; 
+
+
+
+            for (int i = 0; i < horariosMedicoDTO.size(); i++) {
+                HorarioMedicoNuevoDTO horarioMedicoDTO = horariosMedicoDTO.get(i);
+                Medico medico = horarioMedicoDTO.getMedico();
+                Horario horario = horarioMedicoDTO.getHorario();
+
+                datos[i][0] = medico.getNombre() + " " + medico.getApellidoPaterno(); // Nombre del doctor
+                datos[i][1] = medico.getEspecialidad(); // Especialidad
+                datos[i][2] = horario.getHoraInicio().toString() + " - " + horario.getHoraFin().toString(); // Horario
+            }
+            tblCitasDisponibles.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
+
+            jScrollPane1.setViewportView(tblCitasDisponibles);
+
+            jScrollPane1.revalidate();
+            jScrollPane1.repaint();
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+        
+    }
+    
 }
+

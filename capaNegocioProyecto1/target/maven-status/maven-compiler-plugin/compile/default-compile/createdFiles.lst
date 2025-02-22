@@ -14,4 +14,5 @@ BO\Direccion_PacienteBO.class
 Mapper\Mapper.class
 BO\MedicoBO.class
 DTO\PacienteNuevoDTO.class
+PruebasNegocio\Pruebas.class
 DTO\Direccion_PacienteNuevaDTO.class

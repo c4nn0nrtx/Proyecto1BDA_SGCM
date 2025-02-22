@@ -63,7 +63,7 @@ public class MedicoDAO implements IMedicoDAO {
                     medico.setEstado(rs.getString("estado"));
                     medico.setEspecialidad(rs.getString("especialidad"));
 
-                    logger.info("Medico encontrado" + medico);
+                    
                 } else {
                     logger.severe("No se encontro medico con id " + id);
                 }

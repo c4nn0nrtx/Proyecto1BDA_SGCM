@@ -90,7 +90,7 @@ public class UsuarioDAO implements IUsuarioDAO {
                     usuario.setNombreUsuario(rs.getString("nombreUsuario"));
                     usuario.setContrasenha(rs.getString("contrasenha"));
 
-                    logger.info("Usuario encontrado: " + usuario);
+                    
                 } else {
                     logger.warning("No hay un paciente registrado con esos datos.");
                 }

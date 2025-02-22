@@ -52,7 +52,7 @@ public class HorarioDAO implements IHorarioDAO {
                     LocalTime horaFin = rs.getObject("horaFin", LocalTime.class);
                     horario.setHoraFin(horaFin);
                     
-                    logger.info("Horario encontrado" + horario);
+                    return horario;
                     
                 } else {
                     logger.severe("No se encontro horario con id " + id);

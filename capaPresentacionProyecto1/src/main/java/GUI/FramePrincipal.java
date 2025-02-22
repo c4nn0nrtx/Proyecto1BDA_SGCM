@@ -1,7 +1,9 @@
 package GUI;
 
 import Entidades.Usuario;
+import Exception.NegocioException;
 import java.awt.CardLayout;
+import java.sql.SQLException;
 import javax.swing.SwingUtilities;
 
 /**
@@ -29,7 +31,7 @@ public class FramePrincipal extends javax.swing.JFrame {
     //Pantallas
     private Usuario usuarioAutenticado;
 
-    public FramePrincipal() {
+    public FramePrincipal() throws NegocioException, SQLException {
         setTitle("Sistema clinica");
         setSize(1000, 700);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -79,7 +81,7 @@ public class FramePrincipal extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     /* METODOS DE APOYO EN FRAME PRINCIPAL*/
-    public void inicializarPantallas() {
+    public void inicializarPantallas() throws NegocioException, SQLException {
         cardLayout = new CardLayout();
         panelPrincipal.setLayout(cardLayout);
         pantallaInicioSesion = new pantallaInicioSesion(this);

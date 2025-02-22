@@ -59,6 +59,7 @@ public class HorarioMedicoBO {
                 HorarioMedicoNuevoDTO horarioMedicoNuevoDTO = mapper.Horario_MedicoToNuevoDTO(horariosMedicos.get(i));
                 
                 horariosMedicosDTO.add(horarioMedicoNuevoDTO);
+                i++;
             }
             return horariosMedicosDTO;
         } catch (PersistenciaException ex) {
