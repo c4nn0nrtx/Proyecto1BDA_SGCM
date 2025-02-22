@@ -46,7 +46,7 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
 
         txtSubTitulo.setFont(new java.awt.Font("Roboto", 1, 48)); // NOI18N
         txtSubTitulo.setForeground(new java.awt.Color(0, 0, 0));
-        txtSubTitulo.setText("Información de tu Cita");
+        txtSubTitulo.setText("Consulta");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Paciente:");
@@ -95,6 +95,7 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel6.setText("Hora de Entrada:");
 
+        inputNombrePaciente1.setEditable(false);
         inputNombrePaciente1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         inputNombrePaciente1.setText("Hora del Sistema");
         inputNombrePaciente1.addActionListener(new java.awt.event.ActionListener() {
@@ -185,17 +186,17 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(inputNombrePaciente1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(25, 25, 25))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(395, 395, 395)
                 .addComponent(txtSubTitulo)
-                .addGap(229, 229, 229))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
+                .addGap(46, 46, 46)
                 .addComponent(txtSubTitulo)
-                .addGap(42, 42, 42)
+                .addGap(46, 46, 46)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

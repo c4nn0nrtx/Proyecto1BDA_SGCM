@@ -13,7 +13,9 @@ public class pantallaConsultasPacientes extends javax.swing.JPanel {
     /**
      * Creates new form pantallaConsultasPacientes
      */
-    public pantallaConsultasPacientes() {
+    FramePrincipal framePrincipal;
+    public pantallaConsultasPacientes(FramePrincipal frame) {
+        this.framePrincipal = frame;
         initComponents();
     }
 
@@ -39,20 +41,28 @@ public class pantallaConsultasPacientes extends javax.swing.JPanel {
         inputColonia = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        btnVolver = new javax.swing.JLabel();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jLabel6 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txtSubTitulo.setFont(new java.awt.Font("Roboto", 1, 48)); // NOI18N
         txtSubTitulo.setForeground(new java.awt.Color(0, 0, 0));
         txtSubTitulo.setText("Historial de Consultas");
+        add(txtSubTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(175, 36, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel1.setText("Nombre(s)*:");
+        jLabel1.setText("Nombre(s):");
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(74, 122, 226, -1));
 
         inputNombrePaciente.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        add(inputNombrePaciente, new org.netbeans.lib.awtextra.AbsoluteConstraints(74, 153, 226, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel2.setText("Apellido Paterno*:");
+        jLabel2.setText("Apellido Paterno:");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(318, 122, 159, -1));
 
         inputApellidoP.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         inputApellidoP.addActionListener(new java.awt.event.ActionListener() {
@@ -60,6 +70,7 @@ public class pantallaConsultasPacientes extends javax.swing.JPanel {
                 inputApellidoPActionPerformed(evt);
             }
         });
+        add(inputApellidoP, new org.netbeans.lib.awtextra.AbsoluteConstraints(318, 153, 159, -1));
 
         inputApellidoM.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         inputApellidoM.addActionListener(new java.awt.event.ActionListener() {
@@ -67,19 +78,25 @@ public class pantallaConsultasPacientes extends javax.swing.JPanel {
                 inputApellidoMActionPerformed(evt);
             }
         });
+        add(inputApellidoM, new org.netbeans.lib.awtextra.AbsoluteConstraints(495, 153, 240, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel3.setText("Apellido Materno (opcional):");
+        jLabel3.setText("Apellido Materno:");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(495, 122, 240, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel4.setText("Celular*:");
+        jLabel4.setText("Celular:");
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(74, 204, 226, -1));
 
         inputCelular.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        add(inputCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(74, 235, 226, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel5.setText("Colonia*:");
+        jLabel5.setText("Fecha:");
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 200, 140, -1));
 
         inputColonia.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        add(inputColonia, new org.netbeans.lib.awtextra.AbsoluteConstraints(318, 235, 159, -1));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -108,64 +125,21 @@ public class pantallaConsultasPacientes extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(inputNombrePaciente)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
-                    .addComponent(inputCelular))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(inputApellidoP)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(inputColonia))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(inputApellidoM))
-                .addGap(162, 162, 162))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtSubTitulo)
-                .addGap(221, 221, 221))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 833, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(txtSubTitulo)
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(inputNombrePaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(inputApellidoP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(inputApellidoM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(inputCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(inputColonia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(58, 286, 833, 324));
+
+        btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/atras (1).png"))); // NOI18N
+        btnVolver.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVolver.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnVolverMouseClicked(evt);
+            }
+        });
+        add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 230, 140, 40));
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel6.setText("Colonia:");
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(318, 204, 159, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void inputApellidoPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputApellidoPActionPerformed
@@ -176,18 +150,25 @@ public class pantallaConsultasPacientes extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_inputApellidoMActionPerformed
 
+    private void btnVolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseClicked
+       framePrincipal.cambiarPanel("pantallaMedicosMenu");
+    }//GEN-LAST:event_btnVolverMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnVolver;
     private javax.swing.JTextField inputApellidoM;
     private javax.swing.JTextField inputApellidoP;
     private javax.swing.JTextField inputCelular;
     private javax.swing.JTextField inputColonia;
     private javax.swing.JTextField inputNombrePaciente;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel txtSubTitulo;

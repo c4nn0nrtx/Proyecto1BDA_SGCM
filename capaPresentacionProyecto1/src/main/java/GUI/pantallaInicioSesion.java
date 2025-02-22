@@ -6,6 +6,7 @@ import Entidades.Usuario;
 import Exception.NegocioException;
 import Exception.PersistenciaException;
 import configuracion.DependencyInjector;
+import java.awt.Color;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -76,6 +77,11 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
 
         pnlBotonInicioSesion.setBackground(new java.awt.Color(0, 0, 0));
         pnlBotonInicioSesion.setForeground(new java.awt.Color(0, 0, 0));
+        pnlBotonInicioSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pnlBotonInicioSesionMouseEntered(evt);
+            }
+        });
 
         btnIniciarSesion.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
         btnIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
@@ -83,8 +89,11 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
         btnIniciarSesion.setText("Iniciar Sesión");
         btnIniciarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnIniciarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnIniciarSesionMouseClicked(evt);
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnIniciarSesionMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnIniciarSesionMouseExited(evt);
             }
         });
 
@@ -96,7 +105,7 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
         );
         pnlBotonInicioSesionLayout.setVerticalGroup(
             pnlBotonInicioSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnIniciarSesion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+            .addComponent(btnIniciarSesion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
         );
 
         pnlBotonRegistrate.setBackground(new java.awt.Color(0, 0, 0));
@@ -111,27 +120,23 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnRegistrateMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnRegistrateMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnRegistrateMouseExited(evt);
+            }
         });
 
         javax.swing.GroupLayout pnlBotonRegistrateLayout = new javax.swing.GroupLayout(pnlBotonRegistrate);
         pnlBotonRegistrate.setLayout(pnlBotonRegistrateLayout);
         pnlBotonRegistrateLayout.setHorizontalGroup(
             pnlBotonRegistrateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 203, Short.MAX_VALUE)
-            .addGroup(pnlBotonRegistrateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnlBotonRegistrateLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(btnRegistrate, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
-                    .addContainerGap()))
+            .addComponent(btnRegistrate, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
         );
         pnlBotonRegistrateLayout.setVerticalGroup(
             pnlBotonRegistrateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-            .addGroup(pnlBotonRegistrateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBotonRegistrateLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(btnRegistrate, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                    .addContainerGap()))
+            .addComponent(btnRegistrate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         inputContraseña.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
@@ -139,6 +144,11 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
         inputContraseña.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 inputContraseñaMouseClicked(evt);
+            }
+        });
+        inputContraseña.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                inputContraseñaKeyPressed(evt);
             }
         });
 
@@ -164,7 +174,7 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
                 .addGroup(panelPrincipalLayout.createSequentialGroup()
                     .addGap(69, 69, 69)
                     .addComponent(txtSubTitulo)
-                    .addContainerGap(914, Short.MAX_VALUE)))
+                    .addContainerGap(926, Short.MAX_VALUE)))
         );
         panelPrincipalLayout.setVerticalGroup(
             panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,7 +198,7 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
                 .addGroup(panelPrincipalLayout.createSequentialGroup()
                     .addGap(57, 57, 57)
                     .addComponent(txtSubTitulo)
-                    .addContainerGap(710, Short.MAX_VALUE)))
+                    .addContainerGap(713, Short.MAX_VALUE)))
         );
 
         add(panelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -198,14 +208,6 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
         framePrincipal.cambiarPanel("pantallaRegistro");
     }//GEN-LAST:event_btnRegistrateMouseClicked
 
-    private void btnIniciarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIniciarSesionMouseClicked
-        try {
-            autenticarUsuario(); // Ahora este método se encarga de todo
-        } catch (PersistenciaException | SQLException ex) {
-            Logger.getLogger(pantallaInicioSesion.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btnIniciarSesionMouseClicked
-
     private void inputUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputUsuarioMouseClicked
         inputUsuario.setText("");
     }//GEN-LAST:event_inputUsuarioMouseClicked
@@ -213,6 +215,37 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
     private void inputContraseñaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputContraseñaMouseClicked
         inputContraseña.setText("");
     }//GEN-LAST:event_inputContraseñaMouseClicked
+
+    private void inputContraseñaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputContraseñaKeyPressed
+                                                  
+    if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+        try {
+            autenticarUsuario(); // Ahora este método se encarga de todo
+        } catch (PersistenciaException | SQLException ex) {
+            Logger.getLogger(pantallaInicioSesion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    }//GEN-LAST:event_inputContraseñaKeyPressed
+
+    private void pnlBotonInicioSesionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlBotonInicioSesionMouseEntered
+
+    }//GEN-LAST:event_pnlBotonInicioSesionMouseEntered
+
+    private void btnIniciarSesionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIniciarSesionMouseEntered
+        pnlBotonInicioSesion.setBackground(Color.lightGray);
+    }//GEN-LAST:event_btnIniciarSesionMouseEntered
+
+    private void btnIniciarSesionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIniciarSesionMouseExited
+        pnlBotonInicioSesion.setBackground(Color.black);
+    }//GEN-LAST:event_btnIniciarSesionMouseExited
+
+    private void btnRegistrateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrateMouseEntered
+        pnlBotonRegistrate.setBackground(Color.lightGray);
+    }//GEN-LAST:event_btnRegistrateMouseEntered
+
+    private void btnRegistrateMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrateMouseExited
+        pnlBotonRegistrate.setBackground(Color.black);
+    }//GEN-LAST:event_btnRegistrateMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

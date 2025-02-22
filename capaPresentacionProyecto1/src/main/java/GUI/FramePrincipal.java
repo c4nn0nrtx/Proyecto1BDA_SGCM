@@ -16,12 +16,17 @@ public class FramePrincipal extends javax.swing.JFrame {
      * Creates new form FramePrincipal
      */
     private CardLayout cardLayout;
+    //Pantallas
     pantallaInicioSesion pantallaInicioSesion;
     pantallaRegistro pantallaRegistro;
     pantallaMenuPrincipalPacientes pantallaPacientes;
     pantallaInformacionUsuario pantallaInformacionUsuarios;
-    pantallaConsultasRegistro pantallaConsultaRegistro;
+    pantallaTusConsultas pantallaTusConsultas;
     pantallaMedicosMenu pantallaMedicosMenu;
+    pantallaCitasPendientes pantallaCitasPendientes;
+    pantallaConsultasPacientes pantallaConsultasPacientes;
+    pantallaAgendarCita pantallaAgendarCita;
+    //Pantallas
     private Usuario usuarioAutenticado;
 
     public FramePrincipal() {
@@ -81,15 +86,21 @@ public class FramePrincipal extends javax.swing.JFrame {
         pantallaRegistro = new pantallaRegistro(this);
         pantallaPacientes = new pantallaMenuPrincipalPacientes(this);
         pantallaInformacionUsuarios = new pantallaInformacionUsuario(this);
-        pantallaConsultaRegistro = new pantallaConsultasRegistro(this);
+        pantallaTusConsultas = new pantallaTusConsultas(this);
         pantallaMedicosMenu = new pantallaMedicosMenu(this);
+        pantallaCitasPendientes = new pantallaCitasPendientes(this);
+        pantallaConsultasPacientes = new pantallaConsultasPacientes(this);
+        pantallaAgendarCita = new pantallaAgendarCita(this);
 
         panelPrincipal.add(pantallaInicioSesion, "pantallaInicioSesion");
         panelPrincipal.add(pantallaRegistro, "pantallaRegistro");
         panelPrincipal.add(pantallaPacientes, "pantallaPacientes");
         panelPrincipal.add(pantallaInformacionUsuarios, "pantallaInformacionUsuarios");
-        panelPrincipal.add(pantallaConsultaRegistro, "pantallaConsultaRegistro");
+        panelPrincipal.add(pantallaTusConsultas, "pantallaTusConsultas");
         panelPrincipal.add(pantallaMedicosMenu, "pantallaMedicosMenu");
+        panelPrincipal.add(pantallaCitasPendientes,"pantallaCitasPendientes");
+        panelPrincipal.add(pantallaConsultasPacientes,"pantallaConsultasPacientes");
+        panelPrincipal.add(pantallaAgendarCita, "pantallaAgendarCita");
 
         SwingUtilities.updateComponentTreeUI(this);
         this.repaint();

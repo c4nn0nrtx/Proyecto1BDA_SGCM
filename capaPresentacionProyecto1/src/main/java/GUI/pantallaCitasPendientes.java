@@ -13,7 +13,10 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
     /**
      * Creates new form pantallaCitasPendientes1
      */
-    public pantallaCitasPendientes() {
+    
+    FramePrincipal framePrincipal;
+    public pantallaCitasPendientes(FramePrincipal frame) {
+        this.framePrincipal = frame;
         initComponents();
     }
 
@@ -26,27 +29,33 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblCitasDisponibles = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblCitasDisponibles1 = new javax.swing.JTable();
+        txtCitasProgramadas = new javax.swing.JLabel();
+        txtEmergencia = new javax.swing.JLabel();
+        pnlCitasProgramadas = new javax.swing.JScrollPane();
+        tblCitasProgramadas = new javax.swing.JTable();
+        pnlCitasEmergencia = new javax.swing.JScrollPane();
+        tblCitasEmergencia = new javax.swing.JTable();
+        btnVolver = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Citas Programadas");
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 988, -1));
+        txtCitasProgramadas.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        txtCitasProgramadas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtCitasProgramadas.setText("Citas Programadas");
+        txtCitasProgramadas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtCitasProgramadasMouseClicked(evt);
+            }
+        });
+        add(txtCitasProgramadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(84, 6, 870, -1));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Emergencia");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 330, 262, -1));
+        txtEmergencia.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        txtEmergencia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtEmergencia.setText("Emergencia");
+        add(txtEmergencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 330, 262, -1));
 
-        tblCitasDisponibles.setModel(new javax.swing.table.DefaultTableModel(
+        tblCitasProgramadas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -67,11 +76,11 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tblCitasDisponibles);
+        pnlCitasProgramadas.setViewportView(tblCitasProgramadas);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 720, 209));
+        add(pnlCitasProgramadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 720, 209));
 
-        tblCitasDisponibles1.setModel(new javax.swing.table.DefaultTableModel(
+        tblCitasEmergencia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -92,18 +101,35 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(tblCitasDisponibles1);
+        pnlCitasEmergencia.setViewportView(tblCitasEmergencia);
 
-        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 400, 720, 209));
+        add(pnlCitasEmergencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 400, 720, 209));
+
+        btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/atras (1).png"))); // NOI18N
+        btnVolver.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnVolverMouseClicked(evt);
+            }
+        });
+        add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnVolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseClicked
+       framePrincipal.cambiarPanel("pantallaMedicosMenu");
+    }//GEN-LAST:event_btnVolverMouseClicked
+
+    private void txtCitasProgramadasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCitasProgramadasMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCitasProgramadasMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable tblCitasDisponibles;
-    private javax.swing.JTable tblCitasDisponibles1;
+    private javax.swing.JLabel btnVolver;
+    private javax.swing.JScrollPane pnlCitasEmergencia;
+    private javax.swing.JScrollPane pnlCitasProgramadas;
+    private javax.swing.JTable tblCitasEmergencia;
+    private javax.swing.JTable tblCitasProgramadas;
+    private javax.swing.JLabel txtCitasProgramadas;
+    private javax.swing.JLabel txtEmergencia;
     // End of variables declaration//GEN-END:variables
 }

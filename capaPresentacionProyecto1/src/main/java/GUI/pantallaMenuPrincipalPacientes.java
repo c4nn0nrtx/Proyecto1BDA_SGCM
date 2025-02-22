@@ -7,6 +7,7 @@ package GUI;
 import Exception.PersistenciaException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  * Pantalla Menu Principal.
@@ -79,6 +80,11 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         btnCancelarCita.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnCancelarCita.setText("Cancelar Cita");
         btnCancelarCita.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCancelarCita.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCancelarCitaMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlCancelarCitaLayout = new javax.swing.GroupLayout(pnlCancelarCita);
         pnlCancelarCita.setLayout(pnlCancelarCitaLayout);
@@ -110,6 +116,11 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         btnAgendarCita.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnAgendarCita.setText("Agendar una Cita");
         btnAgendarCita.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAgendarCita.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAgendarCitaMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlAgendarCitaLayout = new javax.swing.GroupLayout(pnlAgendarCita);
         pnlAgendarCita.setLayout(pnlAgendarCitaLayout);
@@ -168,7 +179,7 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         txtTituloPantalla1.setText("Usuarios");
         add(txtTituloPantalla1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 110, -1, -1));
 
-        btnPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/usuario.png")));
+        btnPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/usuario.png"))); // NOI18N
         btnPerfil.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnPerfil.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -192,7 +203,7 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrosMouseClicked
-        //framePrincipal.cambiarPanel("pantallaRegistrosPaciente");
+        framePrincipal.cambiarPanel("pantallaTusConsultas");
     }//GEN-LAST:event_btnRegistrosMouseClicked
 
     private void btnPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPerfilMouseClicked
@@ -214,6 +225,20 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
     private void btnCerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarSesionMouseClicked
         framePrincipal.cambiarPanel("pantallaInicioSesion");
     }//GEN-LAST:event_btnCerrarSesionMouseClicked
+
+    private void btnAgendarCitaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCitaMouseClicked
+        framePrincipal.cambiarPanel("pantallaAgendarCita");
+    }//GEN-LAST:event_btnAgendarCitaMouseClicked
+
+    private void btnCancelarCitaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarCitaMouseClicked
+        int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de cancelar la cita: ", "Confirmación", JOptionPane.YES_NO_OPTION);
+
+        if (opcion == JOptionPane.YES_OPTION) {
+            System.out.println("El usuario cancelo la cita.");
+        } else {
+            System.out.println("El usuario no cancelo la cita.");
+        }
+    }//GEN-LAST:event_btnCancelarCitaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

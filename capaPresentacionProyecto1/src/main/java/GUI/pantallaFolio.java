@@ -31,6 +31,7 @@ public class pantallaFolio extends javax.swing.JPanel {
         inputFolio = new javax.swing.JTextField();
         pnlCancelarCita2 = new javax.swing.JPanel();
         btnGuardarCambios = new javax.swing.JLabel();
+        btnVolver = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -76,6 +77,10 @@ public class pantallaFolio extends javax.swing.JPanel {
         );
 
         add(pnlCancelarCita2, new org.netbeans.lib.awtextra.AbsoluteConstraints(585, 459, 170, 40));
+
+        btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/atras (1).png"))); // NOI18N
+        btnVolver.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void inputFolioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputFolioActionPerformed
@@ -85,6 +90,7 @@ public class pantallaFolio extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnGuardarCambios;
+    private javax.swing.JLabel btnVolver;
     private javax.swing.JTextField inputFolio;
     private javax.swing.JPanel pnlCancelarCita2;
     private javax.swing.JLabel txtSubTitulo;
