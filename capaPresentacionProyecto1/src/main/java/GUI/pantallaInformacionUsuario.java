@@ -171,7 +171,7 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         btnRestablecer.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btnRestablecer.setForeground(new java.awt.Color(255, 255, 255));
         btnRestablecer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnRestablecer.setText("Restablecer datos");
+        btnRestablecer.setText("Cargar datos");
         btnRestablecer.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnRestablecer.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

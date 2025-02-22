@@ -4,6 +4,7 @@ configuracion\DependencyInjector.class
 DTO\CitaNuevoDTO.class
 BO\ConsultaBO.class
 BO\PacienteBO.class
+DTO\MedicoNuevoDTO.class
 Exception\NegocioException.class
 BO\UsuarioBO.class
 DTO\ConsultaNuevaDTO.class

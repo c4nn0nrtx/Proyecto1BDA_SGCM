@@ -4,8 +4,13 @@
  */
 package GUI;
 
+import Exception.PersistenciaException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Pantalla Menu Principal.
+ *
  * @author Sebastian Moreno
  */
 public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
@@ -14,6 +19,7 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
      * Creates new form pantallaMenuPrincipalPacientes
      */
     private FramePrincipal framePrincipal;
+
     public pantallaMenuPrincipalPacientes(FramePrincipal frame) {
         this.framePrincipal = frame;
         initComponents();
@@ -190,7 +196,19 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRegistrosMouseClicked
 
     private void btnPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPerfilMouseClicked
-        framePrincipal.cambiarPanel("pantallaInformacionUsuarios");
+        pantallaInformacionUsuario informacionUsuario = framePrincipal.getPantallaInformacion();
+
+        if (informacionUsuario != null) { try {
+            // Verifica que la pantalla no sea null
+            informacionUsuario.cargarPaciente();
+            } catch (PersistenciaException ex) {
+                Logger.getLogger(pantallaMenuPrincipalPacientes.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            framePrincipal.cambiarPanel("pantallaInformacionUsuarios"); // Cambia de pantalla
+        } else {
+            System.err.println("Error: pantallaInformacionUsuarios es null.");
+        }
+
     }//GEN-LAST:event_btnPerfilMouseClicked
 
     private void btnCerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarSesionMouseClicked

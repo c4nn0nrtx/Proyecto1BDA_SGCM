@@ -5,9 +5,18 @@
 package GUI;
 
 import BO.Direccion_PacienteBO;
+import BO.MedicoBO;
 import BO.PacienteBO;
 import BO.UsuarioBO;
+import DTO.MedicoNuevoDTO;
+import Entidades.Usuario;
+import Exception.NegocioException;
+import Exception.PersistenciaException;
 import configuracion.DependencyInjector;
+import java.awt.Color;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,11 +31,15 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
     private UsuarioBO usuarioBO = DependencyInjector.crearUsuarioBO();
     private PacienteBO pacienteBO = DependencyInjector.crearPacienteBO();
     private Direccion_PacienteBO direccionBO = DependencyInjector.crearDireccionBO();
+    private MedicoBO medicoBO = DependencyInjector.crearMedicoBO();
     private FramePrincipal framePrincipal;
 
     public pantallaMedicosMenu(FramePrincipal frame) {
         this.framePrincipal = frame;
         initComponents();
+        txtActivo.setVisible(false);
+        txtInactivo.setVisible(false);
+
     }
 
     /**
@@ -45,14 +58,15 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
         pnlAgendarCita1 = new javax.swing.JPanel();
         btnAgendarCita1 = new javax.swing.JLabel();
         pnlActivo = new javax.swing.JPanel();
-        btnAgendarCita3 = new javax.swing.JLabel();
+        btnEstadoActivo = new javax.swing.JLabel();
         pnlInactivo = new javax.swing.JPanel();
-        btnAgendarCita2 = new javax.swing.JLabel();
-        pnlInactivo1 = new javax.swing.JPanel();
+        btnEstadoInactivo = new javax.swing.JLabel();
+        pnlCerrarSesion = new javax.swing.JPanel();
         btnAgendarCita4 = new javax.swing.JLabel();
         txtStatus = new javax.swing.JLabel();
         txtActivo = new javax.swing.JLabel();
         txtInactivo = new javax.swing.JLabel();
+        txtStatusinicial = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -124,41 +138,46 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
 
         pnlActivo.setBackground(new java.awt.Color(0, 204, 0));
 
-        btnAgendarCita3.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
-        btnAgendarCita3.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgendarCita3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnAgendarCita3.setText("Médico Activo");
-        btnAgendarCita3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEstadoActivo.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        btnEstadoActivo.setForeground(new java.awt.Color(255, 255, 255));
+        btnEstadoActivo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnEstadoActivo.setText("Médico Activo");
+        btnEstadoActivo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEstadoActivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEstadoActivoMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlActivoLayout = new javax.swing.GroupLayout(pnlActivo);
         pnlActivo.setLayout(pnlActivoLayout);
         pnlActivoLayout.setHorizontalGroup(
             pnlActivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlActivoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAgendarCita3, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(pnlActivoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnEstadoActivo, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlActivoLayout.setVerticalGroup(
             pnlActivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlActivoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnAgendarCita3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnEstadoActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        add(pnlActivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(308, 467, -1, -1));
+        add(pnlActivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 430, 330, -1));
 
         pnlInactivo.setBackground(new java.awt.Color(255, 51, 51));
 
-        btnAgendarCita2.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
-        btnAgendarCita2.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgendarCita2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnAgendarCita2.setText("Médico Inactivo");
-        btnAgendarCita2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnAgendarCita2.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnEstadoInactivo.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        btnEstadoInactivo.setForeground(new java.awt.Color(255, 255, 255));
+        btnEstadoInactivo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnEstadoInactivo.setText("Médico Inactivo");
+        btnEstadoInactivo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEstadoInactivo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnAgendarCita2MouseClicked(evt);
+                btnEstadoInactivoMouseClicked(evt);
             }
         });
 
@@ -166,22 +185,26 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
         pnlInactivo.setLayout(pnlInactivoLayout);
         pnlInactivoLayout.setHorizontalGroup(
             pnlInactivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlInactivoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAgendarCita2, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGap(0, 330, Short.MAX_VALUE)
+            .addGroup(pnlInactivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlInactivoLayout.createSequentialGroup()
+                    .addContainerGap(10, Short.MAX_VALUE)
+                    .addComponent(btnEstadoInactivo, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
         );
         pnlInactivoLayout.setVerticalGroup(
             pnlInactivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlInactivoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnAgendarCita2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 53, Short.MAX_VALUE)
+            .addGroup(pnlInactivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlInactivoLayout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEstadoInactivo, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
-        add(pnlInactivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(308, 402, -1, -1));
+        add(pnlInactivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 350, 330, -1));
 
-        pnlInactivo1.setBackground(new java.awt.Color(255, 51, 51));
+        pnlCerrarSesion.setBackground(new java.awt.Color(255, 51, 51));
 
         btnAgendarCita4.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         btnAgendarCita4.setForeground(new java.awt.Color(255, 255, 255));
@@ -194,24 +217,24 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout pnlInactivo1Layout = new javax.swing.GroupLayout(pnlInactivo1);
-        pnlInactivo1.setLayout(pnlInactivo1Layout);
-        pnlInactivo1Layout.setHorizontalGroup(
-            pnlInactivo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlInactivo1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlCerrarSesionLayout = new javax.swing.GroupLayout(pnlCerrarSesion);
+        pnlCerrarSesion.setLayout(pnlCerrarSesionLayout);
+        pnlCerrarSesionLayout.setHorizontalGroup(
+            pnlCerrarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCerrarSesionLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnAgendarCita4, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        pnlInactivo1Layout.setVerticalGroup(
-            pnlInactivo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlInactivo1Layout.createSequentialGroup()
+        pnlCerrarSesionLayout.setVerticalGroup(
+            pnlCerrarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCerrarSesionLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnAgendarCita4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        add(pnlInactivo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(801, 467, -1, -1));
+        add(pnlCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(801, 467, -1, -1));
 
         txtStatus.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         txtStatus.setForeground(new java.awt.Color(0, 0, 0));
@@ -220,44 +243,115 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
 
         txtActivo.setForeground(new java.awt.Color(51, 153, 0));
         txtActivo.setText("ACTIVO");
-        add(txtActivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 130, 50, -1));
+        add(txtActivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 130, 80, -1));
 
         txtInactivo.setForeground(new java.awt.Color(255, 0, 0));
         txtInactivo.setText("INACTIVO");
-        add(txtInactivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 129, 50, -1));
+        add(txtInactivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 129, 70, -1));
+
+        txtStatusinicial.setText("jLabel2");
+        add(txtStatusinicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 130, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgendarCita4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCita4MouseClicked
         framePrincipal.cambiarPanel("pantallaInicioSesion");
     }//GEN-LAST:event_btnAgendarCita4MouseClicked
 
-    private void btnAgendarCita2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCita2MouseClicked
-        int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro de continuar?", "Confirmación", JOptionPane.YES_NO_OPTION);
+    private void btnEstadoInactivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEstadoInactivoMouseClicked
+        int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro de actualizar tu estado a inactivo?", "Confirmación", JOptionPane.YES_NO_OPTION);
 
         if (opcion == JOptionPane.YES_OPTION) {
             System.out.println("El usuario seleccionó Sí.");
-
+            try {
+                actualizarEstadoMedicoInactivo();
+            } catch (NegocioException ex) {
+                Logger.getLogger(pantallaMedicosMenu.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(pantallaMedicosMenu.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (PersistenciaException ex) {
+                Logger.getLogger(pantallaMedicosMenu.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             System.out.println("El usuario seleccionó No.");
         }
-    }//GEN-LAST:event_btnAgendarCita2MouseClicked
+    }//GEN-LAST:event_btnEstadoInactivoMouseClicked
+
+    private void btnEstadoActivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEstadoActivoMouseClicked
+        int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro de actualizar tu estado a activo?", "Confirmación", JOptionPane.YES_NO_OPTION);
+
+        if (opcion == JOptionPane.YES_OPTION) {
+            System.out.println("El usuario seleccionó Sí.");
+            try {
+                actualizarEstadoMedicoActivo();
+            } catch (NegocioException ex) {
+                Logger.getLogger(pantallaMedicosMenu.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(pantallaMedicosMenu.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (PersistenciaException ex) {
+                Logger.getLogger(pantallaMedicosMenu.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            System.out.println("El usuario seleccionó No.");
+        }
+    }//GEN-LAST:event_btnEstadoActivoMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAgendarCita;
     private javax.swing.JLabel btnAgendarCita1;
-    private javax.swing.JLabel btnAgendarCita2;
-    private javax.swing.JLabel btnAgendarCita3;
     private javax.swing.JLabel btnAgendarCita4;
+    private javax.swing.JLabel btnEstadoActivo;
+    private javax.swing.JLabel btnEstadoInactivo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel pnlActivo;
     private javax.swing.JPanel pnlAgendarCita1;
+    private javax.swing.JPanel pnlCerrarSesion;
     private javax.swing.JPanel pnlConsultarHistorialPaciente;
     private javax.swing.JPanel pnlInactivo;
-    private javax.swing.JPanel pnlInactivo1;
     private javax.swing.JLabel txtActivo;
     private javax.swing.JLabel txtInactivo;
     private javax.swing.JLabel txtStatus;
+    private javax.swing.JLabel txtStatusinicial;
     private javax.swing.JLabel txtSubTitulo;
     // End of variables declaration//GEN-END:variables
+public void actualizarEstadoMedicoInactivo() throws NegocioException, SQLException, PersistenciaException {
+        Usuario usuarioAutenticado = framePrincipal.getUsuarioAutenticado();
+
+        MedicoNuevoDTO medicoDTO = medicoBO.consultarMedico(usuarioAutenticado);
+        medicoBO.actualizarMedico(medicoDTO, "Inactivo");
+        txtInactivo.setVisible(true);
+        txtActivo.setVisible(false);
+        txtStatusinicial.setVisible(false);
+    }
+
+    public void actualizarEstadoMedicoActivo() throws NegocioException, SQLException, PersistenciaException {
+        Usuario usuarioAutenticado = framePrincipal.getUsuarioAutenticado();
+
+        MedicoNuevoDTO medicoDTO = medicoBO.consultarMedico(usuarioAutenticado);
+        medicoBO.actualizarMedico(medicoDTO, "Activo");
+        txtInactivo.setVisible(false);
+        txtActivo.setVisible(true);
+        txtStatusinicial.setVisible(false);
+
+    }
+
+    public void consultarStatus() throws NegocioException, SQLException, PersistenciaException {
+        Usuario usuarioAutenticado = framePrincipal.getUsuarioAutenticado();
+
+        MedicoNuevoDTO medicoDTO = medicoBO.consultarMedico(usuarioAutenticado);
+
+        String status = medicoDTO.getEstado();
+
+        if (status.equals("Activo")) {
+            txtStatusinicial.setForeground(Color.green);
+            txtStatusinicial.setText(status);
+
+        } else if (status.equals("Inactivo")) {
+            txtStatusinicial.setForeground(Color.red);
+            txtStatusinicial.setText(status);
+
+        }
+
+    }
+
 }

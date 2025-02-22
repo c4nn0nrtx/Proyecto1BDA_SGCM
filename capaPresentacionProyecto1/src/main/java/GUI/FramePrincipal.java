@@ -1,4 +1,3 @@
-
 package GUI;
 
 import Entidades.Usuario;
@@ -6,8 +5,9 @@ import java.awt.CardLayout;
 import javax.swing.SwingUtilities;
 
 /**
- * Frame Principal
- * Tiene un cardLayout para cambiar a todas las pantallas necesarias.
+ * Frame Principal Tiene un cardLayout para cambiar a todas las pantallas
+ * necesarias.
+ *
  * @author Sebastian Moreno
  */
 public class FramePrincipal extends javax.swing.JFrame {
@@ -23,7 +23,6 @@ public class FramePrincipal extends javax.swing.JFrame {
     pantallaConsultasRegistro pantallaConsultaRegistro;
     pantallaMedicosMenu pantallaMedicosMenu;
     private Usuario usuarioAutenticado;
-    
 
     public FramePrincipal() {
         setTitle("Sistema clinica");
@@ -31,11 +30,9 @@ public class FramePrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         initComponents();
-        
+
         inicializarPantallas();
-        
-        
-        
+
     }
 
     /**
@@ -76,10 +73,8 @@ public class FramePrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel panelPrincipal;
     // End of variables declaration//GEN-END:variables
 
-    
     /* METODOS DE APOYO EN FRAME PRINCIPAL*/
-    
-    public void inicializarPantallas(){
+    public void inicializarPantallas() {
         cardLayout = new CardLayout();
         panelPrincipal.setLayout(cardLayout);
         pantallaInicioSesion = new pantallaInicioSesion(this);
@@ -88,26 +83,34 @@ public class FramePrincipal extends javax.swing.JFrame {
         pantallaInformacionUsuarios = new pantallaInformacionUsuario(this);
         pantallaConsultaRegistro = new pantallaConsultasRegistro(this);
         pantallaMedicosMenu = new pantallaMedicosMenu(this);
-        
-        
-        panelPrincipal.add(pantallaInicioSesion,"pantallaInicioSesion");
-        panelPrincipal.add(pantallaRegistro,"pantallaRegistro");
-        panelPrincipal.add(pantallaPacientes,"pantallaPacientes");
-        panelPrincipal.add(pantallaInformacionUsuarios,"pantallaInformacionUsuarios");
-        panelPrincipal.add(pantallaConsultaRegistro,"pantallaConsultaRegistro");
-        panelPrincipal.add(pantallaMedicosMenu,"pantallaMedicosMenu");
-        
+
+        panelPrincipal.add(pantallaInicioSesion, "pantallaInicioSesion");
+        panelPrincipal.add(pantallaRegistro, "pantallaRegistro");
+        panelPrincipal.add(pantallaPacientes, "pantallaPacientes");
+        panelPrincipal.add(pantallaInformacionUsuarios, "pantallaInformacionUsuarios");
+        panelPrincipal.add(pantallaConsultaRegistro, "pantallaConsultaRegistro");
+        panelPrincipal.add(pantallaMedicosMenu, "pantallaMedicosMenu");
+
         SwingUtilities.updateComponentTreeUI(this);
         this.repaint();
     }
+
     public void cambiarPanel(String nombrePanel) {
         cardLayout.show(panelPrincipal, nombrePanel);
     }
-      public void setUsuarioAutenticado(Usuario usuario) {
+
+    public void setUsuarioAutenticado(Usuario usuario) {
         this.usuarioAutenticado = usuario;
     }
 
     public Usuario getUsuarioAutenticado() {
         return usuarioAutenticado;
+    }
+
+    public pantallaMedicosMenu getPantallaMedicosMenu() {
+        return pantallaMedicosMenu;
+    }
+    public pantallaInformacionUsuario getPantallaInformacion() {
+        return pantallaInformacionUsuarios;
     }
 }
