@@ -6,11 +6,17 @@ package DAO;
 
 import Conexion.IConexionBD;
 import Entidades.Cita;
+import Entidades.Horario_Medico;
+import Entidades.Medico;
+import Entidades.Paciente;
+import Entidades.Usuario;
 import Exception.PersistenciaException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,7 +48,7 @@ public class CitaDAO implements ICitaDAO {
             ps.setInt(5, cita.getMedico().getUsuario().getIdUsuario());
             ps.setInt(6, cita.getPaciente().getUsuario().getIdUsuario());
             System.out.println("ID Médico: " + cita.getMedico().getUsuario().getIdUsuario());
-            System.out.println("ID PACIENTE: " +cita.getPaciente().getUsuario().getIdUsuario());
+            System.out.println("ID PACIENTE: " + cita.getPaciente().getUsuario().getIdUsuario());
 
             int filasAfectadas = ps.executeUpdate();
             if (filasAfectadas == 0) {
@@ -64,5 +70,79 @@ public class CitaDAO implements ICitaDAO {
         }
         return cita;
     }
+
+    public List<Cita> consultarCitasProgramadasAgenda(Cita cita, Horario_Medico horario) throws PersistenciaException {
+    List<Cita> citas = new ArrayList<>();
+    String sql = "SELECT c.idCita, c.estado, c.fechaHoraProgramada, c.folio, c.tipo, " +
+                 "m.idMedico, m.nombre AS nombreMedico, m.apellidoPat AS apellidoPatMedico, " +
+                 "m.apellidoMat AS apellidoMatMedico, m.cedulaProf, m.especialidad, " +
+                 "p.idPaciente, p.nombre AS nombrePaciente, p.apellidoPat AS apellidoPatPaciente, " +
+                 "p.apellidoMat AS apellidoMatPaciente, p.correo, p.fechaNac, p.telefono " +
+                 "FROM CITAS c " +
+                 "JOIN MEDICOS m ON c.idMedico = m.idMedico " +
+                 "JOIN PACIENTES p ON c.idPaciente = p.idPaciente " +
+                 "JOIN HORARIOS_MEDICOS hm ON m.idMedico = hm.idMedico " +
+                 "JOIN HORARIOS h ON hm.idHorario = h.idHorario " +
+                 "WHERE c.idMedico = ? " +
+                 "AND DATE(c.fechaHoraProgramada) = ? " +
+                 "AND TIME(c.fechaHoraProgramada) BETWEEN h.horaInicio AND h.horaFin " +
+                 "AND c.estado = 'Programada'";
+
+    try (Connection con = this.conexionBD.crearConexion(); 
+         PreparedStatement stmt = con.prepareStatement(sql)) {
+
+        stmt.setInt(1, cita.getMedico().getUsuario().getIdUsuario());
+        stmt.setDate(2, java.sql.Date.valueOf(cita.getFechaHora().toLocalDate()));
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                // Crear objeto Usuario para Medico
+                Usuario usuarioMedico = new Usuario();
+                usuarioMedico.setIdUsuario(rs.getInt("idMedico"));  // Asignar ID del médico
+
+                // Crear objeto Medico y asociarle el Usuario
+                Medico medico = new Medico();
+                medico.setUsuario(usuarioMedico);
+                medico.setNombre(rs.getString("nombreMedico"));
+                medico.setApellidoPaterno(rs.getString("apellidoPatMedico"));
+                medico.setApellidoMaterno(rs.getString("apellidoMatMedico"));
+                medico.setCedulaProfesional(rs.getString("cedulaProf"));
+                medico.setEspecialidad(rs.getString("especialidad"));
+
+                // Crear objeto Usuario para Paciente
+                Usuario usuarioPaciente = new Usuario();
+                usuarioPaciente.setIdUsuario(rs.getInt("idPaciente"));  // Asignar ID del paciente
+
+                // Crear objeto Paciente y asociarle el Usuario
+                Paciente paciente = new Paciente();
+                paciente.setUsuario(usuarioPaciente);
+                paciente.setNombre(rs.getString("nombrePaciente"));
+                paciente.setApellidoPaterno(rs.getString("apellidoPatPaciente"));
+                paciente.setApellidoMaterno(rs.getString("apellidoMatPaciente"));
+                paciente.setCorreo(rs.getString("correo"));
+                paciente.setFechaNacimiento(rs.getDate("fechaNac").toLocalDate());
+                paciente.setTelefono(rs.getString("telefono"));
+
+                // Crear objeto Cita
+                Cita nuevaCita = new Cita();
+                nuevaCita.setIdCita(rs.getInt("idCita"));
+                nuevaCita.setEstado(rs.getString("estado"));
+                nuevaCita.setFechaHora(rs.getTimestamp("fechaHoraProgramada").toLocalDateTime());
+                nuevaCita.setFolio(rs.getString("folio"));
+                nuevaCita.setTipo(rs.getString("tipo"));
+                nuevaCita.setMedico(medico);
+                nuevaCita.setPaciente(paciente);
+
+                // Agregar la cita a la lista
+                citas.add(nuevaCita);
+            }
+        }
+    } catch (SQLException e) {
+        throw new PersistenciaException("Error al consultar las citas programadas", e);
+    }
+    return citas;
+}
+
+
 
 }

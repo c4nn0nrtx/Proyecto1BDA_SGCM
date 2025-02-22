@@ -19,4 +19,7 @@ public interface ICitaDAO {
      * @throws PersistenciaException 
      */
     public Cita agendarCita(Cita cita) throws PersistenciaException;
+    
+    public Cita consultarCitasProgramadasAgenda() throws PersistenciaException;
+    
 }
