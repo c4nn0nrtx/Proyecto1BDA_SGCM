@@ -1,4 +1,3 @@
-
 package BO;
 
 import Conexion.IConexionBD;
@@ -17,6 +16,8 @@ import Exception.PersistenciaException;
 import Mapper.Mapper;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,6 +26,7 @@ import java.util.logging.Logger;
  * @author Ramon Valencia
  */
 public class CitaBO {
+
     private static final Logger logger = Logger.getLogger(CitaBO.class.getName());
     private final ICitaDAO citaDAO;
     private final IConexionBD conexionBD;
@@ -38,41 +40,81 @@ public class CitaBO {
         this.pacienteBO = new PacienteBO(conexion);
         //this.medicoBO = new MedicoBO(conexion);
     }
-    
+
     // QUITAR TODO LO DE LOS COMENTARIOS CUANDO SE AGREGUEN TODO LA LOGICA DE LOS MEDICOS
     public boolean agendarCita(CitaNuevoDTO citaNueva, PacienteNuevoDTO pacienteNuevo, MedicoNuevoDTO medicoNuevo) throws NegocioException, SQLException {
-        if (citaNueva == null){
+        if (citaNueva == null) {
             throw new NegocioException("La cita no puede ser nula");
         }
-        if (pacienteNuevo == null){
+        if (pacienteNuevo == null) {
             throw new NegocioException("El paciente no puede ser nulo");
         }
-        if (medicoNuevo == null){
+        if (medicoNuevo == null) {
             throw new NegocioException("El medico no puede ser nulo");
         }
-        
+
         Connection con = null;
         try {
             con = this.conexionBD.crearConexion();
             con.setAutoCommit(false);
-            
+
             Medico medico = mapper.DTOMedicoToEntity(medicoNuevo);
             Paciente paciente = mapper.DTOPacienteToEntity(pacienteNuevo);
             citaNueva.setMedico(medico);
             citaNueva.setPaciente(paciente);
             Cita cita = mapper.DTOCitaToEntity(citaNueva);
-            
+
             citaDAO.agendarCita(cita);
-            
+
             con.commit();
             return true;
         } catch (PersistenciaException ex) {
             logger.log(Level.SEVERE, "Error, No se pudo agregar la cita. Intenta de nuevo.", ex);
-            
-        } catch (SQLException e){
-            con.rollback(); 
+
+        } catch (SQLException e) {
+            con.rollback();
         }
         return false;
-    } 
-    
+    }
+
+    public List<CitaNuevoDTO> obtenerAgendaCitasProgramadas(int idMedico) {
+        Connection con = null;
+        try {
+            con = this.conexionBD.crearConexion();
+
+            List<Cita> agendaCitas = citaDAO.consultarCitasProgramadasAgenda(idMedico);
+            int i = 0;
+            List<CitaNuevoDTO> agendaCitaDTO = new ArrayList<>();
+            while (i < agendaCitas.size()) {
+                CitaNuevoDTO agendaCitaNuevaDTO = mapper.CitaToNuevaDTO(agendaCitas.get(i));
+
+                agendaCitaDTO.add(agendaCitaNuevaDTO);
+                i++;
+            }
+            return agendaCitaDTO;
+        } catch (PersistenciaException ex) {
+            logger.log(Level.SEVERE, "Error, No se pudieron encontrar  las citas del médico. Intenta de nuevo.", ex);
+        }
+        return null;
+    }
+    public List<CitaNuevoDTO> obtenerAgendaCitasEmergencia(int idMedico) {
+        Connection con = null;
+        try {
+            con = this.conexionBD.crearConexion();
+
+            List<Cita> agendaCitas = citaDAO.consultarCitasEmergenciaAgenda(idMedico);
+            int i = 0;
+            List<CitaNuevoDTO> agendaCitaDTO = new ArrayList<>();
+            while (i < agendaCitas.size()) {
+                CitaNuevoDTO agendaCitaNuevaDTO = mapper.CitaToNuevaDTO(agendaCitas.get(i));
+
+                agendaCitaDTO.add(agendaCitaNuevaDTO);
+                i++;
+            }
+            return agendaCitaDTO;
+        } catch (PersistenciaException ex) {
+            logger.log(Level.SEVERE, "Error, No se pudieron encontrar  las citas del médico. Intenta de nuevo.", ex);
+        }
+        return null;
+    }
 }

@@ -11,7 +11,7 @@ import Entidades.Medico;
  *
  * @author PC
  */
-public class HorarioMedicoNuevoDTO {
+public class HorarioMedicoNuevoDTO { 
     private Medico medico;
     private Horario horario;
 

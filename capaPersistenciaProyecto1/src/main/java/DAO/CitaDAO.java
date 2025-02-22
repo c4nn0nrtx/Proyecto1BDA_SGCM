@@ -72,77 +72,217 @@ public class CitaDAO implements ICitaDAO {
     }
 
     public List<Cita> consultarCitasProgramadasAgenda(Cita cita, Horario_Medico horario) throws PersistenciaException {
-    List<Cita> citas = new ArrayList<>();
-    String sql = "SELECT c.idCita, c.estado, c.fechaHoraProgramada, c.folio, c.tipo, " +
-                 "m.idMedico, m.nombre AS nombreMedico, m.apellidoPat AS apellidoPatMedico, " +
-                 "m.apellidoMat AS apellidoMatMedico, m.cedulaProf, m.especialidad, " +
-                 "p.idPaciente, p.nombre AS nombrePaciente, p.apellidoPat AS apellidoPatPaciente, " +
-                 "p.apellidoMat AS apellidoMatPaciente, p.correo, p.fechaNac, p.telefono " +
-                 "FROM CITAS c " +
-                 "JOIN MEDICOS m ON c.idMedico = m.idMedico " +
-                 "JOIN PACIENTES p ON c.idPaciente = p.idPaciente " +
-                 "JOIN HORARIOS_MEDICOS hm ON m.idMedico = hm.idMedico " +
-                 "JOIN HORARIOS h ON hm.idHorario = h.idHorario " +
-                 "WHERE c.idMedico = ? " +
-                 "AND DATE(c.fechaHoraProgramada) = ? " +
-                 "AND TIME(c.fechaHoraProgramada) BETWEEN h.horaInicio AND h.horaFin " +
-                 "AND c.estado = 'Programada'";
+        List<Cita> citas = new ArrayList<>();
+        String sql = "SELECT c.idCita, c.estado, c.fechaHoraProgramada, c.folio, c.tipo, "
+                + "m.idMedico, m.nombre AS nombreMedico, m.apellidoPat AS apellidoPatMedico, "
+                + "m.apellidoMat AS apellidoMatMedico, m.cedulaProf, m.especialidad, "
+                + "p.idPaciente, p.nombre AS nombrePaciente, p.apellidoPat AS apellidoPatPaciente, "
+                + "p.apellidoMat AS apellidoMatPaciente, p.correo, p.fechaNac, p.telefono "
+                + "FROM CITAS c "
+                + "JOIN MEDICOS m ON c.idMedico = m.idMedico "
+                + "JOIN PACIENTES p ON c.idPaciente = p.idPaciente "
+                + "JOIN HORARIOS_MEDICOS hm ON m.idMedico = hm.idMedico "
+                + "JOIN HORARIOS h ON hm.idHorario = h.idHorario "
+                + "WHERE c.idMedico = ? "
+                + "AND DATE(c.fechaHoraProgramada) = ? "
+                + "AND TIME(c.fechaHoraProgramada) BETWEEN h.horaInicio AND h.horaFin "
+                + "AND c.estado = 'Programada'";
 
-    try (Connection con = this.conexionBD.crearConexion(); 
-         PreparedStatement stmt = con.prepareStatement(sql)) {
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement stmt = con.prepareStatement(sql)) {
 
-        stmt.setInt(1, cita.getMedico().getUsuario().getIdUsuario());
-        stmt.setDate(2, java.sql.Date.valueOf(cita.getFechaHora().toLocalDate()));
+            stmt.setInt(1, cita.getMedico().getUsuario().getIdUsuario());
+            stmt.setDate(2, java.sql.Date.valueOf(cita.getFechaHora().toLocalDate()));
 
-        try (ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                // Crear objeto Usuario para Medico
-                Usuario usuarioMedico = new Usuario();
-                usuarioMedico.setIdUsuario(rs.getInt("idMedico"));  // Asignar ID del médico
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    // Crear objeto Usuario para Medico
+                    Usuario usuarioMedico = new Usuario();
+                    usuarioMedico.setIdUsuario(rs.getInt("idMedico"));  // Asignar ID del médico
 
-                // Crear objeto Medico y asociarle el Usuario
-                Medico medico = new Medico();
-                medico.setUsuario(usuarioMedico);
-                medico.setNombre(rs.getString("nombreMedico"));
-                medico.setApellidoPaterno(rs.getString("apellidoPatMedico"));
-                medico.setApellidoMaterno(rs.getString("apellidoMatMedico"));
-                medico.setCedulaProfesional(rs.getString("cedulaProf"));
-                medico.setEspecialidad(rs.getString("especialidad"));
+                    // Crear objeto Medico y asociarle el Usuario
+                    Medico medico = new Medico();
+                    medico.setUsuario(usuarioMedico);
+                    medico.setNombre(rs.getString("nombreMedico"));
+                    medico.setApellidoPaterno(rs.getString("apellidoPatMedico"));
+                    medico.setApellidoMaterno(rs.getString("apellidoMatMedico"));
+                    medico.setCedulaProfesional(rs.getString("cedulaProf"));
+                    medico.setEspecialidad(rs.getString("especialidad"));
 
-                // Crear objeto Usuario para Paciente
-                Usuario usuarioPaciente = new Usuario();
-                usuarioPaciente.setIdUsuario(rs.getInt("idPaciente"));  // Asignar ID del paciente
+                    // Crear objeto Usuario para Paciente
+                    Usuario usuarioPaciente = new Usuario();
+                    usuarioPaciente.setIdUsuario(rs.getInt("idPaciente"));  // Asignar ID del paciente
 
-                // Crear objeto Paciente y asociarle el Usuario
-                Paciente paciente = new Paciente();
-                paciente.setUsuario(usuarioPaciente);
-                paciente.setNombre(rs.getString("nombrePaciente"));
-                paciente.setApellidoPaterno(rs.getString("apellidoPatPaciente"));
-                paciente.setApellidoMaterno(rs.getString("apellidoMatPaciente"));
-                paciente.setCorreo(rs.getString("correo"));
-                paciente.setFechaNacimiento(rs.getDate("fechaNac").toLocalDate());
-                paciente.setTelefono(rs.getString("telefono"));
+                    // Crear objeto Paciente y asociarle el Usuario
+                    Paciente paciente = new Paciente();
+                    paciente.setUsuario(usuarioPaciente);
+                    paciente.setNombre(rs.getString("nombrePaciente"));
+                    paciente.setApellidoPaterno(rs.getString("apellidoPatPaciente"));
+                    paciente.setApellidoMaterno(rs.getString("apellidoMatPaciente"));
+                    paciente.setCorreo(rs.getString("correo"));
+                    paciente.setFechaNacimiento(rs.getDate("fechaNac").toLocalDate());
+                    paciente.setTelefono(rs.getString("telefono"));
 
-                // Crear objeto Cita
-                Cita nuevaCita = new Cita();
-                nuevaCita.setIdCita(rs.getInt("idCita"));
-                nuevaCita.setEstado(rs.getString("estado"));
-                nuevaCita.setFechaHora(rs.getTimestamp("fechaHoraProgramada").toLocalDateTime());
-                nuevaCita.setFolio(rs.getString("folio"));
-                nuevaCita.setTipo(rs.getString("tipo"));
-                nuevaCita.setMedico(medico);
-                nuevaCita.setPaciente(paciente);
+                    // Crear objeto Cita
+                    Cita nuevaCita = new Cita();
+                    nuevaCita.setIdCita(rs.getInt("idCita"));
+                    nuevaCita.setEstado(rs.getString("estado"));
+                    nuevaCita.setFechaHora(rs.getTimestamp("fechaHoraProgramada").toLocalDateTime());
+                    nuevaCita.setFolio(rs.getString("folio"));
+                    nuevaCita.setTipo(rs.getString("tipo"));
+                    nuevaCita.setMedico(medico);
+                    nuevaCita.setPaciente(paciente);
 
-                // Agregar la cita a la lista
-                citas.add(nuevaCita);
+                    // Agregar la cita a la lista
+                    citas.add(nuevaCita);
+                }
             }
+        } catch (SQLException e) {
+            throw new PersistenciaException("Error al consultar las citas programadas", e);
         }
-    } catch (SQLException e) {
-        throw new PersistenciaException("Error al consultar las citas programadas", e);
+        return citas;
     }
-    return citas;
-}
 
+    public List<Cita> consultarCitasProgramadasAgenda(int idMedico) throws PersistenciaException {
+        List<Cita> citas = new ArrayList<>();
 
+        String sql = "SELECT c.idCita, c.estado, c.fechaHoraProgramada, c.folio, c.tipo, "
+                + "m.idMedico, m.nombre AS nombreMedico, m.apellidoPat AS apellidoPatMedico, "
+                + "m.apellidoMat AS apellidoMatMedico, m.cedulaProf, m.especialidad, "
+                + "p.idPaciente, p.nombre AS nombrePaciente, p.apellidoPat AS apellidoPatPaciente, "
+                + "p.apellidoMat AS apellidoMatPaciente, p.correo, p.fechaNac, p.telefono "
+                + "FROM CITAS c "
+                + "JOIN MEDICOS m ON c.idMedico = m.idMedico "
+                + "JOIN PACIENTES p ON c.idPaciente = p.idPaciente "
+                + "JOIN HORARIOS_MEDICOS hm ON m.idMedico = hm.idMedico "
+                + "JOIN HORARIOS h ON hm.idHorario = h.idHorario "
+                + "WHERE c.idMedico = ? "
+                + "AND TIME(c.fechaHoraProgramada) BETWEEN h.horaInicio AND h.horaFin "
+                + "AND c.estado = 'Programada' "
+                + "AND c.tipo = 'programada' "
+                + "ORDER BY c.fechaHoraProgramada ASC";
 
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setInt(1, idMedico);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    // Crear objeto Usuario para Medico
+                    Usuario usuarioMedico = new Usuario();
+                    usuarioMedico.setIdUsuario(rs.getInt("idMedico"));
+
+                    // Crear objeto Medico y asociarle el Usuario
+                    Medico medico = new Medico();
+                    medico.setUsuario(usuarioMedico);
+                    medico.setNombre(rs.getString("nombreMedico"));
+                    medico.setApellidoPaterno(rs.getString("apellidoPatMedico"));
+                    medico.setApellidoMaterno(rs.getString("apellidoMatMedico"));
+                    medico.setCedulaProfesional(rs.getString("cedulaProf"));
+                    medico.setEspecialidad(rs.getString("especialidad"));
+
+                    // Crear objeto Usuario para Paciente
+                    Usuario usuarioPaciente = new Usuario();
+                    usuarioPaciente.setIdUsuario(rs.getInt("idPaciente"));
+
+                    // Crear objeto Paciente y asociarle el Usuario
+                    Paciente paciente = new Paciente();
+                    paciente.setUsuario(usuarioPaciente);
+                    paciente.setNombre(rs.getString("nombrePaciente"));
+                    paciente.setApellidoPaterno(rs.getString("apellidoPatPaciente"));
+                    paciente.setApellidoMaterno(rs.getString("apellidoMatPaciente"));
+                    paciente.setCorreo(rs.getString("correo"));
+                    paciente.setFechaNacimiento(rs.getDate("fechaNac").toLocalDate());
+                    paciente.setTelefono(rs.getString("telefono"));
+
+                    // Crear objeto Cita
+                    Cita nuevaCita = new Cita();
+                    nuevaCita.setIdCita(rs.getInt("idCita"));
+                    nuevaCita.setEstado(rs.getString("estado"));
+                    nuevaCita.setFechaHora(rs.getTimestamp("fechaHoraProgramada").toLocalDateTime());
+                    nuevaCita.setFolio(rs.getString("folio"));
+                    nuevaCita.setTipo(rs.getString("tipo"));
+                    nuevaCita.setMedico(medico);
+                    nuevaCita.setPaciente(paciente);
+
+                    // Agregar la cita a la lista
+                    citas.add(nuevaCita);
+                }
+            }
+        } catch (SQLException e) {
+            throw new PersistenciaException("Error al consultar las citas programadas", e);
+        }
+        return citas;
+    }
+    
+    public List<Cita> consultarCitasEmergenciaAgenda(int idMedico) throws PersistenciaException {
+        List<Cita> citas = new ArrayList<>();
+
+        String sql = "SELECT c.idCita, c.estado, c.fechaHoraProgramada, c.folio, c.tipo, "
+                + "m.idMedico, m.nombre AS nombreMedico, m.apellidoPat AS apellidoPatMedico, "
+                + "m.apellidoMat AS apellidoMatMedico, m.cedulaProf, m.especialidad, "
+                + "p.idPaciente, p.nombre AS nombrePaciente, p.apellidoPat AS apellidoPatPaciente, "
+                + "p.apellidoMat AS apellidoMatPaciente, p.correo, p.fechaNac, p.telefono "
+                + "FROM CITAS c "
+                + "JOIN MEDICOS m ON c.idMedico = m.idMedico "
+                + "JOIN PACIENTES p ON c.idPaciente = p.idPaciente "
+                + "JOIN HORARIOS_MEDICOS hm ON m.idMedico = hm.idMedico "
+                + "JOIN HORARIOS h ON hm.idHorario = h.idHorario "
+                + "WHERE c.idMedico = ? "
+                + "AND TIME(c.fechaHoraProgramada) BETWEEN h.horaInicio AND h.horaFin "
+                + "AND c.estado = 'Programada' "
+                + "AND c.tipo = 'emergencia' "
+                + "ORDER BY c.fechaHoraProgramada ASC";
+
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setInt(1, idMedico);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    // Crear objeto Usuario para Medico
+                    Usuario usuarioMedico = new Usuario();
+                    usuarioMedico.setIdUsuario(rs.getInt("idMedico"));
+
+                    // Crear objeto Medico y asociarle el Usuario
+                    Medico medico = new Medico();
+                    medico.setUsuario(usuarioMedico);
+                    medico.setNombre(rs.getString("nombreMedico"));
+                    medico.setApellidoPaterno(rs.getString("apellidoPatMedico"));
+                    medico.setApellidoMaterno(rs.getString("apellidoMatMedico"));
+                    medico.setCedulaProfesional(rs.getString("cedulaProf"));
+                    medico.setEspecialidad(rs.getString("especialidad"));
+
+                    // Crear objeto Usuario para Paciente
+                    Usuario usuarioPaciente = new Usuario();
+                    usuarioPaciente.setIdUsuario(rs.getInt("idPaciente"));
+
+                    // Crear objeto Paciente y asociarle el Usuario
+                    Paciente paciente = new Paciente();
+                    paciente.setUsuario(usuarioPaciente);
+                    paciente.setNombre(rs.getString("nombrePaciente"));
+                    paciente.setApellidoPaterno(rs.getString("apellidoPatPaciente"));
+                    paciente.setApellidoMaterno(rs.getString("apellidoMatPaciente"));
+                    paciente.setCorreo(rs.getString("correo"));
+                    paciente.setFechaNacimiento(rs.getDate("fechaNac").toLocalDate());
+                    paciente.setTelefono(rs.getString("telefono"));
+
+                    // Crear objeto Cita
+                    Cita nuevaCita = new Cita();
+                    nuevaCita.setIdCita(rs.getInt("idCita"));
+                    nuevaCita.setEstado(rs.getString("estado"));
+                    nuevaCita.setFechaHora(rs.getTimestamp("fechaHoraProgramada").toLocalDateTime());
+                    nuevaCita.setFolio(rs.getString("folio"));
+                    nuevaCita.setTipo(rs.getString("tipo"));
+                    nuevaCita.setMedico(medico);
+                    nuevaCita.setPaciente(paciente);
+
+                    // Agregar la cita a la lista
+                    citas.add(nuevaCita);
+                }
+            }
+        } catch (SQLException e) {
+            throw new PersistenciaException("Error al consultar las citas programadas", e);
+        }
+        return citas;
+    }
 }

@@ -24,4 +24,7 @@ public interface ICitaDAO {
     
     public List<Cita> consultarCitasProgramadasAgenda(Cita cita,Horario_Medico horario) throws PersistenciaException;
     
+    public List<Cita> consultarCitasProgramadasAgenda(int idMedico) throws PersistenciaException;
+    
+    public List<Cita> consultarCitasEmergenciaAgenda(int idMedico) throws PersistenciaException;
 }

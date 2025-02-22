@@ -54,15 +54,15 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
         txtSubTitulo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         pnlConsultarHistorialPaciente = new javax.swing.JPanel();
+        btnConsultarHistorialPaciente = new javax.swing.JLabel();
+        pnlAgendarCita = new javax.swing.JPanel();
         btnAgendarCita = new javax.swing.JLabel();
-        pnlAgendarCita1 = new javax.swing.JPanel();
-        btnAgendarCita1 = new javax.swing.JLabel();
         pnlActivo = new javax.swing.JPanel();
         btnEstadoActivo = new javax.swing.JLabel();
         pnlInactivo = new javax.swing.JPanel();
         btnEstadoInactivo = new javax.swing.JLabel();
         pnlCerrarSesion = new javax.swing.JPanel();
-        btnAgendarCita4 = new javax.swing.JLabel();
+        btnCerrarSesion = new javax.swing.JLabel();
         txtStatus = new javax.swing.JLabel();
         txtActivo = new javax.swing.JLabel();
         txtInactivo = new javax.swing.JLabel();
@@ -84,14 +84,14 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
 
         pnlConsultarHistorialPaciente.setBackground(new java.awt.Color(60, 109, 232));
 
-        btnAgendarCita.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
-        btnAgendarCita.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgendarCita.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnAgendarCita.setText("Consultar Historial Paciente");
-        btnAgendarCita.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnAgendarCita.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnConsultarHistorialPaciente.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        btnConsultarHistorialPaciente.setForeground(new java.awt.Color(255, 255, 255));
+        btnConsultarHistorialPaciente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnConsultarHistorialPaciente.setText("Consultar Historial Paciente");
+        btnConsultarHistorialPaciente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnConsultarHistorialPaciente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnAgendarCitaMouseClicked(evt);
+                btnConsultarHistorialPacienteMouseClicked(evt);
             }
         });
 
@@ -101,50 +101,50 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
             pnlConsultarHistorialPacienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlConsultarHistorialPacienteLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAgendarCita, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnConsultarHistorialPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
         );
         pnlConsultarHistorialPacienteLayout.setVerticalGroup(
             pnlConsultarHistorialPacienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlConsultarHistorialPacienteLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnAgendarCita, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                .addComponent(btnConsultarHistorialPaciente, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         add(pnlConsultarHistorialPaciente, new org.netbeans.lib.awtextra.AbsoluteConstraints(97, 193, 390, 80));
 
-        pnlAgendarCita1.setBackground(new java.awt.Color(255, 0, 0));
+        pnlAgendarCita.setBackground(new java.awt.Color(255, 0, 0));
 
-        btnAgendarCita1.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
-        btnAgendarCita1.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgendarCita1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnAgendarCita1.setText("Consultar Agenda");
-        btnAgendarCita1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnAgendarCita1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnAgendarCita.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        btnAgendarCita.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgendarCita.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnAgendarCita.setText("Consultar Agenda");
+        btnAgendarCita.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAgendarCita.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnAgendarCita1MouseClicked(evt);
+                btnAgendarCitaMouseClicked(evt);
             }
         });
 
-        javax.swing.GroupLayout pnlAgendarCita1Layout = new javax.swing.GroupLayout(pnlAgendarCita1);
-        pnlAgendarCita1.setLayout(pnlAgendarCita1Layout);
-        pnlAgendarCita1Layout.setHorizontalGroup(
-            pnlAgendarCita1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlAgendarCita1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlAgendarCitaLayout = new javax.swing.GroupLayout(pnlAgendarCita);
+        pnlAgendarCita.setLayout(pnlAgendarCitaLayout);
+        pnlAgendarCitaLayout.setHorizontalGroup(
+            pnlAgendarCitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAgendarCitaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnAgendarCita1, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
+                .addComponent(btnAgendarCita, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        pnlAgendarCita1Layout.setVerticalGroup(
-            pnlAgendarCita1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlAgendarCita1Layout.createSequentialGroup()
+        pnlAgendarCitaLayout.setVerticalGroup(
+            pnlAgendarCitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAgendarCitaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnAgendarCita1, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                .addComponent(btnAgendarCita, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        add(pnlAgendarCita1, new org.netbeans.lib.awtextra.AbsoluteConstraints(511, 193, 380, 80));
+        add(pnlAgendarCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(511, 193, 380, 80));
 
         pnlActivo.setBackground(new java.awt.Color(0, 204, 0));
 
@@ -216,14 +216,14 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
 
         pnlCerrarSesion.setBackground(new java.awt.Color(255, 51, 51));
 
-        btnAgendarCita4.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        btnAgendarCita4.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgendarCita4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnAgendarCita4.setText("Cerrar Sesión");
-        btnAgendarCita4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnAgendarCita4.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnCerrarSesion.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        btnCerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
+        btnCerrarSesion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnCerrarSesion.setText("Cerrar Sesión");
+        btnCerrarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnAgendarCita4MouseClicked(evt);
+                btnCerrarSesionMouseClicked(evt);
             }
         });
 
@@ -233,14 +233,14 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
             pnlCerrarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCerrarSesionLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnAgendarCita4, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                .addComponent(btnCerrarSesion, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlCerrarSesionLayout.setVerticalGroup(
             pnlCerrarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCerrarSesionLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnAgendarCita4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCerrarSesion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -263,9 +263,9 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
         add(txtStatusinicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 130, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAgendarCita4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCita4MouseClicked
+    private void btnCerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarSesionMouseClicked
         framePrincipal.cambiarPanel("pantallaInicioSesion");
-    }//GEN-LAST:event_btnAgendarCita4MouseClicked
+    }//GEN-LAST:event_btnCerrarSesionMouseClicked
 
     private void btnEstadoInactivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEstadoInactivoMouseClicked
         int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro de actualizar tu estado a inactivo?", "Confirmación", JOptionPane.YES_NO_OPTION);
@@ -305,24 +305,27 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnEstadoActivoMouseClicked
 
-    private void btnAgendarCita1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCita1MouseClicked
-        framePrincipal.cambiarPanel("pantallaCitasPendientes");
-    }//GEN-LAST:event_btnAgendarCita1MouseClicked
-
     private void btnAgendarCitaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCitaMouseClicked
-        framePrincipal.cambiarPanel("pantallaConsultasPacientes");
+        framePrincipal.cambiarPanel("pantallaCitasPendientes");
+        pantallaCitasPendientes citas = framePrincipal.getPantallaCitasPendientes();
+        citas.consultarCitasProgramadas();
+        citas.consultarCitasEmergencia();
     }//GEN-LAST:event_btnAgendarCitaMouseClicked
+
+    private void btnConsultarHistorialPacienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConsultarHistorialPacienteMouseClicked
+        framePrincipal.cambiarPanel("pantallaConsultasPacientes");
+    }//GEN-LAST:event_btnConsultarHistorialPacienteMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAgendarCita;
-    private javax.swing.JLabel btnAgendarCita1;
-    private javax.swing.JLabel btnAgendarCita4;
+    private javax.swing.JLabel btnCerrarSesion;
+    private javax.swing.JLabel btnConsultarHistorialPaciente;
     private javax.swing.JLabel btnEstadoActivo;
     private javax.swing.JLabel btnEstadoInactivo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel pnlActivo;
-    private javax.swing.JPanel pnlAgendarCita1;
+    private javax.swing.JPanel pnlAgendarCita;
     private javax.swing.JPanel pnlCerrarSesion;
     private javax.swing.JPanel pnlConsultarHistorialPaciente;
     private javax.swing.JPanel pnlInactivo;

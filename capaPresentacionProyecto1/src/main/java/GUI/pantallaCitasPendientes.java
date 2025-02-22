@@ -4,6 +4,23 @@
  */
 package GUI;
 
+import BO.CitaBO;
+import DTO.CitaNuevoDTO;
+import configuracion.DependencyInjector;
+import java.awt.Component;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+
 /**
  *
  * @author Sebastian Moreno
@@ -13,8 +30,9 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
     /**
      * Creates new form pantallaCitasPendientes1
      */
-    
+    private CitaBO citaBO = DependencyInjector.crearCitaBO();
     FramePrincipal framePrincipal;
+
     public pantallaCitasPendientes(FramePrincipal frame) {
         this.framePrincipal = frame;
         initComponents();
@@ -36,6 +54,7 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
         pnlCitasEmergencia = new javax.swing.JScrollPane();
         tblCitasEmergencia = new javax.swing.JTable();
         btnVolver = new javax.swing.JLabel();
+        refrescar = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -48,7 +67,7 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
                 txtCitasProgramadasMouseClicked(evt);
             }
         });
-        add(txtCitasProgramadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(84, 6, 870, -1));
+        add(txtCitasProgramadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 710, -1));
 
         txtEmergencia.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         txtEmergencia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -76,9 +95,10 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tblCitasProgramadas.setRowHeight(40);
         pnlCitasProgramadas.setViewportView(tblCitasProgramadas);
 
-        add(pnlCitasProgramadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 720, 209));
+        add(pnlCitasProgramadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 70, 840, 270));
 
         tblCitasEmergencia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -101,35 +121,208 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tblCitasEmergencia.setRowHeight(40);
         pnlCitasEmergencia.setViewportView(tblCitasEmergencia);
 
-        add(pnlCitasEmergencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 400, 720, 209));
+        add(pnlCitasEmergencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 390, 840, 280));
 
         btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/atras (1).png"))); // NOI18N
+        btnVolver.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnVolver.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnVolverMouseClicked(evt);
             }
         });
         add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        refrescar.setText("refrescar");
+        refrescar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                refrescarMouseClicked(evt);
+            }
+        });
+        refrescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refrescarActionPerformed(evt);
+            }
+        });
+        add(refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 20, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseClicked
-       framePrincipal.cambiarPanel("pantallaMedicosMenu");
+        framePrincipal.cambiarPanel("pantallaMedicosMenu");
     }//GEN-LAST:event_btnVolverMouseClicked
 
     private void txtCitasProgramadasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCitasProgramadasMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCitasProgramadasMouseClicked
 
+    private void refrescarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refrescarMouseClicked
+        consultarCitasProgramadas();
+    }//GEN-LAST:event_refrescarMouseClicked
+
+    private void refrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refrescarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_refrescarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnVolver;
     private javax.swing.JScrollPane pnlCitasEmergencia;
     private javax.swing.JScrollPane pnlCitasProgramadas;
+    private javax.swing.JButton refrescar;
     private javax.swing.JTable tblCitasEmergencia;
     private javax.swing.JTable tblCitasProgramadas;
     private javax.swing.JLabel txtCitasProgramadas;
     private javax.swing.JLabel txtEmergencia;
     // End of variables declaration//GEN-END:variables
+
+    public void consultarCitasProgramadas() {
+        try {
+            List<CitaNuevoDTO> citas = citaBO.obtenerAgendaCitasProgramadas(framePrincipal.getUsuarioAutenticado().getIdUsuario());
+
+            // Si la lista es nula, crear una vacía para evitar NullPointerException
+            if (citas == null) {
+                citas = new ArrayList<>();
+            }
+            
+            // Columnas de la tabla
+            String[] columnas = {"PACIENTE", "HORARIO", "ESTADO", "ACCION"};
+            Object[][] datos = new Object[citas.size()][4];
+
+            // Formateador para la fecha y hora
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE d 'de' MMMM 'a las' hh:mm a", new Locale("es", "ES"));
+
+            for (int i = 0; i < citas.size(); i++) {
+                CitaNuevoDTO cita = citas.get(i);
+                datos[i][0] = cita.getPaciente().getNombre() + " " + cita.getPaciente().getApellidoPaterno();
+                datos[i][1] = cita.getFechaHora().format(formatter); // Formato legible
+                datos[i][2] = cita.getEstado();
+                datos[i][3] = "Iniciar"; // Botón en la tabla
+            }
+
+            DefaultTableModel model = new DefaultTableModel(datos, columnas) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return column == 3; // Solo la columna de "Iniciar" será editable
+                }
+            };
+
+            SwingUtilities.invokeLater(() -> {
+                DefaultTableModel emptyModel = new DefaultTableModel();
+                tblCitasProgramadas.setModel(emptyModel); // Limpia la tabla
+                tblCitasProgramadas.setModel(model);
+                agregarBotonIniciar(tblCitasProgramadas);
+                pnlCitasProgramadas.revalidate();
+                pnlCitasProgramadas.repaint();
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al cargar citas: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+     public void consultarCitasEmergencia() {
+        try {
+            List<CitaNuevoDTO> citas = citaBO.obtenerAgendaCitasEmergencia(framePrincipal.getUsuarioAutenticado().getIdUsuario());
+
+            // Si la lista es nula, crear una vacía para evitar NullPointerException
+            if (citas == null) {
+                citas = new ArrayList<>();
+            }
+            // Columnas de la tabla
+            String[] columnas = {"PACIENTE", "HORARIO", "ESTADO", "ACCION"};
+            Object[][] datos = new Object[citas.size()][4];
+
+            // Formateador para la fecha y hora
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE d 'de' MMMM 'a las' hh:mm a", new Locale("es", "ES"));
+
+            for (int i = 0; i < citas.size(); i++) {
+                CitaNuevoDTO cita = citas.get(i);
+                datos[i][0] = cita.getPaciente().getNombre() + " " + cita.getPaciente().getApellidoPaterno();
+                datos[i][1] = cita.getFechaHora().format(formatter); // Formato legible
+                datos[i][2] = cita.getEstado();
+                datos[i][3] = "Iniciar"; // Botón en la tabla
+            }
+
+            DefaultTableModel model = new DefaultTableModel(datos, columnas) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return column == 3; // Solo la columna de "Iniciar" será editable
+                }
+            };
+
+            SwingUtilities.invokeLater(() -> {
+                DefaultTableModel emptyModel = new DefaultTableModel();
+                tblCitasEmergencia.setModel(emptyModel); // Limpia la tabla
+                tblCitasEmergencia.setModel(model);
+                agregarBotonIniciar(tblCitasEmergencia);
+                pnlCitasEmergencia.revalidate();
+                pnlCitasEmergencia.repaint();
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al cargar citas: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void agregarBotonIniciar(JTable tabla) {
+        tabla.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer());
+        tabla.getColumnModel().getColumn(3).setCellEditor(new ButtonEditor(new JCheckBox()));
+    }
+
+    class ButtonRenderer extends JButton implements TableCellRenderer {
+
+        public ButtonRenderer() {
+            setOpaque(true);
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            setText((value == null) ? "Iniciar" : value.toString());
+            return this;
+        }
+    }
+
+    class ButtonEditor extends DefaultCellEditor {
+
+        private JButton button;
+        private String label;
+        private boolean isPushed;
+        private int selectedRow;
+
+        public ButtonEditor(JCheckBox checkBox) {
+            super(checkBox);
+            button = new JButton();
+            button.setOpaque(true);
+
+            button.addActionListener(e -> {
+                JOptionPane.showMessageDialog(button, "Iniciando cita en la fila " + selectedRow);
+                // Aquí puedes ejecutar la lógica para iniciar la cita
+            });
+        }
+
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            label = (value == null) ? "Iniciar" : value.toString();
+            button.setText(label);
+            isPushed = true;
+            selectedRow = row;
+            return button;
+        }
+
+        @Override
+        public Object getCellEditorValue() {
+            isPushed = false;
+            return label;
+        }
+
+        @Override
+        public boolean stopCellEditing() {
+            isPushed = false;
+            return super.stopCellEditing();
+        }
+    }
+
 }
