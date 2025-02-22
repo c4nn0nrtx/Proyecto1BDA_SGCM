@@ -10,6 +10,7 @@ import DTO.CitaNuevoDTO;
 import DTO.MedicoNuevoDTO;
 import DTO.PacienteNuevoDTO;
 import Entidades.Cita;
+import Entidades.Medico;
 import Entidades.Paciente;
 import Exception.NegocioException;
 import Exception.PersistenciaException;
@@ -55,9 +56,9 @@ public class CitaBO {
             con = this.conexionBD.crearConexion();
             con.setAutoCommit(false);
             
-            //Medico medico = mapper.DTOMedicoToEntity(medicoNuevo);
+            Medico medico = mapper.DTOMedicoToEntity(medicoNuevo);
             Paciente paciente = mapper.DTOPacienteToEntity(pacienteNuevo);
-            //citaNueva.setMedico(medico);
+            citaNueva.setMedico(medico);
             citaNueva.setPaciente(paciente);
             Cita cita = mapper.DTOCitaToEntity(citaNueva);
             

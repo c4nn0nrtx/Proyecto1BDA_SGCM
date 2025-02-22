@@ -19,48 +19,50 @@ import java.util.logging.Logger;
  * @author Ramon Valencia
  */
 public class CitaDAO implements ICitaDAO {
-     
+
     private IConexionBD conexionBD;
 
     public CitaDAO(IConexionBD conexion) {
         this.conexionBD = conexion;
     }
-    
+
     private static final Logger logger = Logger.getLogger(CitaDAO.class.getName());
-    
+
     @Override
-    public Cita agendarCita(Cita cita) throws PersistenciaException{
-        String consultaSQL = "INSERT INTO CITAS (estado, fechaHoraProgramada, folio, tipo, idMedico, idPaciente)"
-                + "VALUES(?, ?, ?, ?, ?, ?,)";
-        
-        try (Connection con = this.conexionBD.crearConexion(); 
-                PreparedStatement ps = con.prepareStatement(consultaSQL, PreparedStatement.RETURN_GENERATED_KEYS)){
-            
+    public Cita agendarCita(Cita cita) throws PersistenciaException {
+        String consultaSQL = "INSERT INTO CITAS (estado, fechaHoraProgramada, folio, tipo, idMedico, idPaciente) "
+                + "VALUES(?, ?, ?, ?, ?, ?)";  // 🔹 Eliminada la coma extra
+
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
+
             ps.setString(1, cita.getEstado());
             ps.setObject(2, cita.getFechaHora());
             ps.setString(3, cita.getFolio());
             ps.setString(4, cita.getTipo());
             ps.setInt(5, cita.getMedico().getUsuario().getIdUsuario());
             ps.setInt(6, cita.getPaciente().getUsuario().getIdUsuario());
-            
+            System.out.println("ID Médico: " + cita.getMedico().getUsuario().getIdUsuario());
+            System.out.println("ID PACIENTE: " +cita.getPaciente().getUsuario().getIdUsuario());
+
             int filasAfectadas = ps.executeUpdate();
             if (filasAfectadas == 0) {
-                logger.severe("ERROR: Hubo un fallo al agendar la cita, no se inserto niguna fila.");
+                logger.severe("ERROR: Hubo un fallo al agendar la cita, no se insertó ninguna fila.");
             }
-            
+
             try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     cita.setIdCita(generatedKeys.getInt(1));
                     logger.info("Cita agregada exitosamente");
                 } else {
-                    logger.severe("ERROR: La agregacion de la cita fallo, no se pudo obtener el id.");
+                    logger.severe("ERROR: La agregación de la cita falló, no se pudo obtener el ID.");
                 }
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(CitaDAO.class.getName()).log(Level.SEVERE, null, ex);
             throw new PersistenciaException("Error al registrar una cita en la base de datos.");
         }
         return cita;
     }
+
 }
