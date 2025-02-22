@@ -33,16 +33,19 @@ public class pantallaFolio extends javax.swing.JPanel {
         btnGuardarCambios = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txtSubTitulo.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         txtSubTitulo.setForeground(new java.awt.Color(0, 0, 0));
         txtSubTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txtSubTitulo.setText("Folio:");
+        add(txtSubTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 270, 82, -1));
 
         txtSubTitulo1.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
         txtSubTitulo1.setForeground(new java.awt.Color(0, 0, 0));
         txtSubTitulo1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txtSubTitulo1.setText("Ingresa el folio de la consulta");
+        add(txtSubTitulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 57, 988, -1));
 
         inputFolio.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         inputFolio.setText("Ingrese el folio de la cita de emergencia");
@@ -51,10 +54,12 @@ public class pantallaFolio extends javax.swing.JPanel {
                 inputFolioActionPerformed(evt);
             }
         });
+        add(inputFolio, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 320, 505, 50));
 
         pnlCancelarCita2.setBackground(new java.awt.Color(51, 102, 255));
 
         btnGuardarCambios.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        btnGuardarCambios.setForeground(new java.awt.Color(255, 255, 255));
         btnGuardarCambios.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnGuardarCambios.setText("Ingresar");
         btnGuardarCambios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -63,49 +68,14 @@ public class pantallaFolio extends javax.swing.JPanel {
         pnlCancelarCita2.setLayout(pnlCancelarCita2Layout);
         pnlCancelarCita2Layout.setHorizontalGroup(
             pnlCancelarCita2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlCancelarCita2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(btnGuardarCambios, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
         );
         pnlCancelarCita2Layout.setVerticalGroup(
             pnlCancelarCita2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlCancelarCita2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnGuardarCambios)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(btnGuardarCambios, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(txtSubTitulo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(238, 238, 238)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtSubTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(pnlCancelarCita2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(inputFolio, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(257, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addComponent(txtSubTitulo1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 216, Short.MAX_VALUE)
-                .addComponent(txtSubTitulo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(inputFolio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(75, 75, 75)
-                .addComponent(pnlCancelarCita2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(201, 201, 201))
-        );
+        add(pnlCancelarCita2, new org.netbeans.lib.awtextra.AbsoluteConstraints(585, 459, 170, 40));
     }// </editor-fold>//GEN-END:initComponents
 
     private void inputFolioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputFolioActionPerformed

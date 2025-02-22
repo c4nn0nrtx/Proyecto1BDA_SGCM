@@ -45,12 +45,15 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
         txtSubTitulo.setForeground(new java.awt.Color(0, 0, 0));
         txtSubTitulo.setText("Menú Principal");
 
+        jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("MEDICOS");
 
         pnlConsultarHistorialPaciente.setBackground(new java.awt.Color(60, 109, 232));
 
         btnAgendarCita.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        btnAgendarCita.setForeground(new java.awt.Color(255, 255, 255));
         btnAgendarCita.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnAgendarCita.setText("Consultar Historial Paciente");
         btnAgendarCita.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -75,6 +78,7 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
         pnlAgendarCita1.setBackground(new java.awt.Color(255, 0, 0));
 
         btnAgendarCita1.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        btnAgendarCita1.setForeground(new java.awt.Color(255, 255, 255));
         btnAgendarCita1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnAgendarCita1.setText("Consultar Agenda");
         btnAgendarCita1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -96,9 +100,10 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pnlActivo.setBackground(new java.awt.Color(60, 109, 232));
+        pnlActivo.setBackground(new java.awt.Color(0, 204, 0));
 
         btnAgendarCita3.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        btnAgendarCita3.setForeground(new java.awt.Color(255, 255, 255));
         btnAgendarCita3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnAgendarCita3.setText("Médico Activo");
         btnAgendarCita3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -123,6 +128,7 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
         pnlInactivo.setBackground(new java.awt.Color(255, 51, 51));
 
         btnAgendarCita2.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        btnAgendarCita2.setForeground(new java.awt.Color(255, 255, 255));
         btnAgendarCita2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnAgendarCita2.setText("Médico Inactivo");
         btnAgendarCita2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -147,6 +153,7 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
         pnlInactivo1.setBackground(new java.awt.Color(255, 51, 51));
 
         btnAgendarCita4.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        btnAgendarCita4.setForeground(new java.awt.Color(255, 255, 255));
         btnAgendarCita4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnAgendarCita4.setText("Cerrar Sesión");
         btnAgendarCita4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -172,17 +179,6 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(386, 386, 386)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(101, 101, 101)
-                        .addComponent(pnlConsultarHistorialPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(84, 84, 84)
-                        .addComponent(pnlAgendarCita1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(txtSubTitulo)
@@ -195,6 +191,17 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(pnlInactivo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(60, 60, 60))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(101, 101, 101)
+                        .addComponent(pnlConsultarHistorialPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(84, 84, 84)
+                        .addComponent(pnlAgendarCita1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(408, 408, 408)
+                        .addComponent(jLabel1)))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

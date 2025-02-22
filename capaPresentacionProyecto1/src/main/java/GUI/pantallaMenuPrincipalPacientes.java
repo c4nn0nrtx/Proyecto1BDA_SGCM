@@ -69,6 +69,7 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         pnlCancelarCita.setBackground(new java.awt.Color(255, 102, 120));
 
         btnCancelarCita.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        btnCancelarCita.setForeground(new java.awt.Color(255, 255, 255));
         btnCancelarCita.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnCancelarCita.setText("Cancelar Cita");
         btnCancelarCita.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -99,6 +100,7 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         pnlAgendarCita.setBackground(new java.awt.Color(60, 109, 232));
 
         btnAgendarCita.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        btnAgendarCita.setForeground(new java.awt.Color(255, 255, 255));
         btnAgendarCita.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnAgendarCita.setText("Agendar una Cita");
         btnAgendarCita.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -122,6 +124,7 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         pnlCerrarSesion.setBackground(new java.awt.Color(60, 109, 232));
 
         btnCerrarSesion.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        btnCerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
         btnCerrarSesion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnCerrarSesion.setText("Cerrar Sesión");
         btnCerrarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
