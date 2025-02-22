@@ -1,24 +1,29 @@
-
 package GUI;
 
 import BO.UsuarioBO;
 import DTO.UsuarioNuevoDTO;
 import Entidades.Usuario;
 import Exception.NegocioException;
+import Exception.PersistenciaException;
 import configuracion.DependencyInjector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
  * Pantalla Inicio de Sesión.
+ *
  * @author Sebastian Moreno
  */
 public class pantallaInicioSesion extends javax.swing.JPanel {
+
     private UsuarioBO usuarioBO = DependencyInjector.crearUsuarioBO();
     /**
      * Creates new form pantallaInicioSesion
      */
     private FramePrincipal framePrincipal;
     public Usuario usuarioGlobal;
+
     public pantallaInicioSesion(FramePrincipal frame) {
         this.framePrincipal = frame;
         initComponents();
@@ -207,12 +212,12 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRegistrateMouseClicked
 
     private void btnIniciarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIniciarSesionMouseClicked
-         usuarioGlobal = autenticarUsuario();
-     if( usuarioGlobal != null){
-         framePrincipal.setUsuarioAutenticado(usuarioGlobal);
-         framePrincipal.cambiarPanel("pantallaPacientes");
-         framePrincipal.cambiarPanel("pantallaPacientes");
-     } ;
+        try {
+            usuarioGlobal = autenticarUsuario();
+            framePrincipal.setUsuarioAutenticado(usuarioGlobal);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(pantallaInicioSesion.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         //CONDICION
     }//GEN-LAST:event_btnIniciarSesionMouseClicked
@@ -241,7 +246,7 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     //METODOS APOYO PARA INICIO DE SESION//
-    public Usuario autenticarUsuario() {
+    public Usuario autenticarUsuario() throws PersistenciaException {
 
         try {
             String nombreUsuario = inputUsuario.getText();
@@ -249,23 +254,30 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
             String contraseña = new String(listadoContraseña);
 
             UsuarioNuevoDTO usuario = new UsuarioNuevoDTO(nombreUsuario, contraseña);
-            
+
             Usuario usuarioGuardado = usuarioBO.autenticarUsuario(usuario);
-            
-            if (usuarioGuardado != null ){
-             JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso!");
-             return usuarioGuardado;
-            } else{
-             JOptionPane.showMessageDialog(this, "Contraseñas incorrectas.");
-             return null;
+
+            if (usuarioGuardado != null) {
+                if (usuarioBO.esMedico(usuarioGuardado.getIdUsuario())) {
+                    JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso!");
+                    framePrincipal.cambiarPanel("pantallaInicio");
+                    
+                } else {
+                    JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso!");
+                    framePrincipal.cambiarPanel("pantallaPacientes");
+                }
+
+                return usuarioGuardado;
+            } else {
+                JOptionPane.showMessageDialog(this, "Contraseñas incorrectas.");
+                return null;
             }
-            
-            
+
         } catch (NegocioException ex) {
-              // Manejo de excepciones específicas de la capa de negocio
-            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);   
+            // Manejo de excepciones específicas de la capa de negocio
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
-       return null;
+        return null;
     }
-    
+
 }

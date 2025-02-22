@@ -6,6 +6,7 @@ BO\ConsultaBO.class
 BO\PacienteBO.class
 Exception\NegocioException.class
 BO\UsuarioBO.class
+DTO\ConsultaNuevaDTO.class
 BO\Direccion_PacienteBO.class
 Mapper\Mapper.class
 BO\MedicoBO.class

@@ -37,6 +37,8 @@ public interface IUsuarioDAO {
       * @throws PersistenciaException 
       */
      public int consultarIdUsuario (Usuario usuario) throws PersistenciaException;
- 
+     
+     public boolean esMedico(int idUsuario) throws PersistenciaException ;
+     public boolean esPaciente(int idUsuario) throws PersistenciaException;
 
 }

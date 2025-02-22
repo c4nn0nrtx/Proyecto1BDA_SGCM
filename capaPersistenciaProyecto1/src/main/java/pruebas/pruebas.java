@@ -33,18 +33,13 @@ public class pruebas {
         // Crear la conexión a la base de datos
         IConexionBD conexionBD = new ConexionBD();
 
-        Usuario usuario = new Usuario("Soqui", "Jaime");
+        Usuario usuario = new Usuario("Medico1", "gusanitos123");
         UsuarioDAO usuarioDAO = new UsuarioDAO(conexionBD);
-        
-        
-
-        //Usuario usere = usuarioDAO.consultarUsuarioPorId(1);
-      
-        int user = usuarioDAO.consultarIdUsuario(usuario);
+        usuarioDAO.agregarUsuario(usuario);
 
 }
 
-
+    
  
 }
 

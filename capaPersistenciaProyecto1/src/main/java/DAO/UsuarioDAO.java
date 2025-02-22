@@ -154,7 +154,7 @@ public class UsuarioDAO implements IUsuarioDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     String hashedPassword = rs.getString("contrasenha");
-                    int idUsuario  = rs.getInt("idUsuario");
+                    int idUsuario = rs.getInt("idUsuario");
                     usuario.setIdUsuario(idUsuario);
                     // Verificar si la contraseña ingresada coincide con la almacenada
                     if (BCrypt.checkpw(usuario.getContrasenha(), hashedPassword)) {
@@ -174,4 +174,29 @@ public class UsuarioDAO implements IUsuarioDAO {
             throw new PersistenciaException("Error al autenticar al usuario en la base de datos: " + e.getMessage());
         }
     }
+    @Override
+    public boolean esMedico(int idUsuario) throws PersistenciaException {
+        String sql = "SELECT idMedico FROM MEDICOS WHERE idMedico = ?";
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idUsuario);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next(); // Si hay resultado, es médico
+            }
+        } catch (SQLException e) {
+            throw new PersistenciaException("Error al verificar si el usuario es médico: " + e.getMessage());
+        }
+    }
+     @Override
+    public boolean esPaciente(int idUsuario) throws PersistenciaException {
+        String sql = "SELECT idPaciente FROM PACIENTES WHERE idPaciente = ?";
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idUsuario);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next(); // Si hay resultado, es paciente
+            }
+        } catch (SQLException e) {
+            throw new PersistenciaException("Error al verificar si el usuario es paciente: " + e.getMessage());
+        }
+    }
+
 }

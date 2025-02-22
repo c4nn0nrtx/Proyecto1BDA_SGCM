@@ -115,5 +115,8 @@ public class UsuarioBO {
             throw new NegocioException("Contraseña incorrecta", ex);
         }
     }
+     public boolean esMedico(int idUsuario) throws PersistenciaException {
+        return usuarioDAO.esMedico(idUsuario);
+    }
 
 }
