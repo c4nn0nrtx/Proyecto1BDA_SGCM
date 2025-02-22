@@ -13,7 +13,10 @@ public class pantallaConsultasRegistro extends javax.swing.JPanel {
     /**
      * Creates new form pantallaConsultasRegistro
      */
-    public pantallaConsultasRegistro() {
+    
+     private FramePrincipal framePrincipal;
+    public pantallaConsultasRegistro(FramePrincipal frame) {
+        this.framePrincipal = frame;
         initComponents();
     }
 

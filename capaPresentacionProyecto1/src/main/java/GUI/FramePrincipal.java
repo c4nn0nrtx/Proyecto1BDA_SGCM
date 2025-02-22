@@ -20,6 +20,8 @@ public class FramePrincipal extends javax.swing.JFrame {
     pantallaRegistro pantallaRegistro;
     pantallaMenuPrincipalPacientes pantallaPacientes;
     pantallaInformacionUsuario pantallaInformacionUsuarios;
+    pantallaConsultasRegistro pantallaConsultaRegistro;
+    pantallaMedicosMenu pantallaMedicosMenu;
     private Usuario usuarioAutenticado;
     
 
@@ -84,12 +86,16 @@ public class FramePrincipal extends javax.swing.JFrame {
         pantallaRegistro = new pantallaRegistro(this);
         pantallaPacientes = new pantallaMenuPrincipalPacientes(this);
         pantallaInformacionUsuarios = new pantallaInformacionUsuario(this);
+        pantallaConsultaRegistro = new pantallaConsultasRegistro(this);
+        pantallaMedicosMenu = new pantallaMedicosMenu(this);
         
         
         panelPrincipal.add(pantallaInicioSesion,"pantallaInicioSesion");
         panelPrincipal.add(pantallaRegistro,"pantallaRegistro");
         panelPrincipal.add(pantallaPacientes,"pantallaPacientes");
         panelPrincipal.add(pantallaInformacionUsuarios,"pantallaInformacionUsuarios");
+        panelPrincipal.add(pantallaConsultaRegistro,"pantallaConsultaRegistro");
+        panelPrincipal.add(pantallaMedicosMenu,"pantallaMedicosMenu");
         
         SwingUtilities.updateComponentTreeUI(this);
         this.repaint();

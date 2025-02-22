@@ -13,7 +13,9 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
     /**
      * Creates new form pantallaMedicosMenu
      */
-    public pantallaMedicosMenu() {
+     private FramePrincipal framePrincipal;
+    public pantallaMedicosMenu(FramePrincipal frame) {
+        this.framePrincipal = frame;
         initComponents();
     }
 
@@ -157,6 +159,11 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
         btnAgendarCita4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnAgendarCita4.setText("Cerrar Sesión");
         btnAgendarCita4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAgendarCita4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAgendarCita4MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlInactivo1Layout = new javax.swing.GroupLayout(pnlInactivo1);
         pnlInactivo1.setLayout(pnlInactivo1Layout);
@@ -169,7 +176,7 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
         );
         pnlInactivo1Layout.setVerticalGroup(
             pnlInactivo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlInactivo1Layout.createSequentialGroup()
+            .addGroup(pnlInactivo1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnAgendarCita4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -227,6 +234,10 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
                         .addGap(92, 92, 92))))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAgendarCita4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCita4MouseClicked
+        framePrincipal.cambiarPanel("pantallaInicioSesion");
+    }//GEN-LAST:event_btnAgendarCita4MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

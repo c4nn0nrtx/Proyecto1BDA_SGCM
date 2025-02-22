@@ -260,7 +260,7 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
             if (usuarioGuardado != null) {
                 if (usuarioBO.esMedico(usuarioGuardado.getIdUsuario())) {
                     JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso!");
-                    framePrincipal.cambiarPanel("pantallaInicio");
+                    framePrincipal.cambiarPanel("pantallaMedicosMenu");
                     
                 } else {
                     JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso!");
