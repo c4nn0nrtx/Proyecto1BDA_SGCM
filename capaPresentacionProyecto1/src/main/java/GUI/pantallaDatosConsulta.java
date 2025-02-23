@@ -48,7 +48,8 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
         txtSubTitulo.setForeground(new java.awt.Color(0, 0, 0));
         txtSubTitulo.setText("Consulta");
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Paciente:");
 
         inputNombrePaciente.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -59,7 +60,8 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Diagnóstico:");
 
         inputDiagnostico.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -70,7 +72,8 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Tratamiento:");
 
         inputHorarioCita.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -81,7 +84,8 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Observaciones:");
 
         inputObservaciones.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -92,11 +96,13 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Hora de Entrada:");
 
         inputNombrePaciente1.setEditable(false);
-        inputNombrePaciente1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        inputNombrePaciente1.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        inputNombrePaciente1.setForeground(new java.awt.Color(0, 0, 0));
         inputNombrePaciente1.setText("Hora del Sistema");
         inputNombrePaciente1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -181,7 +187,7 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
                                 .addComponent(inputHorarioCita, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(inputDiagnostico, javax.swing.GroupLayout.Alignment.LEADING))
                             .addComponent(inputNombrePaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 564, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(inputNombrePaciente1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -223,7 +229,7 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(pnlCancelarCita2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pnlCancelarCita1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(160, Short.MAX_VALUE))
+                .addContainerGap(175, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

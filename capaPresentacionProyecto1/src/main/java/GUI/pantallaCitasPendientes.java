@@ -251,7 +251,8 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
                     return column == 3; // Solo la columna de "Iniciar" será editable
                 }
             };
-
+   
+            
             SwingUtilities.invokeLater(() -> {
                 DefaultTableModel emptyModel = new DefaultTableModel();
                 tblCitasEmergencia.setModel(emptyModel); // Limpia la tabla
