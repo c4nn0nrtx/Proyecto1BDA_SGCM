@@ -43,7 +43,7 @@ public class CitaDAO implements ICitaDAO {
 
             ps.setString(1, cita.getEstado());
             ps.setObject(2, cita.getFechaHora());
-            ps.setString(3, cita.getFolio());
+            ps.setString(3, generarFolio());
             ps.setString(4, cita.getTipo());
             ps.setInt(5, cita.getMedico().getUsuario().getIdUsuario());
             ps.setInt(6, cita.getPaciente().getUsuario().getIdUsuario());
@@ -284,5 +284,29 @@ public class CitaDAO implements ICitaDAO {
             throw new PersistenciaException("Error al consultar las citas programadas", e);
         }
         return citas;
+    }
+    
+    public String generarFolio() throws SQLException{
+        String consultaSQL = "SELECT folio FROM CITAS ORDER BY folio DSC LIMIT 1;";
+        
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL)) {
+            
+            try (ResultSet rs = ps.executeQuery()) {
+
+            String nuevoFolio;
+            if (rs.next()) { // Verifica si hay un resultado
+                String folioActual = rs.getString("folio"); // Obtiene el último folio
+                int numeroFolio = Integer.parseInt(folioActual); // Convierte a entero
+                nuevoFolio = String.format("%05d", numeroFolio + 1); // Aumenta y formatea a 5 dígitos
+            } else {
+                nuevoFolio = "00001"; // Si no hay registros, empieza en 00001
+            }
+            return nuevoFolio; // Retorna el nuevo folio
+
+            }
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(CitaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

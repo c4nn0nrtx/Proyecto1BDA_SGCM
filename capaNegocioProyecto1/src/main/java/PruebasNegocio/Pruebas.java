@@ -11,6 +11,10 @@ import DAO.Direccion_PacienteDAO;
 import DAO.HorarioMedicoDAO;
 import Exception.NegocioException;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -21,13 +25,16 @@ public class Pruebas {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws NegocioException, SQLException {
-        // TODO code application logic here
-        IConexionBD conexionBD = new ConexionBD();
-        HorarioMedicoBO horarioMedicoBO = new HorarioMedicoBO(conexionBD);
-        
-        horarioMedicoBO.obtenerHorariosMedicos();
+    public class ProximoDiaUtil {
+
+        public static void main(String[] args) throws NegocioException, SQLException {
+            // TODO code application logic here
+            IConexionBD conexionBD = new ConexionBD();
+            HorarioMedicoBO horarioMedicoBO = new HorarioMedicoBO(conexionBD);
+
+            horarioMedicoBO.obtenerHorariosMedicos();
+
+        }
 
     }
-    
 }

@@ -4,17 +4,29 @@
  */
 package GUI;
 
+import BO.CitaBO;
 import BO.HorarioMedicoBO;
+import BO.PacienteBO;
+import DTO.CitaNuevoDTO;
 import DTO.HorarioMedicoNuevoDTO;
+import DTO.MedicoNuevoDTO;
+import DTO.PacienteNuevoDTO;
 import Entidades.Horario;
 import Entidades.Medico;
+import Entidades.Paciente;
 import Exception.NegocioException;
+import Exception.PersistenciaException;
+import Mapper.Mapper;
 import configuracion.DependencyInjector;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.List;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -27,6 +39,13 @@ import javax.swing.JTable;
 public class pantallaAgendarCita extends javax.swing.JPanel {
     
     private HorarioMedicoBO horarioMedicoBO = DependencyInjector.crearHorarioMedicoBO();
+    private PacienteBO pacienteBO = DependencyInjector.crearPacienteBO();
+    private CitaBO citaBO = DependencyInjector.crearCitaBO();
+    private Object[][] horarioMedicoAlmacenado;
+    private Medico medico = new Medico();
+    private Horario horario = new Horario();
+    
+    Mapper mapper = new Mapper();
 
     /**
      * Creates new form pantallaAgendarCita1
@@ -34,20 +53,15 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
     
     FramePrincipal framePrincipal;
     public pantallaAgendarCita(FramePrincipal frame) throws NegocioException, SQLException {
-        this.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentShown(ComponentEvent e) {
-                try {
-                    consultarHorariosMedicos();
-                } catch (NegocioException ex) {
-                    Logger.getLogger(pantallaAgendarCita.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(pantallaAgendarCita.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
+        
         this.framePrincipal = frame;
         initComponents();
+        cargarHorariosMedicos();
+        tblCitasDisponibles.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) { // Evita ejecuciones innecesarias
+                cargarDatosDesdeTabla();
+            }
+        });
         
     }
 
@@ -83,6 +97,11 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
         btnAgendarCita.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnAgendarCita.setText("Agendar una Cita");
         btnAgendarCita.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAgendarCita.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAgendarCitaMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlAgendarCitaLayout = new javax.swing.GroupLayout(pnlAgendarCita);
         pnlAgendarCita.setLayout(pnlAgendarCitaLayout);
@@ -185,6 +204,11 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
         framePrincipal.cambiarPanel("pantallaPacientes");
     }//GEN-LAST:event_jLabel2MouseClicked
 
+    private void btnAgendarCitaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCitaMouseClicked
+        //agendarCita();
+        framePrincipal.cambiarPanel("pantallaInformacionCita");
+    }//GEN-LAST:event_btnAgendarCitaMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAgendarCita;
@@ -196,24 +220,28 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
     private javax.swing.JLabel txtSubTitulo;
     // End of variables declaration//GEN-END:variables
     
-    private void consultarHorariosMedicos() throws NegocioException, SQLException {
+    private void cargarHorariosMedicos() throws NegocioException, SQLException {
         try {
             List<HorarioMedicoNuevoDTO> horariosMedicoDTO = horarioMedicoBO.obtenerHorariosMedicos();
             String[] columnas = {"DOCTOR", "ESPECIALIDAD", "HORARIO"};
 
             // Inicializar el arreglo de datos con el tamaño correcto
             String[][] datos = new String[horariosMedicoDTO.size()][3]; 
-
+            horarioMedicoAlmacenado = new Object[horariosMedicoDTO.size()][2];
 
 
             for (int i = 0; i < horariosMedicoDTO.size(); i++) {
                 HorarioMedicoNuevoDTO horarioMedicoDTO = horariosMedicoDTO.get(i);
                 Medico medico = horarioMedicoDTO.getMedico();
                 Horario horario = horarioMedicoDTO.getHorario();
-
-                datos[i][0] = medico.getNombre() + " " + medico.getApellidoPaterno(); // Nombre del doctor
+                
+                datos[i][0] = "Dr. " + medico.getNombre() + " " + medico.getApellidoPaterno(); // Nombre del doctor
                 datos[i][1] = medico.getEspecialidad(); // Especialidad
-                datos[i][2] = horario.getHoraInicio().toString() + " - " + horario.getHoraFin().toString(); // Horario
+                datos[i][2] = horario.getDiaSemana() + " , " + horario.getHoraInicio().toString() + " - " + horario.getHoraFin().toString(); // Horario
+                
+                horarioMedicoAlmacenado[i][0] = medico;
+                horarioMedicoAlmacenado[i][1] = horario;
+                
             }
             tblCitasDisponibles.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
 
@@ -226,6 +254,53 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
         }
         
     }
+    
+    private void cargarDatosDesdeTabla() {
+        int filaSeleccionada = tblCitasDisponibles.getSelectedRow();
+        if (filaSeleccionada != -1 && horarioMedicoAlmacenado != null) {
+            Medico medico = (Medico) horarioMedicoAlmacenado[filaSeleccionada][0];
+            Horario horario = (Horario) horarioMedicoAlmacenado[filaSeleccionada][1];
+        }
+    }
+    
+    private void agendarCita() throws PersistenciaException {
+        try {
+            MedicoNuevoDTO medicoNuevo = mapper.MedicoToNuevoDTO(medico);
+            int id = framePrincipal.getUsuarioAutenticado().getIdUsuario();
+            Paciente paciente = pacienteBO.buscarPacientePorID(id);
+            PacienteNuevoDTO pacienteNuevo = mapper.PacienteToNuevoDTO(paciente);
+            
+            DayOfWeek dia = citaBO.obtenerDia(horario.getDiaSemana());
+            LocalDate fecha = obtenerProximoDia(dia);
+            LocalDateTime fechaHora = fecha.atTime(horario.getHoraInicio());
+            
+            CitaNuevoDTO citaNuevo = new CitaNuevoDTO("Programada", fechaHora, null, "programada", medico, paciente);
+            
+        } catch (PersistenciaException ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+        
+    }
+    
+    public static LocalDate obtenerProximoDia( DayOfWeek dia) {
+        //Este metodo sirve para buscar el proximo dia posible para la cita
+        LocalDate hoy = LocalDate.now();
+        for (int i = 1; i <= 7; i++) { 
+            LocalDate futuro = hoy.plusDays(i);
+            if (futuro.getDayOfWeek() == dia) {
+                return futuro;
+            }
+        }
+        return null;
+    }
+    
+    public static void main(String[] args) {
+        LocalDate fecha = LocalDate.of(2025, 2, 19);
+        LocalDateTime fechaHora = fecha.atTime(LocalTime.MIDNIGHT); // Agrega 00:00:00
+        System.out.println("Fecha convertida a LocalDateTime: " + fechaHora);
+    }
+
+
     
 }
 

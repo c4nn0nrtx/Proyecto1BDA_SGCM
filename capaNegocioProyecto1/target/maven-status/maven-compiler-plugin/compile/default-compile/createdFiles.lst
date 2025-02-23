@@ -12,6 +12,7 @@ BO\UsuarioBO.class
 DTO\ConsultaNuevaDTO.class
 BO\Direccion_PacienteBO.class
 Mapper\Mapper.class
+PruebasNegocio\Pruebas$ProximoDiaUtil.class
 BO\MedicoBO.class
 DTO\PacienteNuevoDTO.class
 PruebasNegocio\Pruebas.class

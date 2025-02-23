@@ -16,6 +16,14 @@ import Exception.PersistenciaException;
 import Mapper.Mapper;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
+import static java.time.DayOfWeek.FRIDAY;
+import static java.time.DayOfWeek.MONDAY;
+import static java.time.DayOfWeek.SATURDAY;
+import static java.time.DayOfWeek.SUNDAY;
+import static java.time.DayOfWeek.THURSDAY;
+import static java.time.DayOfWeek.TUESDAY;
+import static java.time.DayOfWeek.WEDNESDAY;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -97,6 +105,7 @@ public class CitaBO {
         }
         return null;
     }
+
     public List<CitaNuevoDTO> obtenerAgendaCitasEmergencia(int idMedico) {
         Connection con = null;
         try {
@@ -116,5 +125,26 @@ public class CitaBO {
             logger.log(Level.SEVERE, "Error, No se pudieron encontrar  las citas del médico. Intenta de nuevo.", ex);
         }
         return null;
+    }
+
+    public DayOfWeek obtenerDia(String dia) {
+        switch (dia) {
+            case "Lunes":
+                return MONDAY;
+            case "Martes":
+                return TUESDAY;
+            case "Miercoles":
+                return WEDNESDAY;
+            case "Jueves":
+                return THURSDAY;
+            case "Viernes":
+                return FRIDAY;
+            case "Sábado":
+                return SATURDAY;
+            case "Domingo":
+                return SUNDAY;
+            default:
+                return null;
+        }
     }
 }
