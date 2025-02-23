@@ -25,6 +25,7 @@ import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -294,11 +295,6 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
         return null;
     }
     
-    public static void main(String[] args) {
-        LocalDate fecha = LocalDate.of(2025, 2, 19);
-        LocalDateTime fechaHora = fecha.atTime(LocalTime.MIDNIGHT); // Agrega 00:00:00
-        System.out.println("Fecha convertida a LocalDateTime: " + fechaHora);
-    }
 
 
     
