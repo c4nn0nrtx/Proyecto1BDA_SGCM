@@ -139,7 +139,7 @@ public class CitaBO {
                 return THURSDAY;
             case "Viernes":
                 return FRIDAY;
-            case "Sábado":
+            case "Sabado":
                 return SATURDAY;
             case "Domingo":
                 return SUNDAY;
