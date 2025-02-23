@@ -290,7 +290,7 @@ public class CitaDAO implements ICitaDAO {
     }
     
     public String generarFolio() throws SQLException{
-        String consultaSQL = "SELECT folio FROM CITAS ORDER BY folio DSC LIMIT 1;";
+        String consultaSQL = "SELECT folio FROM CITAS ORDER BY folio DESC LIMIT 1;";
         
         try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL)) {
             
@@ -301,6 +301,7 @@ public class CitaDAO implements ICitaDAO {
                 String folioActual = rs.getString("folio"); // Obtiene el último folio
                 int numeroFolio = Integer.parseInt(folioActual); // Convierte a entero
                 nuevoFolio = String.format("%05d", numeroFolio + 1); // Aumenta y formatea a 5 dígitos
+                System.out.println(nuevoFolio);
             } else {
                 nuevoFolio = "00001"; // Si no hay registros, empieza en 00001
             }

@@ -297,11 +297,9 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
 
     public static LocalDate obtenerProximoDia(DayOfWeek dia) {
         //Este metodo sirve para buscar el proximo dia posible para la cita
-        System.out.println(dia);
         LocalDate hoy = LocalDate.now();
         for (int i = 1; i <= 10; i++) {
             LocalDate futuro = hoy.plusDays(i);
-            System.out.println(futuro);
             if (futuro.getDayOfWeek() == dia) {
                 return futuro;
             }
