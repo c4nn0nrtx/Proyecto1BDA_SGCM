@@ -133,30 +133,39 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         txtNumeroExt.setText("Numero Ext*:");
         add(txtNumeroExt, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 440, -1, -1));
 
+        inputCorreo.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         inputCorreo.setBorder(null);
         add(inputCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 380, 230, 40));
 
+        inputCalle.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         inputCalle.setBorder(null);
         add(inputCalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 380, 200, 40));
 
+        inputNumExt.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         inputNumExt.setBorder(null);
         add(inputNumExt, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 470, 110, 40));
 
+        inputColonia.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         inputColonia.setBorder(null);
         add(inputColonia, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 290, 200, 40));
 
+        inputCodigoPostal.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         inputCodigoPostal.setBorder(null);
         add(inputCodigoPostal, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 470, 200, 40));
 
+        inputNombre.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         inputNombre.setBorder(null);
         add(inputNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, 200, 40));
 
+        inputApellidoP.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         inputApellidoP.setBorder(null);
         add(inputApellidoP, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, 200, 40));
 
+        inputCelular.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         inputCelular.setBorder(null);
         add(inputCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 200, 200, 40));
 
+        inputApellidoM.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         inputApellidoM.setBorder(null);
         add(inputApellidoM, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, 230, 40));
 

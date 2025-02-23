@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,9 +64,9 @@ public class ConsultaDAO implements IConsultaDAO{
         return consulta;
         
     }
-
+    // FALTA DE IMPLEMENTAR : ULTIMO CAMBIO SEBASITAN
     @Override
-    public List<Consulta> obtenerConsultasPaciente(Paciente paciente) throws PersistenciaException {
+    public List<Consulta> obtenerConsultasPaciente(Paciente paciente,String especialidad,LocalDate fechaInicial,LocalDate  fechaFin ) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

@@ -83,7 +83,6 @@ public class pantallaRegistro extends javax.swing.JPanel {
         txtCelular1 = new javax.swing.JLabel();
         pnlBotonRegistrate = new javax.swing.JPanel();
         btnRegistrate1 = new javax.swing.JLabel();
-        jCalendar1 = new com.toedter.calendar.JCalendar();
 
         panelPrincipal.setBackground(new java.awt.Color(255, 255, 255));
         panelPrincipal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -260,7 +259,6 @@ public class pantallaRegistro extends javax.swing.JPanel {
         );
 
         panelPrincipal.add(pnlBotonRegistrate, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 600, 500, 40));
-        panelPrincipal.add(jCalendar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 0, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -303,7 +301,6 @@ public class pantallaRegistro extends javax.swing.JPanel {
     private javax.swing.JTextField inputNombre;
     private javax.swing.JTextField inputNumExt;
     private javax.swing.JTextField inputUsuario;
-    private com.toedter.calendar.JCalendar jCalendar1;
     private javax.swing.JPanel panelPrincipal;
     private javax.swing.JPanel pnlBotonRegistrate;
     private javax.swing.JPanel pnlBotonVolver;

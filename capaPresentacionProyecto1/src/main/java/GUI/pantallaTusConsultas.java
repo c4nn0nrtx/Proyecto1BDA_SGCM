@@ -37,6 +37,9 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
         btnVolver = new javax.swing.JLabel();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         txtSubTituloConsulta1 = new javax.swing.JLabel();
+        txtSubTituloConsulta2 = new javax.swing.JLabel();
+        txtSubTituloConsulta3 = new javax.swing.JLabel();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -48,8 +51,8 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
 
         txtSubTituloConsulta.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         txtSubTituloConsulta.setForeground(new java.awt.Color(0, 0, 0));
-        txtSubTituloConsulta.setText("Fecha de Consulta:");
-        add(txtSubTituloConsulta, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 120, -1, -1));
+        txtSubTituloConsulta.setText("Fecha Fin");
+        add(txtSubTituloConsulta, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 120, -1, -1));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Medicina General", "Cardiólogo", "Nutricionista" }));
         add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(74, 153, 250, -1));
@@ -93,12 +96,23 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
             }
         });
         add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-        add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 140, 240, 40));
+        add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 150, 240, 40));
 
         txtSubTituloConsulta1.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         txtSubTituloConsulta1.setForeground(new java.awt.Color(0, 0, 0));
         txtSubTituloConsulta1.setText("Tipo de Consulta (especialidad):");
         add(txtSubTituloConsulta1, new org.netbeans.lib.awtextra.AbsoluteConstraints(74, 122, -1, -1));
+
+        txtSubTituloConsulta2.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        txtSubTituloConsulta2.setForeground(new java.awt.Color(0, 0, 0));
+        txtSubTituloConsulta2.setText("Rango de Fechas:");
+        add(txtSubTituloConsulta2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 100, -1, -1));
+
+        txtSubTituloConsulta3.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        txtSubTituloConsulta3.setForeground(new java.awt.Color(0, 0, 0));
+        txtSubTituloConsulta3.setText("Fecha Inicio");
+        add(txtSubTituloConsulta3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 120, -1, -1));
+        add(jDateChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 150, 240, 40));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseClicked
@@ -110,10 +124,13 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
     private javax.swing.JLabel btnVolver;
     private javax.swing.JComboBox<String> jComboBox1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel txtSubTitulo;
     private javax.swing.JLabel txtSubTituloConsulta;
     private javax.swing.JLabel txtSubTituloConsulta1;
+    private javax.swing.JLabel txtSubTituloConsulta2;
+    private javax.swing.JLabel txtSubTituloConsulta3;
     // End of variables declaration//GEN-END:variables
 }
