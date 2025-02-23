@@ -20,7 +20,16 @@ public class Medico {
      */
     public Medico() {
     }
-
+    /**
+     * Constructor con id
+     * @param usuario
+     * @param nombre
+     * @param apellidoPaterno
+     * @param apellidoMaterno
+     * @param cedulaProfesional
+     * @param especialidad
+     * @param estado 
+     */
     public Medico(Usuario usuario, String nombre, String apellidoPaterno, String apellidoMaterno, String cedulaProfesional, String especialidad, String estado) {
         this.usuario = usuario;
         this.nombre = nombre;
@@ -30,6 +39,7 @@ public class Medico {
         this.especialidad = especialidad;
         this.estado = estado;
     }
+    
 
     public Usuario getUsuario() {
         return usuario;

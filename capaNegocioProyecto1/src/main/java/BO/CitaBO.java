@@ -127,7 +127,25 @@ public class CitaBO {
         return null;
     }
 
+    public List<CitaNuevoDTO> cargarCitas(int idMedico, String diaSemana, String fecha) {
+        List<CitaNuevoDTO> listaDTO = new ArrayList<>();
+        try {
+            List<Cita> citasDisponibles = citaDAO.cargarCitas(idMedico, diaSemana, fecha);
+            for (Cita citaDisponible : citasDisponibles) {
+                CitaNuevoDTO citaDTO = mapper.CitaToNuevaDTO(citaDisponible);
+                listaDTO.add(citaDTO);
+            }
+        } catch (PersistenciaException ex) {
+            logger.log(Level.SEVERE, "Error al cargar las citas del médico.", ex);
+        }
+        return listaDTO;
+    }
+
     public DayOfWeek obtenerDia(String dia) {
+        if (dia == null) {
+        System.out.println("Error: diaSemana es null en obtenerDia()");
+        return null;
+    }
         switch (dia) {
             case "Lunes":
                 return MONDAY;

@@ -6,6 +6,7 @@ package GUI;
 
 import BO.CitaBO;
 import BO.HorarioMedicoBO;
+import BO.MedicoBO;
 import BO.PacienteBO;
 import DTO.CitaNuevoDTO;
 import DTO.HorarioMedicoNuevoDTO;
@@ -27,8 +28,11 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -42,6 +46,7 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
 
     private HorarioMedicoBO horarioMedicoBO = DependencyInjector.crearHorarioMedicoBO();
     private PacienteBO pacienteBO = DependencyInjector.crearPacienteBO();
+    private MedicoBO medicoBO = DependencyInjector.crearMedicoBO();
     private CitaBO citaBO = DependencyInjector.crearCitaBO();
     private Object[][] horarioMedicoAlmacenado;
     private Medico medico = new Medico();
@@ -53,17 +58,11 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
      * Creates new form pantallaAgendarCita1
      */
     FramePrincipal framePrincipal;
-    
 
     public pantallaAgendarCita(FramePrincipal frame) throws NegocioException, SQLException {
 
         this.framePrincipal = frame;
         initComponents();
-        tblCitasDisponibles.getSelectionModel().addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) { // Evita ejecuciones innecesarias
-                cargarDatosDesdeTabla();
-            }
-        });
 
     }
 
@@ -208,21 +207,11 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void btnAgendarCitaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCitaMouseClicked
-        try {
-            agendarCita();
-            framePrincipal.cambiarPanel("pantallaInformacionCita");
-            
-            cargarHorariosMedicos();
-            pantallaInformacionCita agendarCitas = framePrincipal.getPantallaInformacionCitas();
-            agendarCitas.cargarDatosCita();
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(pantallaAgendarCita.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NegocioException ex) {
-            Logger.getLogger(pantallaAgendarCita.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(pantallaAgendarCita.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        agendarCitaDesdeTabla();
+        framePrincipal.cambiarPanel("pantallaInformacionCita");
+        pantallaInformacionCita agendarCitas = framePrincipal.getPantallaInformacionCitas();
+        agendarCitas.cargarDatosCita();
+
     }//GEN-LAST:event_btnAgendarCitaMouseClicked
 
 
@@ -235,83 +224,122 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
     private javax.swing.JTable tblCitasDisponibles;
     private javax.swing.JLabel txtSubTitulo;
     // End of variables declaration//GEN-END:variables
-
-    public void cargarHorariosMedicos() throws NegocioException, SQLException {
+    /**
+     * Metodo que carga las citas cuando se introduce a la pantalla.
+     * Las setea dentro de la tabla una vez consultadas con el BO.
+     * @throws NegocioException
+     * @throws SQLException
+     * @throws PersistenciaException 
+     */
+    public void cargarCitas() throws NegocioException, SQLException, PersistenciaException {
         try {
-            List<HorarioMedicoNuevoDTO> horariosMedicoDTO = horarioMedicoBO.obtenerHorariosMedicos();
+            // Obtener la lista de horarios de los médicos
+            List<Medico> listadoMedicos = medicoBO.obtenerMedicosConHorario();
+
+            // Convertir DayOfWeek a String en español (o el formato que uses en la BD)
+            String diaSemana = LocalDate.now().getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
+
+            // Obtener la fecha actual en formato "YYYY-MM-DD"
+            String fecha = LocalDate.now().toString();
+
             String[] columnas = {"DOCTOR", "ESPECIALIDAD", "HORARIO"};
+            List<String[]> listaDatos = new ArrayList<>();
 
-            // Inicializar el arreglo de datos con el tamaño correcto
-            String[][] datos = new String[horariosMedicoDTO.size()][3];
-            horarioMedicoAlmacenado = new Object[horariosMedicoDTO.size()][2];
+            // Iterar sobre los horarios médicos para obtener sus citas disponibles
+            for (Medico listaMedicos : listadoMedicos) {
+                int idMedico = listaMedicos.getUsuario().getIdUsuario();
 
-            for (int i = 0; i < horariosMedicoDTO.size(); i++) {
-                HorarioMedicoNuevoDTO horarioMedicoDTO = horariosMedicoDTO.get(i);
-                Medico medico = horarioMedicoDTO.getMedico();
-                Horario horario = horarioMedicoDTO.getHorario();
+                // Obtener las citas disponibles para ese médico
+                List<CitaNuevoDTO> citasDisponibles = citaBO.cargarCitas(idMedico, diaSemana, fecha);
 
-                datos[i][0] = "Dr. " + medico.getNombre() + " " + medico.getApellidoPaterno(); // Nombre del doctor
-                datos[i][1] = medico.getEspecialidad(); // Especialidad
-                datos[i][2] = horario.getDiaSemana() + " , " + horario.getHoraInicio().toString() + " - " + horario.getHoraFin().toString(); // Horario
+                // Si hay citas disponibles, agregarlas a la tabla
+                for (CitaNuevoDTO cita : citasDisponibles) {
+                    Medico medico = cita.getMedico(); // Obtener el médico de la cita
 
-                horarioMedicoAlmacenado[i][0] = medico;
-                horarioMedicoAlmacenado[i][1] = horario;
-
+                    listaDatos.add(new String[]{
+                        "Dr. " + medico.getNombre() + " " + medico.getApellidoPaterno() + " " + medico.getApellidoMaterno(), // Nombre del doctor
+                        medico.getEspecialidad(), // Especialidad del médico
+                        cita.getFechaHora().toLocalTime().toString() // Horario de la cita (Solo la hora)
+                    });
+                }
             }
+
+            // Convertir la lista a un array para la tabla
+            String[][] datos = listaDatos.toArray(new String[0][]);
+
+            // Configurar la tabla con los datos obtenidos
             tblCitasDisponibles.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
-
             jScrollPane1.setViewportView(tblCitasDisponibles);
-
             jScrollPane1.revalidate();
             jScrollPane1.repaint();
-        } catch (NegocioException ex) {
-            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al cargar las citas: " + ex.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
-
     }
-
-    private void cargarDatosDesdeTabla() {
+    /**
+     * Metodo que agenda una cita desde la tabla.
+     * Obtiene las filas seleccionadas y convierte esos datos a objetos
+     * Para posteriormente agendar una cita usando el BO con los objetos creados.
+     */
+    private void agendarCitaDesdeTabla() {
         int filaSeleccionada = tblCitasDisponibles.getSelectedRow();
-        if (filaSeleccionada != -1 && horarioMedicoAlmacenado != null) {
-            medico = (Medico) horarioMedicoAlmacenado[filaSeleccionada][0];
-            horario = (Horario) horarioMedicoAlmacenado[filaSeleccionada][1];
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione una cita de la tabla.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-    }
 
-    private void agendarCita() throws PersistenciaException, NegocioException, SQLException {
         try {
-            MedicoNuevoDTO medicoNuevo = mapper.MedicoToNuevoDTO(medico);
-            int id = framePrincipal.getUsuarioAutenticado().getIdUsuario();
+            // Obtener datos de la fila seleccionada
+            String nombreMedico = tblCitasDisponibles.getValueAt(filaSeleccionada, 0).toString();
+            String especialidad = tblCitasDisponibles.getValueAt(filaSeleccionada, 1).toString();
+            String hora = tblCitasDisponibles.getValueAt(filaSeleccionada, 2).toString();
+            System.out.println(nombreMedico);
+
+            // Buscar en la BD o crear el objeto MedicoNuevoDTO    // mejor manera de encontrar algun medico???
+            MedicoNuevoDTO medico = medicoBO.obtenerMedicoPorNombre(nombreMedico.replace("Dr. ", "").trim());
+            Medico medicoEntity = mapper.DTOMedicoToEntity(medico);
+            if (medico == null) {
+                JOptionPane.showMessageDialog(this, "No se encontró el médico seleccionado.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Obtener paciente (puede ser el paciente logueado o seleccionado de una lista)
+            int id = framePrincipal.getUsuarioAutenticado().getIdUsuario(); // paciente
             Paciente paciente = pacienteBO.buscarPacientePorID(id);
             PacienteNuevoDTO pacienteNuevo = mapper.PacienteToNuevoDTO(paciente);
-            DayOfWeek dia = citaBO.obtenerDia(horario.getDiaSemana());
-            LocalDate fecha = obtenerProximoDia(dia);
-            if (fecha != null) {
-                LocalDateTime fechaHora = fecha.atTime(horario.getHoraInicio());
-                CitaNuevoDTO citaNuevo = new CitaNuevoDTO("Programada", fechaHora, "0", "programada", medico, paciente);
-                framePrincipal.setCitaFinal(citaNuevo);
-                citaBO.agendarCita(citaNuevo, pacienteNuevo, medicoNuevo);
-                JOptionPane.showMessageDialog(this, "Cita agendada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
+            if (paciente == null) {
+                JOptionPane.showMessageDialog(this, "No se encontró el paciente.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            // Obtener la fecha actual
+            LocalDate fechaActual = LocalDate.now();
+
+            // Convertir la hora (String) a LocalTime
+            LocalTime horaCita = LocalTime.parse(hora, DateTimeFormatter.ofPattern("HH:mm"));
+
+            // Combinar la fecha actual con la hora de la cita
+            LocalDateTime fechaHora = LocalDateTime.of(fechaActual, horaCita);
+
+            // Asignar la fecha y hora a la cita
+            CitaNuevoDTO nuevaCita = new CitaNuevoDTO();
+            nuevaCita.setFechaHora(fechaHora);
+            nuevaCita.setMedico(medicoEntity);
+            nuevaCita.setPaciente(paciente);
+            framePrincipal.setCitaFinal(nuevaCita);
+            System.out.println(nuevaCita + "LOOOOOOOOOOOOOL");
+            // Intentar agendar la cita
+            boolean citaAgendada = citaBO.agendarCita(nuevaCita, pacienteNuevo, medico);
+            if (citaAgendada) {
+                JOptionPane.showMessageDialog(this, "Cita agendada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "No se ha encontrado una fecha válida para la cita", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "No se pudo agendar la cita.", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
-        } catch (PersistenciaException ex) {
-            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al procesar la cita: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
         }
-
-    }
-
-    public static LocalDate obtenerProximoDia(DayOfWeek dia) {
-        //Este metodo sirve para buscar el proximo dia posible para la cita
-        LocalDate hoy = LocalDate.now();
-        for (int i = 1; i <= 10; i++) {
-            LocalDate futuro = hoy.plusDays(i);
-            if (futuro.getDayOfWeek() == dia) {
-                return futuro;
-            }
-        }
-        return null;
     }
 
 }

@@ -32,7 +32,7 @@ public class MedicoDAO implements IMedicoDAO {
         this.conexion = conexion;
         this.usuarioDAO = new UsuarioDAO(conexion);
     }
-    
+
     private static final Logger logger = Logger.getLogger(MedicoDAO.class.getName());
 
     /**
@@ -63,7 +63,6 @@ public class MedicoDAO implements IMedicoDAO {
                     medico.setEstado(rs.getString("estado"));
                     medico.setEspecialidad(rs.getString("especialidad"));
 
-                    
                 } else {
                     logger.severe("No se encontro medico con id " + id);
                 }
@@ -75,12 +74,14 @@ public class MedicoDAO implements IMedicoDAO {
         }
         return medico;
     }
+
     /**
      * Obtiene los medicos de una especialidad especifica.
+     *
      * @param especialidad
      * @return una lista de medicos.
-     * @throws PersistenciaException 
-    */ 
+     * @throws PersistenciaException
+     */
     @Override
     public List<Medico> obtenerPorEspecialidad(String especialidad) throws PersistenciaException {
 
@@ -112,13 +113,15 @@ public class MedicoDAO implements IMedicoDAO {
             throw new PersistenciaException("Error al obtener la lista de medicos por especialidad desde la base de datos.", ex);
         }
     }
+
     /**
      * Actualiza el estado de un medico
+     *
      * @param medico
      * @param estado activo o inactivo
      * @return verdadero si, se actualizo el estado.
-     * @throws PersistenciaException 
-    */ 
+     * @throws PersistenciaException
+     */
     @Override
     public boolean actualizarEstadoMedico(Medico medico, String estado) throws PersistenciaException {
         String consultaSQL = "UPDATE MEDICOS SET ESTADO = ? WHERE idMedico = ?";
@@ -146,5 +149,71 @@ public class MedicoDAO implements IMedicoDAO {
             logger.log(Level.SEVERE, "Error: ", e.getSQLState()); //Ultima validacion
             throw new PersistenciaException("Hubo un error actualizando", e);
         }
-    } 
+    }
+
+    public List<Medico> obtenerMedicosConHorario() throws PersistenciaException {
+        String consultaSQL = "SELECT DISTINCT m.idMedico, m.nombre, m.apellidoPat, m.apellidoMat, "
+                + "m.cedulaProf, m.estado, m.especialidad "
+                + "FROM MEDICOS m "
+                + "JOIN HORARIOS_MEDICOS h ON m.idMedico = h.idMedico "
+                + "WHERE m.estado = 'Activo'";
+
+        List<Medico> listaMedicos = new ArrayList<>();
+
+        try (Connection con = conexion.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Medico medico = new Medico();
+                Usuario usuario = usuarioDAO.consultarUsuarioPorId(rs.getInt("idMedico")); // Asociamos el usuario
+                medico.setUsuario(usuario);
+                medico.setNombre(rs.getString("nombre"));
+                medico.setApellidoPaterno(rs.getString("apellidoPat"));
+                medico.setApellidoMaterno(rs.getString("apellidoMat"));
+                medico.setCedulaProfesional(rs.getString("cedulaProf"));
+                medico.setEstado(rs.getString("estado"));
+                medico.setEspecialidad(rs.getString("especialidad"));
+
+                listaMedicos.add(medico);
+            }
+            return listaMedicos;
+        } catch (SQLException ex) {
+            Logger.getLogger(MedicoDAO.class.getName()).log(Level.SEVERE, "Error al obtener médicos con horario", ex);
+            throw new PersistenciaException("Error al obtener médicos con horario desde la base de datos.", ex);
+        }
+    }
+    /**
+     * Obtiene un medico por su nombre Completo.
+     * @param nombreCompleto
+     * @return Un medico tipo Medico
+     * @throws PersistenciaException 
+     */
+    public Medico obtenerMedicoPorNombre(String nombreCompleto) throws PersistenciaException {
+        String consultaSQL = "SELECT idMedico, nombre, apellidoPat, apellidoMat, cedulaProf, estado, especialidad "
+                + "FROM MEDICOS WHERE CONCAT(nombre, ' ', apellidoPat, ' ', apellidoMat) = ? AND estado = 'Activo'";
+
+        try (Connection con = conexion.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL)) {
+
+            ps.setString(1, nombreCompleto);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Medico medico = new Medico();
+                    Usuario usuario = usuarioDAO.consultarUsuarioPorId(rs.getInt("idMedico")); // Asociamos el usuario
+                    medico.setUsuario(usuario);
+                    medico.setNombre(rs.getString("nombre"));
+                    medico.setApellidoPaterno(rs.getString("apellidoPat"));
+                    medico.setApellidoMaterno(rs.getString("apellidoMat"));
+                    medico.setCedulaProfesional(rs.getString("cedulaProf"));
+                    medico.setEstado(rs.getString("estado"));
+                    medico.setEspecialidad(rs.getString("especialidad"));
+                    return medico;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MedicoDAO.class.getName()).log(Level.SEVERE, "Error al obtener médico por nombre", ex);
+            throw new PersistenciaException("Error al obtener médico por nombre.", ex);
+        }
+        return null; // Retorna null si no encuentra al médico
+    }
+
 }

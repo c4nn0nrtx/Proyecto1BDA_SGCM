@@ -47,6 +47,11 @@ public class pruebas {
         Direccion_PacienteDAO direccionDAO = new Direccion_PacienteDAO(conexionBD);
         PacienteDAO pacienteDAO = new PacienteDAO(conexionBD);
         CitaDAO citaDAO = new CitaDAO(conexionBD);
+        
+        
+        Medico medico = medicoDAO.obtenerMedicoPorNombre("Juan Manuel Perez Montoya");
+        System.out.println(medico);
+        
         /*
         Usuario usuario = new Usuario(23, "Medico1", "gusanitos123");
        
@@ -58,8 +63,8 @@ public class pruebas {
          */
 
         //horarioMedicoDAO.obtenerHorariosMedicos();
-        UsuarioDAO usuarioDAO = new UsuarioDAO(conexionBD);
-        CitaDAO cita = new CitaDAO(conexionBD);
+        /* UsuarioDAO usuarioDAO = new UsuarioDAO(conexionBD);
+       
         // Crear y agregar Usuarios (Médico y Paciente)
         Usuario usuarioMedico = new Usuario(1, "Juan1", "clave123");
  
@@ -93,7 +98,32 @@ public class pruebas {
             System.out.println("-----------------------------------");
 
            
-        }
+        }*/
+        /*// ID del médico, día de la semana y fecha específica
+        int idMedico = 51; // Cambia esto por el ID real
+        String diaSemana = "Viernes";
+        String fecha = "2025-02-23"; // Formato YYYY-MM-DD
 
+        try {
+            // Obtener citas disponibles
+            List<Cita> citasDisponibles = citaDAO.cargarCitas(idMedico, diaSemana, fecha);
+
+            // Mostrar resultados
+            System.out.println("ID  | Fecha y Hora          | Estado      | Médico           | Especialidad");
+            System.out.println("-------------------------------------------------------------------------");
+            for (Cita cita : citasDisponibles) {
+                System.out.printf("%-3d | %-20s | %-10s | %-15s | %-15s%n",
+                        cita.getIdCita(),
+                        cita.getFechaHora(), // Se muestra fecha y hora de la cita
+                        cita.getEstado(),
+                        cita.getMedico().getNombre(),
+                        cita.getMedico().getEspecialidad()
+                );
+            }
+
+        } catch (PersistenciaException e) {
+            System.err.println("Error al cargar las citas: " + e.getMessage());
+        }/*
+     */   
     }
 }
