@@ -15,29 +15,37 @@ import java.util.List;
  * @author Ramon Valencia
  */
 public interface ICitaDAO {
+
     /**
-     * 
+     *
      * @param cita
      * @return
-     * @throws PersistenciaException 
+     * @throws PersistenciaException
      */
-    public Cita agendarCita(Cita cita) throws PersistenciaException;
+    public Cita agendarCitaProgramada(Cita cita) throws PersistenciaException;
 
     public List<Cita> consultarCitasProgramadasAgenda(int idMedico) throws PersistenciaException;
-    
+
     public List<Cita> consultarCitasEmergenciaAgenda(int idMedico) throws PersistenciaException;
 
     /**
-     * Metodo que carga un listado de citas por horario que pertenecen a un medico
-     * dentro de un dia de la semana y una fecha.
+     * Metodo que carga un listado de citas por horario que pertenecen a un
+     * medico dentro de un dia de la semana y una fecha.
+     *
      * @param idMedico
      * @param diaSemana
      * @param fecha
      * @return Listado de citas.
-     * @throws PersistenciaException 
+     * @throws PersistenciaException
      */
     public List<Cita> cargarCitas(int idMedico, String diaSemana, String fecha) throws PersistenciaException;
 
+    public Cita obtenerProximaCitaPendiente(int idPaciente) throws PersistenciaException;
+
+    public Cita obtenerUltimaCita(int idPaciente) throws PersistenciaException;
+    
+    public Cita agendarCitaEmergencia(Cita cita) throws PersistenciaException;
     
     public List<Cita> consultarCitasPaciente(Paciente paciente) throws PersistenciaException;
+
 }

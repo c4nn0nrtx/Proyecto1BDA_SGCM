@@ -53,6 +53,7 @@
               </Group>
           </Group>
           <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="btnVolver" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
               <Component id="txtSubTitulo" min="-2" max="-2" attributes="0"/>
@@ -68,7 +69,10 @@
                       <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                       <Component id="txtSubTitulo" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="btnVolver" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnVolver" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
               <Component id="txtSubTitulo1" min="-2" max="-2" attributes="0"/>

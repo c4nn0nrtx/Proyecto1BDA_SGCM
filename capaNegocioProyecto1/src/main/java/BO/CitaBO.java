@@ -72,8 +72,8 @@ public class CitaBO {
             citaNueva.setPaciente(paciente);
             Cita cita = mapper.DTOCitaToEntity(citaNueva);
 
-            citaDAO.agendarCita(cita);
-            
+            citaDAO.agendarCitaProgramada(cita);
+
             con.commit();
             return true;
         } catch (PersistenciaException ex) {
@@ -126,25 +126,6 @@ public class CitaBO {
         }
         return null;
     }
-    
-    public List<CitaNuevoDTO> consultarCitasPacientes(Paciente paciente) throws PersistenciaException, NegocioException {
-        if (paciente == null) {
-            throw new NegocioException("El paciente no puede ser nulo");
-
-        }
-        List<CitaNuevoDTO> citasDTOPendientes = new ArrayList<>();
-        try {
-            List<Cita> citasPacientes = citaDAO.consultarCitasPaciente(paciente);
-            
-            for (int i = 0; i < citasPacientes.size(); i++) {
-                citasDTOPendientes.add(mapper.CitaToNuevaDTO(citasPacientes.get(1)));
-            }
-            return citasDTOPendientes;
-        } catch (PersistenciaException ex) {
-            logger.log(Level.SEVERE, "Error, No se pudieron encontrar  las citas del paciente. Intenta de nuevo.", ex);
-        }
-        return citasDTOPendientes;
-    }
 
     public List<CitaNuevoDTO> cargarCitas(int idMedico, String diaSemana, String fecha) {
         List<CitaNuevoDTO> listaDTO = new ArrayList<>();
@@ -162,9 +143,9 @@ public class CitaBO {
 
     public DayOfWeek obtenerDia(String dia) {
         if (dia == null) {
-        System.out.println("Error: diaSemana es null en obtenerDia()");
-        return null;
-    }
+            System.out.println("Error: diaSemana es null en obtenerDia()");
+            return null;
+        }
         switch (dia) {
             case "Lunes":
                 return MONDAY;
@@ -184,4 +165,52 @@ public class CitaBO {
                 return null;
         }
     }
+
+    public String obtenerUltimaCita(int idPaciente) throws PersistenciaException {
+        Cita cita = citaDAO.obtenerUltimaCita(idPaciente);
+
+        if (cita == null) {
+            return null;  // Ahora realmente indicará que no hay citas futuras
+        }
+
+        CitaNuevoDTO citaNueva = new CitaNuevoDTO();
+        citaNueva.setEstado(cita.getEstado());
+        citaNueva.setFechaHora(cita.getFechaHora());
+        citaNueva.setFolio(cita.getFolio());
+        citaNueva.setMedico(cita.getMedico());
+        citaNueva.setPaciente(cita.getPaciente());
+        citaNueva.setTipo(cita.getTipo());
+
+        // Formatear la información del médico correctamente
+        Medico medico = cita.getMedico();
+        String medicoInfo = String.format("%s %s %s (Cédula: %s, Especialidad: %s)",
+                medico.getNombre(), medico.getApellidoPaterno(), medico.getApellidoMaterno(),
+                medico.getCedulaProfesional(), medico.getEspecialidad());
+
+        // Construir la cadena formateada de la cita
+        String citaString = String.format("Cita (Horario: %s, Médico: %s, Estado: %s)",
+                cita.getFechaHora(), medicoInfo, cita.getEstado());
+
+        return citaString;
+    }
+
+    public List<CitaNuevoDTO> consultarCitasPacientes(Paciente paciente) throws PersistenciaException, NegocioException {
+        if (paciente == null) {
+            throw new NegocioException("El paciente no puede ser nulo");
+
+        }
+        List<CitaNuevoDTO> citasDTOPendientes = new ArrayList<>();
+        try {
+            List<Cita> citasPacientes = citaDAO.consultarCitasPaciente(paciente);
+
+            for (int i = 0; i < citasPacientes.size(); i++) {
+                citasDTOPendientes.add(mapper.CitaToNuevaDTO(citasPacientes.get(1)));
+            }
+            return citasDTOPendientes;
+        } catch (PersistenciaException ex) {
+            logger.log(Level.SEVERE, "Error, No se pudieron encontrar  las citas del paciente. Intenta de nuevo.", ex);
+        }
+        return citasDTOPendientes;
+    }
+
 }

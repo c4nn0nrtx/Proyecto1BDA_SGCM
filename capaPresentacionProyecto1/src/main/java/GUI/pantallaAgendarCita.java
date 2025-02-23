@@ -28,10 +28,12 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,6 +53,8 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
     private Object[][] horarioMedicoAlmacenado;
     private Medico medico = new Medico();
     private Horario horario = new Horario();
+    private String fecha;
+    private String diaSemana;
 
     Mapper mapper = new Mapper();
 
@@ -63,6 +67,7 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
 
         this.framePrincipal = frame;
         initComponents();
+        selectorFechas.setMinSelectableDate(new Date());
 
     }
 
@@ -82,15 +87,22 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCitasDisponibles = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
+        pnlBuscar1 = new javax.swing.JPanel();
+        btnAgendarCita2 = new javax.swing.JLabel();
+        selectorFechas = new com.toedter.calendar.JDateChooser();
+        jLabel4 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txtSubTitulo.setFont(new java.awt.Font("Roboto", 1, 48)); // NOI18N
         txtSubTitulo.setForeground(new java.awt.Color(0, 0, 0));
         txtSubTitulo.setText("Agendar Cita");
+        add(txtSubTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 13, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Horarios Disponibles:");
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(348, 151, 235, -1));
 
         pnlAgendarCita.setBackground(new java.awt.Color(60, 109, 232));
 
@@ -120,6 +132,8 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
                 .addComponent(btnAgendarCita, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        add(pnlAgendarCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 560, -1, -1));
 
         tblCitasDisponibles.setBackground(new java.awt.Color(255, 255, 255));
         tblCitasDisponibles.setModel(new javax.swing.table.DefaultTableModel(
@@ -151,6 +165,8 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
         tblCitasDisponibles.setRowHeight(40);
         jScrollPane1.setViewportView(tblCitasDisponibles);
 
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 220, 753, 305));
+
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/atras (1).png"))); // NOI18N
         jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -158,48 +174,53 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
                 jLabel2MouseClicked(evt);
             }
         });
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 6, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 135, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 753, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(112, 112, 112))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(pnlAgendarCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(378, 378, 378))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(358, 358, 358)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtSubTitulo)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(23, 23, 23)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jLabel2)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        pnlBuscar1.setBackground(new java.awt.Color(60, 109, 232));
+        pnlBuscar1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlBuscar1MouseClicked(evt);
+            }
+        });
+
+        btnAgendarCita2.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        btnAgendarCita2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnAgendarCita2.setText("Buscar");
+        btnAgendarCita2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAgendarCita2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAgendarCita2MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlBuscar1Layout = new javax.swing.GroupLayout(pnlBuscar1);
+        pnlBuscar1.setLayout(pnlBuscar1Layout);
+        pnlBuscar1Layout.setHorizontalGroup(
+            pnlBuscar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 202, Short.MAX_VALUE)
+            .addGroup(pnlBuscar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlBuscar1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(btnAgendarCita2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(txtSubTitulo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(pnlAgendarCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(91, 91, 91))
+        pnlBuscar1Layout.setVerticalGroup(
+            pnlBuscar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 41, Short.MAX_VALUE)
+            .addGroup(pnlBuscar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlBuscar1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(btnAgendarCita2)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
+
+        add(pnlBuscar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(782, 92, -1, -1));
+        add(selectorFechas, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, 293, 45));
+
+        jLabel4.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel4.setText("Buscar por Fecha:");
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(127, 104, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
@@ -208,41 +229,73 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
 
     private void btnAgendarCitaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCitaMouseClicked
         agendarCitaDesdeTabla();
-        if (framePrincipal.getCitaFinal() == null) {
-            framePrincipal.cambiarPanel("pantallaInformacionCita");
-            pantallaInformacionCita agendarCitas = framePrincipal.getPantallaInformacionCitas();
-            agendarCitas.cargarDatosCita();
-        }
+        framePrincipal.cambiarPanel("pantallaInformacionCita");
+        pantallaInformacionCita agendarCitas = framePrincipal.getPantallaInformacionCitas();
+        agendarCitas.cargarDatosCita();
 
     }//GEN-LAST:event_btnAgendarCitaMouseClicked
+
+    private void btnAgendarCita2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCita2MouseClicked
+         try {
+            cargarCitas();
+        } catch (NegocioException ex) {
+            Logger.getLogger(pantallaAgendarCita.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(pantallaAgendarCita.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(pantallaAgendarCita.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnAgendarCita2MouseClicked
+
+    private void pnlBuscar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlBuscar1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlBuscar1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAgendarCita;
+    private javax.swing.JLabel btnAgendarCita2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnlAgendarCita;
+    private javax.swing.JPanel pnlBuscar1;
+    private com.toedter.calendar.JDateChooser selectorFechas;
     private javax.swing.JTable tblCitasDisponibles;
     private javax.swing.JLabel txtSubTitulo;
     // End of variables declaration//GEN-END:variables
-    /**
-     * Metodo que carga las citas cuando se introduce a la pantalla.
-     * Las setea dentro de la tabla una vez consultadas con el BO.
+   /**
+     * Metodo que carga las citas cuando se introduce a la pantalla. Las setea
+     * dentro de la tabla una vez consultadas con el BO.
+     *
      * @throws NegocioException
      * @throws SQLException
-     * @throws PersistenciaException 
+     * @throws PersistenciaException
      */
     public void cargarCitas() throws NegocioException, SQLException, PersistenciaException {
         try {
             // Obtener la lista de horarios de los médicos
             List<Medico> listadoMedicos = medicoBO.obtenerMedicosConHorario();
+            System.out.println(listadoMedicos);
 
-            // Convertir DayOfWeek a String en español (o el formato que uses en la BD)
-            String diaSemana = LocalDate.now().getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
+            // Obtener la fecha seleccionada en el JDateChooser
+            Date fechaSeleccionada = selectorFechas.getDate();
 
-            // Obtener la fecha actual en formato "YYYY-MM-DD"
-            String fecha = LocalDate.now().toString();
+            if (fechaSeleccionada == null) {
+                // Si no hay fecha seleccionada, usar la fecha y el día actuales
+                diaSemana = LocalDate.now().getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
+                fecha = LocalDate.now().toString();
+            } else {
+                // Si hay una fecha seleccionada, convertirla a LocalDate
+                LocalDate fechaElegida = fechaSeleccionada.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+                // Obtener el día de la semana en español
+                diaSemana = fechaElegida.getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
+
+                // Obtener la fecha en formato "YYYY-MM-DD"
+                fecha = fechaElegida.toString();
+            }
 
             String[] columnas = {"DOCTOR", "ESPECIALIDAD", "HORARIO"};
             List<String[]> listaDatos = new ArrayList<>();
@@ -279,10 +332,11 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error al cargar las citas: " + ex.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }
+
     /**
-     * Metodo que agenda una cita desde la tabla.
-     * Obtiene las filas seleccionadas y convierte esos datos a objetos
-     * Para posteriormente agendar una cita usando el BO con los objetos creados.
+     * Metodo que agenda una cita desde la tabla. Obtiene las filas
+     * seleccionadas y convierte esos datos a objetos Para posteriormente
+     * agendar una cita usando el BO con los objetos creados.
      */
     private void agendarCitaDesdeTabla() {
         int filaSeleccionada = tblCitasDisponibles.getSelectedRow();
@@ -314,14 +368,31 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "No se encontró el paciente.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            // Obtener la fecha actual
+            // Obtener la fecha seleccionada en el JDateChooser
+            Date fechaSeleccionada = selectorFechas.getDate();
             LocalDate fechaActual = LocalDate.now();
+            LocalDate fechaElegida;
 
-            // Convertir la hora (String) a LocalTime
+// Determinar la fecha a usar
+            if (fechaSeleccionada == null) {
+                // Si no hay fecha seleccionada, usar la fecha actual
+                fechaElegida = fechaActual;
+            } else {
+                // Si hay una fecha seleccionada, convertirla a LocalDate
+                fechaElegida = fechaSeleccionada.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            }
+
+// Obtener el día de la semana en español
+            String diaSemana = fechaElegida.getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
+
+// Obtener la fecha en formato "YYYY-MM-DD"
+            String fecha = fechaElegida.toString();
+
+// Convertir la hora (String) a LocalTime
             LocalTime horaCita = LocalTime.parse(hora, DateTimeFormatter.ofPattern("HH:mm"));
 
-            // Combinar la fecha actual con la hora de la cita
-            LocalDateTime fechaHora = LocalDateTime.of(fechaActual, horaCita);
+// Combinar la fecha obtenida con la hora de la cita
+            LocalDateTime fechaHora = LocalDateTime.of(fechaElegida, horaCita);
 
             // Asignar la fecha y hora a la cita
             CitaNuevoDTO nuevaCita = new CitaNuevoDTO();

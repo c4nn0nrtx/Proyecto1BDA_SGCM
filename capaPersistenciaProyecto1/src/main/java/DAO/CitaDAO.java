@@ -5,7 +5,6 @@
 package DAO;
 
 import Conexion.IConexionBD;
-import DAO.ICitaDAO;
 import Entidades.Cita;
 import Entidades.Horario_Medico;
 import Entidades.Medico;
@@ -48,7 +47,7 @@ public class CitaDAO implements ICitaDAO {
      * @throws PersistenciaException
      */
     @Override
-    public Cita agendarCita(Cita cita) throws PersistenciaException {
+    public Cita agendarCitaProgramada(Cita cita) throws PersistenciaException {
         String consultaSQL = "INSERT INTO CITAS (estado, fechaHoraProgramada, folio, tipo, idMedico, idPaciente) "
                 + "VALUES(?, ?, ?, ?, ?, ?)";  // 🔹 Eliminada la coma extra
 
@@ -61,7 +60,7 @@ public class CitaDAO implements ICitaDAO {
 
             ps.setString(1, cita.getEstado());
             ps.setObject(2, cita.getFechaHora());
-            ps.setString(3, generarFolio());
+            ps.setString(3, "");
             ps.setString(4, cita.getTipo());
             ps.setInt(5, cita.getMedico().getUsuario().getIdUsuario());
             ps.setInt(6, cita.getPaciente().getUsuario().getIdUsuario());
@@ -89,10 +88,17 @@ public class CitaDAO implements ICitaDAO {
         return cita;
     }
 
+    @Override
+    public Cita agendarCitaEmergencia(Cita cita) throws PersistenciaException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
     public List<Cita> consultarCitasProgramadasAgenda(int idMedico) throws PersistenciaException {
         List<Cita> citas = new ArrayList<>();
 
-        String sql = "SELECT c.idCita, c.estado, c.fechaHoraProgramada, c.folio, c.tipo, "
+        String sql = "SELECT DISTINCT "
+                + "c.idCita, c.estado, c.fechaHoraProgramada, c.folio, c.tipo, "
                 + "m.idMedico, m.nombre AS nombreMedico, m.apellidoPat AS apellidoPatMedico, "
                 + "m.apellidoMat AS apellidoMatMedico, m.cedulaProf, m.especialidad, "
                 + "p.idPaciente, p.nombre AS nombrePaciente, p.apellidoPat AS apellidoPatPaciente, "
@@ -107,7 +113,7 @@ public class CitaDAO implements ICitaDAO {
                 + "AND c.fechaHoraProgramada >= NOW() "
                 + "AND c.estado = 'Programada' "
                 + "AND c.tipo = 'programada' "
-                + "ORDER BY c.fechaHoraProgramada ASC";
+                + "ORDER BY c.fechaHoraProgramada ASC;";
 
         try (Connection con = this.conexionBD.crearConexion(); PreparedStatement stmt = con.prepareStatement(sql)) {
 
@@ -162,10 +168,12 @@ public class CitaDAO implements ICitaDAO {
         return citas;
     }
 
+    @Override
     public List<Cita> consultarCitasEmergenciaAgenda(int idMedico) throws PersistenciaException {
         List<Cita> citas = new ArrayList<>();
 
-        String sql = "SELECT c.idCita, c.estado, c.fechaHoraProgramada, c.folio, c.tipo, "
+        String sql = "SELECT DISTINCT "
+                + "c.idCita, c.estado, c.fechaHoraProgramada, c.folio, c.tipo, "
                 + "m.idMedico, m.nombre AS nombreMedico, m.apellidoPat AS apellidoPatMedico, "
                 + "m.apellidoMat AS apellidoMatMedico, m.cedulaProf, m.especialidad, "
                 + "p.idPaciente, p.nombre AS nombrePaciente, p.apellidoPat AS apellidoPatPaciente, "
@@ -180,7 +188,7 @@ public class CitaDAO implements ICitaDAO {
                 + "AND c.fechaHoraProgramada >= NOW() "
                 + "AND c.estado = 'Programada' "
                 + "AND c.tipo = 'emergencia' "
-                + "ORDER BY c.fechaHoraProgramada ASC";
+                + "ORDER BY c.fechaHoraProgramada ASC;";
 
         try (Connection con = this.conexionBD.crearConexion(); PreparedStatement stmt = con.prepareStatement(sql)) {
 
@@ -269,7 +277,6 @@ public class CitaDAO implements ICitaDAO {
         return "00001"; // Retorna un valor por defecto en caso de error
     }
 
-
     /**
      * Obtiene los horarios disponibles de un médico con su nombre y
      * especialidad.
@@ -285,7 +292,7 @@ public class CitaDAO implements ICitaDAO {
         List<Cita> citasDisponibles = new ArrayList<>();
 
         try (Connection con = this.conexionBD.crearConexion()) {
-            // 1. Obtener el horario, nombre y especialidad del médico
+            // 1. Obtener los horarios del médico
             String sqlHorario = """
         SELECT m.idMedico, m.nombre, m.apellidoPat, m.apellidoMat, m.especialidad, h.horaInicio, h.horaFin
         FROM HORARIOS h
@@ -299,68 +306,81 @@ public class CitaDAO implements ICitaDAO {
                 stmtHorario.setString(2, diaSemana);
 
                 try (ResultSet rsHorario = stmtHorario.executeQuery()) {
-                    if (!rsHorario.next()) {
-                        System.out.println("No se encontraron horarios para el médico en ese día.");
-                        return citasDisponibles;
-                    }
+                    boolean tieneHorarios = false;
 
-                    // Recuperar datos del médico y su horario
-                    Usuario usuarioMedico = new Usuario();
-                    usuarioMedico.setIdUsuario(rsHorario.getInt("idMedico"));
+                    while (rsHorario.next()) { // Recorremos todos los horarios del médico
+                        tieneHorarios = true;
 
-                    Medico medico = new Medico();
-                    medico.setUsuario(usuarioMedico);
-                    medico.setNombre(rsHorario.getString("nombre"));
-                    medico.setApellidoPaterno(rsHorario.getString("apellidoPat"));
-                    medico.setApellidoMaterno(rsHorario.getString("apellidoMat"));
-                    medico.setEspecialidad(rsHorario.getString("especialidad"));
+                        // Recuperar datos del médico y su horario
+                        Usuario usuarioMedico = new Usuario();
+                        usuarioMedico.setIdUsuario(rsHorario.getInt("idMedico"));
 
-                    Time horaInicio = rsHorario.getTime("horaInicio");
-                    Time horaFin = rsHorario.getTime("horaFin");
+                        Medico medico = new Medico();
+                        medico.setUsuario(usuarioMedico);
+                        medico.setNombre(rsHorario.getString("nombre"));
+                        medico.setApellidoPaterno(rsHorario.getString("apellidoPat"));
+                        medico.setApellidoMaterno(rsHorario.getString("apellidoMat"));
+                        medico.setEspecialidad(rsHorario.getString("especialidad"));
 
-                    System.out.println("Médico encontrado: " + medico.getNombre() + " - " + medico.getEspecialidad());
+                        Time horaInicio = rsHorario.getTime("horaInicio");
+                        Time horaFin = rsHorario.getTime("horaFin");
 
-                    // 2. Generar intervalos de 30 minutos
-                    List<String> intervalos = generarIntervalos(horaInicio, horaFin);
+                        System.out.println("Horario encontrado para el médico: " + medico.getNombre() + " de " + horaInicio + " a " + horaFin);
 
-                    // 3. Obtener citas ocupadas para ese día y médico
-                    String sqlOcupadas = """
-                SELECT TIME(fechaHoraProgramada) AS hora
-                FROM CITAS
-                WHERE idMedico = ? AND DATE(fechaHoraProgramada) = ?;
-                """;
+                        // 2. Generar intervalos de 30 minutos
+                        List<String> intervalos = generarIntervalos(horaInicio, horaFin);
 
-                    List<LocalTime> ocupadas = new ArrayList<>();
-                    try (PreparedStatement stmtOcupadas = con.prepareStatement(sqlOcupadas)) {
-                        stmtOcupadas.setInt(1, idMedico);
-                        stmtOcupadas.setString(2, fecha);
+                        // 3. Obtener citas ocupadas para ese horario del médico
+                        String sqlOcupadas = """
+                    SELECT TIME(fechaHoraProgramada) AS hora
+                    FROM CITAS
+                    WHERE idMedico = ? AND DATE(fechaHoraProgramada) = ?;
+                    """;
 
-                        try (ResultSet rsOcupadas = stmtOcupadas.executeQuery()) {
-                            while (rsOcupadas.next()) {
-                                ocupadas.add(rsOcupadas.getTime("hora").toLocalTime());
+                        List<LocalTime> ocupadas = new ArrayList<>();
+                        try (PreparedStatement stmtOcupadas = con.prepareStatement(sqlOcupadas)) {
+                            stmtOcupadas.setInt(1, idMedico);
+                            stmtOcupadas.setString(2, fecha);
+
+                            try (ResultSet rsOcupadas = stmtOcupadas.executeQuery()) {
+                                while (rsOcupadas.next()) {
+                                    ocupadas.add(rsOcupadas.getTime("hora").toLocalTime());
+                                }
+                            }
+                        }
+
+                        // Obtener la fecha de consulta y la hora actual
+                        LocalDate fechaConsulta = LocalDate.parse(fecha);
+                        LocalTime horaActual = LocalTime.now();
+
+                        // 4. Filtrar las citas disponibles y crear objetos Cita
+                        for (String intervaloStr : intervalos) {
+                            LocalTime intervalo = LocalTime.parse(intervaloStr);
+                            LocalDateTime fechaHora = LocalDateTime.of(fechaConsulta, intervalo);
+
+                            // Si la fecha de la cita es hoy y el horario ya pasó, se omite
+                            if (fechaConsulta.isEqual(LocalDate.now()) && intervalo.isBefore(horaActual)) {
+                                continue; // Saltar este horario
+                            }
+
+                            if (!ocupadas.contains(intervalo)) {
+                                // Se crea la cita con estado "Disponible" y sin paciente asignado aún
+                                Cita citaDisponible = new Cita();
+                                citaDisponible.setIdCita(0);
+                                citaDisponible.setEstado("Disponible");
+                                citaDisponible.setFechaHora(fechaHora);
+                                citaDisponible.setFolio("");
+                                citaDisponible.setTipo("Consulta");
+                                citaDisponible.setMedico(medico);
+                                citaDisponible.setPaciente(null);
+
+                                citasDisponibles.add(citaDisponible);
                             }
                         }
                     }
 
-                    // 4. Filtrar las citas disponibles y crear objetos Cita
-                    for (String intervaloStr : intervalos) { // Ahora recorremos la lista de Strings
-                        LocalTime intervalo = LocalTime.parse(intervaloStr); // Convertimos el String a LocalTime
-
-                        if (!ocupadas.contains(intervalo)) {
-                            LocalDateTime fechaHora = LocalDateTime.of(LocalDate.parse(fecha), intervalo);
-
-                            // Se crea la cita con estado "Disponible" y sin paciente asignado aún
-                            Cita citaDisponible = new Cita();
-                            citaDisponible.setIdCita(0);
-                            citaDisponible.setEstado("Disponible");
-                            citaDisponible.setFechaHora(fechaHora);
-                            citaDisponible.setFolio("");
-                            citaDisponible.setTipo("Consulta");
-                            citaDisponible.setMedico(medico);
-                            citaDisponible.setPaciente(null);
-
-                            citasDisponibles.add(citaDisponible);
-                        }
+                    if (!tieneHorarios) {
+                        System.out.println("No se encontraron horarios para el médico en ese día.");
                     }
                 }
             }
@@ -388,7 +408,133 @@ public class CitaDAO implements ICitaDAO {
         return intervalos;
     }
 
+    @Override
+    public Cita obtenerProximaCitaPendiente(int idPaciente) throws PersistenciaException {
+        String sql = "SELECT c.idCita, c.estado, c.fechaHoraProgramada, c.folio, c.tipo, "
+                + "m.idMedico, m.nombre AS nombreMedico, m.apellidoPat AS apellidoPatMedico, "
+                + "m.apellidoMat AS apellidoMatMedico, m.cedulaProf, m.especialidad, "
+                + "p.idPaciente, p.nombre AS nombrePaciente, p.apellidoPat AS apellidoPatPaciente, "
+                + "p.apellidoMat AS apellidoMatPaciente, p.correo, p.fechaNac, p.telefono "
+                + "FROM CITAS c "
+                + "JOIN MEDICOS m ON c.idMedico = m.idMedico "
+                + "JOIN PACIENTES p ON c.idPaciente = p.idPaciente "
+                + "WHERE c.idPaciente = ? "
+                + "AND c.estado IN ('Programada', 'No Atendida') "
+                + "AND c.fechaHoraProgramada >= NOW() "
+                + "ORDER BY c.fechaHoraProgramada ASC "
+                + "LIMIT 1;"; // Obtiene la próxima cita más cercana
 
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setInt(1, idPaciente);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Crear objeto Usuario para Medico
+                    Usuario usuarioMedico = new Usuario();
+                    usuarioMedico.setIdUsuario(rs.getInt("idMedico"));
+
+                    // Crear objeto Medico
+                    Medico medico = new Medico();
+                    medico.setUsuario(usuarioMedico);
+                    medico.setNombre(rs.getString("nombreMedico"));
+                    medico.setApellidoPaterno(rs.getString("apellidoPatMedico"));
+                    medico.setApellidoMaterno(rs.getString("apellidoMatMedico"));
+                    medico.setCedulaProfesional(rs.getString("cedulaProf"));
+                    medico.setEspecialidad(rs.getString("especialidad"));
+
+                    // Crear objeto Usuario para Paciente
+                    Usuario usuarioPaciente = new Usuario();
+                    usuarioPaciente.setIdUsuario(rs.getInt("idPaciente"));
+
+                    // Crear objeto Paciente
+                    Paciente paciente = new Paciente();
+                    paciente.setUsuario(usuarioPaciente);
+                    paciente.setNombre(rs.getString("nombrePaciente"));
+                    paciente.setApellidoPaterno(rs.getString("apellidoPatPaciente"));
+                    paciente.setApellidoMaterno(rs.getString("apellidoMatPaciente"));
+                    paciente.setCorreo(rs.getString("correo"));
+                    paciente.setFechaNacimiento(rs.getDate("fechaNac").toLocalDate());
+                    paciente.setTelefono(rs.getString("telefono"));
+
+                    // Crear objeto Cita
+                    Cita proximaCita = new Cita();
+                    proximaCita.setIdCita(rs.getInt("idCita"));
+                    proximaCita.setEstado(rs.getString("estado"));
+                    proximaCita.setFechaHora(rs.getTimestamp("fechaHoraProgramada").toLocalDateTime());
+                    proximaCita.setFolio(rs.getString("folio"));
+                    proximaCita.setTipo(rs.getString("tipo"));
+                    proximaCita.setMedico(medico);
+                    proximaCita.setPaciente(paciente);
+
+                    return proximaCita; // Retornar la próxima cita
+                }
+            }
+        } catch (SQLException e) {
+            throw new PersistenciaException("Error al obtener la próxima cita del paciente", e);
+        }
+        return null; // No hay citas pendientes
+    }
+
+    public Cita obtenerUltimaCita(int idPaciente) throws PersistenciaException {
+        Cita ultimaCita = null;
+        String sql = "SELECT "
+                + "c.idCita, c.estado, c.fechaHoraProgramada, c.folio, c.tipo, "
+                + "m.idMedico, m.nombre AS nombreMedico, m.apellidoPat AS apellidoPatMedico, m.apellidoMat AS apellidoMatMedico, "
+                + "m.cedulaProf, m.especialidad, "
+                + "p.idPaciente, p.nombre AS nombrePaciente, p.apellidoPat AS apellidoPatPaciente, p.apellidoMat AS apellidoMatPaciente, "
+                + "p.correo, p.fechaNac, p.telefono "
+                + "FROM CITAS c "
+                + "JOIN MEDICOS m ON c.idMedico = m.idMedico "
+                + "JOIN PACIENTES p ON c.idPaciente = p.idPaciente "
+                + "WHERE c.idPaciente = ? "
+                + "AND c.fechaHoraProgramada > NOW() "
+                + // Filtra solo citas futuras
+                "ORDER BY c.fechaHoraProgramada ASC "
+                + // Ordena por la fecha más cercana
+                "LIMIT 1";
+
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setInt(1, idPaciente);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Crear objeto Cita
+                    ultimaCita = new Cita();
+                    ultimaCita.setIdCita(rs.getInt("idCita"));
+                    ultimaCita.setEstado(rs.getString("estado"));
+                    ultimaCita.setFechaHora(rs.getTimestamp("fechaHoraProgramada").toLocalDateTime());
+                    ultimaCita.setFolio(rs.getString("folio"));
+                    ultimaCita.setTipo(rs.getString("tipo"));
+
+                    // Crear objeto Medico
+                    Medico medico = new Medico();
+                    medico.setNombre(rs.getString("nombreMedico"));
+                    medico.setApellidoPaterno(rs.getString("apellidoPatMedico"));
+                    medico.setApellidoMaterno(rs.getString("apellidoMatMedico"));
+                    medico.setCedulaProfesional(rs.getString("cedulaProf"));
+                    medico.setEspecialidad(rs.getString("especialidad"));
+
+                    // Crear objeto Paciente
+                    Paciente paciente = new Paciente();
+                    paciente.setNombre(rs.getString("nombrePaciente"));
+                    paciente.setApellidoPaterno(rs.getString("apellidoPatPaciente"));
+                    paciente.setApellidoMaterno(rs.getString("apellidoMatPaciente"));
+                    paciente.setCorreo(rs.getString("correo"));
+                    paciente.setFechaNacimiento(rs.getDate("fechaNac").toLocalDate());
+                    paciente.setTelefono(rs.getString("telefono"));
+
+                    // Asignar médico y paciente a la cita
+                    ultimaCita.setMedico(medico);
+                    ultimaCita.setPaciente(paciente);
+                }
+            }
+        } catch (SQLException e) {
+            throw new PersistenciaException("Error al obtener la última cita", e);
+        }
+        return ultimaCita;
+    }
 
     @Override
     public List<Cita> consultarCitasPaciente(Paciente paciente2) throws PersistenciaException {
@@ -463,5 +609,4 @@ public class CitaDAO implements ICitaDAO {
         }
         return citas;
     }
-
 }

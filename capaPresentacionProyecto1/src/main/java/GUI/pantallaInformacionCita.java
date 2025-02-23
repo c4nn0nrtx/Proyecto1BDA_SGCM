@@ -50,6 +50,7 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
         txtSubTitulo5 = new javax.swing.JLabel();
         pnlCancelarCita1 = new javax.swing.JPanel();
         btnFinalizarConsulta = new javax.swing.JLabel();
+        btnVolver = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -133,13 +134,28 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/atras (1).png"))); // NOI18N
+        btnVolver.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVolver.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnVolverMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(209, Short.MAX_VALUE)
+                .addComponent(txtSubTitulo4)
+                .addGap(116, 116, 116))
             .addGroup(layout.createSequentialGroup()
                 .addGap(74, 74, 74)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtSubTitulo5)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtSubTitulo3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -155,25 +171,22 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
                             .addComponent(outputHorarioCita, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(129, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(txtSubTitulo)
-                        .addGap(246, 246, 246))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(txtSubTitulo4)
-                        .addGap(116, 116, 116))))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(84, 84, 84)
-                    .addComponent(txtSubTitulo5)
-                    .addContainerGap(818, Short.MAX_VALUE)))
+                .addContainerGap()
+                .addComponent(btnVolver)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtSubTitulo)
+                .addGap(246, 246, 246))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addComponent(txtSubTitulo)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addComponent(txtSubTitulo))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnVolver)))
                 .addGap(76, 76, 76)
                 .addComponent(txtSubTitulo1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -191,16 +204,13 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
                         .addComponent(pnlCancelarCita1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(outputHorarioCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56)
+                .addGap(29, 29, 29)
+                .addComponent(txtSubTitulo5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(outputNombrePaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
                 .addComponent(txtSubTitulo4)
                 .addGap(37, 37, 37))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(454, Short.MAX_VALUE)
-                    .addComponent(txtSubTitulo5)
-                    .addGap(214, 214, 214)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -216,9 +226,14 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_outputNombreDoctorKeyPressed
 
+    private void btnVolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseClicked
+        framePrincipal.cambiarPanel("pantallaPacientes");
+    }//GEN-LAST:event_btnVolverMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnFinalizarConsulta;
+    private javax.swing.JLabel btnVolver;
     private javax.swing.JTextField outputEspecialidad;
     private javax.swing.JTextField outputHorarioCita;
     private javax.swing.JTextField outputNombreDoctor;
