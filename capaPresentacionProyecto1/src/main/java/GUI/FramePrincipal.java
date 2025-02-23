@@ -1,5 +1,6 @@
 package GUI;
 
+import DTO.CitaNuevoDTO;
 import Entidades.Usuario;
 import Exception.NegocioException;
 import java.awt.CardLayout;
@@ -29,8 +30,10 @@ public class FramePrincipal extends javax.swing.JFrame {
     pantallaConsultasPacientes pantallaConsultasPacientes;
     pantallaAgendarCita pantallaAgendarCita;
     pantallaDatosConsulta pantallaDatosConsulta;
+    pantallaInformacionCita pantallaInformacionCita;
     //Pantallas
     private Usuario usuarioAutenticado;
+    private CitaNuevoDTO citaFinal;
 
     public FramePrincipal() throws NegocioException, SQLException {
         setTitle("Sistema clinica");
@@ -95,6 +98,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         pantallaConsultasPacientes = new pantallaConsultasPacientes(this);
         pantallaAgendarCita = new pantallaAgendarCita(this);
         pantallaDatosConsulta = new pantallaDatosConsulta(this);
+        pantallaInformacionCita = new pantallaInformacionCita(this);
 
         panelPrincipal.add(pantallaInicioSesion, "pantallaInicioSesion");
         panelPrincipal.add(pantallaRegistro, "pantallaRegistro");
@@ -106,6 +110,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         panelPrincipal.add(pantallaConsultasPacientes,"pantallaConsultasPacientes");
         panelPrincipal.add(pantallaAgendarCita, "pantallaAgendarCita");
         panelPrincipal.add(pantallaDatosConsulta, "pantallaDatosConsulta");
+        panelPrincipal.add(pantallaInformacionCita, "pantallaInformacionCita");
 
         SwingUtilities.updateComponentTreeUI(this);
         this.repaint();
@@ -122,6 +127,14 @@ public class FramePrincipal extends javax.swing.JFrame {
     public Usuario getUsuarioAutenticado() {
         return usuarioAutenticado;
     }
+    
+    public void setCitaFinal(CitaNuevoDTO citaFinal) {
+        this.citaFinal = citaFinal;
+    }
+    
+    public CitaNuevoDTO getCitaFinal() {
+        return citaFinal;
+    }
 
     public pantallaMedicosMenu getPantallaMedicosMenu() {
         return pantallaMedicosMenu;
@@ -131,5 +144,11 @@ public class FramePrincipal extends javax.swing.JFrame {
     }
     public pantallaCitasPendientes getPantallaCitasPendientes(){
         return pantallaCitasPendientes;
+    }
+    public pantallaInformacionCita getPantallaInformacionCitas(){
+        return pantallaInformacionCita;
+    }
+    public pantallaAgendarCita getPantallaAgendarCita(){
+        return pantallaAgendarCita;
     }
 }

@@ -11,6 +11,7 @@ import DTO.CitaNuevoDTO;
 import DTO.HorarioMedicoNuevoDTO;
 import DTO.MedicoNuevoDTO;
 import DTO.PacienteNuevoDTO;
+import Entidades.Cita;
 import Entidades.Horario;
 import Entidades.Medico;
 import Entidades.Paciente;
@@ -52,12 +53,12 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
      * Creates new form pantallaAgendarCita1
      */
     FramePrincipal framePrincipal;
+    
 
     public pantallaAgendarCita(FramePrincipal frame) throws NegocioException, SQLException {
 
         this.framePrincipal = frame;
         initComponents();
-        cargarHorariosMedicos();
         tblCitasDisponibles.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) { // Evita ejecuciones innecesarias
                 cargarDatosDesdeTabla();
@@ -209,6 +210,11 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
     private void btnAgendarCitaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCitaMouseClicked
         try {
             agendarCita();
+            framePrincipal.cambiarPanel("pantallaInformacionCita");
+            
+            cargarHorariosMedicos();
+            pantallaInformacionCita agendarCitas = framePrincipal.getPantallaInformacionCitas();
+            agendarCitas.cargarDatosCita();
         } catch (PersistenciaException ex) {
             Logger.getLogger(pantallaAgendarCita.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NegocioException ex) {
@@ -216,7 +222,7 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
         } catch (SQLException ex) {
             Logger.getLogger(pantallaAgendarCita.class.getName()).log(Level.SEVERE, null, ex);
         }
-        framePrincipal.cambiarPanel("pantallaInformacionCita");
+        
     }//GEN-LAST:event_btnAgendarCitaMouseClicked
 
 
@@ -230,7 +236,7 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
     private javax.swing.JLabel txtSubTitulo;
     // End of variables declaration//GEN-END:variables
 
-    private void cargarHorariosMedicos() throws NegocioException, SQLException {
+    public void cargarHorariosMedicos() throws NegocioException, SQLException {
         try {
             List<HorarioMedicoNuevoDTO> horariosMedicoDTO = horarioMedicoBO.obtenerHorariosMedicos();
             String[] columnas = {"DOCTOR", "ESPECIALIDAD", "HORARIO"};
@@ -283,6 +289,7 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
             if (fecha != null) {
                 LocalDateTime fechaHora = fecha.atTime(horario.getHoraInicio());
                 CitaNuevoDTO citaNuevo = new CitaNuevoDTO("Programada", fechaHora, "0", "programada", medico, paciente);
+                framePrincipal.setCitaFinal(citaNuevo);
                 citaBO.agendarCita(citaNuevo, pacienteNuevo, medicoNuevo);
                 JOptionPane.showMessageDialog(this, "Cita agendada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
             } else {

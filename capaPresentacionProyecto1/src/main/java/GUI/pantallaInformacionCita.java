@@ -4,6 +4,13 @@
  */
 package GUI;
 
+import DTO.CitaNuevoDTO;
+import Entidades.Medico;
+import Entidades.Paciente;
+import Exception.PersistenciaException;
+import java.time.LocalDateTime;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author PC
@@ -13,9 +20,14 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
     /**
      * Creates new form informacionDeTuCita
      */
-    public pantallaInformacionCita() {
+    FramePrincipal framePrincipal;
+    
+    public pantallaInformacionCita(FramePrincipal frame) {
+        this.framePrincipal = frame;
+        
         initComponents();
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,6 +64,11 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
         outputNombreDoctor.setEditable(false);
         outputNombreDoctor.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         outputNombreDoctor.setText("Nombre del Doctor");
+        outputNombreDoctor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                outputNombreDoctorKeyPressed(evt);
+            }
+        });
 
         txtSubTitulo2.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         txtSubTitulo2.setForeground(new java.awt.Color(0, 0, 0));
@@ -195,6 +212,10 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_outputNombrePacienteActionPerformed
 
+    private void outputNombreDoctorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_outputNombreDoctorKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_outputNombreDoctorKeyPressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnFinalizarConsulta;
@@ -210,4 +231,16 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
     private javax.swing.JLabel txtSubTitulo4;
     private javax.swing.JLabel txtSubTitulo5;
     // End of variables declaration//GEN-END:variables
+    
+    public void cargarDatosCita() {
+        CitaNuevoDTO citaGlobal = framePrincipal.getCitaFinal();
+        Medico medico = citaGlobal.getMedico();
+        Paciente paciente = citaGlobal.getPaciente();
+        LocalDateTime fechaHora = citaGlobal.getFechaHora();
+        outputNombreDoctor.setText("Dr." + medico.getNombre() + " " + medico.getApellidoPaterno());
+        outputEspecialidad.setText(medico.getEspecialidad());
+        outputHorarioCita.setText(Integer.toString(fechaHora.getHour()) + ":" + Integer.toString(fechaHora.getMinute()));
+        outputNombrePaciente.setText(paciente.getNombre() + " " + paciente.getApellidoPaterno());
+    }
 }
+

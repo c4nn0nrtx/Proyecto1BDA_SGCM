@@ -166,8 +166,7 @@ public class HorarioMedicoDAO implements IHorarioMedicoDAO {
             if (rs.next()) {
                 LocalDateTime fechaHoraProgramada = rs.getObject("fechaHoraProgramada", LocalDateTime.class);
                 int idMedico = rs.getInt("idMedico");
-                if (fechaHora == fechaHoraProgramada || medico.getUsuario().getIdUsuario() == idMedico){
-                    System.out.println(false);
+                if (fechaHora == fechaHoraProgramada || medico.getUsuario().getIdUsuario() == idMedico || medico.getEstado() == "Inactivo"){
                     return false;
                 }
             }

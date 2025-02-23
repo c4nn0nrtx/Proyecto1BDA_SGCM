@@ -4,7 +4,9 @@
  */
 package GUI;
 
+import Exception.NegocioException;
 import Exception.PersistenciaException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -228,6 +230,14 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
 
     private void btnAgendarCitaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCitaMouseClicked
         framePrincipal.cambiarPanel("pantallaAgendarCita");
+        pantallaAgendarCita agendarCita = framePrincipal.getPantallaAgendarCita();
+        try {
+            agendarCita.cargarHorariosMedicos();
+        } catch (NegocioException ex) {
+            Logger.getLogger(pantallaMenuPrincipalPacientes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(pantallaMenuPrincipalPacientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnAgendarCitaMouseClicked
 
     private void btnCancelarCitaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarCitaMouseClicked
