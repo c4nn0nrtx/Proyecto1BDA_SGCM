@@ -301,7 +301,6 @@ public class CitaDAO implements ICitaDAO {
                 String folioActual = rs.getString("folio"); // Obtiene el último folio
                 int numeroFolio = Integer.parseInt(folioActual); // Convierte a entero
                 nuevoFolio = String.format("%05d", numeroFolio + 1); // Aumenta y formatea a 5 dígitos
-                System.out.println(nuevoFolio);
             } else {
                 nuevoFolio = "00001"; // Si no hay registros, empieza en 00001
             }

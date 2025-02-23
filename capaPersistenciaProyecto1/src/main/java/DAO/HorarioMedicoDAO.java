@@ -13,9 +13,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.time.DayOfWeek;
+import static java.time.DayOfWeek.FRIDAY;
+import static java.time.DayOfWeek.MONDAY;
+import static java.time.DayOfWeek.SATURDAY;
+import static java.time.DayOfWeek.SUNDAY;
+import static java.time.DayOfWeek.THURSDAY;
+import static java.time.DayOfWeek.TUESDAY;
+import static java.time.DayOfWeek.WEDNESDAY;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -134,5 +144,71 @@ public class HorarioMedicoDAO implements IHorarioMedicoDAO {
         }
         return horariosMedicos;
     }
-
+    
+    @Override
+    public boolean consultarHorariosDisponibles(Horario_Medico horarioMedico){
+        Horario horario = horarioMedico.getHorario();
+        Medico medico = horarioMedico.getMedico();
+        
+        DayOfWeek dia = obtenerDia(horario.getDiaSemana());
+        LocalDate fecha = obtenerProximoDia(dia);
+        LocalDateTime fechaHora = fecha.atTime(horario.getHoraInicio());
+        
+        String consultaSQL = "SELECT fechaHoraProgramada, idMedico FROM CITAS "
+                + "WHERE fechaHoraProgramada = ?";
+        
+        try (Connection con = this.conexion.crearConexion();
+                PreparedStatement ps = con.prepareStatement(consultaSQL)) {
+            
+            ps.setObject(1, fechaHora);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                LocalDateTime fechaHoraProgramada = rs.getObject("fechaHoraProgramada", LocalDateTime.class);
+                int idMedico = rs.getInt("idMedico");
+                if (fechaHora == fechaHoraProgramada || medico.getUsuario().getIdUsuario() == idMedico){
+                    System.out.println(false);
+                    return false;
+                }
+            }
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(HorarioMedicoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(HorarioMedicoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return true;
+    }
+    
+    public static LocalDate obtenerProximoDia(DayOfWeek dia) {
+        //Este metodo sirve para buscar el proximo dia posible para la cita
+        LocalDate hoy = LocalDate.now();
+        for (int i = 1; i <= 10; i++) {
+            LocalDate futuro = hoy.plusDays(i);
+            if (futuro.getDayOfWeek() == dia) {
+                return futuro;
+            }
+        }
+        return null;
+    }
+    public DayOfWeek obtenerDia(String dia) {
+        switch (dia) {
+            case "Lunes":
+                return MONDAY;
+            case "Martes":
+                return TUESDAY;
+            case "Miercoles":
+                return WEDNESDAY;
+            case "Jueves":
+                return THURSDAY;
+            case "Viernes":
+                return FRIDAY;
+            case "Sabado":
+                return SATURDAY;
+            case "Domingo":
+                return SUNDAY;
+            default:
+                return null;
+        }
+    }
 }

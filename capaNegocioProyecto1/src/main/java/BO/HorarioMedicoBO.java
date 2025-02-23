@@ -56,10 +56,14 @@ public class HorarioMedicoBO {
             int i = 0;
             List<HorarioMedicoNuevoDTO> horariosMedicosDTO = new ArrayList<>();
             while(i < horariosMedicos.size()){
-                HorarioMedicoNuevoDTO horarioMedicoNuevoDTO = mapper.Horario_MedicoToNuevoDTO(horariosMedicos.get(i));
-                
-                horariosMedicosDTO.add(horarioMedicoNuevoDTO);
-                i++;
+                if (horarioMedicoDAO.consultarHorariosDisponibles(horariosMedicos.get(i))){
+                    HorarioMedicoNuevoDTO horarioMedicoNuevoDTO = mapper.Horario_MedicoToNuevoDTO(horariosMedicos.get(i));
+
+                    horariosMedicosDTO.add(horarioMedicoNuevoDTO);
+                                      
+                }
+                i++;  
+
             }
             return horariosMedicosDTO;
         } catch (PersistenciaException ex) {

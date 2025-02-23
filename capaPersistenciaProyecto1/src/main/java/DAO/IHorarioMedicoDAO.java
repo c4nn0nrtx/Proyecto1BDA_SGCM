@@ -22,4 +22,6 @@ public interface IHorarioMedicoDAO {
     
     public List<Horario_Medico> obtenerHorariosMedicos() throws PersistenciaException, SQLException;
     
+    public boolean consultarHorariosDisponibles(Horario_Medico horarioMedico);
+    
 }
