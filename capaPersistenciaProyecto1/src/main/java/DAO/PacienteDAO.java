@@ -159,5 +159,55 @@ public class PacienteDAO implements IPacienteDAO {
             throw new PersistenciaException("ERROR: Hubo un problema con la base de datos y no se pudieron actualizar los datos.");
         }
     }
+    
+    @Override
+    public Paciente consultarPacientePorCelular(String celular) throws PersistenciaException {
+        Paciente paciente = null;
+
+        String consultaSQL = "SELECT p.idPaciente, u.nombreUsuario, d.idDireccion, d.calle, d.colonia, d.cp, d.numero, "
+                + "p.nombre, p.apellidoPat, p.apellidoMat, p.correo, p.fechaNac, p.telefono "
+                + "FROM PACIENTES p "
+                + "INNER JOIN USUARIOS u ON p.idPaciente = u.idUsuario "
+                + "INNER JOIN DIRECCIONES_PACIENTES d ON p.idDireccion = d.idDireccion "
+                + "WHERE p.telefono = ?";
+
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL)) {
+
+            ps.setString(1, celular);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    // Crear el objeto Usuario
+                    Usuario usuario = new Usuario();
+                    usuario.setIdUsuario(rs.getInt("idPaciente"));
+                    usuario.setNombreUsuario(rs.getString("nombreUsuario"));
+
+                    // Crear el objeto Direccion_Paciente
+                    Direccion_Paciente direccion = new Direccion_Paciente();
+                    direccion.setIdDireccion(rs.getInt("idDireccion"));
+                    direccion.setCalle(rs.getString("calle"));
+                    direccion.setColonia(rs.getString("colonia"));
+                    direccion.setCp(rs.getInt("cp"));
+                    direccion.setNumero(rs.getString("numero"));
+
+                    // Crear el objeto Paciente
+                    paciente = new Paciente(usuario, direccion,
+                            rs.getString("nombre"),
+                            rs.getString("apellidoPat"),
+                            rs.getString("apellidoMat"),
+                            rs.getString("correo"),
+                            rs.getDate("fechaNac").toLocalDate(),
+                            rs.getString("telefono"));
+
+                    //LOGGER DE PACIENTE SI SE NECESITA
+                } else {
+                    logger.warning("No hay un paciente registrado con el telefono: " + celular);
+                }
+            }
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "ERROR: Hubo un error al consultar los datos del paciente con Telefono: " + celular, ex);
+        }
+        return paciente;
+    }
 
 }

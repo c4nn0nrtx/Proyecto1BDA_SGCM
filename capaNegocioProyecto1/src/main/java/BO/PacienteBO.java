@@ -134,4 +134,19 @@ public class PacienteBO {
 
         return null;
     }
+    
+    public Paciente buscarPacientePorCelular(String celular) throws PersistenciaException {
+        try {
+            Paciente pacienteEncontrado = pacienteDAO.consultarPacientePorCelular(celular);
+            if (pacienteEncontrado != null) {
+                return pacienteEncontrado;
+            } else {
+                logger.warning("No se encontró un paciente con telefono: " + celular);
+            }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error al buscar paciente con telefono: " + celular, e);
+            throw new PersistenciaException("Error al buscar paciente.", e);
+        }
+        return null; // Devuelve null si el paciente no se encuentra
+    }
 }

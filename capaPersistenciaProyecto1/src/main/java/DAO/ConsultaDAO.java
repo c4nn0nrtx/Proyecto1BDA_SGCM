@@ -2,6 +2,7 @@
 package DAO;
 
 import Conexion.IConexionBD;
+import Entidades.Cita;
 import Entidades.Consulta;
 import Entidades.Paciente;
 import Exception.PersistenciaException;
@@ -40,7 +41,7 @@ public class ConsultaDAO implements IConsultaDAO{
             ps.setString(2, consulta.getEstado());
             ps.setString(3, consulta.getDiagnostico());
             ps.setString(4, consulta.getTratamiento());
-            ps.setString(4, consulta.getObservaciones());
+            ps.setString(5, consulta.getObservaciones());
             ps.setObject(6, consulta.getFechaHora());
             
             int filasAfectadas = ps.executeUpdate();
@@ -66,10 +67,30 @@ public class ConsultaDAO implements IConsultaDAO{
     }
     // FALTA DE IMPLEMENTAR : ULTIMO CAMBIO SEBASITAN
     @Override
-    public List<Consulta> obtenerConsultasPaciente(Paciente paciente,String especialidad,LocalDate fechaInicial,LocalDate  fechaFin ) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Consulta obtenerConsultasPaciente(Cita cita) throws PersistenciaException {
+        String consultaSQL = "SELECT estado, diagnostico, tratamiento, observaciones, fechaHoraEntrada"
+                + "FROM CONSULTAS WHERE idCita = ?";
+        
+        try (Connection con = this.conexionBD.crearConexion();
+                PreparedStatement ps = con.prepareStatement(consultaSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                Consulta consulta = new Consulta();
+                consulta.setEstado(rs.getString("estado"));
+                consulta.setDiagnostico(rs.getString("diagnostico"));
+                consulta.setTratamiento(rs.getString("tratamiento"));
+                consulta.setObservaciones(rs.getString("observaciones"));
+                consulta.setFechaHora(rs.getTimestamp("fechaHoraEntrada").toLocalDateTime());
+                return consulta;
+                
+            }   catch (SQLException ex) {
+                Logger.getLogger(ConsultaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }   catch (SQLException ex) {
+            Logger.getLogger(ConsultaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
-    
     
 }

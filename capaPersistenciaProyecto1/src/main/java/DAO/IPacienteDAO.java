@@ -31,4 +31,5 @@ public interface IPacienteDAO {
      */
     public Paciente actualizarPacientePorID(int id, Paciente paciente) throws PersistenciaException;
     
+    public Paciente consultarPacientePorCelular(String celular) throws PersistenciaException;
 }

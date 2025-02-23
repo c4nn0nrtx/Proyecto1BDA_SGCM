@@ -66,5 +66,15 @@ public class ConsultaBO {
         }
         return false;
     }
+    
+    public ConsultaNuevaDTO obtenerConsultasPaciente(CitaNuevoDTO citaNueva) throws PersistenciaException, NegocioException {
+        if (citaNueva == null) {
+            throw new NegocioException("El paciente no puede ser nulo");
+        }
+        Cita cita = mapper.DTOCitaToEntity(citaNueva);
+        Consulta consulta = consultaDAO.obtenerConsultasPaciente(cita);
+        ConsultaNuevaDTO consultaNueva = mapper.ConsultaToNuevaDTO(consulta);
+        return consultaNueva;
+    }
         
 }

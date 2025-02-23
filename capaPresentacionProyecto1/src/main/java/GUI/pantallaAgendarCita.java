@@ -208,9 +208,11 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
 
     private void btnAgendarCitaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCitaMouseClicked
         agendarCitaDesdeTabla();
-        framePrincipal.cambiarPanel("pantallaInformacionCita");
-        pantallaInformacionCita agendarCitas = framePrincipal.getPantallaInformacionCitas();
-        agendarCitas.cargarDatosCita();
+        if (framePrincipal.getCitaFinal() == null) {
+            framePrincipal.cambiarPanel("pantallaInformacionCita");
+            pantallaInformacionCita agendarCitas = framePrincipal.getPantallaInformacionCitas();
+            agendarCitas.cargarDatosCita();
+        }
 
     }//GEN-LAST:event_btnAgendarCitaMouseClicked
 

@@ -73,7 +73,7 @@ public class CitaBO {
             Cita cita = mapper.DTOCitaToEntity(citaNueva);
 
             citaDAO.agendarCita(cita);
-
+            
             con.commit();
             return true;
         } catch (PersistenciaException ex) {
@@ -125,6 +125,25 @@ public class CitaBO {
             logger.log(Level.SEVERE, "Error, No se pudieron encontrar  las citas del médico. Intenta de nuevo.", ex);
         }
         return null;
+    }
+    
+    public List<CitaNuevoDTO> consultarCitasPacientes(Paciente paciente) throws PersistenciaException, NegocioException {
+        if (paciente == null) {
+            throw new NegocioException("El paciente no puede ser nulo");
+
+        }
+        List<CitaNuevoDTO> citasDTOPendientes = new ArrayList<>();
+        try {
+            List<Cita> citasPacientes = citaDAO.consultarCitasPaciente(paciente);
+            
+            for (int i = 0; i < citasPacientes.size(); i++) {
+                citasDTOPendientes.add(mapper.CitaToNuevaDTO(citasPacientes.get(1)));
+            }
+            return citasDTOPendientes;
+        } catch (PersistenciaException ex) {
+            logger.log(Level.SEVERE, "Error, No se pudieron encontrar  las citas del paciente. Intenta de nuevo.", ex);
+        }
+        return citasDTOPendientes;
     }
 
     public List<CitaNuevoDTO> cargarCitas(int idMedico, String diaSemana, String fecha) {

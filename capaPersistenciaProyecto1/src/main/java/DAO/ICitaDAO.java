@@ -6,6 +6,7 @@ package DAO;
 
 import Entidades.Cita;
 import Entidades.Horario_Medico;
+import Entidades.Paciente;
 import Exception.PersistenciaException;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public interface ICitaDAO {
     public List<Cita> consultarCitasProgramadasAgenda(int idMedico) throws PersistenciaException;
     
     public List<Cita> consultarCitasEmergenciaAgenda(int idMedico) throws PersistenciaException;
+
     /**
      * Metodo que carga un listado de citas por horario que pertenecen a un medico
      * dentro de un dia de la semana y una fecha.
@@ -35,4 +37,7 @@ public interface ICitaDAO {
      * @throws PersistenciaException 
      */
     public List<Cita> cargarCitas(int idMedico, String diaSemana, String fecha) throws PersistenciaException;
+
+    
+    public List<Cita> consultarCitasPaciente(Paciente paciente) throws PersistenciaException;
 }

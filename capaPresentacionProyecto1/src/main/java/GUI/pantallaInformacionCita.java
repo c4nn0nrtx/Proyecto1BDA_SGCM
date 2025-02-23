@@ -237,7 +237,7 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
         Medico medico = citaGlobal.getMedico();
         Paciente paciente = citaGlobal.getPaciente();
         LocalDateTime fechaHora = citaGlobal.getFechaHora();
-        outputNombreDoctor.setText("Dr." + medico.getNombre() + " " + medico.getApellidoPaterno());
+        outputNombreDoctor.setText("Dr. " + medico.getNombre() + " " + medico.getApellidoPaterno());
         outputEspecialidad.setText(medico.getEspecialidad());
         outputHorarioCita.setText(Integer.toString(fechaHora.getHour()) + ":" + Integer.toString(fechaHora.getMinute()));
         outputNombrePaciente.setText(paciente.getNombre() + " " + paciente.getApellidoPaterno());

@@ -6,7 +6,6 @@ package pruebas;
 
 import Conexion.ConexionBD;
 import Conexion.IConexionBD;
-import DAO.CitaDAO;
 import DAO.Direccion_PacienteDAO;
 import DAO.HorarioMedicoDAO;
 import DAO.MedicoDAO;
@@ -46,7 +45,6 @@ public class pruebas {
         HorarioMedicoDAO horarioMedicoDAO = new HorarioMedicoDAO(conexionBD);
         Direccion_PacienteDAO direccionDAO = new Direccion_PacienteDAO(conexionBD);
         PacienteDAO pacienteDAO = new PacienteDAO(conexionBD);
-        CitaDAO citaDAO = new CitaDAO(conexionBD);
         
         
         Medico medico = medicoDAO.obtenerMedicoPorNombre("Juan Manuel Perez Montoya");
