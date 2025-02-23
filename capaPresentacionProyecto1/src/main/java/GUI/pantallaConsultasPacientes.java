@@ -11,6 +11,7 @@ import BO.PacienteBO;
 import DTO.CitaNuevoDTO;
 import DTO.ConsultaNuevaDTO;
 import DTO.MedicoNuevoDTO;
+import Entidades.Cita;
 import Entidades.Medico;
 import Entidades.Paciente;
 import Entidades.Usuario;
@@ -239,7 +240,7 @@ public class pantallaConsultasPacientes extends javax.swing.JPanel {
         Paciente paciente = pacienteBO.buscarPacientePorCelular(celular);
         
         
-        List<CitaNuevoDTO> citasPaciente = citaBO.consultarCitasPacientes(paciente);
+        List<Cita> citasPaciente = citaBO.consultarCitasPacientes(paciente);
         List<MedicoNuevoDTO> medicosDTO = new ArrayList<>();
         List<ConsultaNuevaDTO> consultasNuevaDTO = new ArrayList<>();
         for (int i = 0; i < citasPaciente.size(); i++) {

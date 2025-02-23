@@ -67,12 +67,12 @@ public class ConsultaBO {
         return false;
     }
     
-    public ConsultaNuevaDTO obtenerConsultasPaciente(CitaNuevoDTO citaNueva) throws PersistenciaException, NegocioException {
+    public ConsultaNuevaDTO obtenerConsultasPaciente(Cita citaNueva) throws PersistenciaException, NegocioException {
         if (citaNueva == null) {
-            throw new NegocioException("El paciente no puede ser nulo");
+            throw new NegocioException("La cita no puede ser nula");
         }
-        Cita cita = mapper.DTOCitaToEntity(citaNueva);
-        Consulta consulta = consultaDAO.obtenerConsultasPaciente(cita);
+        
+        Consulta consulta = consultaDAO.obtenerConsultasPaciente(citaNueva);
         ConsultaNuevaDTO consultaNueva = mapper.ConsultaToNuevaDTO(consulta);
         return consultaNueva;
     }

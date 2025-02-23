@@ -194,23 +194,20 @@ public class CitaBO {
         return citaString;
     }
 
-    public List<CitaNuevoDTO> consultarCitasPacientes(Paciente paciente) throws PersistenciaException, NegocioException {
+    public List<Cita> consultarCitasPacientes(Paciente paciente) throws PersistenciaException, NegocioException {
         if (paciente == null) {
             throw new NegocioException("El paciente no puede ser nulo");
 
         }
-        List<CitaNuevoDTO> citasDTOPendientes = new ArrayList<>();
+        List<Cita> citasPacientes = new ArrayList<>();
         try {
-            List<Cita> citasPacientes = citaDAO.consultarCitasPaciente(paciente);
+            citasPacientes = citaDAO.consultarCitasPaciente(paciente);
 
-            for (int i = 0; i < citasPacientes.size(); i++) {
-                citasDTOPendientes.add(mapper.CitaToNuevaDTO(citasPacientes.get(1)));
-            }
-            return citasDTOPendientes;
+            return citasPacientes;
         } catch (PersistenciaException ex) {
             logger.log(Level.SEVERE, "Error, No se pudieron encontrar  las citas del paciente. Intenta de nuevo.", ex);
         }
-        return citasDTOPendientes;
+        return citasPacientes;
     }
 
 }

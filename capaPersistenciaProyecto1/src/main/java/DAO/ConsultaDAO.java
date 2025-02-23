@@ -68,21 +68,24 @@ public class ConsultaDAO implements IConsultaDAO{
     // FALTA DE IMPLEMENTAR : ULTIMO CAMBIO SEBASITAN
     @Override
     public Consulta obtenerConsultasPaciente(Cita cita) throws PersistenciaException {
-        String consultaSQL = "SELECT estado, diagnostico, tratamiento, observaciones, fechaHoraEntrada"
+        String consultaSQL = "SELECT estado, diagnostico, tratamiento, observaciones, fechaHoraEntrada "
                 + "FROM CONSULTAS WHERE idCita = ?";
         
         try (Connection con = this.conexionBD.crearConexion();
                 PreparedStatement ps = con.prepareStatement(consultaSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            
-            try (ResultSet rs = ps.executeQuery()) {
-                Consulta consulta = new Consulta();
-                consulta.setEstado(rs.getString("estado"));
-                consulta.setDiagnostico(rs.getString("diagnostico"));
-                consulta.setTratamiento(rs.getString("tratamiento"));
-                consulta.setObservaciones(rs.getString("observaciones"));
-                consulta.setFechaHora(rs.getTimestamp("fechaHoraEntrada").toLocalDateTime());
-                return consulta;
                 
+                ps.setInt(1, cita.getIdCita());
+                
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Consulta consulta = new Consulta();
+                    consulta.setEstado(rs.getString("estado"));
+                    consulta.setDiagnostico(rs.getString("diagnostico"));
+                    consulta.setTratamiento(rs.getString("tratamiento"));
+                    consulta.setObservaciones(rs.getString("observaciones"));
+                    consulta.setFechaHora(rs.getTimestamp("fechaHoraEntrada").toLocalDateTime());
+                    return consulta;
+                }
             }   catch (SQLException ex) {
                 Logger.getLogger(ConsultaDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
