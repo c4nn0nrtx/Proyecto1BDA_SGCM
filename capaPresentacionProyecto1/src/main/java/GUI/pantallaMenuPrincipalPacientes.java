@@ -4,8 +4,13 @@
  */
 package GUI;
 
+import BO.CitaBO;
+import BO.UsuarioBO;
+import DTO.CitaNuevoDTO;
+import Entidades.Cita;
 import Exception.NegocioException;
 import Exception.PersistenciaException;
+import configuracion.DependencyInjector;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +24,7 @@ import javax.swing.JOptionPane;
 public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
 
     private FramePrincipal framePrincipal;
+    private CitaBO citaBO = DependencyInjector.crearCitaBO();
 
     public pantallaMenuPrincipalPacientes(FramePrincipal frame) {
         this.framePrincipal = frame;
@@ -193,6 +199,11 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
 
         btnEmergencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/llamada-de-socorro.png"))); // NOI18N
         btnEmergencia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEmergencia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEmergenciaMouseClicked(evt);
+            }
+        });
         add(btnEmergencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 510, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
@@ -203,9 +214,10 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
     private void btnPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPerfilMouseClicked
         pantallaInformacionUsuario informacionUsuario = framePrincipal.getPantallaInformacion();
 
-        if (informacionUsuario != null) { try {
-            // Verifica que la pantalla no sea null
-            informacionUsuario.cargarPaciente();
+        if (informacionUsuario != null) {
+            try {
+                // Verifica que la pantalla no sea null
+                informacionUsuario.cargarPaciente();
             } catch (PersistenciaException ex) {
                 Logger.getLogger(pantallaMenuPrincipalPacientes.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -221,19 +233,27 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCerrarSesionMouseClicked
 
     private void btnAgendarCitaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCitaMouseClicked
-        framePrincipal.cambiarPanel("pantallaAgendarCita");
-        pantallaAgendarCita agendarCita = framePrincipal.getPantallaAgendarCita();
-        
+
         try {
-            agendarCita.cargarCitas();
-        } catch (NegocioException ex) {
-            Logger.getLogger(pantallaMenuPrincipalPacientes.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(pantallaMenuPrincipalPacientes.class.getName()).log(Level.SEVERE, null, ex);
+            String cita = citaBO.obtenerUltimaCita(framePrincipal.getUsuarioAutenticado().getIdUsuario());
+
+            if (cita == null) { // Si no hay cita, cambiar de panel
+                framePrincipal.cambiarPanel("pantallaAgendarCita");
+                pantallaAgendarCita agendarCita = framePrincipal.getPantallaAgendarCita();
+
+                try {
+                    agendarCita.cargarCitas();
+                } catch (NegocioException | SQLException | PersistenciaException ex) {
+                    Logger.getLogger(pantallaMenuPrincipalPacientes.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Tienes una cita activa:\n" + cita, "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+            }
         } catch (PersistenciaException ex) {
             Logger.getLogger(pantallaMenuPrincipalPacientes.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
+
     }//GEN-LAST:event_btnAgendarCitaMouseClicked
 
     private void btnCancelarCitaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarCitaMouseClicked
@@ -244,6 +264,18 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
             System.out.println("El usuario no cancelo la cita.");
         }
     }//GEN-LAST:event_btnCancelarCitaMouseClicked
+
+    private void btnEmergenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEmergenciaMouseClicked
+        int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro de realizar una consulta de EMERGENCIA?", "Confirmación", JOptionPane.YES_NO_OPTION);
+
+        if (opcion == JOptionPane.YES_OPTION) {
+            System.out.println("El usuario seleccionó Sí.");
+
+        } else {
+            System.out.println("El usuario seleccionó No.");
+        }
+
+    }//GEN-LAST:event_btnEmergenciaMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAgendarCita;
