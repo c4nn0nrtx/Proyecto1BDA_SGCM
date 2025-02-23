@@ -6,14 +6,14 @@ package GUI;
 
 /**
  *
- * @author PC
+ * @author brand
  */
-public class pantallaInformacionCita extends javax.swing.JPanel {
+public class pantallaCitaEmergencia extends javax.swing.JPanel {
 
     /**
-     * Creates new form informacionDeTuCita
+     * Creates new form pantallaCitaEmergencia
      */
-    public pantallaInformacionCita() {
+    public pantallaCitaEmergencia() {
         initComponents();
     }
 
@@ -26,6 +26,7 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         txtSubTitulo = new javax.swing.JLabel();
         txtSubTitulo1 = new javax.swing.JLabel();
         outputNombreDoctor = new javax.swing.JTextField();
@@ -36,14 +37,16 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
         txtSubTitulo4 = new javax.swing.JLabel();
         outputNombrePaciente = new javax.swing.JTextField();
         txtSubTitulo5 = new javax.swing.JLabel();
-        pnlCancelarCita1 = new javax.swing.JPanel();
-        btnFinalizarConsulta = new javax.swing.JLabel();
+        txtSubTitulo6 = new javax.swing.JLabel();
+        outputNombreDoctor1 = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
         txtSubTitulo.setFont(new java.awt.Font("Roboto", 1, 48)); // NOI18N
         txtSubTitulo.setForeground(new java.awt.Color(0, 0, 0));
-        txtSubTitulo.setText("Información de tu Cita");
+        txtSubTitulo.setText("Situación de Emergencia");
 
         txtSubTitulo1.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         txtSubTitulo1.setForeground(new java.awt.Color(0, 0, 0));
@@ -74,9 +77,9 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
             }
         });
 
-        txtSubTitulo4.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        txtSubTitulo4.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         txtSubTitulo4.setForeground(new java.awt.Color(204, 0, 51));
-        txtSubTitulo4.setText("LAS CITAS SOLO SE PUEDEN CANCELAR  DENTRO DE LAS 24 HRS DE SU CREACION");
+        txtSubTitulo4.setText("FAVOR DE PRESENTAR FOLIO PARA SER ATENDIDO");
 
         outputNombrePaciente.setEditable(false);
         outputNombrePaciente.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -91,99 +94,102 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
         txtSubTitulo5.setForeground(new java.awt.Color(0, 0, 0));
         txtSubTitulo5.setText("Paciente:");
 
-        pnlCancelarCita1.setBackground(new java.awt.Color(255, 102, 120));
+        txtSubTitulo6.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        txtSubTitulo6.setForeground(new java.awt.Color(0, 0, 0));
+        txtSubTitulo6.setText("Folio de Atención:");
 
-        btnFinalizarConsulta.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
-        btnFinalizarConsulta.setForeground(new java.awt.Color(255, 255, 255));
-        btnFinalizarConsulta.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnFinalizarConsulta.setText("Cancelar Cita");
-        btnFinalizarConsulta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        outputNombreDoctor1.setEditable(false);
+        outputNombreDoctor1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        outputNombreDoctor1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        outputNombreDoctor1.setText("Folio de la Cita");
 
-        javax.swing.GroupLayout pnlCancelarCita1Layout = new javax.swing.GroupLayout(pnlCancelarCita1);
-        pnlCancelarCita1.setLayout(pnlCancelarCita1Layout);
-        pnlCancelarCita1Layout.setHorizontalGroup(
-            pnlCancelarCita1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlCancelarCita1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnFinalizarConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(214, 214, 214)
+                        .addComponent(txtSubTitulo))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(199, 199, 199)
+                        .addComponent(txtSubTitulo4)))
+                .addContainerGap(198, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(74, 74, 74)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtSubTitulo5)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtSubTitulo3)
+                            .addComponent(txtSubTitulo2)
+                            .addComponent(outputNombrePaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(outputEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(outputHorarioCita, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtSubTitulo1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtSubTitulo6)
+                        .addGap(127, 127, 127))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(outputNombreDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(outputNombreDoctor1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(105, 105, 105))))
         );
-        pnlCancelarCita1Layout.setVerticalGroup(
-            pnlCancelarCita1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlCancelarCita1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnFinalizarConsulta, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-                .addContainerGap())
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addComponent(txtSubTitulo)
+                .addGap(76, 76, 76)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtSubTitulo1)
+                    .addComponent(txtSubTitulo6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(outputNombreDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(outputNombreDoctor1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(txtSubTitulo2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(outputEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(txtSubTitulo3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(outputHorarioCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(txtSubTitulo5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(outputNombrePaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
+                .addComponent(txtSubTitulo4)
+                .addGap(38, 38, 38))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtSubTitulo3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(pnlCancelarCita1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(85, 85, 85))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtSubTitulo2)
-                            .addComponent(outputNombrePaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(outputEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(outputNombreDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSubTitulo1)
-                            .addComponent(outputHorarioCita, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(129, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(txtSubTitulo)
-                        .addGap(246, 246, 246))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(txtSubTitulo4)
-                        .addGap(116, 116, 116))))
+            .addGap(0, 1004, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(84, 84, 84)
-                    .addComponent(txtSubTitulo5)
-                    .addContainerGap(818, Short.MAX_VALUE)))
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addComponent(txtSubTitulo)
-                .addGap(76, 76, 76)
-                .addComponent(txtSubTitulo1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(outputNombreDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txtSubTitulo2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(outputEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(txtSubTitulo3))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(pnlCancelarCita1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(outputHorarioCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56)
-                .addComponent(outputNombrePaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
-                .addComponent(txtSubTitulo4)
-                .addGap(37, 37, 37))
+            .addGap(0, 708, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(454, Short.MAX_VALUE)
-                    .addComponent(txtSubTitulo5)
-                    .addGap(214, 214, 214)))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -197,17 +203,18 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel btnFinalizarConsulta;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField outputEspecialidad;
     private javax.swing.JTextField outputHorarioCita;
     private javax.swing.JTextField outputNombreDoctor;
+    private javax.swing.JTextField outputNombreDoctor1;
     private javax.swing.JTextField outputNombrePaciente;
-    private javax.swing.JPanel pnlCancelarCita1;
     private javax.swing.JLabel txtSubTitulo;
     private javax.swing.JLabel txtSubTitulo1;
     private javax.swing.JLabel txtSubTitulo2;
     private javax.swing.JLabel txtSubTitulo3;
     private javax.swing.JLabel txtSubTitulo4;
     private javax.swing.JLabel txtSubTitulo5;
+    private javax.swing.JLabel txtSubTitulo6;
     // End of variables declaration//GEN-END:variables
 }
