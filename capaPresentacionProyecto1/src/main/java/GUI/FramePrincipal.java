@@ -151,4 +151,7 @@ public class FramePrincipal extends javax.swing.JFrame {
     public pantallaAgendarCita getPantallaAgendarCita(){
         return pantallaAgendarCita;
     }
+    public pantallaMenuPrincipalPacientes getPantallaPacientes(){
+        return pantallaPacientes;
+    }
 }

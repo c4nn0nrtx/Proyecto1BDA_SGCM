@@ -260,6 +260,7 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de cancelar la cita: ", "Confirmación", JOptionPane.YES_NO_OPTION);
         if (opcion == JOptionPane.YES_OPTION) {
             System.out.println("El usuario cancelo la cita.");
+             cancelarCita();
         } else {
             System.out.println("El usuario no cancelo la cita.");
         }
@@ -270,6 +271,8 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
 
         if (opcion == JOptionPane.YES_OPTION) {
             System.out.println("El usuario seleccionó Sí.");
+           
+            
 
         } else {
             System.out.println("El usuario seleccionó No.");
@@ -293,4 +296,19 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
     private javax.swing.JLabel txtTituloPantalla1;
     // End of variables declaration//GEN-END:variables
 // FALTA ALGUN METODO PARA VALIDAR SI UN USUARIO TIENE CITAS ACTIVAS.
+    public  void cancelarCita() {
+    int idPaciente = framePrincipal.getUsuarioAutenticado().getIdUsuario();
+
+    try {
+        boolean cancelada = citaBO.cancelarCita(idPaciente);
+        if (cancelada) {
+            JOptionPane.showMessageDialog(this, "Cita cancelada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tienes citas futuras para cancelar.", "Información", JOptionPane.WARNING_MESSAGE);
+        }
+    } catch (NegocioException e) {
+        JOptionPane.showMessageDialog(this, "Error al cancelar la cita: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
+    }
 }

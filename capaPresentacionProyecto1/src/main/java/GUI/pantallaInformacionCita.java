@@ -116,6 +116,11 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
         btnFinalizarConsulta.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnFinalizarConsulta.setText("Cancelar Cita");
         btnFinalizarConsulta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnFinalizarConsulta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnFinalizarConsultaMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlCancelarCita1Layout = new javax.swing.GroupLayout(pnlCancelarCita1);
         pnlCancelarCita1.setLayout(pnlCancelarCita1Layout);
@@ -229,6 +234,17 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
     private void btnVolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseClicked
         framePrincipal.cambiarPanel("pantallaPacientes");
     }//GEN-LAST:event_btnVolverMouseClicked
+
+    private void btnFinalizarConsultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFinalizarConsultaMouseClicked
+          int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de cancelar la cita: ", "Confirmación", JOptionPane.YES_NO_OPTION);
+        if (opcion == JOptionPane.YES_OPTION) {
+            System.out.println("El usuario cancelo la cita.");
+             pantallaMenuPrincipalPacientes cancelar = framePrincipal.getPantallaPacientes();
+             cancelar.cancelarCita();
+        } else {
+            System.out.println("El usuario no cancelo la cita.");
+        }
+    }//GEN-LAST:event_btnFinalizarConsultaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

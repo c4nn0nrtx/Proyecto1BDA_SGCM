@@ -488,6 +488,7 @@ public class CitaDAO implements ICitaDAO {
                 + "JOIN MEDICOS m ON c.idMedico = m.idMedico "
                 + "JOIN PACIENTES p ON c.idPaciente = p.idPaciente "
                 + "WHERE c.idPaciente = ? "
+                + "AND c.ESTADO = 'programada'"
                 + "AND c.fechaHoraProgramada > NOW() "
                 + // Filtra solo citas futuras
                 "ORDER BY c.fechaHoraProgramada ASC "
@@ -609,4 +610,20 @@ public class CitaDAO implements ICitaDAO {
         }
         return citas;
     }
+
+    @Override
+    public boolean cancelarCita(int idCita) throws PersistenciaException {
+        String sql = "UPDATE Citas SET estado = 'Cancelada' WHERE idcita = ?";
+
+        try (Connection conn = this.conexionBD.crearConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idCita);
+            int filasAfectadas = stmt.executeUpdate();
+
+            return filasAfectadas > 0;
+        } catch (SQLException e) {
+            throw new PersistenciaException("Error al cancelar la cita: " + e.getMessage(), e);
+        }
+    }
+
 }

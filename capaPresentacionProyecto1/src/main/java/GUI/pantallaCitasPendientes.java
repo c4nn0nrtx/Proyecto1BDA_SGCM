@@ -159,6 +159,7 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
 
     private void refrescarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refrescarMouseClicked
         consultarCitasProgramadas();
+        consultarCitasEmergencia();
     }//GEN-LAST:event_refrescarMouseClicked
 
     private void refrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refrescarActionPerformed

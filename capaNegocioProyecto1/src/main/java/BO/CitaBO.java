@@ -210,4 +210,19 @@ public class CitaBO {
         return citasPacientes;
     }
 
-}
+    public boolean cancelarCita(int idPaciente) throws NegocioException {
+        try {
+            Cita cita = citaDAO.obtenerUltimaCita(idPaciente);
+
+            if (cita == null) {
+                return false; // No hay citas futuras para cancelar
+            }
+
+            boolean cancelada = citaDAO.cancelarCita(cita.getIdCita());
+            return cancelada;
+
+        } catch (PersistenciaException e) {
+            throw new NegocioException("Error al cancelar la cita.", e);
+        }
+        }
+    }

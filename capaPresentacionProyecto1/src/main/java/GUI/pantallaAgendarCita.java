@@ -100,9 +100,10 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
         txtSubTitulo.setText("Agendar Cita");
         add(txtSubTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 13, -1, -1));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Horarios Disponibles:");
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(348, 151, 235, -1));
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 170, 235, -1));
 
         pnlAgendarCita.setBackground(new java.awt.Color(60, 109, 232));
 
@@ -214,8 +215,8 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
-        add(pnlBuscar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(782, 92, -1, -1));
-        add(selectorFechas, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, 293, 45));
+        add(pnlBuscar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 100, -1, -1));
+        add(selectorFechas, new org.netbeans.lib.awtextra.AbsoluteConstraints(353, 100, 310, 45));
 
         jLabel4.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
