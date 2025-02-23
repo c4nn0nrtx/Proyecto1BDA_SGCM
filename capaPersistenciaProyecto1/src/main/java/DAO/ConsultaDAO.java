@@ -1,21 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package DAO;
 
 import Conexion.IConexionBD;
 import Entidades.Consulta;
+import Entidades.Paciente;
 import Exception.PersistenciaException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Esta clase representa una consulta generada por una cita del paciente.
  * @author Ramon Valencia
  */
 public class ConsultaDAO implements IConsultaDAO{
@@ -64,4 +63,12 @@ public class ConsultaDAO implements IConsultaDAO{
         return consulta;
         
     }
+
+    @Override
+    public List<Consulta> obtenerConsultasPaciente(Paciente paciente) throws PersistenciaException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    
+    
 }

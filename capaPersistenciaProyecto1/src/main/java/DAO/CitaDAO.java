@@ -142,6 +142,7 @@ public class CitaDAO implements ICitaDAO {
         return citas;
     }
 
+    
     public List<Cita> consultarCitasProgramadasAgenda(int idMedico) throws PersistenciaException {
         List<Cita> citas = new ArrayList<>();
 
@@ -157,6 +158,7 @@ public class CitaDAO implements ICitaDAO {
                 + "JOIN HORARIOS h ON hm.idHorario = h.idHorario "
                 + "WHERE c.idMedico = ? "
                 + "AND TIME(c.fechaHoraProgramada) BETWEEN h.horaInicio AND h.horaFin "
+                + "AND c.fechaHoraProgramada >= NOW() "
                 + "AND c.estado = 'Programada' "
                 + "AND c.tipo = 'programada' "
                 + "ORDER BY c.fechaHoraProgramada ASC";
@@ -213,7 +215,7 @@ public class CitaDAO implements ICitaDAO {
         }
         return citas;
     }
-    
+
     public List<Cita> consultarCitasEmergenciaAgenda(int idMedico) throws PersistenciaException {
         List<Cita> citas = new ArrayList<>();
 
@@ -229,6 +231,7 @@ public class CitaDAO implements ICitaDAO {
                 + "JOIN HORARIOS h ON hm.idHorario = h.idHorario "
                 + "WHERE c.idMedico = ? "
                 + "AND TIME(c.fechaHoraProgramada) BETWEEN h.horaInicio AND h.horaFin "
+                + "AND c.fechaHoraProgramada >= NOW() "
                 + "AND c.estado = 'Programada' "
                 + "AND c.tipo = 'emergencia' "
                 + "ORDER BY c.fechaHoraProgramada ASC";

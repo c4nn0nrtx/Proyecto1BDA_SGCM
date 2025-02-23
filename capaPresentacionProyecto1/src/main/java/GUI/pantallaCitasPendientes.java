@@ -67,12 +67,12 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
                 txtCitasProgramadasMouseClicked(evt);
             }
         });
-        add(txtCitasProgramadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 710, -1));
+        add(txtCitasProgramadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, 680, -1));
 
         txtEmergencia.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         txtEmergencia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txtEmergencia.setText("Emergencia");
-        add(txtEmergencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 330, 262, -1));
+        add(txtEmergencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 340, 262, -1));
 
         tblCitasProgramadas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
