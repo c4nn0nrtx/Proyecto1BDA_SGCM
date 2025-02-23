@@ -9,11 +9,12 @@ package GUI;
  * @author Sebastian Moreno
  */
 public class pantallaDatosConsulta extends javax.swing.JPanel {
-
+    FramePrincipal framePrincipal;
     /**
      * Creates new form pantallaDatosConsulta1
      */
-    public pantallaDatosConsulta() {
+    public pantallaDatosConsulta(FramePrincipal frame) {
+        this.framePrincipal = frame;
         initComponents();
     }
 

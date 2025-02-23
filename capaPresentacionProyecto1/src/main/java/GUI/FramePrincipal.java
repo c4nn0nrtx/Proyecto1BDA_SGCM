@@ -28,6 +28,7 @@ public class FramePrincipal extends javax.swing.JFrame {
     pantallaCitasPendientes pantallaCitasPendientes;
     pantallaConsultasPacientes pantallaConsultasPacientes;
     pantallaAgendarCita pantallaAgendarCita;
+    pantallaDatosConsulta pantallaDatosConsulta;
     //Pantallas
     private Usuario usuarioAutenticado;
 
@@ -93,6 +94,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         pantallaCitasPendientes = new pantallaCitasPendientes(this);
         pantallaConsultasPacientes = new pantallaConsultasPacientes(this);
         pantallaAgendarCita = new pantallaAgendarCita(this);
+        pantallaDatosConsulta = new pantallaDatosConsulta(this);
 
         panelPrincipal.add(pantallaInicioSesion, "pantallaInicioSesion");
         panelPrincipal.add(pantallaRegistro, "pantallaRegistro");
@@ -103,6 +105,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         panelPrincipal.add(pantallaCitasPendientes,"pantallaCitasPendientes");
         panelPrincipal.add(pantallaConsultasPacientes,"pantallaConsultasPacientes");
         panelPrincipal.add(pantallaAgendarCita, "pantallaAgendarCita");
+        panelPrincipal.add(pantallaDatosConsulta, "pantallaDatosConsulta");
 
         SwingUtilities.updateComponentTreeUI(this);
         this.repaint();

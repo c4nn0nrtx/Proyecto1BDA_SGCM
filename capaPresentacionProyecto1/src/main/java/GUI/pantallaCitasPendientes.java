@@ -300,6 +300,7 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
 
             button.addActionListener(e -> {
                 JOptionPane.showMessageDialog(button, "Iniciando cita en la fila " + selectedRow);
+                framePrincipal.cambiarPanel("pantallaDatosConsulta");
                 // Aquí puedes ejecutar la lógica para iniciar la cita
             });
         }
