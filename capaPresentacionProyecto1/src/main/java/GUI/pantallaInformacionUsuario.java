@@ -24,17 +24,23 @@ import javax.swing.JOptionPane;
  * @author Sebastian Moreno
  */
 public class pantallaInformacionUsuario extends javax.swing.JPanel {
+
     private UsuarioBO usuarioBO = DependencyInjector.crearUsuarioBO();
     private PacienteBO pacienteBO = DependencyInjector.crearPacienteBO();
     private Direccion_PacienteBO direccionBO = DependencyInjector.crearDireccionBO();
     private JDateChooser selectorFechas;
     private FramePrincipal framePrincipal;
     pantallaInicioSesion pantalla = new pantallaInicioSesion(framePrincipal);
-    
+
     public pantallaInformacionUsuario(FramePrincipal frame) {
         this.framePrincipal = frame;
         selectorFechas = new JDateChooser();
         selectorFechas.setBounds(610, 285, 200, 40);
+        LocalDate minDate = LocalDate.now().minusYears(6);
+        selectorFechas.setMaxSelectableDate(java.sql.Date.valueOf(minDate));
+        LocalDate maxDate = LocalDate.now().minusYears(150);
+        selectorFechas.setMinSelectableDate(java.sql.Date.valueOf(maxDate));
+        selectorFechas.setDate(java.sql.Date.valueOf(minDate));
         this.add(selectorFechas);
         initComponents();
     }
@@ -273,7 +279,11 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
 
     private void btnGuardar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardar1MouseClicked
         try {
-            actualizarPaciente();
+            if (validarCampos() == true) {
+                actualizarPaciente();
+            } else {
+
+            }
         } catch (NegocioException ex) {
             Logger.getLogger(pantallaInformacionUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -284,7 +294,7 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
     }//GEN-LAST:event_btnVolverMouseClicked
 
     private void pnlRestablecerDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlRestablecerDatosMouseClicked
-        
+
     }//GEN-LAST:event_pnlRestablecerDatosMouseClicked
 
 
@@ -317,71 +327,210 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
     private javax.swing.JLabel txtTituloPantalla;
     // End of variables declaration//GEN-END:variables
 
-public void cargarPaciente() throws PersistenciaException{
-    Paciente pacienteConsultado =  pacienteBO.buscarPacientePorID(framePrincipal.getUsuarioAutenticado().getIdUsuario());
-    
-       if (pacienteConsultado != null) {
-        // Datos personales del paciente
-        inputNombre.setText(pacienteConsultado.getNombre());
-        inputApellidoM.setText(pacienteConsultado.getApellidoMaterno());
-        inputApellidoP.setText(pacienteConsultado.getApellidoPaterno());
-        inputCorreo.setText(pacienteConsultado.getCorreo());
-        inputCelular.setText(pacienteConsultado.getTelefono());
- 
-        // Datos de la dirección 
-        inputCalle.setText(pacienteConsultado.getDireccion().getCalle());
-        inputColonia.setText(pacienteConsultado.getDireccion().getColonia());
-        inputCodigoPostal.setText(String.valueOf(pacienteConsultado.getDireccion().getCp()));
-        inputNumExt.setText(pacienteConsultado.getDireccion().getNumero());
-        LocalDate fechaNacimiento = pacienteConsultado.getFechaNacimiento();
-        Date date = Date.from(fechaNacimiento.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        selectorFechas.setDate(date);
-    } else {
-        JOptionPane.showMessageDialog(null, "No se encontró información del paciente.", "Error", JOptionPane.ERROR_MESSAGE);
-        
+    public void cargarPaciente() throws PersistenciaException {
+        Paciente pacienteConsultado = pacienteBO.buscarPacientePorID(framePrincipal.getUsuarioAutenticado().getIdUsuario());
+
+        if (pacienteConsultado != null) {
+            // Datos personales del paciente
+            inputNombre.setText(pacienteConsultado.getNombre());
+            inputApellidoM.setText(pacienteConsultado.getApellidoMaterno());
+            inputApellidoP.setText(pacienteConsultado.getApellidoPaterno());
+            inputCorreo.setText(pacienteConsultado.getCorreo());
+            inputCelular.setText(pacienteConsultado.getTelefono());
+
+            // Datos de la dirección 
+            inputCalle.setText(pacienteConsultado.getDireccion().getCalle());
+            inputColonia.setText(pacienteConsultado.getDireccion().getColonia());
+            inputCodigoPostal.setText(String.valueOf(pacienteConsultado.getDireccion().getCp()));
+            inputNumExt.setText(pacienteConsultado.getDireccion().getNumero());
+            LocalDate fechaNacimiento = pacienteConsultado.getFechaNacimiento();
+            Date date = Date.from(fechaNacimiento.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            selectorFechas.setDate(date);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontró información del paciente.", "Error", JOptionPane.ERROR_MESSAGE);
+
+        }
     }
-}
-public void actualizarPaciente() throws NegocioException {
-    try {
-        // Obtener el ID del usuario autenticado
-        int id = framePrincipal.getUsuarioAutenticado().getIdUsuario();
 
-        // Obtener la información de los inputs
-        String nombre = inputNombre.getText().trim();
-        String apellidoP = inputApellidoP.getText().trim();
-        String apellidoM = inputApellidoM.getText().trim();
-        String correo = inputCorreo.getText().trim();
-        String celular = inputCelular.getText().trim();
-        String calle = inputCalle.getText().trim();
-        String colonia = inputColonia.getText().trim();
-        String numero = inputNumExt.getText().trim();
-        int codigoPostal = Integer.parseInt(inputCodigoPostal.getText().trim());
+    public void actualizarPaciente() throws NegocioException {
+        try {
+            // Obtener el ID del usuario autenticado
+            int id = framePrincipal.getUsuarioAutenticado().getIdUsuario();
 
-        // Obtener la fecha seleccionada en JDateChooser y convertirla a LocalDate
-        Date fechaSeleccionada = selectorFechas.getDate();
-        LocalDate fechaNacimiento = fechaSeleccionada.toInstant()
-                                      .atZone(ZoneId.systemDefault())
-                                      .toLocalDate();
+            // Obtener la información de los inputs
+            String nombre = inputNombre.getText().trim();
+            String apellidoP = inputApellidoP.getText().trim();
+            String apellidoM = inputApellidoM.getText().trim();
+            String correo = inputCorreo.getText().trim();
+            String celular = inputCelular.getText().trim();
+            String calle = inputCalle.getText().trim();
+            String colonia = inputColonia.getText().trim();
+            String numero = inputNumExt.getText().trim();
+            int codigoPostal = Integer.parseInt(inputCodigoPostal.getText().trim());
 
-        // Crear objeto Direccion
-        Direccion_Paciente direccion = new Direccion_Paciente(calle, colonia,codigoPostal,numero);
+            // Obtener la fecha seleccionada en JDateChooser y convertirla a LocalDate
+            Date fechaSeleccionada = selectorFechas.getDate();
+            LocalDate fechaNacimiento = fechaSeleccionada.toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
 
-        // Crear objeto Paciente con los datos actualizados
-        PacienteNuevoDTO pacienteActualizado = new PacienteNuevoDTO(framePrincipal.getUsuarioAutenticado(),direccion, nombre, apellidoP, apellidoM, correo,fechaNacimiento,celular);
-        // Llamar a la capa de negocio para actualizar los datos
-        pacienteBO.actualizarPaciente(id, pacienteActualizado);
+            // Crear objeto Direccion
+            Direccion_Paciente direccion = new Direccion_Paciente(calle, colonia, codigoPostal, numero);
 
-        // Mostrar mensaje de éxito
-        JOptionPane.showMessageDialog(null, "Paciente actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(null, "Error: Código postal debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
-    } catch (NullPointerException e) {
-        JOptionPane.showMessageDialog(null, "Error: Por favor, seleccione una fecha válida.", "Error", JOptionPane.ERROR_MESSAGE);
-    } catch (PersistenciaException e) {
-        JOptionPane.showMessageDialog(null, "Error al actualizar el paciente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            // Crear objeto Paciente con los datos actualizados
+            PacienteNuevoDTO pacienteActualizado = new PacienteNuevoDTO(framePrincipal.getUsuarioAutenticado(), direccion, nombre, apellidoP, apellidoM, correo, fechaNacimiento, celular);
+            // Llamar a la capa de negocio para actualizar los datos
+            pacienteBO.actualizarPaciente(id, pacienteActualizado);
+
+            // Mostrar mensaje de éxito
+            JOptionPane.showMessageDialog(null, "Paciente actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error: Código postal debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Error: Por favor, seleccione una fecha válida.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (PersistenciaException e) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar el paciente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
     }
-}
+
+    public boolean validarCampos() {
+
+        if (!validarNombre()
+                || !validarApellidoP()
+                || !validarTelefono()
+                || !validarCorreo()
+                || !validarColonia()
+                || !validarCodigoPostal()) {
+
+            return false; // Si alguna validación falla, no continuar
+        }
+
+        if (inputNombre.getText() != null && !inputNombre.getText().isEmpty()
+                && inputApellidoP.getText() != null && !inputApellidoP.getText().isEmpty()
+                && inputCelular.getText() != null && !inputCelular.getText().isEmpty()
+                && inputCorreo.getText() != null && !inputCorreo.getText().isEmpty()
+                && selectorFechas.getDate() != null
+                && inputCalle.getText() != null && !inputCalle.getText().isEmpty()
+                && inputColonia.getText() != null && !inputColonia.getText().isEmpty()
+                && inputCodigoPostal.getText() != null && !inputCodigoPostal.getText().isEmpty()
+                && inputNumExt.getText() != null && !inputNumExt.getText().isEmpty()) {
+
+            return true;
+            // Aquí puedes continuar con la lógica si todos los campos están completos.
+        } else {
+            JOptionPane.showMessageDialog(null, "Llena todos los campos obligatorios(*) para completar el registro.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+    }
+
+    private boolean validarCorreo() {
+        String correo = inputCorreo.getText();
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        if (correo == null || !correo.matches(regex)) {
+            JOptionPane.showMessageDialog(null, "Correo inválido. Debe tener el formato usuario@dominio.com", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validarCodigoPostal() {
+        String cpTexto = inputCodigoPostal.getText();
+        try {
+            int cp = Integer.parseInt(cpTexto);
+            if (cp < 10000 || cp > 99999) {
+                JOptionPane.showMessageDialog(null, "Código Postal inválido. Debe tener exactamente 5 dígitos.", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            return true;
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Código Postal inválido. Debe ser un número de 5 dígitos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+
+    private boolean validarTelefono() {
+        String telefono = inputCelular.getText();
+        String regex = "^[0-9]{10}$"; // EXACTAMENTE 10 dígitos
+
+        if (telefono.isEmpty() || !telefono.matches(regex)) {
+            JOptionPane.showMessageDialog(null,
+                    "Número de teléfono inválido. Debe contener exactamente 10 dígitos numéricos.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean validarNombre() {
+        String nombre = inputNombre.getText();
+        // Se establece un patrón el cual el nombre debe cumplir
+        String regex = "^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+( [A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)*$";
+        // verificar que no sea un campo vacío
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El campo del nombre no fue rellenado. Ingrese un nombre válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+            // verificar que el nombre esté dentro de los límites establecidos
+        } else if (nombre.length() < 3 || nombre.length() > 50) {
+            JOptionPane.showMessageDialog(null, "Nombre inválido. La cantidad de caracteres está fuera del límite.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+            // verificar que el nombre cumpla con el patrón establecido
+        } else if (!nombre.matches(regex)) {
+            JOptionPane.showMessageDialog(null, "Nombre inválido. Debe iniciar con mayúscula y solo contener letras.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean validarApellidoP() {
+        String apellido = inputApellidoP.getText().trim(); // Eliminamos espacios en blanco
+        String regex = "^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+$";
+
+        if (apellido.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El campo del apellido paterno no fue rellenado. Ingrese un nombre válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (apellido.length() < 3 || apellido.length() > 50) {
+            JOptionPane.showMessageDialog(null, "Apellido paterno inválido. La cantidad de caracteres está fuera del límite.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (!apellido.matches(regex)) { // Verificamos si está vacío o no cumple con el regex
+            JOptionPane.showMessageDialog(null,
+                    "Apellido paterno inválido. Debe iniciar con mayúscula y solo contener letras.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean validarApellidoM() {
+        String apellido = inputApellidoM.getText();
+        String regex = "^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+$";
+        if (apellido == null || !apellido.matches(regex)) {
+            JOptionPane.showMessageDialog(null, "Apellido materno inválido. Debe iniciar con mayúscula y solo contener letras.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validarColonia() {
+        String colonia = inputColonia.getText();
+        String regex = "^[A-ZÁÉÍÓÚÑa-záéíóúñ0-9 ]+$"; // Permite letras, números y espacios
+        if (colonia.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El campo de la colonia no fue rellenado. Ingrese una colonia válida.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (colonia.length() < 3 || colonia.length() > 50) {
+            JOptionPane.showMessageDialog(null, "Colonia inválida. La cantidad de caracteres está fuera del límite.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (colonia == null || !colonia.matches(regex)) {
+            JOptionPane.showMessageDialog(null, "Colonia inválida. Solo se permiten letras, números y espacios.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
 
 }
-

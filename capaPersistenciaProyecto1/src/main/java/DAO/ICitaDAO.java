@@ -46,18 +46,20 @@ public interface ICitaDAO {
     public Cita obtenerProximaCitaPendiente(int idPaciente) throws PersistenciaException;
 
     public Cita obtenerUltimaCita(int idPaciente) throws PersistenciaException;
-    
+
     public Cita agendarCitaEmergencia(Cita cita) throws PersistenciaException;
-    
+
     public List<Cita> consultarCitasPaciente(Paciente paciente) throws PersistenciaException;
-    
+
     public boolean cancelarCita(int idCita) throws PersistenciaException;
-    
+
     public Cita obtenerUltimaCitaEmergencia(int idPaciente) throws PersistenciaException;
-    
+
     public Cita consultarCitaPorFolio(String folio) throws SQLException, PersistenciaException;
-    
+
     public Cita consultarCitaPorFecha(String nombrePaciente, String apellidoPat, String apellidoMat, LocalDateTime fechaHora) throws PersistenciaException;
-   
+
     public void actualizarCitas() throws SQLException, PersistenciaException;
+
+    public String consultarFolio(Cita cita) throws PersistenciaException;
 }

@@ -54,12 +54,13 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
         pnlCitasEmergencia = new javax.swing.JScrollPane();
         tblCitasEmergencia = new javax.swing.JTable();
         btnVolver = new javax.swing.JLabel();
-        refrescar = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtCitasProgramadas.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        txtCitasProgramadas.setFont(new java.awt.Font("Roboto", 0, 36)); // NOI18N
+        txtCitasProgramadas.setForeground(new java.awt.Color(0, 0, 0));
         txtCitasProgramadas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txtCitasProgramadas.setText("Citas Programadas");
         txtCitasProgramadas.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -69,7 +70,8 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
         });
         add(txtCitasProgramadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, 680, -1));
 
-        txtEmergencia.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        txtEmergencia.setFont(new java.awt.Font("Roboto", 0, 36)); // NOI18N
+        txtEmergencia.setForeground(new java.awt.Color(0, 0, 0));
         txtEmergencia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txtEmergencia.setText("Emergencia");
         add(txtEmergencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 340, 262, -1));
@@ -126,7 +128,7 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
         tblCitasEmergencia.setRowHeight(40);
         pnlCitasEmergencia.setViewportView(tblCitasEmergencia);
 
-        add(pnlCitasEmergencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 390, 840, 280));
+        add(pnlCitasEmergencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 390, 840, 260));
 
         btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/atras (1).png"))); // NOI18N
         btnVolver.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -137,18 +139,14 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
         });
         add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
-        refrescar.setText("refrescar");
-        refrescar.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/reload (1).png"))); // NOI18N
+        btnRefresh.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRefresh.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                refrescarMouseClicked(evt);
+                btnRefreshMouseClicked(evt);
             }
         });
-        refrescar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refrescarActionPerformed(evt);
-            }
-        });
-        add(refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 20, -1, -1));
+        add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 10, 60, 50));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseClicked
@@ -159,21 +157,17 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCitasProgramadasMouseClicked
 
-    private void refrescarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refrescarMouseClicked
-        consultarCitasProgramadas();
-        consultarCitasEmergencia();
-    }//GEN-LAST:event_refrescarMouseClicked
-
-    private void refrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refrescarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_refrescarActionPerformed
+    private void btnRefreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefreshMouseClicked
+       consultarCitasEmergencia();
+       consultarCitasProgramadas();
+    }//GEN-LAST:event_btnRefreshMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnRefresh;
     private javax.swing.JLabel btnVolver;
     private javax.swing.JScrollPane pnlCitasEmergencia;
     private javax.swing.JScrollPane pnlCitasProgramadas;
-    private javax.swing.JButton refrescar;
     private javax.swing.JTable tblCitasEmergencia;
     private javax.swing.JTable tblCitasProgramadas;
     private javax.swing.JLabel txtCitasProgramadas;
@@ -188,7 +182,7 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
             if (citas == null) {
                 citas = new ArrayList<>();
             }
-            
+
             // Columnas de la tabla
             String[] columnas = {"PACIENTE", "HORARIO", "ESTADO", "ACCION"};
             Object[][] datos = new Object[citas.size()][4];
@@ -227,7 +221,8 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error al cargar citas: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-     public void consultarCitasEmergencia() {
+
+    public void consultarCitasEmergencia() {
         try {
             List<CitaNuevoDTO> citas = citaBO.obtenerAgendaCitasEmergencia(framePrincipal.getUsuarioAutenticado().getIdUsuario());
 
@@ -258,8 +253,7 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
                     return column == 3; // Solo la columna de "Iniciar" será editable
                 }
             };
-   
-            
+
             SwingUtilities.invokeLater(() -> {
                 DefaultTableModel emptyModel = new DefaultTableModel();
                 tblCitasEmergencia.setModel(emptyModel); // Limpia la tabla
@@ -274,7 +268,7 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error al cargar citas: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void agregarBotonIniciar(JTable tabla, Object[] citasLista) {
         tabla.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer());
         tabla.getColumnModel().getColumn(3).setCellEditor(new ButtonEditor(new JCheckBox(), citasLista));
@@ -296,41 +290,56 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
     class ButtonEditor extends DefaultCellEditor {
 
         private JButton button;
-        private String label;
         private boolean isPushed;
-        private int selectedRow;
+        private int row;
+        private JTable table;
+        private Object[] citasLista;
 
         public ButtonEditor(JCheckBox checkBox, Object[] citasLista) {
             super(checkBox);
-            button = new JButton();
+            this.citasLista = citasLista;
+            button = new JButton("Iniciar");
             button.setOpaque(true);
 
-            button.addActionListener(e -> {
-                JOptionPane.showMessageDialog(button, "Iniciando cita en la fila " + selectedRow);
-                CitaNuevoDTO cita = (CitaNuevoDTO) citasLista[selectedRow];
-                framePrincipal.setCitaFinal(cita);
-                pantallaDatosConsulta horaEntrada = framePrincipal.getPantallaDatosConsulta();
-                horaEntrada.cargarHoraEntrada();
-                framePrincipal.cambiarPanel("pantallaDatosConsulta");
-                
-               
-                // Aquí puedes ejecutar la lógica para iniciar la cita
-            });
+            button.addActionListener(e -> fireEditingStopped());
         }
 
         @Override
         public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-            label = (value == null) ? "Iniciar" : value.toString();
-            button.setText(label);
+            this.table = table;
+            this.row = row;
             isPushed = true;
-            selectedRow = row;
             return button;
         }
 
         @Override
         public Object getCellEditorValue() {
+            if (isPushed) {
+                CitaNuevoDTO cita = (CitaNuevoDTO) citasLista[row];
+
+                if (table == tblCitasProgramadas) {
+                    // Acción para citas programadas
+                    JOptionPane.showMessageDialog(null, "Iniciando cita programada con " + cita.getPaciente().getNombre());
+
+                    // Se asigna la cita al framePrincipal
+                    framePrincipal.setCitaFinal(cita);
+                    pantallaDatosConsulta horaEntrada = framePrincipal.getPantallaDatosConsulta();
+                    horaEntrada.cargarHoraEntrada();
+                    framePrincipal.cambiarPanel("pantallaDatosConsulta");
+
+                    // Se elimina el botón de la tabla
+                    eliminarBotonDeFila(table, row);
+                } else if (table == tblCitasEmergencia) {
+                    // Acción para citas de emergencia
+                    JOptionPane.showMessageDialog(null, "Iniciando cita de emergencia con " + cita.getPaciente().getNombre());
+                    framePrincipal.setCitaFinal(cita);
+                    framePrincipal.cambiarPanel("pantallaFolio");
+                    // Se elimina el botón de la tabla
+                    eliminarBotonDeFila(table, row);
+                }
+            }
             isPushed = false;
-            return label;
+            return "";
         }
 
         @Override
@@ -338,7 +347,14 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
             isPushed = false;
             return super.stopCellEditing();
         }
-        
+
+        /**
+         * Método para eliminar el botón de la fila seleccionada.
+         */
+        private void eliminarBotonDeFila(JTable table, int row) {
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            model.setValueAt("", row, 3); // Se reemplaza el botón con una celda vacía
+        }
     }
 
 }

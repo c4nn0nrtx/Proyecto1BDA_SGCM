@@ -234,10 +234,15 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void btnAgendarCitaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCitaMouseClicked
-        agendarCitaDesdeTabla();
+        boolean exito = agendarCitaDesdeTabla();
+        if (exito){
         framePrincipal.cambiarPanel("pantallaInformacionCita");
         pantallaInformacionCita agendarCitas = framePrincipal.getPantallaInformacionCitas();
         agendarCitas.cargarDatosCita();
+        } else {
+        
+        }
+        
 
     }//GEN-LAST:event_btnAgendarCitaMouseClicked
 
@@ -344,11 +349,11 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
      * seleccionadas y convierte esos datos a objetos Para posteriormente
      * agendar una cita usando el BO con los objetos creados.
      */
-    private void agendarCitaDesdeTabla() {
+    private boolean agendarCitaDesdeTabla() {
         int filaSeleccionada = tblCitasDisponibles.getSelectedRow();
         if (filaSeleccionada == -1) {
             JOptionPane.showMessageDialog(this, "Seleccione una cita de la tabla.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+            return false;
         }
 
         try {
@@ -356,72 +361,59 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
             String nombreMedico = tblCitasDisponibles.getValueAt(filaSeleccionada, 0).toString();
             String especialidad = tblCitasDisponibles.getValueAt(filaSeleccionada, 1).toString();
             String hora = tblCitasDisponibles.getValueAt(filaSeleccionada, 2).toString();
-            System.out.println(nombreMedico);
 
-            // Buscar en la BD o crear el objeto MedicoNuevoDTO    // mejor manera de encontrar algun medico???
+            // Buscar el médico en la BD
             MedicoNuevoDTO medico = medicoBO.obtenerMedicoPorNombre(nombreMedico.replace("Dr. ", "").trim());
-            Medico medicoEntity = mapper.DTOMedicoToEntity(medico);
             if (medico == null) {
                 JOptionPane.showMessageDialog(this, "No se encontró el médico seleccionado.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
+                return false;
             }
+            Medico medicoEntity = mapper.DTOMedicoToEntity(medico);
 
-            // Obtener paciente (puede ser el paciente logueado o seleccionado de una lista)
-            int id = framePrincipal.getUsuarioAutenticado().getIdUsuario(); // paciente
-            Paciente paciente = pacienteBO.buscarPacientePorID(id);
-            PacienteNuevoDTO pacienteNuevo = mapper.PacienteToNuevoDTO(paciente);
+            // Obtener paciente autenticado
+            int idPaciente = framePrincipal.getUsuarioAutenticado().getIdUsuario();
+            Paciente paciente = pacienteBO.buscarPacientePorID(idPaciente);
             if (paciente == null) {
                 JOptionPane.showMessageDialog(this, "No se encontró el paciente.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
+                return false;
             }
-            // Obtener la fecha seleccionada en el JDateChooser
+            PacienteNuevoDTO pacienteNuevo = mapper.PacienteToNuevoDTO(paciente);
+
+            // Obtener la fecha seleccionada o la actual
             Date fechaSeleccionada = selectorFechas.getDate();
-            LocalDate fechaActual = LocalDate.now();
-            LocalDate fechaElegida;
+            LocalDate fechaElegida = (fechaSeleccionada == null)
+                    ? LocalDate.now()
+                    : fechaSeleccionada.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-// Determinar la fecha a usar
-            if (fechaSeleccionada == null) {
-                // Si no hay fecha seleccionada, usar la fecha actual
-                fechaElegida = fechaActual;
-            } else {
-                // Si hay una fecha seleccionada, convertirla a LocalDate
-                fechaElegida = fechaSeleccionada.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            }
-
-// Obtener el día de la semana en español
-            String diaSemana = fechaElegida.getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
-
-// Obtener la fecha en formato "YYYY-MM-DD"
-            String fecha = fechaElegida.toString();
-
-// Convertir la hora (String) a LocalTime
+            // Convertir la hora de la cita a LocalTime
             LocalTime horaCita = LocalTime.parse(hora, DateTimeFormatter.ofPattern("HH:mm"));
-
-// Combinar la fecha obtenida con la hora de la cita
             LocalDateTime fechaHora = LocalDateTime.of(fechaElegida, horaCita);
 
-            // Asignar la fecha y hora a la cita
+            // Crear objeto de cita
             CitaNuevoDTO nuevaCita = new CitaNuevoDTO();
             nuevaCita.setFechaHora(fechaHora);
             nuevaCita.setMedico(medicoEntity);
             nuevaCita.setPaciente(paciente);
-            framePrincipal.setCitaFinal(nuevaCita);
-            System.out.println(nuevaCita + "LOOOOOOOOOOOOOL");
+
             // Intentar agendar la cita
             boolean citaAgendada = citaBO.agendarCita(nuevaCita, pacienteNuevo, medico);
             if (citaAgendada) {
                 JOptionPane.showMessageDialog(this, "Cita agendada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                framePrincipal.setCitaFinal(nuevaCita);
+                return true;
             } else {
                 JOptionPane.showMessageDialog(this, "No se pudo agendar la cita.", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
             }
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error al procesar la cita: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         }
+        return false;
     }
 
-    public void agendarCitaEmergenciaBO() {
+    public boolean agendarCitaEmergenciaBO() {
         try {
             // Cargar las citas disponibles
             cargarCitas();
@@ -429,7 +421,7 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
             // Obtener la primera fila de la tabla de citas disponibles
             if (tblCitasDisponibles.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(this, "No hay citas disponibles para agendar.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
+                return false;
             }
 
             // Extraer datos de la primera fila
@@ -441,7 +433,7 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
             MedicoNuevoDTO medico = medicoBO.obtenerMedicoPorNombre(nombreMedico.replace("Dr. ", "").trim());
             if (medico == null) {
                 JOptionPane.showMessageDialog(this, "No se encontró el médico.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
+                return false;
             }
 
             // Obtener el paciente autenticado
@@ -451,7 +443,7 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
 
             if (paciente == null) {
                 JOptionPane.showMessageDialog(this, "No se encontró el paciente.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
+                return false;
             }
 
             // Obtener la fecha seleccionada o la actual
@@ -472,19 +464,22 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
 
             // Intentar agendar la cita
             Cita citaAgendada = citaBO.agendarCitaEmergencia(nuevaCita, pacienteNuevo, medico);
-               
+
             nuevaCita.setFolio(citaAgendada.getFolio());
-            System.out.println(nuevaCita);
+            System.out.println(nuevaCita); // logger 
             if (citaAgendada != null) {
                 JOptionPane.showMessageDialog(this, "Cita de emergencia agendada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 framePrincipal.setCitaFinal(nuevaCita);
+                return true;
             } else {
                 JOptionPane.showMessageDialog(this, "No se pudo agendar la cita de emergencia.", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error al agendar la cita de emergencia: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         }
+        return false;
     }
 
 }

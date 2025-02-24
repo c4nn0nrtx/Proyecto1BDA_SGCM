@@ -843,19 +843,40 @@ public class CitaDAO implements ICitaDAO {
 
         return null;  // Si no hay cita, devuelve null
     }
-    
+
     @Override
     public void actualizarCitas() throws SQLException, PersistenciaException {
         String procedimiento = "CALL actualizar_citas_no_asistidas()";
 
-        try (Connection con = this.conexionBD.crearConexion(); 
-             CallableStatement cs = con.prepareCall(procedimiento)) {
+        try (Connection con = this.conexionBD.crearConexion(); CallableStatement cs = con.prepareCall(procedimiento)) {
 
             cs.execute(); // Ejecutar el procedimiento
 
         } catch (SQLException e) {
             throw new SQLException("Error al consultar la cita", e);
         }
+    }
+
+    @Override
+    public String consultarFolio(Cita cita) throws PersistenciaException {
+        String sql = "SELECT folio FROM citas WHERE idCita = ?";
+
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setInt(1, cita.getIdCita());
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("folio"); // Se obtiene el folio directamente
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(CitaDAO.class.getName()).log(Level.SEVERE, "Error al consultar folio", ex);
+            throw new PersistenciaException("Error al obtener folio desde la base de datos", ex);
+        }
+
+        return null; // Si no encuentra la cita, retorna null
     }
 
 }

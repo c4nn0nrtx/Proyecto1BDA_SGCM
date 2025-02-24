@@ -18,6 +18,7 @@ import com.toedter.calendar.JDateChooser;
 import configuracion.DependencyInjector;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -40,6 +41,11 @@ public class pantallaRegistro extends javax.swing.JPanel {
         this.framePrincipal = frame;
         selectorFechas = new JDateChooser();
         selectorFechas.setBounds(650, 300, 200, 40);
+        LocalDate minDate = LocalDate.now().minusYears(6);
+        selectorFechas.setMaxSelectableDate(java.sql.Date.valueOf(minDate));
+        LocalDate maxDate = LocalDate.now().minusYears(150);
+        selectorFechas.setMinSelectableDate(java.sql.Date.valueOf(maxDate));
+        selectorFechas.setDate(java.sql.Date.valueOf(minDate));
         this.add(selectorFechas);
         initComponents();
     }
@@ -442,11 +448,11 @@ public class pantallaRegistro extends javax.swing.JPanel {
 
     private boolean validarTelefono() {
         String telefono = inputCelular.getText().trim(); // Elimina espacios en blanco
-        String regex = "^[0-9]{5,10}$"; // Permite entre 5 y 10 dígitos numéricos
+        String regex = "^[0-9]{10}$"; // NUMEROS DE 10 DIGITOS SOLAMENTE.
 
         if (telefono.isEmpty() || !telefono.matches(regex)) { // Si está vacío o no cumple con la validación
             JOptionPane.showMessageDialog(null,
-                    "Número de teléfono inválido. Debe contener entre 5 y 10 dígitos numéricos.",
+                    "Número de teléfono inválido. Debe contener 10 dígitos numéricos.",
                     "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }

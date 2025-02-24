@@ -61,9 +61,12 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
 
         inputUsuario.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         inputUsuario.setText("Introduce tu nombre de usuario");
-        inputUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                inputUsuarioMouseClicked(evt);
+        inputUsuario.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                inputUsuarioFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                inputUsuarioFocusLost(evt);
             }
         });
 
@@ -138,10 +141,13 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
         );
 
         inputContraseña.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        inputContraseña.setText("inputContraseña");
-        inputContraseña.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                inputContraseñaMouseClicked(evt);
+        inputContraseña.setText("Introduce una contraseña");
+        inputContraseña.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                inputContraseñaFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                inputContraseñaFocusLost(evt);
             }
         });
         inputContraseña.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -165,8 +171,8 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
                     .addComponent(txtTituloPantalla)
                     .addComponent(txtContraseña)
                     .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(inputContraseña, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(inputUsuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)))
+                        .addComponent(inputContraseña, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
+                        .addComponent(inputUsuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(877, Short.MAX_VALUE))
             .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelPrincipalLayout.createSequentialGroup()
@@ -208,14 +214,6 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
         framePrincipal.cambiarPanel("pantallaRegistro");
     }//GEN-LAST:event_btnRegistrateMouseClicked
 
-    private void inputUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputUsuarioMouseClicked
-        inputUsuario.setText("");
-    }//GEN-LAST:event_inputUsuarioMouseClicked
-
-    private void inputContraseñaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputContraseñaMouseClicked
-        inputContraseña.setText("");
-    }//GEN-LAST:event_inputContraseñaMouseClicked
-
     private void inputContraseñaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputContraseñaKeyPressed
 
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
@@ -249,6 +247,31 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
         } catch (PersistenciaException | SQLException ex) {
             Logger.getLogger(pantallaInicioSesion.class.getName()).log(Level.SEVERE, null, ex);
         }    }//GEN-LAST:event_btnIniciarSesionMouseClicked
+
+    private void inputUsuarioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputUsuarioFocusGained
+        if (inputUsuario.getText().equals("Introduce tu nombre de usuario")) {
+            inputUsuario.setText("");
+        }
+    }//GEN-LAST:event_inputUsuarioFocusGained
+
+    private void inputUsuarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputUsuarioFocusLost
+        if (inputUsuario.getText().trim().isEmpty()) {
+            inputUsuario.setText("Introduce tu nombre de usuario");
+        }
+    }//GEN-LAST:event_inputUsuarioFocusLost
+
+    private void inputContraseñaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputContraseñaFocusGained
+        if (String.valueOf(inputContraseña.getPassword()).equals("Introduce una contraseña")) {
+            inputContraseña.setText(""); // Cambia el carácter oculto de la contraseña
+            inputContraseña.setForeground(Color.BLACK);
+        }
+    }//GEN-LAST:event_inputContraseñaFocusGained
+
+    private void inputContraseñaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputContraseñaFocusLost
+        if (inputUsuario.getText().trim().isEmpty()) {
+            inputUsuario.setText("Introduce una contraseña");
+        }
+    }//GEN-LAST:event_inputContraseñaFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -290,11 +313,15 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
                     }
                 } else {
                     JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso!");
+                    inputUsuario.setText("");
+                    inputContraseña.setText("");
+                    framePrincipal.getPantallaPacientes().cargarNombre();
                     framePrincipal.cambiarPanel("pantallaPacientes"); // Si no es médico
                 }
 
             } else {
                 JOptionPane.showMessageDialog(this, "Contraseña incorrecta.");
+                inputContraseña.setText("");
             }
 
         } catch (NegocioException ex) {

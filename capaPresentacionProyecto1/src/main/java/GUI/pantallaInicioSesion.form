@@ -45,8 +45,8 @@
                       <Component id="txtTituloPantalla" min="-2" max="-2" attributes="0"/>
                       <Component id="txtContraseña" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="inputContraseña" alignment="0" max="32767" attributes="0"/>
-                          <Component id="inputUsuario" alignment="0" pref="363" max="32767" attributes="0"/>
+                          <Component id="inputContraseña" alignment="0" pref="473" max="32767" attributes="0"/>
+                          <Component id="inputUsuario" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace pref="877" max="32767" attributes="0"/>
@@ -124,7 +124,8 @@
             <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
           </AccessibilityProperties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="inputUsuarioMouseClicked"/>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="inputUsuarioFocusGained"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="inputUsuarioFocusLost"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="txtUsuario">
@@ -244,10 +245,11 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="24" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="inputContrase&#xf1;a"/>
+            <Property name="text" type="java.lang.String" value="Introduce una contrase&#xf1;a"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="inputContrase&#xf1;aMouseClicked"/>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="inputContrase&#xf1;aFocusGained"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="inputContrase&#xf1;aFocusLost"/>
             <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="inputContrase&#xf1;aKeyPressed"/>
           </Events>
         </Component>

@@ -51,8 +51,6 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
     private void initComponents() {
 
         txtSubTitulo = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        inputNombrePaciente = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         inputDiagnostico = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -72,27 +70,18 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
         txtSubTitulo.setForeground(new java.awt.Color(0, 0, 0));
         txtSubTitulo.setText("Consulta");
 
-        jLabel1.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Paciente:");
-
-        inputNombrePaciente.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        inputNombrePaciente.setText("Nombre del Paciente");
-        inputNombrePaciente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputNombrePacienteActionPerformed(evt);
-            }
-        });
-
         jLabel2.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Diagnóstico:");
 
         inputDiagnostico.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         inputDiagnostico.setText("Diagnóstico del Paciente");
-        inputDiagnostico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputDiagnosticoActionPerformed(evt);
+        inputDiagnostico.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                inputDiagnosticoFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                inputDiagnosticoFocusLost(evt);
             }
         });
 
@@ -102,9 +91,12 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
 
         inputTratamientoCita.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         inputTratamientoCita.setText("Tratamiento del Paciente");
-        inputTratamientoCita.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputTratamientoCitaActionPerformed(evt);
+        inputTratamientoCita.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                inputTratamientoCitaFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                inputTratamientoCitaFocusLost(evt);
             }
         });
 
@@ -114,9 +106,12 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
 
         inputObservaciones.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         inputObservaciones.setText("Observaciones");
-        inputObservaciones.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputObservacionesActionPerformed(evt);
+        inputObservaciones.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                inputObservacionesFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                inputObservacionesFocusLost(evt);
             }
         });
 
@@ -208,17 +203,14 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
                             .addComponent(jLabel2))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(pnlCancelarCita2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
-                                    .addComponent(pnlCancelarCita1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(inputObservaciones, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(inputTratamientoCita, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(inputDiagnostico, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addComponent(jLabel1)
-                            .addComponent(inputNombrePaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(pnlCancelarCita2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                                .addComponent(pnlCancelarCita1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(inputObservaciones, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(inputTratamientoCita, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(inputDiagnostico, javax.swing.GroupLayout.Alignment.LEADING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -233,19 +225,12 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(46, 46, 46)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtSubTitulo)
-                        .addGap(82, 82, 82)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(inputHoraEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
-                        .addGap(24, 24, 24))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(inputNombrePaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addComponent(txtSubTitulo)
+                .addGap(82, 82, 82)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(inputHoraEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addGap(24, 24, 24)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(inputDiagnostico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -265,22 +250,6 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void inputNombrePacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputNombrePacienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputNombrePacienteActionPerformed
-
-    private void inputDiagnosticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputDiagnosticoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputDiagnosticoActionPerformed
-
-    private void inputTratamientoCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputTratamientoCitaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputTratamientoCitaActionPerformed
-
-    private void inputObservacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputObservacionesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputObservacionesActionPerformed
-
     private void inputHoraEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputHoraEntradaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inputHoraEntradaActionPerformed
@@ -290,6 +259,7 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
             // TODO add your handling code here:
             registrarConsulta();
             btnGuardarCambios.setVisible(false);
+            pnlCancelarCita2.setVisible(false);
         } catch (NegocioException ex) {
             Logger.getLogger(pantallaDatosConsulta.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -304,8 +274,45 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
         // TODO add your handling code here:
         framePrincipal.cambiarPanel("pantallaMedicosMenu");
         btnGuardarCambios.setVisible(true);
+        pnlCancelarCita2.setVisible(true);
         limpiarCampos();
     }//GEN-LAST:event_btnFinalizarConsultaMouseClicked
+
+    private void inputDiagnosticoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputDiagnosticoFocusGained
+        if (inputDiagnostico.getText().equals("Diagnóstico del Paciente")) {
+            inputDiagnostico.setText("");
+        }
+    }//GEN-LAST:event_inputDiagnosticoFocusGained
+
+    private void inputDiagnosticoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputDiagnosticoFocusLost
+        if (inputDiagnostico.getText().trim().isEmpty()) {
+            inputDiagnostico.setText("Diagnóstico del Paciente");
+        }
+    }//GEN-LAST:event_inputDiagnosticoFocusLost
+
+    private void inputTratamientoCitaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputTratamientoCitaFocusGained
+        if (inputTratamientoCita.getText().equals("Tratamiento del Paciente")) {
+            inputTratamientoCita.setText("");
+        }
+    }//GEN-LAST:event_inputTratamientoCitaFocusGained
+
+    private void inputTratamientoCitaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputTratamientoCitaFocusLost
+        if (inputTratamientoCita.getText().trim().isEmpty()) {
+            inputTratamientoCita.setText("Tratamiento del Paciente");
+        }
+    }//GEN-LAST:event_inputTratamientoCitaFocusLost
+
+    private void inputObservacionesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputObservacionesFocusGained
+        if (inputObservaciones.getText().equals("Observaciones")) {
+            inputObservaciones.setText("");
+        }
+    }//GEN-LAST:event_inputObservacionesFocusGained
+
+    private void inputObservacionesFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputObservacionesFocusLost
+         if (inputObservaciones.getText().trim().isEmpty()) {
+            inputObservaciones.setText("Observaciones");
+        }
+    }//GEN-LAST:event_inputObservacionesFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -313,10 +320,8 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
     private javax.swing.JLabel btnGuardarCambios;
     private javax.swing.JTextField inputDiagnostico;
     private javax.swing.JTextField inputHoraEntrada;
-    private javax.swing.JTextField inputNombrePaciente;
     private javax.swing.JTextField inputObservaciones;
     private javax.swing.JTextField inputTratamientoCita;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -337,12 +342,10 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
     public void registrarConsulta() throws NegocioException, SQLException, PersistenciaException {
 
         try {
-            String nombrePaciente = inputNombrePaciente.getText();
             String diagnostico = inputDiagnostico.getText();
             String tratamiento = inputTratamientoCita.getText();
             String observaciones = inputObservaciones.getText();
-            if (inputNombrePaciente.getText().trim().isEmpty()
-                    || inputDiagnostico.getText().trim().isEmpty()
+            if (inputDiagnostico.getText().trim().isEmpty()
                     || inputTratamientoCita.getText().trim().isEmpty()
                     || inputObservaciones.getText().trim().isEmpty()) {
 
@@ -377,7 +380,6 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
     }
 
     public void limpiarCampos() {
-        inputNombrePaciente.setText("Nombre del paciente");
         inputDiagnostico.setText("Diagnostico del paciente");
         inputTratamientoCita.setText("Tratamiento del paciente");
         inputObservaciones.setText("Observaciones");

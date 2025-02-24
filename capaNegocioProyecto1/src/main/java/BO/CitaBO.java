@@ -88,7 +88,6 @@ public class CitaBO {
             throw new NegocioException("La fecha y hora de la cita no pueden ser nulas");
         }
 
-
         Connection con = null;
         try {
             con = this.conexionBD.crearConexion();
@@ -360,7 +359,7 @@ public class CitaBO {
      * @param paciente El paciente (entidad).
      * @return Una lista de citas del paciente (entidades).
      * @throws PersistenciaException Si hay un error en la base de datos.
-     * @throws NegocioException     Si hay un error en la lógica de negocio.
+     * @throws NegocioException Si hay un error en la lógica de negocio.
      */
     public List<Cita> consultarCitasPacientes(Paciente paciente) throws PersistenciaException, NegocioException {
         if (paciente == null) {
@@ -381,7 +380,8 @@ public class CitaBO {
      * Cancela la última cita de un paciente.
      *
      * @param idPaciente El ID del paciente.
-     * @return La cita cancelada (entidad), o null si no hay citas o se canceló correctamente.
+     * @return La cita cancelada (entidad), o null si no hay citas o se canceló
+     * correctamente.
      * @throws NegocioException Si hay un error en la lógica de negocio.
      */
     public Cita cancelarCita(int idPaciente) throws NegocioException {
@@ -411,7 +411,7 @@ public class CitaBO {
      * @param folio El folio de la cita.
      * @return La cita (entidad).
      * @throws NegocioException Si hay un error en la lógica de negocio.
-     * @throws SQLException     Si hay un error en la base de datos.
+     * @throws SQLException Si hay un error en la base de datos.
      * @throws PersistenciaException Si hay un error en la base de datos.
      */
     public Cita consultarCitaPorFolio(String folio) throws NegocioException, SQLException, PersistenciaException {
@@ -427,9 +427,9 @@ public class CitaBO {
      * Consulta una cita por la fecha y los datos del paciente.
      *
      * @param nombrePaciente El nombre del paciente.
-     * @param apellidoPat    El apellido paterno del paciente.
-     * @param apellidoMat    El apellido materno del paciente.
-     * @param fecha         La fecha y hora de la cita.
+     * @param apellidoPat El apellido paterno del paciente.
+     * @param apellidoMat El apellido materno del paciente.
+     * @param fecha La fecha y hora de la cita.
      * @return La cita (entidad).
      */
     public Cita consultarCitaPorFechaYPaciente(String nombrePaciente, String apellidoPat, String apellidoMat, LocalDateTime fecha) {
@@ -440,9 +440,19 @@ public class CitaBO {
         }
         return null;
     }
-    
+
     public void actualizarCita() throws SQLException, PersistenciaException {
         citaDAO.actualizarCitas();
+    }
+
+    public boolean validarFolio(Cita citaNueva) throws NegocioException, PersistenciaException {
+        String folio = citaDAO.consultarFolio(citaNueva);
+
+        if (folio != null && folio.equals(citaNueva.getFolio())) {
+            return true;
+        }
+
+        return false;
     }
 
 }

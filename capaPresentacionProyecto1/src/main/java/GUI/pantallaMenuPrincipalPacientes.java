@@ -29,6 +29,7 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
     public pantallaMenuPrincipalPacientes(FramePrincipal frame) {
         this.framePrincipal = frame;
         initComponents();
+
     }
 
     @SuppressWarnings("unchecked")
@@ -44,10 +45,13 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         btnAgendarCita = new javax.swing.JLabel();
         pnlCerrarSesion = new javax.swing.JPanel();
         btnCerrarSesion = new javax.swing.JLabel();
-        txtTituloPantalla1 = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
         btnPerfil = new javax.swing.JLabel();
         btnRegistros = new javax.swing.JLabel();
         btnEmergencia = new javax.swing.JLabel();
+        txtTitulo = new javax.swing.JLabel();
+        lblNombre1 = new javax.swing.JLabel();
+        lblNombre2 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -66,19 +70,19 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         txtSubTitulo.setFont(new java.awt.Font("Roboto", 1, 48)); // NOI18N
         txtSubTitulo.setForeground(new java.awt.Color(0, 0, 0));
         txtSubTitulo.setText("MENU PRINCIPAL");
-        add(txtSubTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 50, -1, -1));
+        add(txtSubTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, -1, -1));
 
         txtTituloEmergencia.setFont(new java.awt.Font("Roboto", 1, 44)); // NOI18N
         txtTituloEmergencia.setForeground(new java.awt.Color(0, 0, 0));
         txtTituloEmergencia.setText("¿Situacion de Emergencia?");
-        add(txtTituloEmergencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 440, -1, -1));
+        add(txtTituloEmergencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 390, -1, -1));
 
         pnlCancelarCita.setBackground(new java.awt.Color(255, 102, 120));
 
         btnCancelarCita.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         btnCancelarCita.setForeground(new java.awt.Color(255, 255, 255));
         btnCancelarCita.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnCancelarCita.setText("Cancelar Cita");
+        btnCancelarCita.setText("Cancelar Cita Programada");
         btnCancelarCita.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCancelarCita.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -99,15 +103,15 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         );
         pnlCancelarCitaLayout.setVerticalGroup(
             pnlCancelarCitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 80, Short.MAX_VALUE)
+            .addGap(0, 90, Short.MAX_VALUE)
             .addGroup(pnlCancelarCitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnlCancelarCitaLayout.createSequentialGroup()
                     .addGap(11, 11, 11)
-                    .addComponent(btnCancelarCita, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                    .addComponent(btnCancelarCita, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
                     .addGap(11, 11, 11)))
         );
 
-        add(pnlCancelarCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 330, 340, 80));
+        add(pnlCancelarCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 260, 340, 90));
 
         pnlAgendarCita.setBackground(new java.awt.Color(60, 109, 232));
 
@@ -132,11 +136,11 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
             pnlAgendarCitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlAgendarCitaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnAgendarCita, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                .addComponent(btnAgendarCita, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        add(pnlAgendarCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 330, 340, 80));
+        add(pnlAgendarCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 260, 340, 90));
 
         pnlCerrarSesion.setBackground(new java.awt.Color(60, 109, 232));
 
@@ -174,10 +178,10 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
 
         add(pnlCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 600, 190, 40));
 
-        txtTituloPantalla1.setFont(new java.awt.Font("Roboto", 1, 44)); // NOI18N
-        txtTituloPantalla1.setForeground(new java.awt.Color(0, 0, 0));
-        txtTituloPantalla1.setText("Usuarios");
-        add(txtTituloPantalla1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 110, -1, -1));
+        lblNombre.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        lblNombre.setForeground(new java.awt.Color(0, 0, 0));
+        lblNombre.setText("¡Pulsa el boton!");
+        add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 440, -1, -1));
 
         btnPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/usuario.png"))); // NOI18N
         btnPerfil.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -186,7 +190,7 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
                 btnPerfilMouseClicked(evt);
             }
         });
-        add(btnPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 80, 70, 70));
+        add(btnPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 80, 70, 70));
 
         btnRegistros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario-de-llenado.png"))); // NOI18N
         btnRegistros.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -204,7 +208,24 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
                 btnEmergenciaMouseClicked(evt);
             }
         });
-        add(btnEmergencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 510, -1, -1));
+        add(btnEmergencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 480, -1, -1));
+
+        txtTitulo.setFont(new java.awt.Font("Roboto", 1, 44)); // NOI18N
+        txtTitulo.setForeground(new java.awt.Color(0, 0, 0));
+        txtTitulo.setText("Usuarios");
+        add(txtTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 100, -1, -1));
+
+        lblNombre1.setFont(new java.awt.Font("Roboto", 0, 36)); // NOI18N
+        lblNombre1.setForeground(new java.awt.Color(0, 204, 51));
+        lblNombre1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNombre1.setText("TEXTOPRUEBA");
+        lblNombre1.setToolTipText("");
+        add(lblNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 1000, -1));
+
+        lblNombre2.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        lblNombre2.setForeground(new java.awt.Color(0, 0, 0));
+        lblNombre2.setText("Bienvenido");
+        add(lblNombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 160, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrosMouseClicked
@@ -290,10 +311,14 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
                 }
                 // Si no tiene cita, proceder con la emergencia
                 pantallaAgendarCita pantalla = framePrincipal.getPantallaAgendarCita();
-                pantalla.agendarCitaEmergenciaBO();
-                framePrincipal.cambiarPanel("pantallaInformacionCitaEmergencia");
-                pantallaInformacionCitaEmergencia pantallaEmergencia = framePrincipal.getPantallaInformacionCitaEmergencia();
-                pantallaEmergencia.cargarDatosCita();
+                boolean exito = pantalla.agendarCitaEmergenciaBO();
+                if (exito) {
+                    framePrincipal.cambiarPanel("pantallaInformacionCitaEmergencia");
+                    pantallaInformacionCitaEmergencia pantallaEmergencia = framePrincipal.getPantallaInformacionCitaEmergencia();
+                    pantallaEmergencia.cargarDatosCita();
+                } else {
+
+                }
 
             } catch (PersistenciaException ex) {
                 Logger.getLogger(pantallaMenuPrincipalPacientes.class.getName()).log(Level.SEVERE, null, ex);
@@ -312,12 +337,15 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
     private javax.swing.JLabel btnPerfil;
     private javax.swing.JLabel btnRegistros;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblNombre1;
+    private javax.swing.JLabel lblNombre2;
     private javax.swing.JPanel pnlAgendarCita;
     private javax.swing.JPanel pnlCancelarCita;
     private javax.swing.JPanel pnlCerrarSesion;
     private javax.swing.JLabel txtSubTitulo;
+    private javax.swing.JLabel txtTitulo;
     private javax.swing.JLabel txtTituloEmergencia;
-    private javax.swing.JLabel txtTituloPantalla1;
     // End of variables declaration//GEN-END:variables
 // FALTA ALGUN METODO PARA VALIDAR SI UN USUARIO TIENE CITAS ACTIVAS.
     public void cancelarCita() {
@@ -336,5 +364,13 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error al cancelar la cita: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
+    }
+
+    public void cargarNombre() {
+
+        lblNombre1.setText(""); // Borra el texto anterior (opcional)
+        lblNombre1.setText(framePrincipal.getUsuarioAutenticado().getNombreUsuario() + "!");
+        lblNombre1.revalidate(); // Vuelve a validar el componente
+        lblNombre1.repaint(); // Fuerza el repintado en pantalla
     }
 }
