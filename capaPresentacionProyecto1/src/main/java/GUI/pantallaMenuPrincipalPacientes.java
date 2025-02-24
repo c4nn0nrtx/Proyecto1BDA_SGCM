@@ -260,7 +260,7 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de cancelar la cita: ", "Confirmación", JOptionPane.YES_NO_OPTION);
         if (opcion == JOptionPane.YES_OPTION) {
             System.out.println("El usuario cancelo la cita.");
-             cancelarCita();
+            cancelarCita();
         } else {
             System.out.println("El usuario no cancelo la cita.");
         }
@@ -268,16 +268,30 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
 
     private void btnEmergenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEmergenciaMouseClicked
         int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro de realizar una consulta de EMERGENCIA?", "Confirmación", JOptionPane.YES_NO_OPTION);
-
         if (opcion == JOptionPane.YES_OPTION) {
             System.out.println("El usuario seleccionó Sí.");
-           
-            
+            try {
+                // Obtener la última cita del usuario autenticado
+                String cita = citaBO.obtenerUltimaCitaEmergencia(framePrincipal.getUsuarioAutenticado().getIdUsuario());
+                if (cita != null) {
+                    // Si ya tiene una cita activa, mostrar un mensaje y detener el proceso
+                    JOptionPane.showMessageDialog(null, "Ya tienes una cita activa:\n" + cita, "Aviso", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                // Si no tiene cita, proceder con la emergencia
+                pantallaAgendarCita pantalla = framePrincipal.getPantallaAgendarCita();
+                pantalla.agendarCitaEmergenciaBO();
+                framePrincipal.cambiarPanel("pantallaInformacionCitaEmergencia");
+                pantallaInformacionCitaEmergencia pantallaEmergencia = framePrincipal.getPantallaInformacionCitaEmergencia();
+                pantallaEmergencia.cargarDatosCita();
 
+            } catch (PersistenciaException ex) {
+                Logger.getLogger(pantallaMenuPrincipalPacientes.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Error al verificar la última cita.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
             System.out.println("El usuario seleccionó No.");
         }
-
     }//GEN-LAST:event_btnEmergenciaMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -296,19 +310,19 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
     private javax.swing.JLabel txtTituloPantalla1;
     // End of variables declaration//GEN-END:variables
 // FALTA ALGUN METODO PARA VALIDAR SI UN USUARIO TIENE CITAS ACTIVAS.
-    public  void cancelarCita() {
-    int idPaciente = framePrincipal.getUsuarioAutenticado().getIdUsuario();
+    public void cancelarCita() {
+        int idPaciente = framePrincipal.getUsuarioAutenticado().getIdUsuario();
 
-    try {
-        boolean cancelada = citaBO.cancelarCita(idPaciente);
-        if (cancelada) {
-            JOptionPane.showMessageDialog(this, "Cita cancelada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "No tienes citas futuras para cancelar.", "Información", JOptionPane.WARNING_MESSAGE);
+        try {
+            boolean cancelada = citaBO.cancelarCita(idPaciente);
+            if (cancelada) {
+                JOptionPane.showMessageDialog(this, "Cita cancelada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "No tienes citas futuras para cancelar.", "Información", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (NegocioException e) {
+            JOptionPane.showMessageDialog(this, "Error al cancelar la cita: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
-    } catch (NegocioException e) {
-        JOptionPane.showMessageDialog(this, "Error al cancelar la cita: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        e.printStackTrace();
-    }
     }
 }

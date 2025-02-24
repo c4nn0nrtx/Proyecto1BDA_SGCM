@@ -9,6 +9,8 @@ import Entidades.Medico;
 import Entidades.Paciente;
 import Exception.PersistenciaException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,13 +23,12 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
      * Creates new form informacionDeTuCita
      */
     FramePrincipal framePrincipal;
-    
+
     public pantallaInformacionCita(FramePrincipal frame) {
         this.framePrincipal = frame;
-        
+
         initComponents();
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -63,8 +64,14 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
         txtSubTitulo1.setText("Le atiende:");
 
         outputNombreDoctor.setEditable(false);
-        outputNombreDoctor.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        outputNombreDoctor.setFont(new java.awt.Font("Roboto", 0, 36)); // NOI18N
+        outputNombreDoctor.setForeground(new java.awt.Color(0, 0, 0));
         outputNombreDoctor.setText("Nombre del Doctor");
+        outputNombreDoctor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                outputNombreDoctorActionPerformed(evt);
+            }
+        });
         outputNombreDoctor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 outputNombreDoctorKeyPressed(evt);
@@ -76,7 +83,8 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
         txtSubTitulo2.setText("Especialidad:");
 
         outputEspecialidad.setEditable(false);
-        outputEspecialidad.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        outputEspecialidad.setFont(new java.awt.Font("Roboto", 0, 36)); // NOI18N
+        outputEspecialidad.setForeground(new java.awt.Color(0, 0, 0));
         outputEspecialidad.setText("Especialidad del Doctor");
 
         txtSubTitulo3.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
@@ -84,7 +92,8 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
         txtSubTitulo3.setText("Horario:");
 
         outputHorarioCita.setEditable(false);
-        outputHorarioCita.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        outputHorarioCita.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        outputHorarioCita.setForeground(new java.awt.Color(0, 0, 0));
         outputHorarioCita.setText("Horario de la Cita");
         outputHorarioCita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -97,7 +106,8 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
         txtSubTitulo4.setText("LAS CITAS SOLO SE PUEDEN CANCELAR  DENTRO DE LAS 24 HRS DE SU CREACION");
 
         outputNombrePaciente.setEditable(false);
-        outputNombrePaciente.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        outputNombrePaciente.setFont(new java.awt.Font("Roboto", 0, 36)); // NOI18N
+        outputNombrePaciente.setForeground(new java.awt.Color(0, 0, 0));
         outputNombrePaciente.setText("Nombre del Paciente");
         outputNombrePaciente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -152,7 +162,7 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(209, Short.MAX_VALUE)
+                .addContainerGap(207, Short.MAX_VALUE)
                 .addComponent(txtSubTitulo4)
                 .addGap(116, 116, 116))
             .addGroup(layout.createSequentialGroup()
@@ -208,12 +218,12 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
                         .addGap(1, 1, 1)
                         .addComponent(pnlCancelarCita1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(outputHorarioCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addComponent(outputHorarioCita, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(txtSubTitulo5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(outputNombrePaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addComponent(txtSubTitulo4)
                 .addGap(37, 37, 37))
         );
@@ -236,15 +246,19 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
     }//GEN-LAST:event_btnVolverMouseClicked
 
     private void btnFinalizarConsultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFinalizarConsultaMouseClicked
-          int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de cancelar la cita: ", "Confirmación", JOptionPane.YES_NO_OPTION);
+        int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de cancelar la cita: ", "Confirmación", JOptionPane.YES_NO_OPTION);
         if (opcion == JOptionPane.YES_OPTION) {
             System.out.println("El usuario cancelo la cita.");
-             pantallaMenuPrincipalPacientes cancelar = framePrincipal.getPantallaPacientes();
-             cancelar.cancelarCita();
+            pantallaMenuPrincipalPacientes cancelar = framePrincipal.getPantallaPacientes();
+            cancelar.cancelarCita();
         } else {
             System.out.println("El usuario no cancelo la cita.");
         }
     }//GEN-LAST:event_btnFinalizarConsultaMouseClicked
+
+    private void outputNombreDoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outputNombreDoctorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_outputNombreDoctorActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -262,7 +276,7 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
     private javax.swing.JLabel txtSubTitulo4;
     private javax.swing.JLabel txtSubTitulo5;
     // End of variables declaration//GEN-END:variables
-    
+
     public void cargarDatosCita() {
         CitaNuevoDTO citaGlobal = framePrincipal.getCitaFinal();
         Medico medico = citaGlobal.getMedico();
@@ -270,8 +284,9 @@ public class pantallaInformacionCita extends javax.swing.JPanel {
         LocalDateTime fechaHora = citaGlobal.getFechaHora();
         outputNombreDoctor.setText("Dr. " + medico.getNombre() + " " + medico.getApellidoPaterno());
         outputEspecialidad.setText(medico.getEspecialidad());
-        outputHorarioCita.setText(Integer.toString(fechaHora.getHour()) + ":" + Integer.toString(fechaHora.getMinute()));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE d 'de' MMMM, h:mm a", Locale.forLanguageTag("es-MX"));
+        String fechaFormateada = fechaHora.format(formatter);
+        outputHorarioCita.setText(fechaFormateada.substring(0, 1).toUpperCase() + fechaFormateada.substring(1));
         outputNombrePaciente.setText(paciente.getNombre() + " " + paciente.getApellidoPaterno());
     }
 }
-

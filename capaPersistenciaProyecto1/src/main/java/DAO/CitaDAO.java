@@ -6,7 +6,6 @@ package DAO;
 
 import Conexion.IConexionBD;
 import Entidades.Cita;
-import Entidades.Horario_Medico;
 import Entidades.Medico;
 import Entidades.Paciente;
 import Entidades.Usuario;
@@ -19,7 +18,6 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -90,7 +88,63 @@ public class CitaDAO implements ICitaDAO {
 
     @Override
     public Cita agendarCitaEmergencia(Cita cita) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String consultaSQL = "INSERT INTO CITAS (estado, fechaHoraProgramada, folio, tipo, idMedico, idPaciente) "
+                + "VALUES(?, ?, ?, ?, ?, ?)";
+
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
+
+            if (cita.getEstado() == null || cita.getEstado().trim().isEmpty()) {
+                cita.setEstado("Programada");
+                cita.setTipo("emergencia");
+            }
+
+            String folioGenerado = generarFolio();
+
+            ps.setString(1, cita.getEstado());
+            ps.setObject(2, cita.getFechaHora());
+            ps.setString(3, folioGenerado);
+            ps.setString(4, cita.getTipo());
+            ps.setInt(5, cita.getMedico().getUsuario().getIdUsuario());
+            ps.setInt(6, cita.getPaciente().getUsuario().getIdUsuario());
+
+            int filasAfectadas = ps.executeUpdate();
+            if (filasAfectadas == 0) {
+                logger.severe("ERROR: No se insertó ninguna fila.");
+                throw new PersistenciaException("No se pudo agendar la cita.");
+            }
+
+            // Obtener el ID generado
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    cita.setIdCita(generatedKeys.getInt(1));
+                    logger.info("Cita agregada con ID: " + cita.getIdCita());
+                } else {
+                    logger.severe("ERROR: No se pudo obtener el ID de la cita.");
+                    throw new PersistenciaException("No se pudo obtener el ID de la cita.");
+                }
+            }
+
+            // Recuperar el folio de la base de datos
+            String consultaFolio = "SELECT folio FROM CITAS WHERE idCita = ?";
+            try (PreparedStatement psFolio = con.prepareStatement(consultaFolio)) {
+                psFolio.setInt(1, cita.getIdCita());
+                try (ResultSet rs = psFolio.executeQuery()) {
+                    if (rs.next()) {
+                        cita.setFolio(rs.getString("folio"));
+                        System.out.println("Folio recuperado de la BD: " + cita.getFolio());
+                    } else {
+                        logger.severe("ERROR: No se pudo recuperar el folio.");
+                        throw new PersistenciaException("No se pudo recuperar el folio.");
+                    }
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(CitaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenciaException("Error al registrar una cita en la base de datos.");
+        }
+
+        return cita;
     }
 
     @Override
@@ -243,38 +297,28 @@ public class CitaDAO implements ICitaDAO {
         return citas;
     }
 
-    public String generarFolio() throws SQLException {
-        String consultaSQL = "SELECT folio FROM CITAS ORDER BY folio DESC LIMIT 1;";
+    public String generarFolio() throws SQLException, PersistenciaException {
+        String nuevoFolio;
+        boolean folioExiste;
+        String consultaSQL = "SELECT COUNT(*) FROM CITAS WHERE folio = ?;";
 
         try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL)) {
-
-            try (ResultSet rs = ps.executeQuery()) {
-
-                String nuevoFolio;
-                if (rs.next()) { // Verifica si hay un resultado
-                    String folioActual = rs.getString("folio"); // Obtiene el último folio
-
-                    // Validar si folioActual es nulo o no numérico
-                    if (folioActual == null || !folioActual.matches("\\d+")) {
-                        System.err.println("Folio inválido en la BD: " + folioActual);
-                        return "00001"; // Reiniciar folio
-                    }
-
-                    int numeroFolio = Integer.parseInt(folioActual); // Convertir a entero
-                    nuevoFolio = String.format("%05d", numeroFolio + 1); // Aumentar y formatear
-
-                } else {
-                    nuevoFolio = "00001"; // Si no hay registros, empieza en 00001
+            do {
+                nuevoFolio = String.format("%08d", (int) (Math.random() * 100_000_000)); // Genera un número de 8 dígitos
+                // Verificar si el folio ya existe en la BD
+                ps.setString(1, nuevoFolio);
+                try (ResultSet rs = ps.executeQuery()) {
+                    rs.next();
+                    folioExiste = rs.getInt(1) > 0; // Si COUNT(*) > 0, el folio ya existe
                 }
-                return nuevoFolio;
+            } while (folioExiste); // Repetir si el folio ya existe
 
-            }
-        } catch (PersistenciaException ex) {
+            return nuevoFolio;
+
+        } catch (SQLException ex) {
             Logger.getLogger(CitaDAO.class.getName()).log(Level.SEVERE, "Error en generarFolio", ex);
-        } catch (NumberFormatException ex) {
-            Logger.getLogger(CitaDAO.class.getName()).log(Level.SEVERE, "Error al convertir folio a número", ex);
+            throw ex;
         }
-        return "00001"; // Retorna un valor por defecto en caso de error
     }
 
     /**
@@ -476,6 +520,7 @@ public class CitaDAO implements ICitaDAO {
         return null; // No hay citas pendientes
     }
 
+    @Override
     public Cita obtenerUltimaCita(int idPaciente) throws PersistenciaException {
         Cita ultimaCita = null;
         String sql = "SELECT "
@@ -487,7 +532,7 @@ public class CitaDAO implements ICitaDAO {
                 + "FROM CITAS c "
                 + "JOIN MEDICOS m ON c.idMedico = m.idMedico "
                 + "JOIN PACIENTES p ON c.idPaciente = p.idPaciente "
-                + "WHERE c.idPaciente = ? "
+                + "WHERE c.idPaciente = ?  AND c.tipo = 'programada'" 
                 + "AND c.ESTADO = 'programada'"
                 + "AND c.fechaHoraProgramada > NOW() "
                 + // Filtra solo citas futuras
@@ -624,6 +669,68 @@ public class CitaDAO implements ICitaDAO {
         } catch (SQLException e) {
             throw new PersistenciaException("Error al cancelar la cita: " + e.getMessage(), e);
         }
+    }
+    
+    @Override
+    public Cita obtenerUltimaCitaEmergencia(int idPaciente) throws PersistenciaException {
+        Cita ultimaCita = null;
+        String sql = "SELECT "
+                + "c.idCita, c.estado, c.fechaHoraProgramada, c.folio, c.tipo, "
+                + "m.idMedico, m.nombre AS nombreMedico, m.apellidoPat AS apellidoPatMedico, m.apellidoMat AS apellidoMatMedico, "
+                + "m.cedulaProf, m.especialidad, "
+                + "p.idPaciente, p.nombre AS nombrePaciente, p.apellidoPat AS apellidoPatPaciente, p.apellidoMat AS apellidoMatPaciente, "
+                + "p.correo, p.fechaNac, p.telefono "
+                + "FROM CITAS c "
+                + "JOIN MEDICOS m ON c.idMedico = m.idMedico "
+                + "JOIN PACIENTES p ON c.idPaciente = p.idPaciente "
+                + "WHERE c.idPaciente = ?  AND c.tipo = 'emergencia'" 
+                + "AND c.ESTADO = 'programada'"
+                + "AND c.fechaHoraProgramada > NOW() "
+                + // Filtra solo citas futuras
+                "ORDER BY c.fechaHoraProgramada ASC "
+                + // Ordena por la fecha más cercana
+                "LIMIT 1";
+
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setInt(1, idPaciente);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Crear objeto Cita
+                    ultimaCita = new Cita();
+                    ultimaCita.setIdCita(rs.getInt("idCita"));
+                    ultimaCita.setEstado(rs.getString("estado"));
+                    ultimaCita.setFechaHora(rs.getTimestamp("fechaHoraProgramada").toLocalDateTime());
+                    ultimaCita.setFolio(rs.getString("folio"));
+                    ultimaCita.setTipo(rs.getString("tipo"));
+
+                    // Crear objeto Medico
+                    Medico medico = new Medico();
+                    medico.setNombre(rs.getString("nombreMedico"));
+                    medico.setApellidoPaterno(rs.getString("apellidoPatMedico"));
+                    medico.setApellidoMaterno(rs.getString("apellidoMatMedico"));
+                    medico.setCedulaProfesional(rs.getString("cedulaProf"));
+                    medico.setEspecialidad(rs.getString("especialidad"));
+
+                    // Crear objeto Paciente
+                    Paciente paciente = new Paciente();
+                    paciente.setNombre(rs.getString("nombrePaciente"));
+                    paciente.setApellidoPaterno(rs.getString("apellidoPatPaciente"));
+                    paciente.setApellidoMaterno(rs.getString("apellidoMatPaciente"));
+                    paciente.setCorreo(rs.getString("correo"));
+                    paciente.setFechaNacimiento(rs.getDate("fechaNac").toLocalDate());
+                    paciente.setTelefono(rs.getString("telefono"));
+
+                    // Asignar médico y paciente a la cita
+                    ultimaCita.setMedico(medico);
+                    ultimaCita.setPaciente(paciente);
+                }
+            }
+        } catch (SQLException e) {
+            throw new PersistenciaException("Error al obtener la última cita", e);
+        }
+        return ultimaCita;
     }
 
 }

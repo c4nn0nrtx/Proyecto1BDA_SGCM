@@ -4,6 +4,13 @@
  */
 package GUI;
 
+import DTO.CitaNuevoDTO;
+import Entidades.Medico;
+import Entidades.Paciente;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 /**
  *
  * @author brand
@@ -13,7 +20,10 @@ public class pantallaInformacionCitaEmergencia extends javax.swing.JPanel {
     /**
      * Creates new form pantallaCitaEmergencia
      */
-    public pantallaInformacionCitaEmergencia() {
+    FramePrincipal framePrincipal;
+
+    public pantallaInformacionCitaEmergencia(FramePrincipal frame) {
+        this.framePrincipal = frame;
         initComponents();
     }
 
@@ -38,7 +48,8 @@ public class pantallaInformacionCitaEmergencia extends javax.swing.JPanel {
         outputNombrePaciente = new javax.swing.JTextField();
         txtSubTitulo5 = new javax.swing.JLabel();
         txtSubTitulo6 = new javax.swing.JLabel();
-        outputNombreDoctor1 = new javax.swing.JTextField();
+        outputFolioAtencion = new javax.swing.JTextField();
+        btnVolver = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -53,7 +64,8 @@ public class pantallaInformacionCitaEmergencia extends javax.swing.JPanel {
         txtSubTitulo1.setText("Le atiende:");
 
         outputNombreDoctor.setEditable(false);
-        outputNombreDoctor.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        outputNombreDoctor.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        outputNombreDoctor.setForeground(new java.awt.Color(0, 0, 0));
         outputNombreDoctor.setText("Nombre del Doctor");
 
         txtSubTitulo2.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
@@ -61,7 +73,8 @@ public class pantallaInformacionCitaEmergencia extends javax.swing.JPanel {
         txtSubTitulo2.setText("Especialidad:");
 
         outputEspecialidad.setEditable(false);
-        outputEspecialidad.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        outputEspecialidad.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        outputEspecialidad.setForeground(new java.awt.Color(0, 0, 0));
         outputEspecialidad.setText("Especialidad del Doctor");
 
         txtSubTitulo3.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
@@ -69,7 +82,8 @@ public class pantallaInformacionCitaEmergencia extends javax.swing.JPanel {
         txtSubTitulo3.setText("Horario:");
 
         outputHorarioCita.setEditable(false);
-        outputHorarioCita.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        outputHorarioCita.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        outputHorarioCita.setForeground(new java.awt.Color(0, 0, 0));
         outputHorarioCita.setText("Horario de la Cita");
         outputHorarioCita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -82,7 +96,8 @@ public class pantallaInformacionCitaEmergencia extends javax.swing.JPanel {
         txtSubTitulo4.setText("FAVOR DE PRESENTAR FOLIO PARA SER ATENDIDO");
 
         outputNombrePaciente.setEditable(false);
-        outputNombrePaciente.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        outputNombrePaciente.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        outputNombrePaciente.setForeground(new java.awt.Color(0, 0, 0));
         outputNombrePaciente.setText("Nombre del Paciente");
         outputNombrePaciente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -98,10 +113,19 @@ public class pantallaInformacionCitaEmergencia extends javax.swing.JPanel {
         txtSubTitulo6.setForeground(new java.awt.Color(0, 0, 0));
         txtSubTitulo6.setText("Folio de Atención:");
 
-        outputNombreDoctor1.setEditable(false);
-        outputNombreDoctor1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        outputNombreDoctor1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        outputNombreDoctor1.setText("Folio de la Cita");
+        outputFolioAtencion.setEditable(false);
+        outputFolioAtencion.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        outputFolioAtencion.setForeground(new java.awt.Color(0, 0, 0));
+        outputFolioAtencion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        outputFolioAtencion.setText("Folio de la Cita");
+
+        btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/atras (1).png"))); // NOI18N
+        btnVolver.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVolver.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnVolverMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -110,7 +134,9 @@ public class pantallaInformacionCitaEmergencia extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(214, 214, 214)
+                        .addContainerGap()
+                        .addComponent(btnVolver)
+                        .addGap(144, 144, 144)
                         .addComponent(txtSubTitulo))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(199, 199, 199)
@@ -138,14 +164,19 @@ public class pantallaInformacionCitaEmergencia extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(outputNombreDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(outputNombreDoctor1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(105, 105, 105))))
+                        .addComponent(outputFolioAtencion, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(110, 110, 110))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addComponent(txtSubTitulo)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addComponent(txtSubTitulo))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnVolver)))
                 .addGap(76, 76, 76)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSubTitulo1)
@@ -153,7 +184,7 @@ public class pantallaInformacionCitaEmergencia extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(outputNombreDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(outputNombreDoctor1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(outputFolioAtencion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(txtSubTitulo2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -175,16 +206,16 @@ public class pantallaInformacionCitaEmergencia extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1004, Short.MAX_VALUE)
+            .addGap(0, 1000, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 14, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 14, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 708, Short.MAX_VALUE)
+            .addGap(0, 700, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -201,13 +232,19 @@ public class pantallaInformacionCitaEmergencia extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_outputNombrePacienteActionPerformed
 
+    private void btnVolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseClicked
+        framePrincipal.cambiarPanel("pantallaPacientes");
+        System.out.println(framePrincipal.getUsuarioAutenticado());
+    }//GEN-LAST:event_btnVolverMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnVolver;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField outputEspecialidad;
+    private javax.swing.JTextField outputFolioAtencion;
     private javax.swing.JTextField outputHorarioCita;
     private javax.swing.JTextField outputNombreDoctor;
-    private javax.swing.JTextField outputNombreDoctor1;
     private javax.swing.JTextField outputNombrePaciente;
     private javax.swing.JLabel txtSubTitulo;
     private javax.swing.JLabel txtSubTitulo1;
@@ -217,4 +254,18 @@ public class pantallaInformacionCitaEmergencia extends javax.swing.JPanel {
     private javax.swing.JLabel txtSubTitulo5;
     private javax.swing.JLabel txtSubTitulo6;
     // End of variables declaration//GEN-END:variables
+
+    public void cargarDatosCita() {
+        CitaNuevoDTO citaGlobal = framePrincipal.getCitaFinal();
+        Medico medico = citaGlobal.getMedico();
+        Paciente paciente = citaGlobal.getPaciente();
+        LocalDateTime fechaHora = citaGlobal.getFechaHora();
+        outputNombreDoctor.setText("Dr. " + medico.getNombre() + " " + medico.getApellidoPaterno());
+        outputEspecialidad.setText(medico.getEspecialidad());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE d 'de' MMMM, h:mm a", Locale.forLanguageTag("es-MX"));
+        String fechaFormateada = fechaHora.format(formatter);
+        outputHorarioCita.setText(fechaFormateada.substring(0, 1).toUpperCase() + fechaFormateada.substring(1));
+        outputNombrePaciente.setText(paciente.getNombre() + " " + paciente.getApellidoPaterno());
+        outputFolioAtencion.setText(citaGlobal.getFolio());
+    }
 }

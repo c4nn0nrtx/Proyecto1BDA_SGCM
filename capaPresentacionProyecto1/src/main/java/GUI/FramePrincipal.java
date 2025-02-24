@@ -15,10 +15,8 @@ import javax.swing.SwingUtilities;
  */
 public class FramePrincipal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FramePrincipal
-     */
     private CardLayout cardLayout;
+    
     //Pantallas
     pantallaInicioSesion pantallaInicioSesion;
     pantallaRegistro pantallaRegistro;
@@ -31,7 +29,9 @@ public class FramePrincipal extends javax.swing.JFrame {
     pantallaAgendarCita pantallaAgendarCita;
     pantallaDatosConsulta pantallaDatosConsulta;
     pantallaInformacionCita pantallaInformacionCita;
+    pantallaInformacionCitaEmergencia pantallaInformacionCitaEmergencia;
     //Pantallas
+    
     private Usuario usuarioAutenticado;
     private CitaNuevoDTO citaFinal;
 
@@ -99,6 +99,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         pantallaAgendarCita = new pantallaAgendarCita(this);
         pantallaDatosConsulta = new pantallaDatosConsulta(this);
         pantallaInformacionCita = new pantallaInformacionCita(this);
+        pantallaInformacionCitaEmergencia = new pantallaInformacionCitaEmergencia(this);
 
         panelPrincipal.add(pantallaInicioSesion, "pantallaInicioSesion");
         panelPrincipal.add(pantallaRegistro, "pantallaRegistro");
@@ -111,6 +112,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         panelPrincipal.add(pantallaAgendarCita, "pantallaAgendarCita");
         panelPrincipal.add(pantallaDatosConsulta, "pantallaDatosConsulta");
         panelPrincipal.add(pantallaInformacionCita, "pantallaInformacionCita");
+        panelPrincipal.add(pantallaInformacionCitaEmergencia, "pantallaInformacionCitaEmergencia");
 
         SwingUtilities.updateComponentTreeUI(this);
         this.repaint();
@@ -153,5 +155,8 @@ public class FramePrincipal extends javax.swing.JFrame {
     }
     public pantallaMenuPrincipalPacientes getPantallaPacientes(){
         return pantallaPacientes;
+    }
+    public pantallaInformacionCitaEmergencia getPantallaInformacionCitaEmergencia(){
+        return pantallaInformacionCitaEmergencia;
     }
 }

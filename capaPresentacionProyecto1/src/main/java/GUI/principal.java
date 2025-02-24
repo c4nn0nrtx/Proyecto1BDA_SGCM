@@ -15,6 +15,7 @@ public class principal {
         FramePrincipal frame = new FramePrincipal();
         frame.setSize(1000,700);
         frame.setVisible(true);
+        
     }
     
 }

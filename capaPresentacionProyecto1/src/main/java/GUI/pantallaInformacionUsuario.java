@@ -281,7 +281,6 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
 
     private void btnVolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseClicked
         framePrincipal.cambiarPanel("pantallaPacientes");
-        System.out.println(framePrincipal.getUsuarioAutenticado());
     }//GEN-LAST:event_btnVolverMouseClicked
 
     private void pnlRestablecerDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlRestablecerDatosMouseClicked

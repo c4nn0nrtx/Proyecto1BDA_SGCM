@@ -49,5 +49,7 @@ public interface ICitaDAO {
     public List<Cita> consultarCitasPaciente(Paciente paciente) throws PersistenciaException;
     
     public boolean cancelarCita(int idCita) throws PersistenciaException;
+    
+    public Cita obtenerUltimaCitaEmergencia(int idPaciente) throws PersistenciaException;
 
 }

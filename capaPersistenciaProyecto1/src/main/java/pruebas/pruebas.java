@@ -6,6 +6,7 @@ package pruebas;
 
 import Conexion.ConexionBD;
 import Conexion.IConexionBD;
+import DAO.CitaDAO;
 import DAO.Direccion_PacienteDAO;
 import DAO.HorarioMedicoDAO;
 import DAO.MedicoDAO;
@@ -45,11 +46,30 @@ public class pruebas {
         HorarioMedicoDAO horarioMedicoDAO = new HorarioMedicoDAO(conexionBD);
         Direccion_PacienteDAO direccionDAO = new Direccion_PacienteDAO(conexionBD);
         PacienteDAO pacienteDAO = new PacienteDAO(conexionBD);
+
+        CitaDAO citaDAO = new CitaDAO(conexionBD);
+
+        Usuario usuarioMedico = new Usuario(1, "Juan1", "clave123");
+
+        Usuario usuarioPaciente = new Usuario(27, "Lukino", "gusanitos123");
+
+        Direccion_Paciente direccion = new Direccion_Paciente(12, "Nose", "Capistrano", 85132, "28");
+
+        Paciente paciente = new Paciente(usuarioPaciente, direccion, "Luciano", "Barcelo", "Murrieta", "Luciano@gmail.sdasda", LocalDate.of(2025, 04, 30), "644190122");
+
+        Medico medico = new Medico(usuarioMedico, "Juan Manuel", "Perez", "Montoya", "ABC313", "Ginecologia", "Inactivo");
+        Horario horario = new Horario(1, "martes", LocalTime.of(07, 00, 0, 0), LocalTime.of(12, 00, 00));
+
+        Horario_Medico horarioMedico = new Horario_Medico(1, horario, medico);
+
+        Cita citaN = new Cita(10, "Programada", LocalDateTime.of(2025, Month.JULY, 22, 11, 59, 59, 0), "folio456", "programada", medico, paciente);
+        System.out.println(citaN);
+        citaDAO.agendarCitaEmergencia(citaN);
         
-        
-        Medico medico = medicoDAO.obtenerMedicoPorNombre("Juan Manuel Perez Montoya");
-        System.out.println(medico);
-        
+
+        /* Medico medico = medicoDAO.obtenerMedicoPorNombre("Juan Manuel Perez Montoya");
+        System.out.println(medico);*/
+
         /*
         Usuario usuario = new Usuario(23, "Medico1", "gusanitos123");
        
@@ -59,7 +79,6 @@ public class pruebas {
         Medico medico = new Medico(usuario, "Juan", "Topo", "Cabada", "JA123", "Nutriologo", "Activo");
         boolean nose = medicoDAO.actualizarEstadoMedico(medico, "Inactivo");
          */
-
         //horarioMedicoDAO.obtenerHorariosMedicos();
         /* UsuarioDAO usuarioDAO = new UsuarioDAO(conexionBD);
        
@@ -97,7 +116,7 @@ public class pruebas {
 
            
         }*/
-        /*// ID del médico, día de la semana y fecha específica
+ /*// ID del médico, día de la semana y fecha específica
         int idMedico = 51; // Cambia esto por el ID real
         String diaSemana = "Viernes";
         String fecha = "2025-02-23"; // Formato YYYY-MM-DD
@@ -122,6 +141,6 @@ public class pruebas {
         } catch (PersistenciaException e) {
             System.err.println("Error al cargar las citas: " + e.getMessage());
         }/*
-     */   
+         */
     }
 }

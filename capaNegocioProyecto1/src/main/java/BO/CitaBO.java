@@ -24,6 +24,7 @@ import static java.time.DayOfWeek.SUNDAY;
 import static java.time.DayOfWeek.THURSDAY;
 import static java.time.DayOfWeek.TUESDAY;
 import static java.time.DayOfWeek.WEDNESDAY;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -83,6 +84,58 @@ public class CitaBO {
             con.rollback();
         }
         return false;
+    }
+
+    public Cita agendarCitaEmergencia(CitaNuevoDTO citaNueva, PacienteNuevoDTO pacienteNuevo, MedicoNuevoDTO medicoNuevo) throws NegocioException, SQLException {
+        if (citaNueva == null) {
+            throw new NegocioException("La cita no puede ser nula");
+        }
+        if (pacienteNuevo == null) {
+            throw new NegocioException("El paciente no puede ser nulo");
+        }
+        if (medicoNuevo == null) {
+            throw new NegocioException("El médico no puede ser nulo");
+        }
+
+        Connection con = null;
+        try {
+            con = this.conexionBD.crearConexion();
+            con.setAutoCommit(false);
+
+            // Convertir DTOs a entidades
+            Medico medico = mapper.DTOMedicoToEntity(medicoNuevo);
+            Paciente paciente = mapper.DTOPacienteToEntity(pacienteNuevo);
+            citaNueva.setMedico(medico);
+            citaNueva.setPaciente(paciente);
+
+            citaNueva.setFechaHora(citaNueva.getFechaHora());
+            citaNueva.setEstado("Programada");
+            citaNueva.setTipo("emergencia");
+
+            // Convertir DTO a entidad
+            Cita cita = mapper.DTOCitaToEntity(citaNueva);
+
+            // Agendar la cita de emergencia
+            Cita citaAgendada = citaDAO.agendarCitaEmergencia(cita);
+
+            con.commit();
+            return citaAgendada;  // 🔹 Retorna la cita agendada
+        } catch (PersistenciaException ex) {
+            logger.log(Level.SEVERE, "Error, no se pudo agregar la cita de emergencia. Intenta de nuevo.", ex);
+            if (con != null) {
+                con.rollback();
+            }
+            throw new NegocioException("Error al agendar la cita de emergencia.");
+        } catch (SQLException e) {
+            if (con != null) {
+                con.rollback();
+            }
+            throw e; // Relanzar la excepción
+        } finally {
+            if (con != null) {
+                con.setAutoCommit(true);
+            }
+        }
     }
 
     public List<CitaNuevoDTO> obtenerAgendaCitasProgramadas(int idMedico) {
@@ -193,7 +246,34 @@ public class CitaBO {
 
         return citaString;
     }
+     public String obtenerUltimaCitaEmergencia(int idPaciente) throws PersistenciaException {
+        Cita cita = citaDAO.obtenerUltimaCitaEmergencia(idPaciente);
 
+        if (cita == null) {
+            return null;  // Ahora realmente indicará que no hay citas futuras
+        }
+
+        CitaNuevoDTO citaNueva = new CitaNuevoDTO();
+        citaNueva.setEstado(cita.getEstado());
+        citaNueva.setFechaHora(cita.getFechaHora());
+        citaNueva.setFolio(cita.getFolio());
+        citaNueva.setMedico(cita.getMedico());
+        citaNueva.setPaciente(cita.getPaciente());
+        citaNueva.setTipo(cita.getTipo());
+
+        // Formatear la información del médico correctamente
+        Medico medico = cita.getMedico();
+        String medicoInfo = String.format("%s %s %s (Cédula: %s, Especialidad: %s)",
+                medico.getNombre(), medico.getApellidoPaterno(), medico.getApellidoMaterno(),
+                medico.getCedulaProfesional(), medico.getEspecialidad());
+
+        // Construir la cadena formateada de la cita
+        String citaString = String.format("Cita (Horario: %s, Médico: %s, Estado: %s)",
+                cita.getFechaHora(), medicoInfo, cita.getEstado());
+
+        return citaString;
+    }
+    
     public List<Cita> consultarCitasPacientes(Paciente paciente) throws PersistenciaException, NegocioException {
         if (paciente == null) {
             throw new NegocioException("El paciente no puede ser nulo");
@@ -224,5 +304,5 @@ public class CitaBO {
         } catch (PersistenciaException e) {
             throw new NegocioException("Error al cancelar la cita.", e);
         }
-        }
     }
+}

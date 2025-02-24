@@ -108,6 +108,7 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
         pnlAgendarCita.setBackground(new java.awt.Color(60, 109, 232));
 
         btnAgendarCita.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        btnAgendarCita.setForeground(new java.awt.Color(255, 255, 255));
         btnAgendarCita.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnAgendarCita.setText("Agendar una Cita");
         btnAgendarCita.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -137,6 +138,7 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
         add(pnlAgendarCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 560, -1, -1));
 
         tblCitasDisponibles.setBackground(new java.awt.Color(255, 255, 255));
+        tblCitasDisponibles.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         tblCitasDisponibles.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -185,6 +187,7 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
         });
 
         btnAgendarCita2.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        btnAgendarCita2.setForeground(new java.awt.Color(255, 255, 255));
         btnAgendarCita2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnAgendarCita2.setText("Buscar");
         btnAgendarCita2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -237,7 +240,7 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAgendarCitaMouseClicked
 
     private void btnAgendarCita2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCita2MouseClicked
-         try {
+        try {
             cargarCitas();
         } catch (NegocioException ex) {
             Logger.getLogger(pantallaAgendarCita.class.getName()).log(Level.SEVERE, null, ex);
@@ -412,6 +415,72 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error al procesar la cita: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
+    }
+
+    public void agendarCitaEmergenciaBO() {
+        try {
+            // Cargar las citas disponibles
+            cargarCitas();
+
+            // Obtener la primera fila de la tabla de citas disponibles
+            if (tblCitasDisponibles.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "No hay citas disponibles para agendar.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Extraer datos de la primera fila
+            String nombreMedico = tblCitasDisponibles.getValueAt(0, 0).toString();
+            String especialidad = tblCitasDisponibles.getValueAt(0, 1).toString();
+            String hora = tblCitasDisponibles.getValueAt(0, 2).toString();
+
+            // Obtener el objeto del médico a partir del nombre
+            MedicoNuevoDTO medico = medicoBO.obtenerMedicoPorNombre(nombreMedico.replace("Dr. ", "").trim());
+            if (medico == null) {
+                JOptionPane.showMessageDialog(this, "No se encontró el médico.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Obtener el paciente autenticado
+            int idPaciente = framePrincipal.getUsuarioAutenticado().getIdUsuario();
+            Paciente paciente = pacienteBO.buscarPacientePorID(idPaciente);
+            PacienteNuevoDTO pacienteNuevo = mapper.PacienteToNuevoDTO(paciente);
+
+            if (paciente == null) {
+                JOptionPane.showMessageDialog(this, "No se encontró el paciente.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Obtener la fecha seleccionada o la actual
+            Date fechaSeleccionada = selectorFechas.getDate();
+            LocalDate fechaElegida = (fechaSeleccionada == null)
+                    ? LocalDate.now()
+                    : fechaSeleccionada.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            // Convertir la hora de la cita a LocalTime
+            LocalTime horaCita = LocalTime.parse(hora, DateTimeFormatter.ofPattern("HH:mm"));
+            LocalDateTime fechaHora = LocalDateTime.of(fechaElegida, horaCita);
+
+            // Crear el objeto de cita
+            CitaNuevoDTO nuevaCita = new CitaNuevoDTO();
+            nuevaCita.setFechaHora(fechaHora);
+            nuevaCita.setMedico(mapper.DTOMedicoToEntity(medico));
+            nuevaCita.setPaciente(paciente);
+
+            // Intentar agendar la cita
+            Cita citaAgendada = citaBO.agendarCitaEmergencia(nuevaCita, pacienteNuevo, medico);
+               
+            nuevaCita.setFolio(citaAgendada.getFolio());
+            System.out.println(nuevaCita);
+            if (citaAgendada != null) {
+                JOptionPane.showMessageDialog(this, "Cita de emergencia agendada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                framePrincipal.setCitaFinal(nuevaCita);
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo agendar la cita de emergencia.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al agendar la cita de emergencia: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         }
     }
