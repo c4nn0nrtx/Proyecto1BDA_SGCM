@@ -5,7 +5,9 @@
 package BO;
 
 import Conexion.IConexionBD;
+import DAO.CitaDAO;
 import DAO.ConsultaDAO;
+import DAO.ICitaDAO;
 import DAO.IConsultaDAO;
 import DTO.CitaNuevoDTO;
 import DTO.ConsultaNuevaDTO;
@@ -28,19 +30,21 @@ public class ConsultaBO {
         private final IConsultaDAO consultaDAO;
         private final IConexionBD conexionBD;
         private CitaBO citaBO;
+        private final ICitaDAO citaDAO;
         Mapper mapper = new Mapper();
 
     public ConsultaBO(IConexionBD conexion) {
         this.consultaDAO = new ConsultaDAO(conexion);
+        this.citaDAO = new CitaDAO(conexion);
         this.conexionBD = conexion;
         this.citaBO = new CitaBO(conexion);
     }
     
-    public boolean agregarConsulta(ConsultaNuevaDTO consultaNueva, CitaNuevoDTO citaNueva) throws NegocioException, SQLException {
+    public boolean agregarConsulta(ConsultaNuevaDTO consultaNueva, Cita cita) throws NegocioException, SQLException {
         if (consultaNueva == null) {
             throw new NegocioException("La consulta no puede ser nula");
         }
-        if (citaNueva == null) {
+        if (cita == null) {
             throw new NegocioException("La cita no puede ser nula");
         }
         
@@ -49,14 +53,15 @@ public class ConsultaBO {
             con = this.conexionBD.crearConexion();
             con.setAutoCommit(false);
             
-            Cita cita = mapper.DTOCitaToEntity(citaNueva);
-            //cita.setIdCita(aqui agregare un metodo para consultar el idCita);
             consultaNueva.setCita(cita);
             Consulta consulta = mapper.DTOConsultaToEntity(consultaNueva);
             
             consultaDAO.agregarConsulta(consulta);
+            if (citaDAO.actualizarEstadoCita(cita.getIdCita())) {
+                logger.log(Level.SEVERE, "Estado de la cita actualizado correctamente.");
+                con.commit();
+            };
             
-            con.commit();
             return true;
         } catch (PersistenciaException ex) {
             logger.log(Level.SEVERE, "Error, No se pudo agregar la consulta. Intenta de nuevo.", ex);

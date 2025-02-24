@@ -8,6 +8,7 @@ import Entidades.Cita;
 import Entidades.Horario_Medico;
 import Entidades.Paciente;
 import Exception.PersistenciaException;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -51,5 +52,8 @@ public interface ICitaDAO {
     public boolean cancelarCita(int idCita) throws PersistenciaException;
     
     public Cita obtenerUltimaCitaEmergencia(int idPaciente) throws PersistenciaException;
-
+    
+    public Cita consultarCitaPorFolio(String folio) throws SQLException, PersistenciaException;
+    
+    public boolean actualizarEstadoCita(int idCita);
 }

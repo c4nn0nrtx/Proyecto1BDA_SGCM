@@ -282,7 +282,6 @@ public class CitaBO {
         List<Cita> citasPacientes = new ArrayList<>();
         try {
             citasPacientes = citaDAO.consultarCitasPaciente(paciente);
-
             return citasPacientes;
         } catch (PersistenciaException ex) {
             logger.log(Level.SEVERE, "Error, No se pudieron encontrar  las citas del paciente. Intenta de nuevo.", ex);
@@ -304,5 +303,13 @@ public class CitaBO {
         } catch (PersistenciaException e) {
             throw new NegocioException("Error al cancelar la cita.", e);
         }
+    }
+    public Cita consultarCitaPorFolio(String folio) throws NegocioException, SQLException, PersistenciaException{
+        if (folio == null) {
+            throw new NegocioException("El folio no puede ser nulo");
+        }
+        
+        Cita cita = citaDAO.consultarCitaPorFolio(folio);
+        return cita;
     }
 }

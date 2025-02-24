@@ -190,11 +190,13 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
             // Columnas de la tabla
             String[] columnas = {"PACIENTE", "HORARIO", "ESTADO", "ACCION"};
             Object[][] datos = new Object[citas.size()][4];
+            Object[] citasLista = new Object[citas.size()];
 
             // Formateador para la fecha y hora
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE d 'de' MMMM 'a las' hh:mm a", new Locale("es", "ES"));
 
             for (int i = 0; i < citas.size(); i++) {
+                citasLista[i] = citas.get(i);
                 CitaNuevoDTO cita = citas.get(i);
                 datos[i][0] = cita.getPaciente().getNombre() + " " + cita.getPaciente().getApellidoPaterno();
                 datos[i][1] = cita.getFechaHora().format(formatter); // Formato legible
@@ -213,7 +215,7 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
                 DefaultTableModel emptyModel = new DefaultTableModel();
                 tblCitasProgramadas.setModel(emptyModel); // Limpia la tabla
                 tblCitasProgramadas.setModel(model);
-                agregarBotonIniciar(tblCitasProgramadas);
+                agregarBotonIniciar(tblCitasProgramadas, citasLista);
                 pnlCitasProgramadas.revalidate();
                 pnlCitasProgramadas.repaint();
             });
@@ -234,11 +236,13 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
             // Columnas de la tabla
             String[] columnas = {"PACIENTE", "HORARIO", "ESTADO", "ACCION"};
             Object[][] datos = new Object[citas.size()][4];
+            Object[] citasLista = new Object[citas.size()];
 
             // Formateador para la fecha y hora
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE d 'de' MMMM 'a las' hh:mm a", new Locale("es", "ES"));
 
             for (int i = 0; i < citas.size(); i++) {
+                citasLista[i] = citas.get(i);
                 CitaNuevoDTO cita = citas.get(i);
                 datos[i][0] = cita.getPaciente().getNombre() + " " + cita.getPaciente().getApellidoPaterno();
                 datos[i][1] = cita.getFechaHora().format(formatter); // Formato legible
@@ -258,7 +262,7 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
                 DefaultTableModel emptyModel = new DefaultTableModel();
                 tblCitasEmergencia.setModel(emptyModel); // Limpia la tabla
                 tblCitasEmergencia.setModel(model);
-                agregarBotonIniciar(tblCitasEmergencia);
+                agregarBotonIniciar(tblCitasEmergencia, citasLista);
                 pnlCitasEmergencia.revalidate();
                 pnlCitasEmergencia.repaint();
             });
@@ -269,9 +273,9 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
         }
     }
     
-    private void agregarBotonIniciar(JTable tabla) {
+    private void agregarBotonIniciar(JTable tabla, Object[] citasLista) {
         tabla.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer());
-        tabla.getColumnModel().getColumn(3).setCellEditor(new ButtonEditor(new JCheckBox()));
+        tabla.getColumnModel().getColumn(3).setCellEditor(new ButtonEditor(new JCheckBox(), citasLista));
     }
 
     class ButtonRenderer extends JButton implements TableCellRenderer {
@@ -294,14 +298,18 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
         private boolean isPushed;
         private int selectedRow;
 
-        public ButtonEditor(JCheckBox checkBox) {
+        public ButtonEditor(JCheckBox checkBox, Object[] citasLista) {
             super(checkBox);
             button = new JButton();
             button.setOpaque(true);
 
             button.addActionListener(e -> {
                 JOptionPane.showMessageDialog(button, "Iniciando cita en la fila " + selectedRow);
+                CitaNuevoDTO cita = (CitaNuevoDTO) citasLista[selectedRow];
                 framePrincipal.cambiarPanel("pantallaDatosConsulta");
+                framePrincipal.setCitaFinal(cita);
+                pantallaDatosConsulta horaEntrada = framePrincipal.getPantallaDatosConsulta();
+                horaEntrada.cargarHoraEntrada();
                 // Aquí puedes ejecutar la lógica para iniciar la cita
             });
         }
@@ -326,6 +334,7 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
             isPushed = false;
             return super.stopCellEditing();
         }
+        
     }
 
 }

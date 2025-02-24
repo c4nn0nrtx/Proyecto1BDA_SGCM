@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -131,6 +132,11 @@ public class pantallaConsultasPacientes extends javax.swing.JPanel {
 
     private void btnVolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseClicked
         framePrincipal.cambiarPanel("pantallaMedicosMenu");
+        jTable1.setModel(new DefaultTableModel());
+        jScrollPane1.setViewportView(jTable1);
+
+        jScrollPane1.revalidate();
+        jScrollPane1.repaint();
     }//GEN-LAST:event_btnVolverMouseClicked
 
     private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
@@ -165,6 +171,7 @@ public class pantallaConsultasPacientes extends javax.swing.JPanel {
                 return;
             }
             Paciente paciente = pacienteBO.buscarPacientePorCelular(celular);
+            System.out.println(paciente);
             if (paciente == null) {
                 JOptionPane.showMessageDialog(this, "No se encontró un paciente con ese número de celular.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;

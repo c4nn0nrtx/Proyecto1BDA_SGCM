@@ -4,12 +4,32 @@
  */
 package GUI;
 
+import BO.CitaBO;
+import BO.ConsultaBO;
+import DTO.CitaNuevoDTO;
+import DTO.ConsultaNuevaDTO;
+import Entidades.Cita;
+import Exception.NegocioException;
+import Exception.PersistenciaException;
+import configuracion.DependencyInjector;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Sebastian Moreno
  */
 public class pantallaDatosConsulta extends javax.swing.JPanel {
+
     FramePrincipal framePrincipal;
+    private CitaBO citaBO = DependencyInjector.crearCitaBO();
+    private ConsultaBO consultaBO = DependencyInjector.crearConsultaBO();
+
     /**
      * Creates new form pantallaDatosConsulta1
      */
@@ -33,11 +53,11 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         inputDiagnostico = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        inputHorarioCita = new javax.swing.JTextField();
+        inputTratamientoCita = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         inputObservaciones = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        inputNombrePaciente1 = new javax.swing.JTextField();
+        inputHoraEntrada = new javax.swing.JTextField();
         pnlCancelarCita1 = new javax.swing.JPanel();
         btnFinalizarConsulta = new javax.swing.JLabel();
         pnlCancelarCita2 = new javax.swing.JPanel();
@@ -77,11 +97,11 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Tratamiento:");
 
-        inputHorarioCita.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        inputHorarioCita.setText("Tratamiento del Paciente");
-        inputHorarioCita.addActionListener(new java.awt.event.ActionListener() {
+        inputTratamientoCita.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        inputTratamientoCita.setText("Tratamiento del Paciente");
+        inputTratamientoCita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputHorarioCitaActionPerformed(evt);
+                inputTratamientoCitaActionPerformed(evt);
             }
         });
 
@@ -90,7 +110,7 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
         jLabel4.setText("Observaciones:");
 
         inputObservaciones.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        inputObservaciones.setText("Tratamiento del Paciente");
+        inputObservaciones.setText("Observaciones");
         inputObservaciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputObservacionesActionPerformed(evt);
@@ -101,13 +121,13 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Hora de Entrada:");
 
-        inputNombrePaciente1.setEditable(false);
-        inputNombrePaciente1.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        inputNombrePaciente1.setForeground(new java.awt.Color(0, 0, 0));
-        inputNombrePaciente1.setText("Hora del Sistema");
-        inputNombrePaciente1.addActionListener(new java.awt.event.ActionListener() {
+        inputHoraEntrada.setEditable(false);
+        inputHoraEntrada.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        inputHoraEntrada.setForeground(new java.awt.Color(0, 0, 0));
+        inputHoraEntrada.setText("Hora del Sistema");
+        inputHoraEntrada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputNombrePaciente1ActionPerformed(evt);
+                inputHoraEntradaActionPerformed(evt);
             }
         });
 
@@ -118,6 +138,11 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
         btnFinalizarConsulta.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnFinalizarConsulta.setText("Finalizar Consulta");
         btnFinalizarConsulta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnFinalizarConsulta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnFinalizarConsultaMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlCancelarCita1Layout = new javax.swing.GroupLayout(pnlCancelarCita1);
         pnlCancelarCita1.setLayout(pnlCancelarCita1Layout);
@@ -143,6 +168,11 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
         btnGuardarCambios.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnGuardarCambios.setText("Guardar Cambios");
         btnGuardarCambios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGuardarCambios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnGuardarCambiosMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlCancelarCita2Layout = new javax.swing.GroupLayout(pnlCancelarCita2);
         pnlCancelarCita2.setLayout(pnlCancelarCita2Layout);
@@ -182,14 +212,14 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                                     .addComponent(pnlCancelarCita1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(inputObservaciones, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(inputHorarioCita, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(inputTratamientoCita, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(inputDiagnostico, javax.swing.GroupLayout.Alignment.LEADING))
                             .addComponent(jLabel1)
                             .addComponent(inputNombrePaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(inputNombrePaciente1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(inputHoraEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(25, 25, 25))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(395, 395, 395)
@@ -205,7 +235,7 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
                         .addComponent(txtSubTitulo)
                         .addGap(82, 82, 82)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(inputNombrePaciente1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(inputHoraEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6))
                         .addGap(24, 24, 24))
                     .addGroup(layout.createSequentialGroup()
@@ -219,7 +249,7 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(inputHorarioCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inputTratamientoCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -240,27 +270,49 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_inputDiagnosticoActionPerformed
 
-    private void inputHorarioCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputHorarioCitaActionPerformed
+    private void inputTratamientoCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputTratamientoCitaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_inputHorarioCitaActionPerformed
+    }//GEN-LAST:event_inputTratamientoCitaActionPerformed
 
     private void inputObservacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputObservacionesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inputObservacionesActionPerformed
 
-    private void inputNombrePaciente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputNombrePaciente1ActionPerformed
+    private void inputHoraEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputHoraEntradaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_inputNombrePaciente1ActionPerformed
+    }//GEN-LAST:event_inputHoraEntradaActionPerformed
+
+    private void btnGuardarCambiosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarCambiosMouseClicked
+        try {
+            // TODO add your handling code here:
+            registrarConsulta();
+            btnGuardarCambios.setVisible(false);
+        } catch (NegocioException ex) {
+            Logger.getLogger(pantallaDatosConsulta.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(pantallaDatosConsulta.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(pantallaDatosConsulta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btnGuardarCambiosMouseClicked
+
+    private void btnFinalizarConsultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFinalizarConsultaMouseClicked
+        // TODO add your handling code here:
+        framePrincipal.cambiarPanel("pantallaMedicosMenu");
+        btnGuardarCambios.setVisible(true);
+        limpiarCampos();
+    }//GEN-LAST:event_btnFinalizarConsultaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnFinalizarConsulta;
     private javax.swing.JLabel btnGuardarCambios;
     private javax.swing.JTextField inputDiagnostico;
-    private javax.swing.JTextField inputHorarioCita;
+    private javax.swing.JTextField inputHoraEntrada;
     private javax.swing.JTextField inputNombrePaciente;
-    private javax.swing.JTextField inputNombrePaciente1;
     private javax.swing.JTextField inputObservaciones;
+    private javax.swing.JTextField inputTratamientoCita;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -270,4 +322,61 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
     private javax.swing.JPanel pnlCancelarCita2;
     private javax.swing.JLabel txtSubTitulo;
     // End of variables declaration//GEN-END:variables
+
+    public void cargarHoraEntrada() {
+        LocalTime horaActual = LocalTime.now();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm");
+
+        String horaFormateada = horaActual.format(formato);
+        inputHoraEntrada.setText(horaFormateada);
+    }
+
+    public void registrarConsulta() throws NegocioException, SQLException, PersistenciaException {
+
+        try {
+            String nombrePaciente = inputNombrePaciente.getText();
+            String diagnostico = inputDiagnostico.getText();
+            String tratamiento = inputTratamientoCita.getText();
+            String observaciones = inputObservaciones.getText();
+            if (inputNombrePaciente.getText().trim().isEmpty()
+                    || inputDiagnostico.getText().trim().isEmpty()
+                    || inputTratamientoCita.getText().trim().isEmpty()
+                    || inputObservaciones.getText().trim().isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            LocalDateTime fechaHora = LocalDateTime.now();
+
+            CitaNuevoDTO citaFinal = framePrincipal.getCitaFinal();
+
+            String folio = citaFinal.getFolio();
+            Cita cita = citaBO.consultarCitaPorFolio(folio);
+            if (cita == null) {
+                JOptionPane.showMessageDialog(this, "No se encontró la cita con el folio proporcionado", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            int idCita = cita.getIdCita();
+
+            ConsultaNuevaDTO consulta = new ConsultaNuevaDTO(cita, "Atendida", diagnostico, tratamiento, observaciones, fechaHora);
+
+            if (consultaBO.agregarConsulta(consulta, cita)) {
+                
+                JOptionPane.showMessageDialog(this, "Consultada guardada correctamente");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al agregar consulta");
+            }
+        } catch (NegocioException | SQLException | PersistenciaException e) {
+            JOptionPane.showMessageDialog(this, "Error al registrar consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace(); // Para depuración
+        }
+    }
+    public void limpiarCampos() {
+        inputNombrePaciente.setText("");
+        inputDiagnostico.setText("");
+        inputTratamientoCita.setText("");
+        inputObservaciones.setText("");
+    }
+
 }

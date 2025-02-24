@@ -41,7 +41,7 @@
                                   <Component id="pnlCancelarCita1" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="inputObservaciones" alignment="0" max="32767" attributes="0"/>
-                              <Component id="inputHorarioCita" alignment="0" max="32767" attributes="0"/>
+                              <Component id="inputTratamientoCita" alignment="0" max="32767" attributes="0"/>
                               <Component id="inputDiagnostico" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -50,7 +50,7 @@
                       <EmptySpace pref="27" max="32767" attributes="0"/>
                       <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="inputNombrePaciente1" min="-2" max="-2" attributes="0"/>
+                      <Component id="inputHoraEntrada" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -71,7 +71,7 @@
                       <Component id="txtSubTitulo" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="inputNombrePaciente1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="inputHoraEntrada" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
@@ -89,7 +89,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="inputHorarioCita" min="-2" max="-2" attributes="0"/>
+              <Component id="inputTratamientoCita" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -171,7 +171,7 @@
         <Property name="text" type="java.lang.String" value="Tratamiento:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="inputHorarioCita">
+    <Component class="javax.swing.JTextField" name="inputTratamientoCita">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="18" style="0"/>
@@ -179,7 +179,7 @@
         <Property name="text" type="java.lang.String" value="Tratamiento del Paciente"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inputHorarioCitaActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inputTratamientoCitaActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
@@ -198,7 +198,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="18" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Tratamiento del Paciente"/>
+        <Property name="text" type="java.lang.String" value="Observaciones"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inputObservacionesActionPerformed"/>
@@ -215,7 +215,7 @@
         <Property name="text" type="java.lang.String" value="Hora de Entrada:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="inputNombrePaciente1">
+    <Component class="javax.swing.JTextField" name="inputHoraEntrada">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -227,7 +227,7 @@
         <Property name="text" type="java.lang.String" value="Hora del Sistema"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inputNombrePaciente1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inputHoraEntradaActionPerformed"/>
       </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="pnlCancelarCita1">
@@ -272,6 +272,9 @@
               <Color id="Hand Cursor"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnFinalizarConsultaMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -317,6 +320,9 @@
               <Color id="Hand Cursor"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnGuardarCambiosMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

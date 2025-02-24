@@ -159,4 +159,8 @@ public class FramePrincipal extends javax.swing.JFrame {
     public pantallaInformacionCitaEmergencia getPantallaInformacionCitaEmergencia(){
         return pantallaInformacionCitaEmergencia;
     }
+    public pantallaDatosConsulta getPantallaDatosConsulta() {
+        return pantallaDatosConsulta;
+    }
+    
 }

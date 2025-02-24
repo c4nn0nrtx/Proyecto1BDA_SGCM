@@ -58,7 +58,7 @@ public class CitaDAO implements ICitaDAO {
 
             ps.setString(1, cita.getEstado());
             ps.setObject(2, cita.getFechaHora());
-            ps.setString(3, "");
+            ps.setString(3, generarFolio());
             ps.setString(4, cita.getTipo());
             ps.setInt(5, cita.getMedico().getUsuario().getIdUsuario());
             ps.setInt(6, cita.getPaciente().getUsuario().getIdUsuario());
@@ -586,7 +586,7 @@ public class CitaDAO implements ICitaDAO {
     public List<Cita> consultarCitasPaciente(Paciente paciente2) throws PersistenciaException {
         List<Cita> citas = new ArrayList<>();
 
-        String sql = "SELECT c.idCita, c.estado, c.fechaHoraProgramada, c.folio, c.tipo, "
+        String sql = "SELECT DISTINCT c.idCita, c.estado, c.fechaHoraProgramada, c.folio, c.tipo, "
                 + "m.idMedico, m.nombre AS nombreMedico, m.apellidoPat AS apellidoPatMedico, "
                 + "m.apellidoMat AS apellidoMatMedico, m.cedulaProf, m.especialidad, "
                 + "p.idPaciente, p.nombre AS nombrePaciente, p.apellidoPat AS apellidoPatPaciente, "
@@ -596,12 +596,7 @@ public class CitaDAO implements ICitaDAO {
                 + "JOIN PACIENTES p ON c.idPaciente = p.idPaciente "
                 + "JOIN HORARIOS_MEDICOS hm ON m.idMedico = hm.idMedico "
                 + "JOIN HORARIOS h ON hm.idHorario = h.idHorario "
-                + "WHERE c.idPaciente = ? "
-                + "AND TIME(c.fechaHoraProgramada) BETWEEN h.horaInicio AND h.horaFin "
-                + "AND c.fechaHoraProgramada >= NOW() "
-                + "AND c.estado = 'Programada' "
-                + "AND c.tipo = 'programada' "
-                + "ORDER BY c.fechaHoraProgramada ASC";
+                + "WHERE c.idPaciente = ? ";
 
         try (Connection con = this.conexionBD.crearConexion(); PreparedStatement stmt = con.prepareStatement(sql)) {
 
@@ -648,6 +643,7 @@ public class CitaDAO implements ICitaDAO {
 
                     // Agregar la cita a la lista
                     citas.add(nuevaCita);
+                    System.out.println(nuevaCita);
                 }
             }
         } catch (SQLException e) {
@@ -733,4 +729,51 @@ public class CitaDAO implements ICitaDAO {
         return ultimaCita;
     }
 
+    @Override
+    public Cita consultarCitaPorFolio(String folio) throws SQLException, PersistenciaException {
+        String consultaSQL = "SELECT idCita, estado, fechaHoraProgramada, folio, tipo, idMedico, idPaciente "
+                + "FROM CITAS WHERE folio = ?";
+        Cita cita = null;
+        Medico medico = null;
+        Paciente paciente = null;
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL)) {
+
+            ps.setString(1, folio);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    // Crear objeto Cita
+                    cita = new Cita();
+                    cita.setIdCita(rs.getInt("idCita"));
+                    cita.setEstado(rs.getString("estado"));
+                    cita.setFechaHora(rs.getTimestamp("fechaHoraProgramada").toLocalDateTime());
+                    cita.setFolio(rs.getString("folio"));
+                    cita.setTipo(rs.getString("tipo"));
+                    cita.setMedico(medico);
+                    cita.setPaciente(paciente);
+                }
+            }
+        }
+        return cita;
+    }
+    
+    @Override
+    public boolean actualizarEstadoCita(int idCita) {
+        String consultaSQL = "UPDATE Citas SET estado = 'Atendida' WHERE idCita = ? ";
+        
+        try (Connection con = this.conexionBD.crearConexion(); 
+                PreparedStatement ps = con.prepareStatement(consultaSQL)) {
+            
+            
+            ps.setInt(1, idCita);
+            int filasAfectadas = ps.executeUpdate();
+            
+            return true;
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(CitaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(CitaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 }
