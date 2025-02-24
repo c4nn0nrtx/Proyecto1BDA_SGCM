@@ -183,11 +183,13 @@ public class pantallaConsultasPacientes extends javax.swing.JPanel {
             }
             List<MedicoNuevoDTO> medicosDTO = new ArrayList<>();
             List<ConsultaNuevaDTO> consultasNuevaDTO = new ArrayList<>();
+            
             for (int i = 0; i < citasPaciente.size(); i++) {
                 Usuario usuario = citasPaciente.get(i).getMedico().getUsuario();
                 medicosDTO.add(medicoBO.consultarMedico(usuario));
                 consultasNuevaDTO.add(consultaBO.obtenerConsultasPaciente(citasPaciente.get(i)));
             }
+            consultasNuevaDTO.removeIf(element -> element == null);
             String[] columnas = {"PACIENTE", "MEDICO", "ESPECIALIDAD", "TRATAMIENTO", "NOTAS", "FECHA", "ESTADO"};
 
             String[][] datos = new String[consultasNuevaDTO.size()][7];
@@ -207,7 +209,6 @@ public class pantallaConsultasPacientes extends javax.swing.JPanel {
                     datos[i][6] = consultaNueva.getEstado();
                 } else {
                     JOptionPane.showMessageDialog(this, "No se encontraron consultas de ese paciente.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
                 }
             }
             jTable1.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));

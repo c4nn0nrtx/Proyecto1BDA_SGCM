@@ -373,10 +373,10 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
         }
     }
     public void limpiarCampos() {
-        inputNombrePaciente.setText("");
-        inputDiagnostico.setText("");
-        inputTratamientoCita.setText("");
-        inputObservaciones.setText("");
+        inputNombrePaciente.setText("Nombre del paciente");
+        inputDiagnostico.setText("Diagnostico del paciente");
+        inputTratamientoCita.setText("Tratamiento del paciente");
+        inputObservaciones.setText("Observaciones");
     }
 
 }
