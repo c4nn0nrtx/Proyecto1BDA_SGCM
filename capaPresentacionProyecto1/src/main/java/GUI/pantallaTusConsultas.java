@@ -18,8 +18,13 @@ import Exception.PersistenciaException;
 import Mapper.Mapper;
 import configuracion.DependencyInjector;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -37,7 +42,7 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
     private ConsultaBO consultaBO = DependencyInjector.crearConsultaBO();
     private Mapper mapper = new Mapper();
     FramePrincipal framePrincipal;
-    
+
     public pantallaTusConsultas(FramePrincipal frame) {
         this.framePrincipal = frame;
         initComponents();
@@ -58,11 +63,13 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         btnVolver = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        selectorFin = new com.toedter.calendar.JDateChooser();
         txtSubTituloConsulta1 = new javax.swing.JLabel();
         txtSubTituloConsulta2 = new javax.swing.JLabel();
         txtSubTituloConsulta3 = new javax.swing.JLabel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        selectorInicio = new com.toedter.calendar.JDateChooser();
+        pnlBuscar1 = new javax.swing.JPanel();
+        btnAgendarCita2 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -77,7 +84,7 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
         txtSubTituloConsulta.setText("Fecha Fin");
         add(txtSubTituloConsulta, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 120, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Medicina General", "Cardiólogo", "Nutricionista" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Medicina General", "Cardiologia", "Dermatologia", "Psiquiatria", " " }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -124,7 +131,13 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
             }
         });
         add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-        add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 150, 240, 40));
+
+        selectorFin.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                selectorFinPropertyChange(evt);
+            }
+        });
+        add(selectorFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 150, 240, 40));
 
         txtSubTituloConsulta1.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         txtSubTituloConsulta1.setForeground(new java.awt.Color(0, 0, 0));
@@ -140,7 +153,54 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
         txtSubTituloConsulta3.setForeground(new java.awt.Color(0, 0, 0));
         txtSubTituloConsulta3.setText("Fecha Inicio");
         add(txtSubTituloConsulta3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 120, -1, -1));
-        add(jDateChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 150, 240, 40));
+
+        selectorInicio.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                selectorInicioPropertyChange(evt);
+            }
+        });
+        add(selectorInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 150, 240, 40));
+
+        pnlBuscar1.setBackground(new java.awt.Color(60, 109, 232));
+        pnlBuscar1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlBuscar1MouseClicked(evt);
+            }
+        });
+
+        btnAgendarCita2.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        btnAgendarCita2.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgendarCita2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnAgendarCita2.setText("Buscar");
+        btnAgendarCita2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAgendarCita2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAgendarCita2MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlBuscar1Layout = new javax.swing.GroupLayout(pnlBuscar1);
+        pnlBuscar1.setLayout(pnlBuscar1Layout);
+        pnlBuscar1Layout.setHorizontalGroup(
+            pnlBuscar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 202, Short.MAX_VALUE)
+            .addGroup(pnlBuscar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlBuscar1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(btnAgendarCita2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        pnlBuscar1Layout.setVerticalGroup(
+            pnlBuscar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 41, Short.MAX_VALUE)
+            .addGroup(pnlBuscar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlBuscar1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(btnAgendarCita2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        add(pnlBuscar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 50, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseClicked
@@ -148,73 +208,158 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
     }//GEN-LAST:event_btnVolverMouseClicked
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
+        try {
+            misConsultas();
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(pantallaTusConsultas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NegocioException ex) {
+            Logger.getLogger(pantallaTusConsultas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(pantallaTusConsultas.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void selectorInicioPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_selectorInicioPropertyChange
+
+    }//GEN-LAST:event_selectorInicioPropertyChange
+
+    private void selectorFinPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_selectorFinPropertyChange
+
+    }//GEN-LAST:event_selectorFinPropertyChange
+
+    private void btnAgendarCita2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCita2MouseClicked
+        try {
+            misConsultas();
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(pantallaTusConsultas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NegocioException ex) {
+            Logger.getLogger(pantallaTusConsultas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(pantallaTusConsultas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnAgendarCita2MouseClicked
+
+    private void pnlBuscar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlBuscar1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlBuscar1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnAgendarCita2;
     private javax.swing.JLabel btnVolver;
     private javax.swing.JComboBox<String> jComboBox1;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JPanel pnlBuscar1;
+    private com.toedter.calendar.JDateChooser selectorFin;
+    private com.toedter.calendar.JDateChooser selectorInicio;
     private javax.swing.JLabel txtSubTitulo;
     private javax.swing.JLabel txtSubTituloConsulta;
     private javax.swing.JLabel txtSubTituloConsulta1;
     private javax.swing.JLabel txtSubTituloConsulta2;
     private javax.swing.JLabel txtSubTituloConsulta3;
     // End of variables declaration//GEN-END:variables
-    public void misConsultas() throws PersistenciaException, NegocioException, SQLException {
-        try{
+   public void misConsultas() throws PersistenciaException, NegocioException, SQLException {
+        try {
             Usuario usuario = framePrincipal.getUsuarioAutenticado();
             int idPaciente = usuario.getIdUsuario();
-            
+
             Paciente paciente = pacienteBO.buscarPacientePorID(idPaciente);
-            
             List<Cita> citasPaciente = citaBO.consultarCitasPacientes(paciente);
-            if (citasPaciente.isEmpty()){
+
+            if (citasPaciente.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "No se encontraron consultas de ese paciente.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+
             List<MedicoNuevoDTO> medicosDTO = new ArrayList<>();
             List<ConsultaNuevaDTO> consultasNuevaDTO = new ArrayList<>();
-            
-            for (int i = 0; i < citasPaciente.size(); i++) {
-                Usuario usuarioConsulta = citasPaciente.get(i).getMedico().getUsuario();
+
+            for (Cita cita : citasPaciente) {
+                Usuario usuarioConsulta = cita.getMedico().getUsuario();
                 medicosDTO.add(medicoBO.consultarMedico(usuarioConsulta));
-                consultasNuevaDTO.add(consultaBO.obtenerConsultasPaciente(citasPaciente.get(i)));
+                consultasNuevaDTO.add(consultaBO.obtenerConsultasPaciente(cita));
             }
+
             consultasNuevaDTO.removeIf(element -> element == null);
+
+            // Obtener la especialidad seleccionada en el JComboBox
+            String especialidadSeleccionada = (String) jComboBox1.getSelectedItem();
+
+            // Obtener fechas de los jDateChooser
+            Date fechaInicio = selectorInicio.getDate();
+            Date fechaFin = selectorFin.getDate();
+
+            LocalDateTime fechaInicioLocal = null;
+            LocalDateTime fechaFinLocal = null;
+
+            if (fechaInicio != null) {
+                fechaInicioLocal = fechaInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            }
+            if (fechaFin != null) {
+                fechaFinLocal = fechaFin.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            }
+
+            // Definir las columnas de la tabla
             String[] columnas = {"PACIENTE", "MEDICO", "ESPECIALIDAD", "TRATAMIENTO", "NOTAS", "FECHA", "ESTADO"};
 
-            String[][] datos = new String[consultasNuevaDTO.size()][7];
+            // Filtrar consultas por especialidad y rango de fechas
+            List<String[]> datosFiltrados = new ArrayList<>();
             String nombrePaciente = paciente.getNombre() + " " + paciente.getApellidoPaterno();
-            
+
             for (int i = 0; i < consultasNuevaDTO.size(); i++) {
                 MedicoNuevoDTO medicoNuevo = medicosDTO.get(i);
                 ConsultaNuevaDTO consultaNueva = consultasNuevaDTO.get(i);
-                String nombreMedico = "Dr. " + medicoNuevo.getNombre() + " " + " " + medicoNuevo.getApellidoPaterno();
-                if (consultaNueva != null) {
-                    datos[i][0] = nombrePaciente;
-                    datos[i][1] = nombreMedico;
-                    datos[i][2] = medicoNuevo.getEspecialidad();
-                    datos[i][3] = consultaNueva.getTratamiento();
-                    datos[i][4] = consultaNueva.getObservaciones();
-                    datos[i][5] = consultaNueva.getFechaHora().toString();
-                    datos[i][6] = consultaNueva.getEstado();
-                } else {
-                    JOptionPane.showMessageDialog(this, "No se encontraron consultas de ese paciente.", "Error", JOptionPane.ERROR_MESSAGE);
+                String nombreMedico = "Dr. " + medicoNuevo.getNombre() + " " + medicoNuevo.getApellidoPaterno();
+                String especialidadMedico = medicoNuevo.getEspecialidad();
+                LocalDateTime fechaConsulta = consultaNueva.getFechaHora();
+
+                // Verificar si la especialidad debe ser filtrada
+                boolean filtrarPorEspecialidad = true;
+                if (!especialidadSeleccionada.equals("Todos")) {
+                    filtrarPorEspecialidad = especialidadSeleccionada.equals(especialidadMedico);
+                }
+
+                // Verificar si la fecha debe ser filtrada
+                boolean filtrarPorFecha = true;
+                if (fechaInicioLocal != null && fechaFinLocal != null) {
+                    filtrarPorFecha = !fechaConsulta.isBefore(fechaInicioLocal) && !fechaConsulta.isAfter(fechaFinLocal);
+                } else if (fechaInicioLocal != null) {
+                    filtrarPorFecha = !fechaConsulta.isBefore(fechaInicioLocal);
+                } else if (fechaFinLocal != null) {
+                    filtrarPorFecha = !fechaConsulta.isAfter(fechaFinLocal);
+                }
+
+                // Agregar solo si cumple con los filtros
+                if (filtrarPorEspecialidad && filtrarPorFecha) {
+                    datosFiltrados.add(new String[]{
+                        nombrePaciente,
+                        nombreMedico,
+                        especialidadMedico,
+                        consultaNueva.getTratamiento(),
+                        consultaNueva.getObservaciones(),
+                        consultaNueva.getFechaHora().toString(),
+                        consultaNueva.getEstado()
+                    });
                 }
             }
+
+            if (datosFiltrados.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No hay consultas con los filtros seleccionados.", "Información", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            // Convertir lista a matriz para la tabla
+            String[][] datos = datosFiltrados.toArray(new String[0][]);
+
+            // Actualizar la tabla con los datos filtrados
             jTable1.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
-
             jScrollPane1.setViewportView(jTable1);
-
             jScrollPane1.revalidate();
             jScrollPane1.repaint();
+
         } catch (PersistenciaException | NegocioException | SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al obtener las consultas: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 }
