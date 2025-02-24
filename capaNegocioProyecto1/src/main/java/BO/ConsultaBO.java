@@ -56,9 +56,9 @@ public class ConsultaBO {
             consultaNueva.setCita(cita);
             Consulta consulta = mapper.DTOConsultaToEntity(consultaNueva);
             
-            consultaDAO.agregarConsulta(consulta);
-            if (citaDAO.actualizarEstadoCita(cita.getIdCita())) {
-                logger.log(Level.SEVERE, "Estado de la cita actualizado correctamente.");
+            
+            if (consultaDAO.agregarConsulta(consulta) != null) {
+                logger.log(Level.SEVERE, "Consulta realizada correctamente.");
                 con.commit();
             };
             

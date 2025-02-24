@@ -9,8 +9,10 @@ import BO.ConsultaBO;
 import DTO.CitaNuevoDTO;
 import DTO.ConsultaNuevaDTO;
 import Entidades.Cita;
+import Entidades.Paciente;
 import Exception.NegocioException;
 import Exception.PersistenciaException;
+import Mapper.Mapper;
 import configuracion.DependencyInjector;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -29,6 +31,7 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
     FramePrincipal framePrincipal;
     private CitaBO citaBO = DependencyInjector.crearCitaBO();
     private ConsultaBO consultaBO = DependencyInjector.crearConsultaBO();
+    Mapper mapper = new Mapper();
 
     /**
      * Creates new form pantallaDatosConsulta1
@@ -294,7 +297,7 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
         } catch (PersistenciaException ex) {
             Logger.getLogger(pantallaDatosConsulta.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_btnGuardarCambiosMouseClicked
 
     private void btnFinalizarConsultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFinalizarConsultaMouseClicked
@@ -347,11 +350,11 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
                 return;
             }
             LocalDateTime fechaHora = LocalDateTime.now();
-
             CitaNuevoDTO citaFinal = framePrincipal.getCitaFinal();
+            Paciente paciente = citaFinal.getPaciente();
 
-            String folio = citaFinal.getFolio();
-            Cita cita = citaBO.consultarCitaPorFolio(folio);
+            Cita cita = citaBO.consultarCitaPorFechaYPaciente(paciente.getNombre(), paciente.getApellidoPaterno(), paciente.getApellidoMaterno(), citaFinal.getFechaHora());
+
             if (cita == null) {
                 JOptionPane.showMessageDialog(this, "No se encontró la cita con el folio proporcionado", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -362,16 +365,17 @@ public class pantallaDatosConsulta extends javax.swing.JPanel {
             ConsultaNuevaDTO consulta = new ConsultaNuevaDTO(cita, "Atendida", diagnostico, tratamiento, observaciones, fechaHora);
 
             if (consultaBO.agregarConsulta(consulta, cita)) {
-                
+
                 JOptionPane.showMessageDialog(this, "Consultada guardada correctamente");
             } else {
                 JOptionPane.showMessageDialog(this, "Error al agregar consulta");
             }
-        } catch (NegocioException | SQLException | PersistenciaException e) {
+        } catch (NegocioException | SQLException e) {
             JOptionPane.showMessageDialog(this, "Error al registrar consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace(); // Para depuración
         }
     }
+
     public void limpiarCampos() {
         inputNombrePaciente.setText("Nombre del paciente");
         inputDiagnostico.setText("Diagnostico del paciente");

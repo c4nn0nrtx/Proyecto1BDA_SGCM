@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 import Conexion.IConexionBD;
@@ -15,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -58,7 +56,7 @@ public class CitaDAO implements ICitaDAO {
 
             ps.setString(1, cita.getEstado());
             ps.setObject(2, cita.getFechaHora());
-            ps.setString(3, generarFolio());
+            ps.setString(3, "");
             ps.setString(4, cita.getTipo());
             ps.setInt(5, cita.getMedico().getUsuario().getIdUsuario());
             ps.setInt(6, cita.getPaciente().getUsuario().getIdUsuario());
@@ -532,7 +530,7 @@ public class CitaDAO implements ICitaDAO {
                 + "FROM CITAS c "
                 + "JOIN MEDICOS m ON c.idMedico = m.idMedico "
                 + "JOIN PACIENTES p ON c.idPaciente = p.idPaciente "
-                + "WHERE c.idPaciente = ?  AND c.tipo = 'programada'" 
+                + "WHERE c.idPaciente = ?  AND c.tipo = 'programada'"
                 + "AND c.ESTADO = 'programada'"
                 + "AND c.fechaHoraProgramada > NOW() "
                 + // Filtra solo citas futuras
@@ -654,19 +652,37 @@ public class CitaDAO implements ICitaDAO {
 
     @Override
     public boolean cancelarCita(int idCita) throws PersistenciaException {
-        String sql = "UPDATE Citas SET estado = 'Cancelada' WHERE idcita = ?";
+        String verificarSql = "SELECT fechaHoraProgramada FROM Citas WHERE idcita = ?";
+        String cancelarSql = "UPDATE Citas SET estado = 'Cancelada' WHERE idcita = ?";
 
-        try (Connection conn = this.conexionBD.crearConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = this.conexionBD.crearConexion(); PreparedStatement verificarStmt = conn.prepareStatement(verificarSql); PreparedStatement cancelarStmt = conn.prepareStatement(cancelarSql)) {
 
-            stmt.setInt(1, idCita);
-            int filasAfectadas = stmt.executeUpdate();
+            verificarStmt.setInt(1, idCita);
+            ResultSet rs = verificarStmt.executeQuery();
 
-            return filasAfectadas > 0;
+            if (rs.next()) {
+                Timestamp fechaCreacion = rs.getTimestamp("fechaHoraProgramada");
+                Timestamp ahora = new Timestamp(System.currentTimeMillis());
+
+                // Calculamos la diferencia en horas
+                long diferenciaHoras = (ahora.getTime() - fechaCreacion.getTime()) / (1000 * 60 * 60);
+
+                if (diferenciaHoras <= 24) {
+                    // Solo si está dentro de las 24 horas, se cancela
+                    cancelarStmt.setInt(1, idCita);
+                    int filasAfectadas = cancelarStmt.executeUpdate();
+                    return filasAfectadas > 0;
+                } else {
+                    return false; // No se puede cancelar porque pasó el tiempo permitido
+                }
+            }
+            return false; // No se encontró la cita
+
         } catch (SQLException e) {
             throw new PersistenciaException("Error al cancelar la cita: " + e.getMessage(), e);
         }
     }
-    
+
     @Override
     public Cita obtenerUltimaCitaEmergencia(int idPaciente) throws PersistenciaException {
         Cita ultimaCita = null;
@@ -679,7 +695,7 @@ public class CitaDAO implements ICitaDAO {
                 + "FROM CITAS c "
                 + "JOIN MEDICOS m ON c.idMedico = m.idMedico "
                 + "JOIN PACIENTES p ON c.idPaciente = p.idPaciente "
-                + "WHERE c.idPaciente = ?  AND c.tipo = 'emergencia'" 
+                + "WHERE c.idPaciente = ?  AND c.tipo = 'emergencia'"
                 + "AND c.ESTADO = 'programada'"
                 + "AND c.fechaHoraProgramada > NOW() "
                 + // Filtra solo citas futuras
@@ -756,24 +772,75 @@ public class CitaDAO implements ICitaDAO {
         }
         return cita;
     }
-    
+
     @Override
-    public boolean actualizarEstadoCita(int idCita) {
-        String consultaSQL = "UPDATE Citas SET estado = 'Atendida' WHERE idCita = ? ";
-        
-        try (Connection con = this.conexionBD.crearConexion(); 
-                PreparedStatement ps = con.prepareStatement(consultaSQL)) {
-            
-            
-            ps.setInt(1, idCita);
-            int filasAfectadas = ps.executeUpdate();
-            
-            return true;
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(CitaDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(CitaDAO.class.getName()).log(Level.SEVERE, null, ex);
+    public Cita consultarCitaPorFecha(String nombrePaciente, String apellidoPat, String apellidoMat, LocalDateTime fechaHora) throws PersistenciaException {
+        String sql = "SELECT c.idCita, c.estado, c.fechaHoraProgramada, c.folio, c.tipo, "
+                + "m.idMedico, m.nombre AS nombreMedico, m.apellidoPat AS apellidoPatMedico, "
+                + "m.apellidoMat AS apellidoMatMedico, m.cedulaProf, m.especialidad, "
+                + "p.idPaciente, p.nombre AS nombrePaciente, p.apellidoPat AS apellidoPatPaciente, "
+                + "p.apellidoMat AS apellidoMatPaciente, p.correo, p.fechaNac, p.telefono "
+                + "FROM CITAS c "
+                + "JOIN MEDICOS m ON c.idMedico = m.idMedico "
+                + "JOIN PACIENTES p ON c.idPaciente = p.idPaciente "
+                + "WHERE p.nombre = ? AND p.apellidoPat = ? AND p.apellidoMat = ? "
+                + "AND c.fechaHoraProgramada = ? "
+                + "LIMIT 1";  // Solo obtenemos una cita exacta
+
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setString(1, nombrePaciente);
+            stmt.setString(2, apellidoPat);
+            stmt.setString(3, apellidoMat);
+            stmt.setTimestamp(4, Timestamp.valueOf(fechaHora));  // Comparación exacta con fecha y hora
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Crear objeto Usuario para Medico
+                    Usuario usuarioMedico = new Usuario();
+                    usuarioMedico.setIdUsuario(rs.getInt("idMedico"));
+
+                    // Crear objeto Medico y asociarle el Usuario
+                    Medico medico = new Medico();
+                    medico.setUsuario(usuarioMedico);
+                    medico.setNombre(rs.getString("nombreMedico"));
+                    medico.setApellidoPaterno(rs.getString("apellidoPatMedico"));
+                    medico.setApellidoMaterno(rs.getString("apellidoMatMedico"));
+                    medico.setCedulaProfesional(rs.getString("cedulaProf"));
+                    medico.setEspecialidad(rs.getString("especialidad"));
+
+                    // Crear objeto Usuario para Paciente
+                    Usuario usuarioPaciente = new Usuario();
+                    usuarioPaciente.setIdUsuario(rs.getInt("idPaciente"));
+
+                    // Crear objeto Paciente y asociarle el Usuario
+                    Paciente pacienteEncontrado = new Paciente();
+                    pacienteEncontrado.setUsuario(usuarioPaciente);
+                    pacienteEncontrado.setNombre(rs.getString("nombrePaciente"));
+                    pacienteEncontrado.setApellidoPaterno(rs.getString("apellidoPatPaciente"));
+                    pacienteEncontrado.setApellidoMaterno(rs.getString("apellidoMatPaciente"));
+                    pacienteEncontrado.setCorreo(rs.getString("correo"));
+                    pacienteEncontrado.setFechaNacimiento(rs.getDate("fechaNac").toLocalDate());
+                    pacienteEncontrado.setTelefono(rs.getString("telefono"));
+
+                    // Crear objeto Cita
+                    Cita citaEncontrada = new Cita();
+                    citaEncontrada.setIdCita(rs.getInt("idCita"));
+                    citaEncontrada.setEstado(rs.getString("estado"));
+                    citaEncontrada.setFechaHora(rs.getTimestamp("fechaHoraProgramada").toLocalDateTime());
+                    citaEncontrada.setFolio(rs.getString("folio"));
+                    citaEncontrada.setTipo(rs.getString("tipo"));
+                    citaEncontrada.setMedico(medico);
+                    citaEncontrada.setPaciente(pacienteEncontrado);
+
+                    return citaEncontrada;
+                }
+            }
+        } catch (SQLException e) {
+            throw new PersistenciaException("Error al consultar la cita", e);
         }
-        return false;
+
+        return null;  // Si no hay cita, devuelve null
     }
+
 }

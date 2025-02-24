@@ -74,6 +74,7 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
         txtEmergencia.setText("Emergencia");
         add(txtEmergencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 340, 262, -1));
 
+        tblCitasProgramadas.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         tblCitasProgramadas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -100,6 +101,7 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
 
         add(pnlCitasProgramadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 70, 840, 270));
 
+        tblCitasEmergencia.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         tblCitasEmergencia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -306,10 +308,12 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
             button.addActionListener(e -> {
                 JOptionPane.showMessageDialog(button, "Iniciando cita en la fila " + selectedRow);
                 CitaNuevoDTO cita = (CitaNuevoDTO) citasLista[selectedRow];
-                framePrincipal.cambiarPanel("pantallaDatosConsulta");
                 framePrincipal.setCitaFinal(cita);
                 pantallaDatosConsulta horaEntrada = framePrincipal.getPantallaDatosConsulta();
                 horaEntrada.cargarHoraEntrada();
+                framePrincipal.cambiarPanel("pantallaDatosConsulta");
+                
+               
                 // Aquí puedes ejecutar la lógica para iniciar la cita
             });
         }

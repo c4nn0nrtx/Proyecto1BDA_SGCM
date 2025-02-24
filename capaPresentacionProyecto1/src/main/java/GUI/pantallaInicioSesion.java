@@ -199,6 +199,8 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
                     .addContainerGap(713, Short.MAX_VALUE)))
         );
 
+        inputUsuario.getAccessibleContext().setAccessibleName("");
+
         add(panelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 

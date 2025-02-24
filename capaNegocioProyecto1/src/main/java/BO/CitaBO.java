@@ -24,6 +24,7 @@ import static java.time.DayOfWeek.SUNDAY;
 import static java.time.DayOfWeek.THURSDAY;
 import static java.time.DayOfWeek.TUESDAY;
 import static java.time.DayOfWeek.WEDNESDAY;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -246,7 +247,8 @@ public class CitaBO {
 
         return citaString;
     }
-     public String obtenerUltimaCitaEmergencia(int idPaciente) throws PersistenciaException {
+
+    public String obtenerUltimaCitaEmergencia(int idPaciente) throws PersistenciaException {
         Cita cita = citaDAO.obtenerUltimaCitaEmergencia(idPaciente);
 
         if (cita == null) {
@@ -273,7 +275,7 @@ public class CitaBO {
 
         return citaString;
     }
-    
+
     public List<Cita> consultarCitasPacientes(Paciente paciente) throws PersistenciaException, NegocioException {
         if (paciente == null) {
             throw new NegocioException("El paciente no puede ser nulo");
@@ -289,27 +291,43 @@ public class CitaBO {
         return citasPacientes;
     }
 
-    public boolean cancelarCita(int idPaciente) throws NegocioException {
+    public Cita cancelarCita(int idPaciente) throws NegocioException {
         try {
             Cita cita = citaDAO.obtenerUltimaCita(idPaciente);
 
             if (cita == null) {
-                return false; // No hay citas futuras para cancelar
+                return null; // No hay citas para cancelar
             }
 
             boolean cancelada = citaDAO.cancelarCita(cita.getIdCita());
-            return cancelada;
+
+            if (cancelada) {
+                return null; // Se canceló correctamente
+            } else {
+                return cita; // No se pudo cancelar porque pasaron más de 24 horas
+            }
 
         } catch (PersistenciaException e) {
             throw new NegocioException("Error al cancelar la cita.", e);
         }
     }
-    public Cita consultarCitaPorFolio(String folio) throws NegocioException, SQLException, PersistenciaException{
+
+    public Cita consultarCitaPorFolio(String folio) throws NegocioException, SQLException, PersistenciaException {
         if (folio == null) {
             throw new NegocioException("El folio no puede ser nulo");
         }
-        
+
         Cita cita = citaDAO.consultarCitaPorFolio(folio);
         return cita;
     }
+
+    public Cita consultarCitaPorFechaYPaciente(String nombrePaciente, String apellidoPat, String apellidoMat, LocalDateTime fecha) {
+        try {
+            return citaDAO.consultarCitaPorFecha(nombrePaciente, apellidoPat, apellidoMat, fecha);
+        } catch (PersistenciaException ex) {
+            logger.log(Level.SEVERE, "Error, no se pudo encontrar la cita del paciente en la fecha especificada.", ex);
+        }
+        return null;
+    }
+
 }

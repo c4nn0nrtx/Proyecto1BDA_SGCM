@@ -324,11 +324,13 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         int idPaciente = framePrincipal.getUsuarioAutenticado().getIdUsuario();
 
         try {
-            boolean cancelada = citaBO.cancelarCita(idPaciente);
-            if (cancelada) {
+            Cita cita = citaBO.cancelarCita(idPaciente);
+
+            if (cita == null) {
                 JOptionPane.showMessageDialog(this, "Cita cancelada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "No tienes citas futuras para cancelar.", "Información", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "No puedes cancelar la cita porque han pasado más de 24 horas desde su creación.",
+                        "Información", JOptionPane.WARNING_MESSAGE);
             }
         } catch (NegocioException e) {
             JOptionPane.showMessageDialog(this, "Error al cancelar la cita: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

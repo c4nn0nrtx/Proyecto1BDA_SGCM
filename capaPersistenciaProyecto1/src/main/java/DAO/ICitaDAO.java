@@ -9,6 +9,8 @@ import Entidades.Horario_Medico;
 import Entidades.Paciente;
 import Exception.PersistenciaException;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -55,5 +57,6 @@ public interface ICitaDAO {
     
     public Cita consultarCitaPorFolio(String folio) throws SQLException, PersistenciaException;
     
-    public boolean actualizarEstadoCita(int idCita);
+    public Cita consultarCitaPorFecha(String nombrePaciente, String apellidoPat, String apellidoMat, LocalDateTime fechaHora) throws PersistenciaException;
+   
 }
