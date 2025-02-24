@@ -8,12 +8,12 @@ package GUI;
  *
  * @author brand
  */
-public class pantallaCitaEmergencia extends javax.swing.JPanel {
+public class pantallaInformacionCitaEmergencia extends javax.swing.JPanel {
 
     /**
      * Creates new form pantallaCitaEmergencia
      */
-    public pantallaCitaEmergencia() {
+    public pantallaInformacionCitaEmergencia() {
         initComponents();
     }
 
