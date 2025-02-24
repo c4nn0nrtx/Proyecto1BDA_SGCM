@@ -162,5 +162,7 @@ public class FramePrincipal extends javax.swing.JFrame {
     public pantallaDatosConsulta getPantallaDatosConsulta() {
         return pantallaDatosConsulta;
     }
-    
+    public pantallaTusConsultas getPantallaTusConsultas() {
+        return pantallaTusConsultas;
+    }
 }

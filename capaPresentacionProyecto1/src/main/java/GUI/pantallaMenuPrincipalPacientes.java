@@ -209,6 +209,16 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
 
     private void btnRegistrosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrosMouseClicked
         framePrincipal.cambiarPanel("pantallaTusConsultas");
+        pantallaTusConsultas consultas = framePrincipal.getPantallaTusConsultas();
+        try {
+            consultas.misConsultas();
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(pantallaMenuPrincipalPacientes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NegocioException ex) {
+            Logger.getLogger(pantallaMenuPrincipalPacientes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(pantallaMenuPrincipalPacientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnRegistrosMouseClicked
 
     private void btnPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPerfilMouseClicked

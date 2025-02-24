@@ -134,9 +134,9 @@ public class pantallaConsultasPacientes extends javax.swing.JPanel {
         framePrincipal.cambiarPanel("pantallaMedicosMenu");
         jTable1.setModel(new DefaultTableModel());
         jScrollPane1.setViewportView(jTable1);
-
         jScrollPane1.revalidate();
         jScrollPane1.repaint();
+        inputCelular.setText("");
     }//GEN-LAST:event_btnVolverMouseClicked
 
     private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed

@@ -4,6 +4,24 @@
  */
 package GUI;
 
+import BO.CitaBO;
+import BO.ConsultaBO;
+import BO.MedicoBO;
+import BO.PacienteBO;
+import DTO.ConsultaNuevaDTO;
+import DTO.MedicoNuevoDTO;
+import Entidades.Cita;
+import Entidades.Paciente;
+import Entidades.Usuario;
+import Exception.NegocioException;
+import Exception.PersistenciaException;
+import Mapper.Mapper;
+import configuracion.DependencyInjector;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Sebastian Moreno
@@ -13,8 +31,13 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
     /**
      * Creates new form pantallaTusConsultas
      */
+    private PacienteBO pacienteBO = DependencyInjector.crearPacienteBO();
+    private CitaBO citaBO = DependencyInjector.crearCitaBO();
+    private MedicoBO medicoBO = DependencyInjector.crearMedicoBO();
+    private ConsultaBO consultaBO = DependencyInjector.crearConsultaBO();
+    private Mapper mapper = new Mapper();
+    FramePrincipal framePrincipal;
     
-     private FramePrincipal framePrincipal;
     public pantallaTusConsultas(FramePrincipal frame) {
         this.framePrincipal = frame;
         initComponents();
@@ -55,6 +78,11 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
         add(txtSubTituloConsulta, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 120, -1, -1));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Medicina General", "Cardiólogo", "Nutricionista" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
         add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(74, 153, 250, -1));
 
         jTable1.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
@@ -119,6 +147,10 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
         framePrincipal.cambiarPanel("pantallaPacientes");
     }//GEN-LAST:event_btnVolverMouseClicked
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnVolver;
@@ -133,4 +165,56 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
     private javax.swing.JLabel txtSubTituloConsulta2;
     private javax.swing.JLabel txtSubTituloConsulta3;
     // End of variables declaration//GEN-END:variables
+    public void misConsultas() throws PersistenciaException, NegocioException, SQLException {
+        try{
+            Usuario usuario = framePrincipal.getUsuarioAutenticado();
+            int idPaciente = usuario.getIdUsuario();
+            
+            Paciente paciente = pacienteBO.buscarPacientePorID(idPaciente);
+            
+            List<Cita> citasPaciente = citaBO.consultarCitasPacientes(paciente);
+            if (citasPaciente.isEmpty()){
+                JOptionPane.showMessageDialog(this, "No se encontraron consultas de ese paciente.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            List<MedicoNuevoDTO> medicosDTO = new ArrayList<>();
+            List<ConsultaNuevaDTO> consultasNuevaDTO = new ArrayList<>();
+            
+            for (int i = 0; i < citasPaciente.size(); i++) {
+                Usuario usuarioConsulta = citasPaciente.get(i).getMedico().getUsuario();
+                medicosDTO.add(medicoBO.consultarMedico(usuarioConsulta));
+                consultasNuevaDTO.add(consultaBO.obtenerConsultasPaciente(citasPaciente.get(i)));
+            }
+            consultasNuevaDTO.removeIf(element -> element == null);
+            String[] columnas = {"PACIENTE", "MEDICO", "ESPECIALIDAD", "TRATAMIENTO", "NOTAS", "FECHA", "ESTADO"};
+
+            String[][] datos = new String[consultasNuevaDTO.size()][7];
+            String nombrePaciente = paciente.getNombre() + " " + paciente.getApellidoPaterno();
+            
+            for (int i = 0; i < consultasNuevaDTO.size(); i++) {
+                MedicoNuevoDTO medicoNuevo = medicosDTO.get(i);
+                ConsultaNuevaDTO consultaNueva = consultasNuevaDTO.get(i);
+                String nombreMedico = "Dr. " + medicoNuevo.getNombre() + " " + " " + medicoNuevo.getApellidoPaterno();
+                if (consultaNueva != null) {
+                    datos[i][0] = nombrePaciente;
+                    datos[i][1] = nombreMedico;
+                    datos[i][2] = medicoNuevo.getEspecialidad();
+                    datos[i][3] = consultaNueva.getTratamiento();
+                    datos[i][4] = consultaNueva.getObservaciones();
+                    datos[i][5] = consultaNueva.getFechaHora().toString();
+                    datos[i][6] = consultaNueva.getEstado();
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se encontraron consultas de ese paciente.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            jTable1.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
+
+            jScrollPane1.setViewportView(jTable1);
+
+            jScrollPane1.revalidate();
+            jScrollPane1.repaint();
+        } catch (PersistenciaException | NegocioException | SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al obtener las consultas: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }
