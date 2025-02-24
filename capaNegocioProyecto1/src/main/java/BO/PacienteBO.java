@@ -18,7 +18,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Esta clase representa un Paciente con logica de negocio.
+ * Clase de negocio para gestionar pacientes. Esta clase contiene la lógica de
+ * negocio para agregar, buscar y actualizar pacientes, incluyendo la gestión de
+ * usuario y dirección asociada.
  *
  * @author brand
  */
@@ -32,10 +34,9 @@ public class PacienteBO {
     Mapper mapper = new Mapper();
 
     /**
-     * Constructor que inicializa la conexion a la base de datos de:
-     * paciente,usuario y direcciones.
+     * Constructor de la clase PacienteBO.
      *
-     * @param conexion
+     * @param conexion La conexión a la base de datos.
      */
     public PacienteBO(IConexionBD conexion) {
         this.pacienteDAO = new PacienteDAO(conexion);
@@ -45,16 +46,17 @@ public class PacienteBO {
     }
 
     /**
-     * Agrega un paciente sincronizado. Contiene una transaccion para agregar al
-     * usuario,direccion y paciente en ese orden.
+     * Agrega un nuevo paciente, incluyendo usuario y dirección. Realiza una
+     * transacción para asegurar la consistencia de los datos.
      *
-     * @param pacienteNuevo El paciente a agregar
-     * @param usuarioNuevo El usuario a agregar
-     * @param direccionNueva La direccion a agregar
-     * @return Verdadero en caso de haber cumplido las validaciones y haberse
-     * agregado.
-     * @throws NegocioException si existe alguna validacion.
-     * @throws SQLException si existe un error de sql
+     * @param pacienteNuevo Los datos del paciente (DTO).
+     * @param usuarioNuevo Los datos del usuario (DTO).
+     * @param direccionNueva Los datos de la dirección (DTO).
+     * @return true si el paciente se agregó correctamente, false en caso
+     * contrario.
+     * @throws NegocioException Si hay un error en la lógica de negocio, como
+     * datos inválidos.
+     * @throws SQLException Si hay un error en la base de datos.
      */
     public boolean agregarPaciente(PacienteNuevoDTO pacienteNuevo, UsuarioNuevoDTO usuarioNuevo, Direccion_PacienteNuevaDTO direccionNueva) throws NegocioException, SQLException {
         if (pacienteNuevo == null) {
@@ -90,11 +92,13 @@ public class PacienteBO {
         }
         return false;
     }
+
     /**
-     * Busca un paciente por su id
-     * @param id
-     * @return Objeto paciente con direccion y usuario.
-     * @throws PersistenciaException 
+     * Busca un paciente por su ID.
+     *
+     * @param id El ID del paciente.
+     * @return El paciente encontrado (entidad), o null si no se encuentra.
+     * @throws PersistenciaException Si hay un error en la base de datos.
      */
     public Paciente buscarPacientePorID(int id) throws PersistenciaException {
         try {
@@ -110,20 +114,27 @@ public class PacienteBO {
         }
         return null; // Devuelve null si el paciente no se encuentra
     }
+
     /**
-     * Actualiza los atributos de un paciente
-     * @param id el id del paciente a actualizar
-     * @param pacienteNuevo el paciente con el usuario y Direccion
-     * @return el paciente Nuevo Actualizado
-     * @throws PersistenciaException
-     * @throws NegocioException 
+     * Actualiza los datos de un paciente.
+     *
+     * @param id El ID del paciente a actualizar.
+     * @param pacienteNuevo Los datos actualizados del paciente (DTO).
+     * @return El paciente actualizado (entidad).
+     * @throws PersistenciaException Si hay un error en la base de datos.
+     * @throws NegocioException Si hay un error en la lógica de negocio.
      */
     public Paciente actualizarPaciente(int id, PacienteNuevoDTO pacienteNuevo) throws PersistenciaException, NegocioException { // FALTAN VERIFICACIONES PARA ANTES DE ACTUALIZAR
-
+        if (pacienteNuevo == null) {
+            throw new NegocioException("Los datos del paciente no pueden ser nulos.");
+        }
+        if (pacienteNuevo.getNombre() == null || pacienteNuevo.getNombre().isEmpty()) {
+            throw new NegocioException("El nombre del paciente no puede ser nulo o vacío.");
+        }
         Paciente paciente = mapper.DTOPacienteToEntity(pacienteNuevo);
         Paciente pacienteEncontrado = pacienteDAO.consultarPacientePorId(id);
         Direccion_Paciente direccionPaciente = new Direccion_Paciente(pacienteEncontrado.getDireccion().getIdDireccion(), pacienteNuevo.getDireccion().getCalle(), pacienteNuevo.getDireccion().getColonia(), pacienteNuevo.getDireccion().getCp(),
-                 pacienteNuevo.getDireccion().getNumero());
+                pacienteNuevo.getDireccion().getNumero());
 
         Direccion_Paciente dir = direccionBO.actualizarDireccionPaciente(direccionPaciente);
 
@@ -134,7 +145,14 @@ public class PacienteBO {
 
         return null;
     }
-    
+
+    /**
+     * Busca un paciente por su número de celular.
+     *
+     * @param celular El número de celular del paciente.
+     * @return El paciente encontrado (entidad), o null si no se encuentra.
+     * @throws PersistenciaException Si hay un error en la base de datos.
+     */
     public Paciente buscarPacientePorCelular(String celular) throws PersistenciaException {
         try {
             Paciente pacienteEncontrado = pacienteDAO.consultarPacientePorCelular(celular);

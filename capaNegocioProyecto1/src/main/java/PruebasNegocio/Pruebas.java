@@ -23,10 +23,15 @@ import java.util.List;
 public class Pruebas {
 
     /**
-     * @param args the command line arguments
      */
     public class ProximoDiaUtil {
 
+        /**
+         *
+         * @param args
+         * @throws NegocioException
+         * @throws SQLException
+         */
         public static void main(String[] args) throws NegocioException, SQLException {
             // TODO code application logic here
             IConexionBD conexionBD = new ConexionBD();

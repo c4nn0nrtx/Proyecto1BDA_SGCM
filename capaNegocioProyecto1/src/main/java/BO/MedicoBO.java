@@ -17,7 +17,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Esta clase representa un MedicoBO
+ * Clase de negocio para gestionar médicos. Esta clase contiene la lógica de
+ * negocio para consultar, obtener por especialidad, actualizar y obtener
+ * médicos con horario.
  *
  * @author Ramon Valencia
  */
@@ -28,11 +30,26 @@ public class MedicoBO {
     private final IConexionBD conexionBD;
     Mapper mapper = new Mapper();
 
+    /**
+     * Constructor de la clase MedicoBO.
+     *
+     * @param conexion La conexión a la base de datos.
+     */
     public MedicoBO(IConexionBD conexion) {
         this.conexionBD = conexion;
         this.medicoDAO = new MedicoDAO(conexion);
     }
 
+    /**
+     * Consulta un médico por su ID de usuario.
+     *
+     * @param usuario El usuario asociado al médico.
+     * @return Los datos del médico (DTO).
+     * @throws NegocioException Si hay un error en la lógica de negocio, como un
+     * usuario nulo.
+     * @throws SQLException Si hay un error en la base de datos.
+     * @throws PersistenciaException Si hay un error en la base de datos.
+     */
     public MedicoNuevoDTO consultarMedico(Usuario usuario) throws NegocioException, SQLException, PersistenciaException {
         if (usuario == null) {
             throw new NegocioException("El usuario no puede ser nulo");
@@ -53,10 +70,19 @@ public class MedicoBO {
         return null;
     }
 
+    /**
+     * Obtiene una lista de médicos por especialidad.
+     *
+     * @param especialidad La especialidad de los médicos.
+     * @return Una lista de médicos (DTOs).
+     * @throws PersistenciaException Si hay un error en la base de datos.
+     * @throws NegocioException Si hay un error en la lógica de negocio, como
+     * una especialidad nula.
+     */
     public List<MedicoNuevoDTO> obtenerPorEspecialidad(String especialidad) throws PersistenciaException, NegocioException {
 
-        if (especialidad == null) {
-            throw new NegocioException("La especialidad no puede ser nula.");
+        if (especialidad == null || especialidad.isEmpty()) {
+            throw new NegocioException("La especialidad no puede ser nula o vacía.");
         }
 
         Connection con = null;
@@ -79,9 +105,22 @@ public class MedicoBO {
         return null;
     }
 
+    /**
+     * Actualiza el estado de un médico.
+     *
+     * @param medicoNuevo Los datos del médico a actualizar (DTO).
+     * @param estado El nuevo estado del médico.
+     * @return true si el estado se actualizó correctamente, false en caso contrario.
+     * @throws PersistenciaException Si hay un error en la base de datos.
+     * @throws NegocioException Si hay un error en la lógica de negocio, como un
+     * médico nulo o un estado igual al actual.
+     */
     public boolean actualizarMedico(MedicoNuevoDTO medicoNuevo, String estado) throws PersistenciaException, NegocioException {
         if (medicoNuevo == null) {
             throw new NegocioException("El medico no puede ser nulo");
+        }
+        if (estado == null || estado.isEmpty()) {
+            throw new NegocioException("El estado no puede ser nulo o vacío.");
         }
         if (estado == medicoNuevo.getEstado()) {
             logger.log(Level.SEVERE, "El estado ya se encuentra: " + estado);
@@ -102,15 +141,23 @@ public class MedicoBO {
         return false;
     }
 
+    /**
+     * Obtiene una lista de médicos con horario asignado.
+     *
+     * @return Una lista de médicos (entidades).
+     * @throws SQLException     Si hay un error en la base de datos.
+     * @throws PersistenciaException Si hay un error en la base de datos.
+     */
     public List<Medico> obtenerMedicosConHorario() throws SQLException, PersistenciaException {
         return medicoDAO.obtenerMedicosConHorario();
     }
+
     /**
-     * Obtiene un medico por su nombre Completo
-     * LLama a su metodo DAO.
-     * @param nombreCompleto
-     * @return Un medicoNuevoDTO
-     * @throws NegocioException 
+     * Obtiene un médico por su nombre completo.
+     *
+     * @param nombreCompleto El nombre completo del médico.
+     * @return Los datos del médico (DTO), o null si no se encuentra.
+     * @throws NegocioException Si hay un error en la lógica de negocio.
      */
     public MedicoNuevoDTO obtenerMedicoPorNombre(String nombreCompleto) throws NegocioException {
         try {

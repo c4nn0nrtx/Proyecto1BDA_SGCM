@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package BO;
 
 import Conexion.IConexionBD;
@@ -26,10 +22,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Clase de negocio para gestionar horarios de médicos. Esta clase contiene la
+ * lógica de negocio para obtener los horarios de los médicos.
  *
  * @author PC
  */
 public class HorarioMedicoBO {
+
     private static final Logger logger = Logger.getLogger(HorarioMedicoBO.class.getName());
     private final IMedicoDAO medicoDAO;
     private final IHorarioDAO horarioDAO;
@@ -37,39 +36,53 @@ public class HorarioMedicoBO {
     private final IConexionBD conexionBD;
     Mapper mapper = new Mapper();
 
-    
+    /**
+     * Constructor de la clase HorarioMedicoBO.
+     *
+     * @param conexion La conexión a la base de datos.
+     */
     public HorarioMedicoBO(IConexionBD conexion) {
         this.conexionBD = conexion;
         this.medicoDAO = new MedicoDAO(conexion);
         this.horarioDAO = new HorarioDAO(conexion);
         this.horarioMedicoDAO = new HorarioMedicoDAO(conexion);
-        
+
     }
-    
+
+    /**
+     * Obtiene los horarios de los médicos.
+     *
+     * @return Una lista de horarios de médicos (DTOs).
+     * @throws NegocioException Si hay un error en la lógica de negocio.
+     * @throws SQLException Si hay un error en la base de datos.
+     */
     public List<HorarioMedicoNuevoDTO> obtenerHorariosMedicos() throws NegocioException, SQLException {
         Connection con = null;
-        
+
         try {
             con = this.conexionBD.crearConexion();
-            
+
             List<Horario_Medico> horariosMedicos = horarioMedicoDAO.obtenerHorariosMedicos();
             int i = 0;
             List<HorarioMedicoNuevoDTO> horariosMedicosDTO = new ArrayList<>();
-            while(i < horariosMedicos.size()){
-                if (horarioMedicoDAO.consultarHorariosDisponibles(horariosMedicos.get(i))){
+            while (i < horariosMedicos.size()) {
+                if (horarioMedicoDAO.consultarHorariosDisponibles(horariosMedicos.get(i))) {
                     HorarioMedicoNuevoDTO horarioMedicoNuevoDTO = mapper.Horario_MedicoToNuevoDTO(horariosMedicos.get(i));
 
                     horariosMedicosDTO.add(horarioMedicoNuevoDTO);
-                                      
+
                 }
-                i++;  
+                i++;
 
             }
             return horariosMedicosDTO;
         } catch (PersistenciaException ex) {
-            logger.log(Level.SEVERE, "Error, No se pudieron encontrar al medico. Intenta de nuevo.", ex);
+            logger.log(Level.SEVERE, "Error al obtener los horarios de los médicos.", ex);
+            throw new NegocioException("Error al obtener los horarios de los médicos.", ex); // Re-lanza como NegocioException
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Error en la base de datos al obtener los horarios de los médicos.", ex);
+            throw ex; // Re-lanza la excepción SQL
         }
-        return null;
     }
-    
+
 }

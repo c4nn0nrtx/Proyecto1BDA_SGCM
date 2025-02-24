@@ -16,7 +16,8 @@ import Exception.PersistenciaException;
 import java.util.logging.Level;
 
 /**
- * Esta clase representa los metodos de negocio de un Usuario.
+ * Clase de negocio para gestionar usuarios. Esta clase contiene la lógica de
+ * negocio para agregar, autenticar y verificar el rol de un usuario.
  *
  * @author Sebastian Moreno
  */
@@ -27,40 +28,40 @@ public class UsuarioBO {
     Mapper mapper = new Mapper();
 
     /**
-     * Constructor que inicializa la conexion
-     * @param conexion
+     * Constructor de la clase UsuarioBO.
+     *
+     * @param conexion La conexión a la base de datos.
      */
     public UsuarioBO(IConexionBD conexion) {
         this.usuarioDAO = new UsuarioDAO(conexion);
 
     }
+
     /**
-     * Agrega un usuario dado utilizando los DAO.
-     * Tiene las validaciones necesarias.
-     * @param usuario
-     * @return el usuario agregado
-     * @throws NegocioException 
+     * Agrega un nuevo usuario. Valida los datos del usuario, incluyendo el
+     * formato del nombre de usuario y la contraseña, y verifica si el nombre de
+     * usuario ya existe. Luego, guarda el usuario en la base de datos.
+     *
+     * @param usuario Los datos del nuevo usuario (DTO).
+     * @return El usuario agregado (entidad).
+     * @throws NegocioException Si hay un error en la lógica de negocio, como
+     * datos inválidos o un nombre de usuario duplicado.
      */
     public Usuario agregarUsuario(UsuarioNuevoDTO usuario) throws NegocioException {
+        // Validaciones
         if (usuario == null) {
-            throw new NegocioException("Los datos del usuario, paciente y dirección no pueden ser nulos.");
+            throw new NegocioException("Los datos del usuario no pueden ser nulos.");
         }
-
-        // verificar que los campos obligatorios no estén vacíos
-        if (usuario.getUsuario().isEmpty() || usuario.getContrasenha().isEmpty()) {
-            throw new NegocioException("Todos los campos son obligatorios.");
+        if (usuario.getUsuario() == null || usuario.getUsuario().isEmpty()
+                || usuario.getContrasenha() == null || usuario.getContrasenha().isEmpty()) {
+            throw new NegocioException("El nombre de usuario y la contraseña son obligatorios.");
         }
-
-        // Validar longitud de usuario y contraseña
         if (usuario.getUsuario().length() < 3 || usuario.getUsuario().length() > 20) {
             throw new NegocioException("El nombre de usuario debe tener entre 3 y 20 caracteres.");
         }
-
         if (usuario.getContrasenha().length() < 8 || usuario.getContrasenha().length() > 50) {
             throw new NegocioException("La contraseña debe tener entre 8 y 50 caracteres.");
         }
-
-        // Validar que la contraseña contenga al menos una letra y un número
         if (!usuario.getContrasenha().matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")) {
             throw new NegocioException("La contraseña debe contener al menos una letra y un número.");
         }
@@ -82,22 +83,26 @@ public class UsuarioBO {
             throw new NegocioException("Hubo un error al guardar el paciente", ex);
         }
     }
+
     /**
-     * Autentica un usuario para verificar credenciales
-     * Contiene validaciones necesarias
-     * @param usuarioNuevo
-     * @return Verdadero si las credenciales son correctas.
-     * @throws NegocioException 
+     * Autentica un usuario. Verifica las credenciales del usuario (nombre de
+     * usuario y contraseña).
+     *
+     * @param usuarioNuevo Los datos del usuario para autenticar (DTO).
+     * @return El usuario autenticado (entidad) si las credenciales son
+     * correctas, null en caso contrario.
+     * @throws NegocioException Si hay un error en la lógica de negocio o las
+     * credenciales son incorrectas.
      */
     public Usuario autenticarUsuario(UsuarioNuevoDTO usuarioNuevo) throws NegocioException {
         if (usuarioNuevo == null) {
             throw new NegocioException("El usuario no puede ser nulo");
         }
-
-        if (usuarioNuevo.getUsuario().isEmpty() || usuarioNuevo.getContrasenha().isEmpty()) {
-            throw new NegocioException("Todos los campos son obligatorios.");
+        if (usuarioNuevo.getUsuario() == null || usuarioNuevo.getUsuario().isEmpty()
+                || usuarioNuevo.getContrasenha() == null || usuarioNuevo.getContrasenha().isEmpty()) {
+            throw new NegocioException("El nombre de usuario y la contraseña son obligatorios.");
         }
-
+        
         Usuario usuario;
         try {
             usuario = mapper.DTOUsuarioToEntity(usuarioNuevo);
@@ -115,7 +120,15 @@ public class UsuarioBO {
             throw new NegocioException("Contraseña incorrecta", ex);
         }
     }
-     public boolean esMedico(int idUsuario) throws PersistenciaException {
+
+   /**
+     * Verifica si un usuario es médico.
+     *
+     * @param idUsuario El ID del usuario.
+     * @return true si el usuario es médico, false en caso contrario.
+     * @throws PersistenciaException Si hay un error en la base de datos.
+     */
+    public boolean esMedico(int idUsuario) throws PersistenciaException {
         return usuarioDAO.esMedico(idUsuario);
     }
 

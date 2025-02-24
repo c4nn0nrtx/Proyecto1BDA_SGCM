@@ -15,30 +15,58 @@ public class HorarioMedicoNuevoDTO {
     private Medico medico;
     private Horario horario;
 
+    /**
+     *
+     */
     public HorarioMedicoNuevoDTO() {
     }
 
+    /**
+     *
+     * @param medico
+     * @param horario
+     */
     public HorarioMedicoNuevoDTO(Medico medico, Horario horario) {
         this.medico = medico;
         this.horario = horario;
     }
 
+    /**
+     *
+     * @return
+     */
     public Medico getMedico() {
         return medico;
     }
 
+    /**
+     *
+     * @param medico
+     */
     public void setMedico(Medico medico) {
         this.medico = medico;
     }
 
+    /**
+     *
+     * @return
+     */
     public Horario getHorario() {
         return horario;
     }
 
+    /**
+     *
+     * @param horario
+     */
     public void setHorario(Horario horario) {
         this.horario = horario;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "HorarioMedicoNuevoDTO{" + "medico=" + medico + ", horario=" + horario + '}';

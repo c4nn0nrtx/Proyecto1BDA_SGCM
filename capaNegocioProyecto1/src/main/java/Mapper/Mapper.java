@@ -18,13 +18,20 @@ import Entidades.Usuario;
 import java.time.LocalDateTime;
 
 /**
+ * Clase Mapper para convertir entre DTOs y entidades.
+ * Esta clase contiene métodos para convertir objetos DTO (Data Transfer Object)
+ * a entidades de la base de datos y viceversa. Esto facilita la transferencia
+ * de datos entre las capas de la aplicación y la persistencia de datos.
  *
  * @author Sebastian Moreno
  */
 public class Mapper {
 
     /**
-     * Convierte un UsuarioNuevoDTO a una entidad Usuario
+     * Convierte un UsuarioNuevoDTO a una entidad Usuario.
+     *
+     * @param usuarioNuevo El DTO de usuario.
+     * @return La entidad Usuario correspondiente, o null si el DTO es null.
      */
     public Usuario DTOUsuarioToEntity(UsuarioNuevoDTO usuarioNuevo) {
         if (usuarioNuevo == null) {
@@ -37,7 +44,10 @@ public class Mapper {
     }
 
     /**
-     * Convierte una entidad Usuario a un UsuarioNuevoDTO
+     * Convierte una entidad Usuario a un UsuarioNuevoDTO.
+     *
+     * @param usuario La entidad Usuario.
+     * @return El DTO de usuario correspondiente, o null si la entidad es null.
      */
     public UsuarioNuevoDTO UsuarioToNuevoDTO(Usuario usuario) {
         if (usuario == null) {
@@ -50,7 +60,10 @@ public class Mapper {
     }
 
     /**
-     * Convierte un UsuarioNuevoDTO a una entidad Usuario
+     * Convierte un PacienteNuevoDTO a una entidad Paciente.
+     *
+     * @param pacienteNuevo El DTO de paciente.
+     * @return La entidad Paciente correspondiente, o null si el DTO es null.
      */
     public Paciente DTOPacienteToEntity(PacienteNuevoDTO pacienteNuevo) {
         if (pacienteNuevo == null) {
@@ -69,7 +82,10 @@ public class Mapper {
     }
 
     /**
-     * Convierte una entidad Usuario a un UsuarioNuevoDTO
+     * Convierte una entidad Paciente a un PacienteNuevoDTO.
+     *
+     * @param paciente La entidad Paciente.
+     * @return El DTO de paciente correspondiente, o null si la entidad es null.
      */
     public PacienteNuevoDTO PacienteToNuevoDTO(Paciente paciente) {
         if (paciente == null) {
@@ -88,7 +104,10 @@ public class Mapper {
     }
 
     /**
-     * Conviere una DireccionDTO a una entidad.
+     * Convierte un Direccion_PacienteNuevaDTO a una entidad Direccion_Paciente.
+     *
+     * @param direccionNueva El DTO de dirección.
+     * @return La entidad Direccion_Paciente correspondiente, o null si el DTO es null.
      */
     public Direccion_Paciente DTODireccion_PacienteToEntity(Direccion_PacienteNuevaDTO direccionNueva) {
         if (direccionNueva == null) {
@@ -103,7 +122,10 @@ public class Mapper {
     }
 
     /**
-     * Convierte una entidad a una DireccionDTO.
+     * Convierte una entidad Direccion_Paciente a un Direccion_PacienteNuevaDTO.
+     *
+     * @param direccion La entidad Direccion_Paciente.
+     * @return El DTO de dirección correspondiente, o null si la entidad es null.
      */
     public Direccion_PacienteNuevaDTO Direccion_PacienteToNuevaDTO(Direccion_Paciente direccion) {
         if (direccion == null) {
@@ -117,8 +139,11 @@ public class Mapper {
         );
     }
     
-    /**
-     * Convierte una CitaDTO a una entidad.
+   /**
+     * Convierte un CitaNuevoDTO a una entidad Cita.
+     *
+     * @param citaNueva El DTO de cita.
+     * @return La entidad Cita correspondiente, o null si el DTO es null.
      */
     public Cita DTOCitaToEntity(CitaNuevoDTO citaNueva) {
         if (citaNueva == null) {
@@ -135,7 +160,10 @@ public class Mapper {
     }
     
     /**
-     * Convierte una entidad a una CitaDTO.
+     * Convierte una entidad Cita a un CitaNuevoDTO.
+     *
+     * @param cita La entidad Cita.
+     * @return El DTO de cita correspondiente, o null si la entidad es null.
      */
     public CitaNuevoDTO CitaToNuevaDTO(Cita cita) {
         if (cita == null) {
@@ -152,7 +180,10 @@ public class Mapper {
     }
     
     /**
-     * Convierte una ConsultaNuevaDTO a una entidad.
+     * Convierte una ConsultaNuevaDTO a una entidad Consulta.
+     *
+     * @param consultaNueva El DTO de consulta.
+     * @return La entidad Consulta correspondiente, o null si el DTO es null.
      */
     public Consulta DTOConsultaToEntity(ConsultaNuevaDTO consultaNueva) {
         if (consultaNueva == null) {
@@ -169,7 +200,10 @@ public class Mapper {
     }
     
     /**
-     * Convierte una entidad a una CoonsultaDTO.
+     * Convierte una entidad Consulta a una ConsultaNuevaDTO.
+     *
+     * @param consulta La entidad Consulta.
+     * @return El DTO de consulta correspondiente, o null si la entidad es null.
      */
     public ConsultaNuevaDTO ConsultaToNuevaDTO(Consulta consulta) {
         if (consulta == null) {
@@ -184,6 +218,13 @@ public class Mapper {
                 consulta.getFechaHora()
         );
     }
+
+    /**
+     * Convierte un MedicoNuevoDTO a una entidad Medico.
+     *
+     * @param medicoNuevo El DTO de médico.
+     * @return La entidad Medico correspondiente, o null si el DTO es null.
+     */
     public Medico DTOMedicoToEntity(MedicoNuevoDTO medicoNuevo) {
         if (medicoNuevo == null) {
             return null;
@@ -198,6 +239,13 @@ public class Mapper {
                 medicoNuevo.getEstado()
         );
     }
+
+    /**
+     * Convierte una entidad Medico a un MedicoNuevoDTO.
+     *
+     * @param medico La entidad Medico.
+     * @return El DTO de médico correspondiente, o null si la entidad es null.
+     */
     public MedicoNuevoDTO MedicoToNuevoDTO(Medico medico) {
         if (medico == null) {
             return null;
@@ -212,6 +260,13 @@ public class Mapper {
                 medico.getEstado()
         );
     }
+
+    /**
+     * Convierte un HorarioMedicoNuevoDTO a una entidad Horario_Medico.
+     *
+     * @param horMedNuevo El DTO de horario médico.
+     * @return La entidad Horario_Medico correspondiente, o null si el DTO es null.
+     */
     public Horario_Medico DTOHorMedToEntity(HorarioMedicoNuevoDTO horMedNuevo) {
         if (horMedNuevo == null) {
             return null;
@@ -221,6 +276,13 @@ public class Mapper {
                 horMedNuevo.getMedico()
         );
     }
+
+    /**
+     * Convierte una entidad Horario_Medico a un HorarioMedicoNuevoDTO.
+     *
+     * @param horMed La entidad Horario_Medico.
+     * @return El DTO de horario médico correspondiente, o null si la entidad es null.
+     */
     public HorarioMedicoNuevoDTO Horario_MedicoToNuevoDTO(Horario_Medico horMed) {
         if  (horMed == null) {
             return null;

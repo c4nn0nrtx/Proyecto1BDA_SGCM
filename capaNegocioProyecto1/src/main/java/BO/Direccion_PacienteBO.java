@@ -12,7 +12,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Representa una clase de Direccion con logica de Negocio.
+ * Clase de negocio para gestionar las direcciones de pacientes.
+ * Esta clase contiene la lógica de negocio para agregar y actualizar direcciones de pacientes.
  *
  * @author PC
  */
@@ -24,25 +25,37 @@ public class Direccion_PacienteBO {
     Mapper mapper = new Mapper();
 
     /**
-     * Inicializa la conexion en el constructor.
+     * Constructor de la clase Direccion_PacienteBO.
      *
-     * @param conexion
+     * @param conexion La conexión a la base de datos.
      */
     public Direccion_PacienteBO(IConexionBD conexion) {
         this.direccionPacienteDAO = new Direccion_PacienteDAO(conexion);
         this.conexionBD = conexion;
     }
-    /**
-     * Metodo para agregar una nueva Direccion.
-     * @param direccionNueva
-     * @return la direccion creada
-     * @throws NegocioException 
+   /**
+     * Agrega una nueva dirección de paciente.
+     * Valida los datos de la dirección y luego la guarda en la base de datos.
+     *
+     * @param direccionNueva Los datos de la nueva dirección (DTO).
+     * @return La dirección creada (entidad).
+     * @throws NegocioException Si hay un error en la lógica de negocio, como datos inválidos.
      */
     public Direccion_Paciente agregarDireccionPaciente(Direccion_PacienteNuevaDTO direccionNueva) throws NegocioException {
+        // Validación
         if (direccionNueva == null) {
             throw new NegocioException("La dirección no puede ser nula.");
         }
-
+        if (direccionNueva.getCalle() == null || direccionNueva.getCalle().isEmpty()) {
+            throw new NegocioException("La calle no puede ser nula o vacía.");
+        }
+        if (direccionNueva.getNumero() == null || direccionNueva.getNumero().isEmpty()) {
+            throw new NegocioException("El número no puede ser nulo o vacío.");
+        }
+        if (direccionNueva.getColonia() == null || direccionNueva.getColonia().isEmpty()) {
+            throw new NegocioException("La colonia no puede ser nula o vacía.");
+        }
+  
         Direccion_Paciente direccionEntidad = mapper.DTODireccion_PacienteToEntity(direccionNueva);
 
         try {
@@ -57,9 +70,27 @@ public class Direccion_PacienteBO {
         }
     }
     
+    /**
+     * Actualiza una dirección de paciente.
+     * Valida los datos de la dirección y luego la actualiza en la base de datos.
+     *
+     * @param direccionNueva Los datos de la dirección actualizada (entidad).
+     * @return La dirección actualizada (entidad).
+     * @throws NegocioException Si hay un error en la lógica de negocio, como datos inválidos.
+     */
     public Direccion_Paciente actualizarDireccionPaciente(Direccion_Paciente direccionNueva)throws NegocioException{
-       if (direccionNueva == null) {
+       // Validación
+        if (direccionNueva == null) {
             throw new NegocioException("La dirección no puede ser nula.");
+        }
+        if (direccionNueva.getCalle() == null || direccionNueva.getCalle().isEmpty()) {
+            throw new NegocioException("La calle no puede ser nula o vacía.");
+        }
+        if (direccionNueva.getNumero() == null || direccionNueva.getNumero().isEmpty()) {
+            throw new NegocioException("El número no puede ser nulo o vacío.");
+        }
+        if (direccionNueva.getColonia() == null || direccionNueva.getColonia().isEmpty()) {
+            throw new NegocioException("La colonia no puede ser nula o vacía.");
         }
         
         try {
