@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package GUI;
 
 import BO.CitaBO;
@@ -21,6 +17,9 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
+ * Pantalla del menú principal para médicos. Permite a los médicos acceder a las
+ * funcionalidades de la aplicación, como consultar el historial de pacientes,
+ * agendar citas, cambiar su estado (activo/inactivo) y cerrar sesión.
  *
  * @author Sebastian Moreno
  */
@@ -36,6 +35,12 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
     private CitaBO citaBO = DependencyInjector.crearCitaBO();
     private FramePrincipal framePrincipal;
 
+    /**
+     * Constructor de la pantalla. Inicializa los componentes y establece el
+     * FramePrincipal.
+     *
+     * @param frame El FramePrincipal que contiene esta pantalla.
+     */
     public pantallaMedicosMenu(FramePrincipal frame) {
         this.framePrincipal = frame;
         initComponents();
@@ -265,10 +270,22 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
         add(txtStatusinicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 130, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Maneja el evento de clic en el botón "Cerrar Sesión". Navega a la
+     * pantalla de inicio de sesión.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnCerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarSesionMouseClicked
         framePrincipal.cambiarPanel("pantallaInicioSesion");
     }//GEN-LAST:event_btnCerrarSesionMouseClicked
 
+    /**
+     * Maneja el evento de clic en el botón "Médico Inactivo". Actualiza el
+     * estado del médico a inactivo previa confirmación.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnEstadoInactivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEstadoInactivoMouseClicked
         int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro de actualizar tu estado a inactivo?", "Confirmación", JOptionPane.YES_NO_OPTION);
 
@@ -288,6 +305,12 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnEstadoInactivoMouseClicked
 
+    /**
+     * Maneja el evento de clic en el botón "Médico Activo". Actualiza el estado
+     * del médico a activo previa confirmación.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnEstadoActivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEstadoActivoMouseClicked
         int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro de actualizar tu estado a activo?", "Confirmación", JOptionPane.YES_NO_OPTION);
 
@@ -307,6 +330,13 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnEstadoActivoMouseClicked
 
+    /**
+     * Maneja el evento de clic en el botón "Consultar Agenda". Navega a la
+     * pantalla de citas pendientes y carga las citas programadas y de
+     * emergencia.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnAgendarCitaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCitaMouseClicked
         framePrincipal.cambiarPanel("pantallaCitasPendientes");
         pantallaCitasPendientes citas = framePrincipal.getPantallaCitasPendientes();
@@ -321,6 +351,12 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
         citas.consultarCitasEmergencia();
     }//GEN-LAST:event_btnAgendarCitaMouseClicked
 
+    /**
+     * Maneja el evento de clic en el botón "Consultar Historial Paciente".
+     * Navega a la pantalla de consultas de pacientes.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnConsultarHistorialPacienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConsultarHistorialPacienteMouseClicked
         framePrincipal.cambiarPanel("pantallaConsultasPacientes");
     }//GEN-LAST:event_btnConsultarHistorialPacienteMouseClicked
@@ -344,7 +380,15 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
     private javax.swing.JLabel txtStatusinicial;
     private javax.swing.JLabel txtSubTitulo;
     // End of variables declaration//GEN-END:variables
-public void actualizarEstadoMedicoInactivo() throws NegocioException, SQLException, PersistenciaException {
+
+    /**
+     * Actualiza el estado del médico a inactivo en la base de datos.
+     *
+     * @throws NegocioException Si ocurre un error en la lógica de negocio.
+     * @throws SQLException Si ocurre un error al acceder a la base de datos.
+     * @throws PersistenciaException Si ocurre un error de persistencia.
+     */
+    public void actualizarEstadoMedicoInactivo() throws NegocioException, SQLException, PersistenciaException {
         Usuario usuarioAutenticado = framePrincipal.getUsuarioAutenticado();
 
         MedicoNuevoDTO medicoDTO = medicoBO.consultarMedico(usuarioAutenticado);
@@ -354,6 +398,13 @@ public void actualizarEstadoMedicoInactivo() throws NegocioException, SQLExcepti
         txtStatusinicial.setVisible(false);
     }
 
+    /**
+     * Actualiza el estado del médico a activo en la base de datos.
+     *
+     * @throws NegocioException Si ocurre un error en la lógica de negocio.
+     * @throws SQLException Si ocurre un error al acceder a la base de datos.
+     * @throws PersistenciaException Si ocurre un error de persistencia.
+     */
     public void actualizarEstadoMedicoActivo() throws NegocioException, SQLException, PersistenciaException {
         Usuario usuarioAutenticado = framePrincipal.getUsuarioAutenticado();
 
@@ -365,6 +416,13 @@ public void actualizarEstadoMedicoInactivo() throws NegocioException, SQLExcepti
 
     }
 
+    /**
+     * Consulta y muestra el estado actual del médico.
+     *
+     * @throws NegocioException Si ocurre un error en la lógica de negocio.
+     * @throws SQLException Si ocurre un error al acceder a la base de datos.
+     * @throws PersistenciaException Si ocurre un error de persistencia.
+     */
     public void consultarStatus() throws NegocioException, SQLException, PersistenciaException {
         Usuario usuarioAutenticado = framePrincipal.getUsuarioAutenticado();
 
@@ -383,7 +441,13 @@ public void actualizarEstadoMedicoInactivo() throws NegocioException, SQLExcepti
         }
 
     }
-    
+
+    /**
+     * Actualiza las citas en la base de datos.
+     *
+     * @throws SQLException Si ocurre un error al acceder a la base de datos.
+     * @throws PersistenciaException Si ocurre un error de persistencia.
+     */
     public void actualizarCitas() throws SQLException, PersistenciaException {
         citaBO.actualizarCita();
     }

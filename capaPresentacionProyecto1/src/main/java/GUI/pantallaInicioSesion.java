@@ -13,7 +13,9 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
- * Pantalla Inicio de Sesión.
+ * Pantalla Inicio de Sesión. Permite al usuario ingresar sus credenciales
+ * (usuario y contraseña) para iniciar sesión en la aplicación. Ofrece también
+ * la opción de registrarse si aún no tiene una cuenta.
  *
  * @author Sebastian Moreno
  */
@@ -24,8 +26,19 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
      * Creates new form pantallaInicioSesion
      */
     private FramePrincipal framePrincipal;
+
+    /**
+     * Usuario global que se utiliza para almacenar la información del usuario
+     * que ha iniciado sesión.
+     */
     public Usuario usuarioGlobal;
 
+    /**
+     * Constructor de la pantalla. Inicializa los componentes y establece el
+     * FramePrincipal.
+     *
+     * @param frame El FramePrincipal que contiene esta pantalla.
+     */
     public pantallaInicioSesion(FramePrincipal frame) {
         this.framePrincipal = frame;
         initComponents();
@@ -210,10 +223,22 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
         add(panelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Maneja el evento de clic en el botón "Registrate". Navega a la pantalla
+     * de registro.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnRegistrateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrateMouseClicked
         framePrincipal.cambiarPanel("pantallaRegistro");
     }//GEN-LAST:event_btnRegistrateMouseClicked
 
+    /**
+     * Maneja el evento de tecla presionada en el campo de contraseña. Si se
+     * presiona la tecla Enter, intenta autenticar al usuario.
+     *
+     * @param evt El evento del teclado.
+     */
     private void inputContraseñaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputContraseñaKeyPressed
 
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
@@ -225,22 +250,52 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_inputContraseñaKeyPressed
 
+    /**
+     * Maneja el evento de mouseEntered en el botón "Iniciar Sesión". Cambia el
+     * color de fondo del botón a gris claro.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnIniciarSesionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIniciarSesionMouseEntered
         pnlBotonInicioSesion.setBackground(Color.lightGray);
     }//GEN-LAST:event_btnIniciarSesionMouseEntered
 
+    /**
+     * Maneja el evento de mouseExited en el botón "Iniciar Sesión". Restaura el
+     * color de fondo del botón a negro.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnIniciarSesionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIniciarSesionMouseExited
         pnlBotonInicioSesion.setBackground(Color.black);
     }//GEN-LAST:event_btnIniciarSesionMouseExited
 
+    /**
+     * Maneja el evento de mouseEntered en el botón "Registrate". Cambia el
+     * color de fondo del botón a gris claro.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnRegistrateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrateMouseEntered
         pnlBotonRegistrate.setBackground(Color.lightGray);
     }//GEN-LAST:event_btnRegistrateMouseEntered
 
+    /**
+     * Maneja el evento de mouseExited en el botón "Registrate". Restaura el
+     * color de fondo del botón a negro.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnRegistrateMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrateMouseExited
         pnlBotonRegistrate.setBackground(Color.black);
     }//GEN-LAST:event_btnRegistrateMouseExited
 
+    /**
+     * Maneja el evento de clic en el botón "Iniciar Sesión". Intenta autenticar
+     * al usuario.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnIniciarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIniciarSesionMouseClicked
         try {
             autenticarUsuario(); // Ahora este método se encarga de todo
@@ -248,18 +303,37 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
             Logger.getLogger(pantallaInicioSesion.class.getName()).log(Level.SEVERE, null, ex);
         }    }//GEN-LAST:event_btnIniciarSesionMouseClicked
 
+    /**
+     * Maneja el evento de foco ganado en el campo de usuario. Si el texto
+     * actual es el texto de marcador de posición, lo borra.
+     *
+     * @param evt El evento de foco.
+     */
     private void inputUsuarioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputUsuarioFocusGained
         if (inputUsuario.getText().equals("Introduce tu nombre de usuario")) {
             inputUsuario.setText("");
         }
     }//GEN-LAST:event_inputUsuarioFocusGained
 
+    /**
+     * Maneja el evento de foco perdido en el campo de usuario. Si el campo está
+     * vacío, restablece el texto de marcador de posición.
+     *
+     * @param evt El evento de foco.
+     */
     private void inputUsuarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputUsuarioFocusLost
         if (inputUsuario.getText().trim().isEmpty()) {
             inputUsuario.setText("Introduce tu nombre de usuario");
         }
     }//GEN-LAST:event_inputUsuarioFocusLost
 
+    /**
+     * Maneja el evento de foco ganado en el campo de contraseña. Si el texto
+     * actual es el texto de marcador de posición, lo borra y cambia el tipo de
+     * campo a password field para ocultar la contraseña.
+     *
+     * @param evt El evento de foco.
+     */
     private void inputContraseñaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputContraseñaFocusGained
         if (String.valueOf(inputContraseña.getPassword()).equals("Introduce una contraseña")) {
             inputContraseña.setText(""); // Cambia el carácter oculto de la contraseña
@@ -267,6 +341,12 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_inputContraseñaFocusGained
 
+    /**
+     * Maneja el evento de foco perdido en el campo de contraseña. Si el campo
+     * está vacío, restablece el texto de marcador de posición.
+     *
+     * @param evt El evento de foco.
+     */
     private void inputContraseñaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputContraseñaFocusLost
         if (inputUsuario.getText().trim().isEmpty()) {
             inputUsuario.setText("Introduce una contraseña");
@@ -289,6 +369,13 @@ public class pantallaInicioSesion extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     //METODOS APOYO PARA INICIO DE SESION//
+    /**
+     * Autentica al usuario con las credenciales ingresadas.
+     *
+     * @throws PersistenciaException Si ocurre un error al acceder a la base de
+     * datos.
+     * @throws SQLException Si ocurre un error durante la autenticación.
+     */
     public void autenticarUsuario() throws PersistenciaException, SQLException {
         try {
             String nombreUsuario = inputUsuario.getText();

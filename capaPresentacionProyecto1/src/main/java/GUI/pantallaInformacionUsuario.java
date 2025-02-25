@@ -32,6 +32,11 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
     private FramePrincipal framePrincipal;
     pantallaInicioSesion pantalla = new pantallaInicioSesion(framePrincipal);
 
+    /**
+     * Constructor de la pantalla.
+     *
+     * @param frame El FramePrincipal que contiene esta pantalla.
+     */
     public pantallaInformacionUsuario(FramePrincipal frame) {
         this.framePrincipal = frame;
         selectorFechas = new JDateChooser();
@@ -269,6 +274,12 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         add(txtFecha1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 260, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Maneja el evento de clic en el botón "Cargar datos". Carga la información
+     * del paciente desde la base de datos y la muestra en los campos.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnRestablecerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRestablecerMouseClicked
         try {
             cargarPaciente();
@@ -277,6 +288,13 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnRestablecerMouseClicked
 
+    /**
+     * Maneja el evento de clic en el botón "Guardar Cambios". Valida los campos
+     * del formulario y, si son válidos, actualiza la información del paciente
+     * en la base de datos.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnGuardar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardar1MouseClicked
         try {
             if (validarCampos() == true) {
@@ -289,6 +307,12 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnGuardar1MouseClicked
 
+    /**
+     * Maneja el evento de clic en el botón "Volver". Regresa a la pantalla de
+     * pacientes.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnVolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseClicked
         framePrincipal.cambiarPanel("pantallaPacientes");
     }//GEN-LAST:event_btnVolverMouseClicked
@@ -327,6 +351,13 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
     private javax.swing.JLabel txtTituloPantalla;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Carga los datos del paciente desde la base de datos y los muestra en los
+     * campos.
+     *
+     * @throws PersistenciaException Si ocurre un error al acceder a la base de
+     * datos.
+     */
     public void cargarPaciente() throws PersistenciaException {
         Paciente pacienteConsultado = pacienteBO.buscarPacientePorID(framePrincipal.getUsuarioAutenticado().getIdUsuario());
 
@@ -352,6 +383,11 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Actualiza los datos del paciente en la base de datos.
+     *
+     * @throws NegocioException Si ocurre un error en la lógica de negocio.
+     */
     public void actualizarPaciente() throws NegocioException {
         try {
             // Obtener el ID del usuario autenticado
@@ -395,6 +431,12 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
 
     }
 
+    /**
+     * Valida los campos del formulario.
+     *
+     * @return true si todos los campos obligatorios son válidos, false en caso
+     * contrario.
+     */
     public boolean validarCampos() {
 
         if (!validarNombre()
@@ -426,6 +468,11 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
 
     }
 
+    /**
+     * Valida el campo de correo electrónico.
+     *
+     * @return true si el correo electrónico es válido, false en caso contrario.
+     */
     private boolean validarCorreo() {
         String correo = inputCorreo.getText();
         String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
@@ -436,6 +483,11 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         return true;
     }
 
+    /**
+     * Valida el campo de código postal.
+     *
+     * @return true si el código postal es válido, false en caso contrario.
+     */
     private boolean validarCodigoPostal() {
         String cpTexto = inputCodigoPostal.getText();
         try {
@@ -451,6 +503,11 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Valida el campo de número de teléfono.
+     *
+     * @return true si el número de teléfono es válido, false en caso contrario.
+     */
     private boolean validarTelefono() {
         String telefono = inputCelular.getText();
         String regex = "^[0-9]{10}$"; // EXACTAMENTE 10 dígitos
@@ -465,6 +522,11 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         return true;
     }
 
+    /**
+     * Valida el campo de nombre.
+     *
+     * @return true si el nombre es válido, false en caso contrario.
+     */
     private boolean validarNombre() {
         String nombre = inputNombre.getText();
         // Se establece un patrón el cual el nombre debe cumplir
@@ -486,6 +548,11 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         return true;
     }
 
+    /**
+     * Valida el campo de apellido paterno.
+     *
+     * @return true si el apellido paterno es válido, false en caso contrario.
+     */
     private boolean validarApellidoP() {
         String apellido = inputApellidoP.getText().trim(); // Eliminamos espacios en blanco
         String regex = "^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+$";
@@ -506,6 +573,12 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         return true;
     }
 
+    /**
+     * Valida el campo de apellido materno (opcional).
+     *
+     * @return true si el apellido materno es válido (o está vacío), false en
+     * caso contrario.
+     */
     private boolean validarApellidoM() {
         String apellido = inputApellidoM.getText();
         String regex = "^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+$";
@@ -516,6 +589,11 @@ public class pantallaInformacionUsuario extends javax.swing.JPanel {
         return true;
     }
 
+    /**
+     * Valida el campo de colonia.
+     *
+     * @return true si la colonia es válida, false en caso contrario.
+     */
     private boolean validarColonia() {
         String colonia = inputColonia.getText();
         String regex = "^[A-ZÁÉÍÓÚÑa-záéíóúñ0-9 ]+$"; // Permite letras, números y espacios

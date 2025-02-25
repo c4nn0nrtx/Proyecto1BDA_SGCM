@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package GUI;
 
 import BO.CitaBO;
@@ -18,17 +14,22 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 /**
+ * Pantalla para ingresar el folio de una consulta.
+ * Permite al usuario ingresar el folio y validar su corrección.
  *
  * @author Sebastian Moreno
  */
 public class pantallaFolio extends javax.swing.JPanel {
 
-    /**
-     * Creates new form pantallaFolio
-     */
-    FramePrincipal framePrincipal;
+        FramePrincipal framePrincipal;
     private CitaBO citaBO = DependencyInjector.crearCitaBO();
 
+    /**
+     * Constructor de la pantalla de folio.
+     * Inicializa los componentes, establece el FramePrincipal y quita el foco del campo de folio.
+     *
+     * @param frame El FramePrincipal que contiene esta pantalla.
+     */
     public pantallaFolio(FramePrincipal frame) {
         this.framePrincipal = frame;
         initComponents();
@@ -125,6 +126,12 @@ public class pantallaFolio extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_inputFolioActionPerformed
 
+    /**
+     * Maneja el evento de clic en el botón "Ingresar".
+     * Llama al método `validarFolio` para validar el folio ingresado.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnGuardarCambiosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarCambiosMouseClicked
         try {
             validarFolio();
@@ -135,10 +142,22 @@ public class pantallaFolio extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnGuardarCambiosMouseClicked
 
+    /**
+     * Maneja el evento de clic en el botón "Volver".
+     * Regresa a la pantalla de citas pendientes.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnVolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseClicked
         framePrincipal.cambiarPanel("pantallaCitasPendientes");
     }//GEN-LAST:event_btnVolverMouseClicked
 
+    /**
+     * Maneja el evento "focus gained" (obtener el foco) en el campo de folio.
+     * Si el texto actual es el marcador de posición, lo borra.
+     *
+     * @param evt El evento FocusEvent.
+     */
     private void inputFolioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputFolioFocusGained
         if (inputFolio.getText().equals("Ingrese el folio de la cita de emergencia")) {
             inputFolio.setText("");
@@ -146,6 +165,12 @@ public class pantallaFolio extends javax.swing.JPanel {
 
     }//GEN-LAST:event_inputFolioFocusGained
 
+    /**
+     * Maneja el evento "focus lost" (perder el foco) en el campo de folio.
+     * Si el campo está vacío, restablece el texto de marcador de posición.
+     *
+     * @param evt El evento FocusEvent.
+     */
     private void inputFolioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputFolioFocusLost
         if (inputFolio.getText().trim().isEmpty()) {
             inputFolio.setText("Ingrese el folio de la cita de emergencia");
@@ -162,6 +187,15 @@ public class pantallaFolio extends javax.swing.JPanel {
     private javax.swing.JLabel txtSubTitulo1;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Valida el folio ingresado por el usuario.
+     * Busca la cita correspondiente y verifica si el folio coincide.
+     * Si el folio es correcto, navega a la pantalla de datos de consulta.
+     *
+     * @return `true` si el folio es correcto, `false` si es incorrecto.
+     * @throws NegocioException     Si ocurre un error en la lógica de negocio.
+     * @throws PersistenciaException Si ocurre un error en la capa de persistencia.
+     */
     public boolean validarFolio() throws NegocioException, PersistenciaException {
         CitaNuevoDTO citaFinal = framePrincipal.getCitaFinal();
         System.out.println(citaFinal);

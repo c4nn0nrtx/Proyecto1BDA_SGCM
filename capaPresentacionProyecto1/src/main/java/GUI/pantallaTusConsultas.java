@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package GUI;
 
 import BO.CitaBO;
@@ -28,6 +24,8 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
+ * Pantalla que muestra las consultas del paciente. Permite al paciente ver sus
+ * citas, filtrarlas por especialidad y rango de fechas.
  *
  * @author Sebastian Moreno
  */
@@ -43,6 +41,12 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
     private Mapper mapper = new Mapper();
     FramePrincipal framePrincipal;
 
+    /**
+     * Constructor de la pantalla de consultas. Inicializa los componentes y
+     * establece el FramePrincipal.
+     *
+     * @param frame El FramePrincipal que contiene esta pantalla.
+     */
     public pantallaTusConsultas(FramePrincipal frame) {
         this.framePrincipal = frame;
         initComponents();
@@ -203,10 +207,22 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
         add(pnlBuscar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 50, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Maneja el evento de clic en el botón "Volver". Navega a la pantalla de
+     * pacientes.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnVolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseClicked
         framePrincipal.cambiarPanel("pantallaPacientes");
     }//GEN-LAST:event_btnVolverMouseClicked
 
+    /**
+     * Maneja el evento de selección en el JComboBox de especialidades. Filtra
+     * las consultas por la especialidad seleccionada.
+     *
+     * @param evt El evento de acción.
+     */
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         try {
             misConsultas();
@@ -227,6 +243,12 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
 
     }//GEN-LAST:event_selectorFinPropertyChange
 
+    /**
+     * Maneja el evento de clic en el botón "Buscar". Filtra las consultas por
+     * especialidad y rango de fechas.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnAgendarCita2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCita2MouseClicked
         try {
             misConsultas();
@@ -259,7 +281,17 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
     private javax.swing.JLabel txtSubTituloConsulta2;
     private javax.swing.JLabel txtSubTituloConsulta3;
     // End of variables declaration//GEN-END:variables
-   public void misConsultas() throws PersistenciaException, NegocioException, SQLException {
+
+    /**
+     * Consulta y muestra las consultas del paciente en la tabla. Permite
+     * filtrar las consultas por especialidad y rango de fechas.
+     *
+     * @throws PersistenciaException Si ocurre un error en la capa de
+     * persistencia.
+     * @throws NegocioException Si ocurre un error en la capa de negocio.
+     * @throws SQLException Si ocurre un error en la base de datos.
+     */
+    public void misConsultas() throws PersistenciaException, NegocioException, SQLException {
         try {
             Usuario usuario = framePrincipal.getUsuarioAutenticado();
             int idPaciente = usuario.getIdUsuario();
@@ -274,12 +306,12 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
 
             List<MedicoNuevoDTO> medicosDTO = new ArrayList<>();
             List<ConsultaNuevaDTO> consultasNuevaDTO = new ArrayList<>();
-            
+
             for (Cita cita : citasPaciente) {
                 Usuario usuarioConsulta = cita.getMedico().getUsuario();
-   
+
                 medicosDTO.add(medicoBO.consultarMedico(usuarioConsulta));
- 
+
                 consultasNuevaDTO.add(consultaBO.obtenerConsultasPaciente(cita));
 
             }
@@ -304,7 +336,7 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
             }
 
             // Definir las columnas de la tabla
-            String[] columnas = {"PACIENTE", "MEDICO", "ESPECIALIDAD", "DIAGNOSTICO" ,"TRATAMIENTO", "NOTAS", "FECHA", "ESTADO"};
+            String[] columnas = {"PACIENTE", "MEDICO", "ESPECIALIDAD", "DIAGNOSTICO", "TRATAMIENTO", "NOTAS", "FECHA", "ESTADO"};
 
             // Filtrar consultas por especialidad y rango de fechas
             List<String[]> datosFiltrados = new ArrayList<>();

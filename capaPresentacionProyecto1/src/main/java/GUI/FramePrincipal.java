@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import javax.swing.SwingUtilities;
 
 /**
- * Frame Principal Tiene un cardLayout para cambiar a todas las pantallas
+ * Frame Principal. Tiene un cardLayout para cambiar a todas las pantallas
  * necesarias.
  *
  * @author Sebastian Moreno
@@ -16,7 +16,7 @@ import javax.swing.SwingUtilities;
 public class FramePrincipal extends javax.swing.JFrame {
 
     private CardLayout cardLayout;
-    
+
     //Pantallas
     pantallaInicioSesion pantallaInicioSesion;
     pantallaRegistro pantallaRegistro;
@@ -32,10 +32,19 @@ public class FramePrincipal extends javax.swing.JFrame {
     pantallaInformacionCitaEmergencia pantallaInformacionCitaEmergencia;
     pantallaFolio pantallaFolio;
     //Pantallas
-    
+
     private Usuario usuarioAutenticado;
     private CitaNuevoDTO citaFinal;
 
+    /**
+     * Constructor del Frame Principal. Inicializa el frame, establece su
+     * tamaño, comportamiento al cerrar, ubicación y componentes.
+     *
+     * @throws NegocioException Si ocurre un error en la lógica de negocio
+     * durante la inicialización.
+     * @throws SQLException Si ocurre un error durante la inicialización de la
+     * base de datos.
+     */
     public FramePrincipal() throws NegocioException, SQLException {
         setTitle("Sistema clinica");
         setSize(1000, 700);
@@ -86,6 +95,14 @@ public class FramePrincipal extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     /* METODOS DE APOYO EN FRAME PRINCIPAL*/
+    /**
+     * Inicializa las pantallas y las agrega al CardLayout.
+     *
+     * @throws NegocioException Si ocurre un error en la lógica de negocio
+     * durante la inicialización de las pantallas.
+     * @throws SQLException Si ocurre un error durante la inicialización de las
+     * pantallas (ej. conexión a la BD).
+     */
     public void inicializarPantallas() throws NegocioException, SQLException {
         cardLayout = new CardLayout();
         panelPrincipal.setLayout(cardLayout);
@@ -109,62 +126,142 @@ public class FramePrincipal extends javax.swing.JFrame {
         panelPrincipal.add(pantallaInformacionUsuarios, "pantallaInformacionUsuarios");
         panelPrincipal.add(pantallaTusConsultas, "pantallaTusConsultas");
         panelPrincipal.add(pantallaMedicosMenu, "pantallaMedicosMenu");
-        panelPrincipal.add(pantallaCitasPendientes,"pantallaCitasPendientes");
-        panelPrincipal.add(pantallaConsultasPacientes,"pantallaConsultasPacientes");
+        panelPrincipal.add(pantallaCitasPendientes, "pantallaCitasPendientes");
+        panelPrincipal.add(pantallaConsultasPacientes, "pantallaConsultasPacientes");
         panelPrincipal.add(pantallaAgendarCita, "pantallaAgendarCita");
         panelPrincipal.add(pantallaDatosConsulta, "pantallaDatosConsulta");
         panelPrincipal.add(pantallaInformacionCita, "pantallaInformacionCita");
         panelPrincipal.add(pantallaInformacionCitaEmergencia, "pantallaInformacionCitaEmergencia");
-        panelPrincipal.add(pantallaFolio,"pantallaFolio");
+        panelPrincipal.add(pantallaFolio, "pantallaFolio");
 
         SwingUtilities.updateComponentTreeUI(this);
         this.repaint();
     }
 
+    /**
+     * Cambia el panel visible en el CardLayout.
+     *
+     * @param nombrePanel El nombre del panel que se va a mostrar. Debe
+     * coincidir con la clave usada al agregar el panel al CardLayout.
+     */
     public void cambiarPanel(String nombrePanel) {
         cardLayout.show(panelPrincipal, nombrePanel);
     }
 
+    /**
+     * Establece el usuario autenticado en el Frame Principal.
+     *
+     * @param usuario El usuario autenticado.
+     */
     public void setUsuarioAutenticado(Usuario usuario) {
         this.usuarioAutenticado = usuario;
     }
 
+    /**
+     * Obtiene el usuario autenticado en el Frame Principal.
+     *
+     * @return El usuario autenticado.
+     */
     public Usuario getUsuarioAutenticado() {
         return usuarioAutenticado;
     }
-    
+
+    /**
+     * Establece la cita final.
+     *
+     * @param citaFinal La cita final.
+     */
     public void setCitaFinal(CitaNuevoDTO citaFinal) {
         this.citaFinal = citaFinal;
     }
-    
+
+    /**
+     * Obtiene la cita final.
+     *
+     * @return La cita final.
+     */
     public CitaNuevoDTO getCitaFinal() {
         return citaFinal;
     }
 
+    // Getters para las pantallas (Getters for the screens)
+    /**
+     * Obtiene la pantalla del menú de médicos.
+     *
+     * @return La pantalla del menú de médicos.
+     */
     public pantallaMedicosMenu getPantallaMedicosMenu() {
         return pantallaMedicosMenu;
     }
+
+    /**
+     * Obtiene la pantalla de información del usuario.
+     *
+     * @return La pantalla de información del usuario.
+     */
     public pantallaInformacionUsuario getPantallaInformacion() {
         return pantallaInformacionUsuarios;
     }
-    public pantallaCitasPendientes getPantallaCitasPendientes(){
+
+    /**
+     * Obtiene la pantalla de citas pendientes.
+     *
+     * @return La pantalla de citas pendientes.
+     */
+    public pantallaCitasPendientes getPantallaCitasPendientes() {
         return pantallaCitasPendientes;
     }
-    public pantallaInformacionCita getPantallaInformacionCitas(){
+
+    /**
+     * Obtiene la pantalla de información de citas.
+     *
+     * @return La pantalla de información de citas.
+     */
+    public pantallaInformacionCita getPantallaInformacionCitas() {
         return pantallaInformacionCita;
     }
-    public pantallaAgendarCita getPantallaAgendarCita(){
+
+    /**
+     * Obtiene la pantalla para agendar citas.
+     *
+     * @return La pantalla para agendar citas.
+     */
+    public pantallaAgendarCita getPantallaAgendarCita() {
         return pantallaAgendarCita;
     }
-    public pantallaMenuPrincipalPacientes getPantallaPacientes(){
+
+    /**
+     * Obtiene la pantalla principal de pacientes.
+     *
+     * @return La pantalla principal de pacientes.
+     */
+    public pantallaMenuPrincipalPacientes getPantallaPacientes() {
         return pantallaPacientes;
     }
-    public pantallaInformacionCitaEmergencia getPantallaInformacionCitaEmergencia(){
+
+    /**
+     * Obtiene la pantalla de información de citas de emergencia.
+     *
+     * @return La pantalla de información de citas de emergencia.
+     */
+    public pantallaInformacionCitaEmergencia getPantallaInformacionCitaEmergencia() {
         return pantallaInformacionCitaEmergencia;
     }
+
+    /**
+     * Obtiene la pantalla de datos de consulta.
+     *
+     * @return La pantalla de datos de consulta.
+     */
     public pantallaDatosConsulta getPantallaDatosConsulta() {
         return pantallaDatosConsulta;
     }
+
+    /**
+     * Obtiene la pantalla de tus consultas.
+     *
+     * @return La pantalla de tus consultas.
+     */
     public pantallaTusConsultas getPantallaTusConsultas() {
         return pantallaTusConsultas;
     }

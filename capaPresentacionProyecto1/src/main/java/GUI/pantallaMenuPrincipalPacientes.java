@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package GUI;
 
 import BO.CitaBO;
@@ -17,7 +13,9 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
- * Pantalla Menu Principal.
+ * Pantalla del menú principal para pacientes. Permite a los pacientes acceder a
+ * las funcionalidades de la aplicación, como agendar citas, cancelar citas,
+ * solicitar consultas de emergencia, ver sus consultas y acceder a su perfil.
  *
  * @author Sebastian Moreno
  */
@@ -26,6 +24,12 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
     private FramePrincipal framePrincipal;
     private CitaBO citaBO = DependencyInjector.crearCitaBO();
 
+    /**
+     * Constructor de la pantalla. Inicializa los componentes y establece el
+     * FramePrincipal.
+     *
+     * @param frame El FramePrincipal que contiene esta pantalla.
+     */
     public pantallaMenuPrincipalPacientes(FramePrincipal frame) {
         this.framePrincipal = frame;
         initComponents();
@@ -228,6 +232,12 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         add(lblNombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 160, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Maneja el evento de clic en el botón "Mis Consultas". Navega a la
+     * pantalla de consultas del paciente y carga sus consultas.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnRegistrosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrosMouseClicked
         framePrincipal.cambiarPanel("pantallaTusConsultas");
         pantallaTusConsultas consultas = framePrincipal.getPantallaTusConsultas();
@@ -242,6 +252,12 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnRegistrosMouseClicked
 
+    /**
+     * Maneja el evento de clic en el botón "Perfil". Navega a la pantalla de
+     * información del usuario y carga los datos del paciente.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPerfilMouseClicked
         pantallaInformacionUsuario informacionUsuario = framePrincipal.getPantallaInformacion();
 
@@ -258,11 +274,24 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_btnPerfilMouseClicked
-
+    /**
+     * Maneja el evento de clic en el botón "Cerrar Sesión". Navega a la
+     * pantalla de inicio de sesión.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnCerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarSesionMouseClicked
         framePrincipal.cambiarPanel("pantallaInicioSesion");
     }//GEN-LAST:event_btnCerrarSesionMouseClicked
 
+    /**
+     * Maneja el evento de clic en el botón "Agendar una Cita". Verifica si el
+     * usuario tiene una cita activa. Si no, navega a la pantalla para agendar
+     * citas y carga las citas disponibles. Si ya tiene una cita, muestra un
+     * mensaje informativo.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnAgendarCitaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCitaMouseClicked
 
         try {
@@ -287,6 +316,12 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btnAgendarCitaMouseClicked
 
+    /**
+     * Maneja el evento de clic en el botón "Cancelar Cita Programada". Cancela
+     * la cita del paciente previa confirmación.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnCancelarCitaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarCitaMouseClicked
         int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de cancelar la cita: ", "Confirmación", JOptionPane.YES_NO_OPTION);
         if (opcion == JOptionPane.YES_OPTION) {
@@ -297,6 +332,12 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnCancelarCitaMouseClicked
 
+    /**
+     * Maneja el evento de clic en el botón "Emergencia". Solicita una consulta
+     * de emergencia previa confirmación.
+     *
+     * @param evt El evento del mouse.
+     */
     private void btnEmergenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEmergenciaMouseClicked
         int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro de realizar una consulta de EMERGENCIA?", "Confirmación", JOptionPane.YES_NO_OPTION);
         if (opcion == JOptionPane.YES_OPTION) {
@@ -348,6 +389,10 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
     private javax.swing.JLabel txtTituloEmergencia;
     // End of variables declaration//GEN-END:variables
 // FALTA ALGUN METODO PARA VALIDAR SI UN USUARIO TIENE CITAS ACTIVAS.
+
+    /**
+     * Cancela la cita del paciente.
+     */
     public void cancelarCita() {
         int idPaciente = framePrincipal.getUsuarioAutenticado().getIdUsuario();
 
@@ -366,6 +411,9 @@ public class pantallaMenuPrincipalPacientes extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Carga y muestra el nombre del usuario en el JLabel lblNombre1.
+     */
     public void cargarNombre() {
 
         lblNombre1.setText(""); // Borra el texto anterior (opcional)

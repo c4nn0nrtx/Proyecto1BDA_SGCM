@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package GUI;
 
 import BO.CitaBO;
@@ -23,16 +19,32 @@ import javax.swing.table.TableCellRenderer;
 
 /**
  *
+ * Clase pantallaCitasPendientes
+ *
+ * Esta clase representa una interfaz gráfica de usuario (GUI) para visualizar
+ * las citas pendientes de los pacientes en una clínica.
+ *
+ * Proporciona una tabla con las citas pendientes y un botón para regresar a la
+ * pantalla principal.
+ *
  * @author Sebastian Moreno
  */
 public class pantallaCitasPendientes extends javax.swing.JPanel {
 
     /**
-     * Creates new form pantallaCitasPendientes1
+     * Constructor de pantallaCitasPendientes
+     *
+     * Inicializa la interfaz gráfica, configurando la tabla de citas pendientes
+     * y agregando los componentes necesarios.
      */
     private CitaBO citaBO = DependencyInjector.crearCitaBO();
     FramePrincipal framePrincipal;
 
+    /**
+     * Constructor que inicializa los componentes de la ventana.
+     *
+     * Configura el diseño, la tabla y los botones de la interfaz gráfica.
+     */
     public pantallaCitasPendientes(FramePrincipal frame) {
         this.framePrincipal = frame;
         initComponents();
@@ -149,6 +161,12 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
         add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 10, 60, 50));
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Maneja el evento de clic en el botón "Volver" para regresar al menú
+     * principal de médicos.
+     *
+     * @param evt Evento de clic del ratón.
+     */
     private void btnVolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseClicked
         framePrincipal.cambiarPanel("pantallaMedicosMenu");
     }//GEN-LAST:event_btnVolverMouseClicked
@@ -157,9 +175,15 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCitasProgramadasMouseClicked
 
+    /**
+     * Maneja el evento de clic en el botón de actualización, refrescando las
+     * citas de emergencia y programadas.
+     *
+     * @param evt Evento de clic del ratón.
+     */
     private void btnRefreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefreshMouseClicked
-       consultarCitasEmergencia();
-       consultarCitasProgramadas();
+        consultarCitasEmergencia();
+        consultarCitasProgramadas();
     }//GEN-LAST:event_btnRefreshMouseClicked
 
 
@@ -174,6 +198,11 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
     private javax.swing.JLabel txtEmergencia;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Consulta y muestra en la tabla las citas programadas del médico
+     * autenticado. Recupera los datos desde la capa de negocio y los formatea
+     * para su visualización.
+     */
     public void consultarCitasProgramadas() {
         try {
             List<CitaNuevoDTO> citas = citaBO.obtenerAgendaCitasProgramadas(framePrincipal.getUsuarioAutenticado().getIdUsuario());
@@ -222,6 +251,11 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Consulta y muestra en la tabla las citas de emergencia del médico
+     * autenticado. Recupera los datos desde la capa de negocio y los formatea
+     * para su visualización.
+     */
     public void consultarCitasEmergencia() {
         try {
             List<CitaNuevoDTO> citas = citaBO.obtenerAgendaCitasEmergencia(framePrincipal.getUsuarioAutenticado().getIdUsuario());
@@ -269,17 +303,42 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Agrega un botón "Iniciar" en la columna de acciones de la tabla para cada
+     * cita. Permite iniciar una cita programada o de emergencia.
+     *
+     * @param tabla La JTable en la que se agregará el botón.
+     * @param citasLista Arreglo de objetos que representa la lista de citas.
+     */
     private void agregarBotonIniciar(JTable tabla, Object[] citasLista) {
         tabla.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer());
         tabla.getColumnModel().getColumn(3).setCellEditor(new ButtonEditor(new JCheckBox(), citasLista));
     }
 
+    /**
+     * Clase que representa el renderizador de botones dentro de una celda de la
+     * tabla.
+     */
     class ButtonRenderer extends JButton implements TableCellRenderer {
 
+        /**
+         * Constructor que establece la opacidad del botón.
+         */
         public ButtonRenderer() {
             setOpaque(true);
         }
 
+        /**
+         * Renderiza el botón dentro de una celda de la tabla.
+         *
+         * @param table La JTable donde se renderiza el botón.
+         * @param value El valor de la celda.
+         * @param isSelected Indica si la celda está seleccionada.
+         * @param hasFocus Indica si la celda tiene el foco.
+         * @param row La fila donde se encuentra la celda.
+         * @param column La columna donde se encuentra la celda.
+         * @return El botón renderizado.
+         */
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             setText((value == null) ? "Iniciar" : value.toString());
@@ -287,6 +346,10 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Clase que maneja la edición de una celda de la tabla para agregar
+     * funcionalidad al botón "Iniciar".
+     */
     class ButtonEditor extends DefaultCellEditor {
 
         private JButton button;
@@ -295,6 +358,12 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
         private JTable table;
         private Object[] citasLista;
 
+        /**
+         * Constructor de ButtonEditor.
+         *
+         * @param checkBox Componente base para la celda editable.
+         * @param citasLista Arreglo con la lista de citas.
+         */
         public ButtonEditor(JCheckBox checkBox, Object[] citasLista) {
             super(checkBox);
             this.citasLista = citasLista;
@@ -304,6 +373,16 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
             button.addActionListener(e -> fireEditingStopped());
         }
 
+        /**
+         * Devuelve el componente del editor de celda.
+         *
+         * @param table La JTable que contiene la celda.
+         * @param value El valor de la celda.
+         * @param isSelected Indica si la celda está seleccionada.
+         * @param row La fila de la celda.
+         * @param column La columna de la celda.
+         * @return El botón que representa la celda editable.
+         */
         @Override
         public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
             this.table = table;
@@ -312,6 +391,12 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
             return button;
         }
 
+        /**
+         * Devuelve el valor de la celda después de la edición.
+         *
+         * @return Una cadena vacía ya que el botón no almacena un valor
+         * permanente.
+         */
         @Override
         public Object getCellEditorValue() {
             if (isPushed) {
@@ -342,6 +427,11 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
             return "";
         }
 
+        /**
+         * Finaliza la edición de la celda y devuelve el control a la tabla.
+         *
+         * @return true si la edición se detiene con éxito.
+         */
         @Override
         public boolean stopCellEditing() {
             isPushed = false;
@@ -350,6 +440,9 @@ public class pantallaCitasPendientes extends javax.swing.JPanel {
 
         /**
          * Método para eliminar el botón de la fila seleccionada.
+         *
+         * @param table La JTable donde se eliminará el botón.
+         * @param row La fila donde se eliminará el botón.
          */
         private void eliminarBotonDeFila(JTable table, int row) {
             DefaultTableModel model = (DefaultTableModel) table.getModel();
