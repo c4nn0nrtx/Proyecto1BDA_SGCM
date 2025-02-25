@@ -12,8 +12,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Clase de negocio para gestionar las direcciones de pacientes.
- * Esta clase contiene la lógica de negocio para agregar y actualizar direcciones de pacientes.
+ * Clase de negocio para gestionar las direcciones de pacientes. Esta clase
+ * contiene la lógica de negocio para agregar y actualizar direcciones de
+ * pacientes.
  *
  * @author PC
  */
@@ -33,13 +34,15 @@ public class Direccion_PacienteBO {
         this.direccionPacienteDAO = new Direccion_PacienteDAO(conexion);
         this.conexionBD = conexion;
     }
-   /**
-     * Agrega una nueva dirección de paciente.
-     * Valida los datos de la dirección y luego la guarda en la base de datos.
+
+    /**
+     * Agrega una nueva dirección de paciente. Valida los datos de la dirección
+     * y luego la guarda en la base de datos.
      *
      * @param direccionNueva Los datos de la nueva dirección (DTO).
      * @return La dirección creada (entidad).
-     * @throws NegocioException Si hay un error en la lógica de negocio, como datos inválidos.
+     * @throws NegocioException Si hay un error en la lógica de negocio, como
+     * datos inválidos.
      */
     public Direccion_Paciente agregarDireccionPaciente(Direccion_PacienteNuevaDTO direccionNueva) throws NegocioException {
         // Validación
@@ -55,7 +58,7 @@ public class Direccion_PacienteBO {
         if (direccionNueva.getColonia() == null || direccionNueva.getColonia().isEmpty()) {
             throw new NegocioException("La colonia no puede ser nula o vacía.");
         }
-  
+
         Direccion_Paciente direccionEntidad = mapper.DTODireccion_PacienteToEntity(direccionNueva);
 
         try {
@@ -69,17 +72,18 @@ public class Direccion_PacienteBO {
             throw new NegocioException("Ocurrió un error al guardar la dirección. Inténtalo de nuevo.");
         }
     }
-    
+
     /**
-     * Actualiza una dirección de paciente.
-     * Valida los datos de la dirección y luego la actualiza en la base de datos.
+     * Actualiza una dirección de paciente. Valida los datos de la dirección y
+     * luego la actualiza en la base de datos.
      *
      * @param direccionNueva Los datos de la dirección actualizada (entidad).
      * @return La dirección actualizada (entidad).
-     * @throws NegocioException Si hay un error en la lógica de negocio, como datos inválidos.
+     * @throws NegocioException Si hay un error en la lógica de negocio, como
+     * datos inválidos.
      */
-    public Direccion_Paciente actualizarDireccionPaciente(Direccion_Paciente direccionNueva)throws NegocioException{
-       // Validación
+    public Direccion_Paciente actualizarDireccionPaciente(Direccion_Paciente direccionNueva) throws NegocioException {
+        // Validación
         if (direccionNueva == null) {
             throw new NegocioException("La dirección no puede ser nula.");
         }
@@ -92,7 +96,7 @@ public class Direccion_PacienteBO {
         if (direccionNueva.getColonia() == null || direccionNueva.getColonia().isEmpty()) {
             throw new NegocioException("La colonia no puede ser nula o vacía.");
         }
-        
+
         try {
             Direccion_Paciente direccionGuardada = direccionPacienteDAO.actualizarDireccion(direccionNueva);
             if (direccionGuardada == null) {
@@ -103,8 +107,7 @@ public class Direccion_PacienteBO {
             logger.log(Level.SEVERE, "Error al actualizar la dirección.", ex);
             throw new NegocioException("Ocurrió un error al actualizar la dirección. Inténtalo de nuevo.");
         }
-        
-       
+
     }
 
 }

@@ -441,10 +441,29 @@ public class CitaBO {
         return null;
     }
 
+    /**
+     * Actualiza la información de una cita.
+     *
+     * @throws SQLException Si ocurre un error durante la actualización de la
+     * cita en la base de datos.
+     * @throws PersistenciaException Si ocurre un error durante la actualización
+     * de la cita en la capa de persistencia.
+     */
     public void actualizarCita() throws SQLException, PersistenciaException {
         citaDAO.actualizarCitas();
     }
 
+    /**
+     * Valida si el folio de una nueva cita ya existe.
+     *
+     * @param citaNueva La nueva cita que se va a validar.
+     * @return `true` si el folio ya existe (no es válido), `false` si el folio
+     * es nuevo (válido).
+     * @throws NegocioException Si ocurre un error en la lógica de negocio
+     * durante la validación.
+     * @throws PersistenciaException Si ocurre un error durante la consulta del
+     * folio en la capa de persistencia.
+     */
     public boolean validarFolio(Cita citaNueva) throws NegocioException, PersistenciaException {
         String folio = citaDAO.consultarFolio(citaNueva);
 

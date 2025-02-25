@@ -107,7 +107,8 @@ public class MedicoBO {
      *
      * @param medicoNuevo Los datos del médico a actualizar (DTO).
      * @param estado El nuevo estado del médico.
-     * @return true si el estado se actualizó correctamente, false en caso contrario.
+     * @return true si el estado se actualizó correctamente, false en caso
+     * contrario.
      * @throws PersistenciaException Si hay un error en la base de datos.
      * @throws NegocioException Si hay un error en la lógica de negocio, como un
      * médico nulo o un estado igual al actual.
@@ -142,7 +143,7 @@ public class MedicoBO {
      * Obtiene una lista de médicos con horario asignado.
      *
      * @return Una lista de médicos (entidades).
-     * @throws SQLException     Si hay un error en la base de datos.
+     * @throws SQLException Si hay un error en la base de datos.
      * @throws PersistenciaException Si hay un error en la base de datos.
      */
     public List<Medico> obtenerMedicosConHorario() throws SQLException, PersistenciaException {

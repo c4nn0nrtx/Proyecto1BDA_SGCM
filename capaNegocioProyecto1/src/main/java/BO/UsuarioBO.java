@@ -102,7 +102,7 @@ public class UsuarioBO {
                 || usuarioNuevo.getContrasenha() == null || usuarioNuevo.getContrasenha().isEmpty()) {
             throw new NegocioException("El nombre de usuario y la contraseña son obligatorios.");
         }
-        
+
         Usuario usuario;
         try {
             usuario = mapper.DTOUsuarioToEntity(usuarioNuevo);
@@ -121,7 +121,7 @@ public class UsuarioBO {
         }
     }
 
-   /**
+    /**
      * Verifica si un usuario es médico.
      *
      * @param idUsuario El ID del usuario.
