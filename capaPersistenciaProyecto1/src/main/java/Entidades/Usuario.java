@@ -1,8 +1,8 @@
-
 package Entidades;
 
 /**
- * Esta clase representa a un usuario del sistema
+ * Esta clase representa a un usuario del sistema. Contiene el ID, nombre de
+ * usuario y contraseña del usuario.
  *
  * @author Ramon Valencia
  */
@@ -13,16 +13,18 @@ public class Usuario {
     private String contrasenha;
 
     /**
-     *
+     * Constructor vacío de la clase Usuario. Inicializa un objeto Usuario sin
+     * valores específicos.
      */
     public Usuario() {
     }
 
     /**
+     * Constructor de la clase Usuario con todos los atributos.
      *
-     * @param idUsuario
-     * @param nombreUsuario
-     * @param contrasenha
+     * @param idUsuario El ID del usuario.
+     * @param nombreUsuario El nombre de usuario.
+     * @param contrasenha La contraseña del usuario.
      */
     public Usuario(int idUsuario, String nombreUsuario, String contrasenha) {
         this.idUsuario = idUsuario;
@@ -31,9 +33,12 @@ public class Usuario {
     }
 
     /**
+     * Constructor de la clase Usuario sin ID. Se utiliza para crear nuevos
+     * usuarios. El ID se asignará automáticamente (probablemente por la base de
+     * datos).
      *
-     * @param nombreUsuario
-     * @param contrasenha
+     * @param nombreUsuario El nombre de usuario.
+     * @param contrasenha La contraseña del usuario.
      */
     public Usuario(String nombreUsuario, String contrasenha) {
         this.nombreUsuario = nombreUsuario;
@@ -41,56 +46,63 @@ public class Usuario {
     }
 
     /**
+     * Obtiene el ID del usuario.
      *
-     * @return
+     * @return El ID del usuario.
      */
     public int getIdUsuario() {
         return idUsuario;
     }
 
     /**
+     * Establece el ID del usuario.
      *
-     * @param idUsuario
+     * @param idUsuario El ID del usuario.
      */
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
     }
 
     /**
+     * Obtiene el nombre de usuario.
      *
-     * @return
+     * @return El nombre de usuario.
      */
     public String getNombreUsuario() {
         return nombreUsuario;
     }
 
     /**
+     * Establece el nombre de usuario.
      *
-     * @param nombreUsuario
+     * @param nombreUsuario El nombre de usuario.
      */
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
 
     /**
+     * Obtiene la contraseña del usuario.
      *
-     * @return
+     * @return La contraseña del usuario.
      */
     public String getContrasenha() {
         return contrasenha;
     }
 
     /**
+     * Establece la contraseña del usuario.
      *
-     * @param contrasenha
+     * @param contrasenha La contraseña del usuario.
      */
     public void setContrasenha(String contrasenha) {
         this.contrasenha = contrasenha;
     }
 
     /**
+     * Devuelve una representación en cadena del objeto Usuario.
      *
-     * @return
+     * @return Una cadena que representa al objeto Usuario.
      */
     @Override
     public String toString() {

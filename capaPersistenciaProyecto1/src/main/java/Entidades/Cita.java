@@ -4,12 +4,13 @@ import java.time.LocalDateTime;
 
 /**
  * Cita.java
- * 
- * Clase Entidad que representa una cita en el sistema
- * 
+ *
+ * Clase Entidad que representa una cita en el sistema.
+ *
  * @author Brandon Valenzuela
  */
 public class Cita {
+
     private int idCita;
     private String estado;
     private LocalDateTime fechaHora;
@@ -19,19 +20,21 @@ public class Cita {
     private Paciente paciente;
 
     /**
-     * Constructor vacío
+     * Constructor vacío de la clase Cita.
      */
     public Cita() {
     }
+
     /**
-     * Contructor con todos los atributos incluido el id
-     * @param idCita
-     * @param estado
-     * @param fechaHora
-     * @param folio
-     * @param tipo
-     * @param medico
-     * @param paciente 
+     * Constructor de la clase Cita con todos los atributos, incluyendo el ID.
+     *
+     * @param idCita El ID de la cita.
+     * @param estado El estado de la cita.
+     * @param fechaHora La fecha y hora de la cita.
+     * @param folio El folio de la cita.
+     * @param tipo El tipo de cita.
+     * @param medico El médico asignado a la cita.
+     * @param paciente El paciente asignado a la cita.
      */
     public Cita(int idCita, String estado, LocalDateTime fechaHora, String folio, String tipo, Medico medico, Paciente paciente) {
         this.idCita = idCita;
@@ -42,14 +45,17 @@ public class Cita {
         this.medico = medico;
         this.paciente = paciente;
     }
+
     /**
-     * Constructor con todos los atributos excepto el id
-     * @param estado
-     * @param fechaHora
-     * @param folio
-     * @param tipo
-     * @param medico
-     * @param paciente 
+     * Constructor de la clase Cita con todos los atributos, excepto el ID. Se
+     * usa para crear nuevas citas.
+     *
+     * @param estado El estado de la cita.
+     * @param fechaHora La fecha y hora de la cita.
+     * @param folio El folio de la cita.
+     * @param tipo El tipo de cita.
+     * @param medico El médico asignado a la cita.
+     * @param paciente El paciente asignado a la cita.
      */
     public Cita(String estado, LocalDateTime fechaHora, String folio, String tipo, Medico medico, Paciente paciente) {
         this.estado = estado;
@@ -59,111 +65,141 @@ public class Cita {
         this.medico = medico;
         this.paciente = paciente;
     }
+
     /**
-     * 
-     * @return 
+     * Obtiene el ID de la cita.
+     *
+     * @return El ID de la cita.
      */
     public int getIdCita() {
         return idCita;
     }
+
     /**
-     * 
-     * @param idCita 
+     * Establece el ID de la cita.
+     *
+     * @param idCita El ID de la cita.
      */
     public void setIdCita(int idCita) {
         this.idCita = idCita;
     }
+
     /**
-     * 
-     * @return 
+     * Obtiene el estado de la cita.
+     *
+     * @return El estado de la cita.
      */
     public String getEstado() {
         return estado;
     }
+
     /**
-     * 
-     * @param estado 
+     * Establece el estado de la cita.
+     *
+     * @param estado El estado de la cita.
      */
     public void setEstado(String estado) {
         this.estado = estado;
     }
+
     /**
-     * 
-     * @return 
+     * Obtiene la fecha y hora de la cita.
+     *
+     * @return La fecha y hora de la cita.
      */
     public LocalDateTime getFechaHora() {
         return fechaHora;
     }
+
     /**
-     * 
-     * @param fechaHora 
+     * Establece la fecha y hora de la cita.
+     *
+     * @param fechaHora La fecha y hora de la cita.
      */
     public void setFechaHora(LocalDateTime fechaHora) {
         this.fechaHora = fechaHora;
     }
+
     /**
-     * 
-     * @return 
+     * Obtiene el folio de la cita.
+     *
+     * @return El folio de la cita.
      */
     public String getFolio() {
         return folio;
     }
+
     /**
-     * 
-     * @param folio 
+     * Establece el folio de la cita.
+     *
+     * @param folio El folio de la cita.
      */
     public void setFolio(String folio) {
         this.folio = folio;
     }
+
     /**
-     * 
-     * @return 
+     * Obtiene el tipo de cita.
+     *
+     * @return El tipo de cita.
      */
     public String getTipo() {
         return tipo;
     }
+
     /**
-     * 
-     * @param tipo 
+     * Establece el tipo de cita.
+     *
+     * @param tipo El tipo de cita.
      */
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
+
     /**
-     * 
-     * @return 
+     * Obtiene el médico asignado a la cita.
+     *
+     * @return El médico asignado a la cita.
      */
     public Medico getMedico() {
         return medico;
     }
+
     /**
-     * 
-     * @param medico 
+     * Establece el médico asignado a la cita.
+     *
+     * @param medico El médico asignado a la cita.
      */
     public void setMedico(Medico medico) {
         this.medico = medico;
     }
+
     /**
-     * 
-     * @return 
+     * Obtiene el paciente asignado a la cita.
+     *
+     * @return El paciente asignado a la cita.
      */
     public Paciente getPaciente() {
         return paciente;
     }
+
     /**
-     * 
-     * @param paciente 
+     * Establece el paciente asignado a la cita.
+     *
+     * @param paciente El paciente asignado a la cita.
      */
     public void setPaciente(Paciente paciente) {
         this.paciente = paciente;
     }
+
     /**
-     * 
-     * @return 
+     * Devuelve una representación en cadena del objeto Cita.
+     *
+     * @return Una cadena que representa al objeto Cita.
      */
     @Override
     public String toString() {
         return "Cita{" + "idCita=" + idCita + ", estado=" + estado + ", fechaHora=" + fechaHora + ", folio=" + folio + ", tipo=" + tipo + ", medico=" + medico + ", paciente=" + paciente + '}';
     }
-    
+
 }

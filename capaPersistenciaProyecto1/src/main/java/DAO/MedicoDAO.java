@@ -14,7 +14,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Esta clase representa el DAO de la clase Medico.
+ * Esta clase representa el objeto de acceso a datos (DAO) para la entidad
+ * Medico. Proporciona métodos para agregar, consultar y actualizar información
+ * de médicos.
  *
  * @author Sebastian Moreno
  */
@@ -24,9 +26,9 @@ public class MedicoDAO implements IMedicoDAO {
     private UsuarioDAO usuarioDAO;
 
     /**
-     * Constructor que inicializa la conexion.
+     * Constructor de la clase MedicoDAO.
      *
-     * @param conexion
+     * @param conexion La conexión a la base de datos.
      */
     public MedicoDAO(IConexionBD conexion) {
         this.conexion = conexion;
@@ -36,52 +38,52 @@ public class MedicoDAO implements IMedicoDAO {
     private static final Logger logger = Logger.getLogger(MedicoDAO.class.getName());
 
     /**
-     * Consulta un medico por un id dado.
+     * Consulta un médico por su ID.
      *
-     * @param id
-     * @return el medico consultado.
-     * @throws PersistenciaException
+     * @param id El ID del médico que se va a consultar.
+     * @return El médico consultado, o null si no se encuentra.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
      */
     @Override
     public Medico consultarMedicoPorId(int id) throws PersistenciaException {
         Medico medico = null;
-        String consultaSQL = "SELECT idMedico, nombre, apellidoPat, apellidoMat, cedulaProf, estado, especialidad FROM MEDICOS WHERE idMedico = ?";
-
+        String consultaSQL = "SELECT nombre, apellidoPat, apellidoMat, cedulaProf, estado, especialidad FROM MEDICOS WHERE idMedico = ?";
+        //inicializo la conexion y le paso la consulta.
         try (Connection con = this.conexion.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL)) {
+
             ps.setInt(1, id);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     medico = new Medico();
-
-                    // Como idMedico también es idUsuario, usamos directamente el ID del método
                     Usuario usuario = usuarioDAO.consultarUsuarioPorId(id);
                     medico.setUsuario(usuario);
-
                     medico.setNombre(rs.getString("nombre"));
                     medico.setApellidoPaterno(rs.getString("apellidoPat"));
                     medico.setApellidoMaterno(rs.getString("apellidoMat"));
                     medico.setCedulaProfesional(rs.getString("cedulaProf"));
                     medico.setEstado(rs.getString("estado"));
                     medico.setEspecialidad(rs.getString("especialidad"));
-                    System.out.println("Connsultando para el id del medico : "+id);
+
                 } else {
-                    logger.severe("No se encontró médico con id " + id);
+                    logger.severe("No se encontro medico con id " + id);
                 }
             }
+
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "Error al consultar médico con ID: " + id, ex);
-            throw new PersistenciaException("Error al consultar médico con ID " + id + " desde la base de datos", ex);
+            logger.log(Level.SEVERE, "Error al consultar medico con ID: " + id, ex);
+            throw new PersistenciaException("Error al consultar medico con ID " + id + " desde la base de datos", ex);
         }
         return medico;
     }
 
     /**
-     * Obtiene los medicos de una especialidad especifica.
+     * Obtiene una lista de médicos de una especialidad específica.
      *
-     * @param especialidad
-     * @return una lista de medicos.
-     * @throws PersistenciaException
+     * @param especialidad La especialidad de los médicos que se van a
+     * consultar.
+     * @return Una lista de médicos con la especialidad especificada.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
      */
     @Override
     public List<Medico> obtenerPorEspecialidad(String especialidad) throws PersistenciaException {
@@ -116,12 +118,14 @@ public class MedicoDAO implements IMedicoDAO {
     }
 
     /**
-     * Actualiza el estado de un medico
+     * Actualiza el estado de un médico.
      *
-     * @param medico
-     * @param estado activo o inactivo
-     * @return verdadero si, se actualizo el estado.
-     * @throws PersistenciaException
+     * @param medico El médico cuyo estado se va a actualizar.
+     * @param estado El nuevo estado del médico ("activo" o "inactivo").
+     * @return true si el estado se actualizó correctamente, false si no se pudo
+     * actualizar.
+     * @throws PersistenciaException Si ocurre un error durante la
+     * actualización.
      */
     @Override
     public boolean actualizarEstadoMedico(Medico medico, String estado) throws PersistenciaException {
@@ -152,6 +156,13 @@ public class MedicoDAO implements IMedicoDAO {
         }
     }
 
+    /**
+     * Obtiene una lista de médicos con horario asignado.
+     *
+     * @return Una lista de médicos con horario.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
+    @Override
     public List<Medico> obtenerMedicosConHorario() throws PersistenciaException {
         String consultaSQL = "SELECT DISTINCT m.idMedico, m.nombre, m.apellidoPat, m.apellidoMat, "
                 + "m.cedulaProf, m.estado, m.especialidad "
@@ -184,12 +195,14 @@ public class MedicoDAO implements IMedicoDAO {
     }
 
     /**
-     * Obtiene un medico por su nombre Completo.
+     * Obtiene un médico por su nombre completo.
      *
-     * @param nombreCompleto
-     * @return Un medico tipo Medico
-     * @throws PersistenciaException
+     * @param nombreCompleto El nombre completo del médico que se va a buscar.
+     * @return El médico cuyo nombre completo coincide con el proporcionado, o
+     * null si no se encuentra.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
      */
+    @Override
     public Medico obtenerMedicoPorNombre(String nombreCompleto) throws PersistenciaException {
         String consultaSQL = "SELECT idMedico, nombre, apellidoPat, apellidoMat, cedulaProf, estado, especialidad "
                 + "FROM MEDICOS WHERE CONCAT(nombre, ' ', apellidoPat, ' ', apellidoMat) = ? AND estado = 'Activo'";

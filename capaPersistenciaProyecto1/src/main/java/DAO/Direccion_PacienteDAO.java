@@ -12,7 +12,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Esta clase representa una Direccion de un Paciente DAO
+ * Esta clase representa un objeto de acceso a datos (DAO) para la entidad
+ * Direccion_Paciente. Proporciona métodos para agregar, consultar, y actualizar
+ * direcciones de pacientes.
  *
  * @author Ramon Valencia
  */
@@ -22,18 +24,22 @@ public class Direccion_PacienteDAO implements IDireccion_PacienteDAO {
     private static final Logger logger = Logger.getLogger(Direccion_PacienteDAO.class.getName());
 
     /**
-     * Constructor que inicializa la conexion
-     * @param conexionBD
+     * Constructor de la clase Direccion_PacienteDAO.
+     *
+     * @param conexionBD La conexión a la base de datos.
      */
     public Direccion_PacienteDAO(IConexionBD conexionBD) {
         this.conexionBD = conexionBD;
     }
 
     /**
-     * Agrega una direccion
-     * @param direccion
-     * @return La direccion creada.
-     * @throws PersistenciaException
+     * Agrega una nueva dirección de paciente a la base de datos.
+     *
+     * @param direccion La dirección de paciente que se va a agregar.
+     * @return La dirección de paciente agregada, incluyendo el ID generado por
+     * la base de datos.
+     * @throws PersistenciaException Si ocurre un error durante la persistencia
+     * de la dirección.
      */
     @Override
     public Direccion_Paciente agregarDireccion(Direccion_Paciente direccion) throws PersistenciaException {
@@ -70,10 +76,11 @@ public class Direccion_PacienteDAO implements IDireccion_PacienteDAO {
     }
 
     /**
-     * Consulta una direccion por un id
-     * @param id
-     * @return La Direccion consultada por el id dado.
-     * @throws PersistenciaException
+     * Consulta una dirección de paciente por su ID.
+     *
+     * @param id El ID de la dirección que se va a consultar.
+     * @return La dirección de paciente consultada, o null si no se encuentra.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
      */
     @Override
     public Direccion_Paciente consultarDireccionPorId(int id) throws PersistenciaException {
@@ -104,11 +111,14 @@ public class Direccion_PacienteDAO implements IDireccion_PacienteDAO {
         }
         return direccion;
     }
+
     /**
-     * Consulta el id de una direccion dada.
-     * @param direccion
-     * @return el id de la direccion.
-     * @throws PersistenciaException 
+     * Consulta el ID de una dirección de paciente por sus datos.
+     *
+     * @param direccion La dirección de paciente cuyos datos se van a utilizar
+     * para la consulta.
+     * @return El ID de la dirección, o -1 si no se encuentra.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
      */
     @Override
     public int consultaIdDireccion(Direccion_Paciente direccion) throws PersistenciaException {
@@ -138,10 +148,13 @@ public class Direccion_PacienteDAO implements IDireccion_PacienteDAO {
     }
 
     /**
-     * Actualiza la direccion
-     * @param direccion
-     * @return la direccion actualizada.
-     * @throws PersistenciaException
+     * Actualiza la información de una dirección de paciente en la base de
+     * datos.
+     *
+     * @param direccion La dirección de paciente con la información actualizada.
+     * @return La dirección de paciente actualizada.
+     * @throws PersistenciaException Si ocurre un error durante la
+     * actualización.
      */
     @Override
     public Direccion_Paciente actualizarDireccion(Direccion_Paciente direccion) throws PersistenciaException {

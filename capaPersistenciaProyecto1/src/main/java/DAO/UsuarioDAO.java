@@ -12,7 +12,9 @@ import java.util.logging.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
- * Clase Usuario con DAOS
+ * Clase que implementa el objeto de acceso a datos (DAO) para la entidad
+ * Usuario. Proporciona métodos para agregar, consultar, autenticar y verificar
+ * roles de usuarios.
  *
  * @author Ramon Valencia
  */
@@ -21,16 +23,24 @@ public class UsuarioDAO implements IUsuarioDAO {
     private IConexionBD conexionBD;
     private static final Logger logger = Logger.getLogger(MedicoDAO.class.getName());
 
+    /**
+     * Constructor de la clase UsuarioDAO.
+     *
+     * @param conexion La conexión a la base de datos.
+     */
     public UsuarioDAO(IConexionBD conexion) {
         this.conexionBD = conexion;
     }
 
     /**
-     * Metodo para agregar un usuario
+     * Agrega un nuevo usuario a la base de datos.
      *
-     * @param usuario
-     * @return El usuario agregado
-     * @throws PersistenciaException Si algo falla.
+     * @param usuario El usuario que se va a agregar. Se espera que el usuario
+     * no tenga ID.
+     * @return El usuario agregado, incluyendo el ID generado por la base de
+     * datos.
+     * @throws PersistenciaException Si ocurre un error durante la persistencia
+     * del usuario.
      */
     @Override
     public Usuario agregarUsuario(Usuario usuario) throws PersistenciaException {
@@ -66,11 +76,11 @@ public class UsuarioDAO implements IUsuarioDAO {
     }
 
     /**
-     * Metodo para consultar un usuario por id.
+     * Consulta un usuario por su ID.
      *
-     * @param id
-     * @return El usuario consultado.
-     * @throws PersistenciaException
+     * @param id El ID del usuario que se va a consultar.
+     * @return El usuario consultado, o null si no se encuentra.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
      */
     @Override
     public Usuario consultarUsuarioPorId(int id) throws PersistenciaException {
@@ -90,7 +100,6 @@ public class UsuarioDAO implements IUsuarioDAO {
                     usuario.setNombreUsuario(rs.getString("nombreUsuario"));
                     usuario.setContrasenha(rs.getString("contrasenha"));
 
-                    
                 } else {
                     logger.warning("No hay un paciente registrado con esos datos.");
                 }
@@ -102,11 +111,12 @@ public class UsuarioDAO implements IUsuarioDAO {
     }
 
     /**
-     * Metodo para consultar el id de un usuario
+     * Consulta el ID de un usuario por su nombre de usuario.
      *
-     * @param usuario
-     * @return el id del usuario Consultado.
-     * @throws PersistenciaException
+     * @param usuario El usuario cuyo ID se va a consultar. Se espera que el
+     * usuario tenga el nombre de usuario.
+     * @return El ID del usuario, o -1 si no se encuentra.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
      */
     @Override
     public int consultarIdUsuario(Usuario usuario) throws PersistenciaException {
@@ -137,12 +147,15 @@ public class UsuarioDAO implements IUsuarioDAO {
     }
 
     /**
-     * Metodo para validar credenciales de usuario.
+     * Autentica un usuario por sus credenciales.
      *
-     * @param usuario
-     * @return Verdadero si las creedenciales son correctas, falso caso
-     * contrario.
-     * @throws PersistenciaException
+     * @param usuario El usuario con las credenciales que se van a verificar
+     * (nombre de usuario y contraseña).
+     * @return El usuario autenticado si las credenciales son válidas, o null si
+     * no lo son. El usuario retornado tendrá el ID si la autenticación es
+     * exitosa.
+     * @throws PersistenciaException Si ocurre un error durante la
+     * autenticación.
      */
     @Override
     public Usuario autenticarUsuario(Usuario usuario) throws PersistenciaException {
@@ -174,6 +187,14 @@ public class UsuarioDAO implements IUsuarioDAO {
             throw new PersistenciaException("Error al autenticar al usuario en la base de datos: " + e.getMessage());
         }
     }
+
+    /**
+     * Verifica si un usuario es médico.
+     *
+     * @param idUsuario El ID del usuario que se va a verificar.
+     * @return true si el usuario es médico, false si no lo es.
+     * @throws PersistenciaException Si ocurre un error durante la verificación.
+     */
     @Override
     public boolean esMedico(int idUsuario) throws PersistenciaException {
         String sql = "SELECT idMedico FROM MEDICOS WHERE idMedico = ?";
@@ -186,7 +207,15 @@ public class UsuarioDAO implements IUsuarioDAO {
             throw new PersistenciaException("Error al verificar si el usuario es médico: " + e.getMessage());
         }
     }
-     @Override
+
+    /**
+     * Verifica si un usuario es paciente.
+     *
+     * @param idUsuario El ID del usuario que se va a verificar.
+     * @return true si el usuario es paciente, false si no lo es.
+     * @throws PersistenciaException Si ocurre un error durante la verificación.
+     */
+    @Override
     public boolean esPaciente(int idUsuario) throws PersistenciaException {
         String sql = "SELECT idPaciente FROM PACIENTES WHERE idPaciente = ?";
         try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(sql)) {

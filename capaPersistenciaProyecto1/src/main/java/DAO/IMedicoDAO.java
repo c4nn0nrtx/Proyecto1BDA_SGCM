@@ -5,46 +5,60 @@ import Exception.PersistenciaException;
 import java.util.List;
 
 /**
- * Esta interfaz representan los metodos CRU de un medico.
+ * Interfaz que define las operaciones de acceso a datos para la entidad Medico.
  *
  * @author Sebastian Moreno
  */
 public interface IMedicoDAO {
 
     /**
-     * Consulta un Medico por su id.
+     * Consulta un médico por su ID.
      *
-     * @param id
-     * @return un objeto del tipo Medico.
-     * @throws PersistenciaException
+     * @param id El ID del médico que se va a consultar.
+     * @return El objeto Medico correspondiente al ID, o null si no se
+     * encuentra.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
      */
     public Medico consultarMedicoPorId(int id) throws PersistenciaException;
 
     /**
-     * Devuelve una lista de medicos filtrados por especialidad.
+     * Obtiene una lista de médicos filtrados por especialidad.
      *
-     * @param especialidad
-     * @return Una lista de Medicos filtrados por su especialidad.
-     * @throws PersistenciaException
+     * @param especialidad La especialidad por la que se van a filtrar los
+     * médicos.
+     * @return Una lista de objetos Medico que tienen la especialidad
+     * especificada.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
      */
     public List<Medico> obtenerPorEspecialidad(String especialidad) throws PersistenciaException;
 
     /**
-     * Metodo para actualizar el estado de un Medico
+     * Actualiza el estado de un médico.
      *
-     * @param medico
-     * @param estado
-     * @return regresa Verdadero si se actualizo
-     * @throws PersistenciaException
+     * @param medico El objeto Medico cuya información se va a actualizar.
+     * @param estado El nuevo estado del médico.
+     * @return true si el estado se actualizó correctamente, false si no se pudo
+     * actualizar.
+     * @throws PersistenciaException Si ocurre un error durante la
+     * actualización.
      */
     public boolean actualizarEstadoMedico(Medico medico, String estado) throws PersistenciaException;
-    
-    public List<Medico> obtenerMedicosConHorario() throws PersistenciaException;
+
     /**
-     * Obtiene un medico por su nombre completo
-     * @param nombreCompleto
-     * @return medico tipo Medico.
-     * @throws PersistenciaException 
+     * Obtiene una lista de médicos con horario asignado.
+     *
+     * @return Una lista de objetos Medico que tienen un horario asignado.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
+    public List<Medico> obtenerMedicosConHorario() throws PersistenciaException;
+
+    /**
+     * Obtiene un médico por su nombre completo.
+     *
+     * @param nombreCompleto El nombre completo del médico que se va a buscar.
+     * @return El objeto Medico correspondiente al nombre completo, o null si no
+     * se encuentra.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
      */
     public Medico obtenerMedicoPorNombre(String nombreCompleto) throws PersistenciaException;
 }

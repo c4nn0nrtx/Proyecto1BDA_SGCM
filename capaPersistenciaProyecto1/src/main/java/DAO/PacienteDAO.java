@@ -13,7 +13,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Esta clase representan los metodos DAO de un paciente.
+ * Esta clase representa el objeto de acceso a datos (DAO) para la entidad
+ * Paciente. Proporciona métodos para agregar, consultar y actualizar
+ * información de pacientes.
  *
  * @author Ramon Valencia
  */
@@ -21,6 +23,11 @@ public class PacienteDAO implements IPacienteDAO {
 
     private IConexionBD conexionBD;
 
+    /**
+     * Constructor de la clase PacienteDAO.
+     *
+     * @param conexion La conexión a la base de datos.
+     */
     public PacienteDAO(IConexionBD conexion) {
         this.conexionBD = conexion;
     }
@@ -28,11 +35,13 @@ public class PacienteDAO implements IPacienteDAO {
     private static final Logger logger = Logger.getLogger(MedicoDAO.class.getName());
 
     /**
-     * Metodo para agregar un paciente
+     * Agrega un nuevo paciente a la base de datos.
      *
-     * @param paciente el paciente a agregar
-     * @return el paciente agregado
-     * @throws PersistenciaException
+     * @param paciente El paciente que se va a agregar.
+     * @return El paciente agregado, incluyendo el ID generado por la base de
+     * datos.
+     * @throws PersistenciaException Si ocurre un error durante la persistencia
+     * del paciente.
      */
     @Override
     public Paciente agregarPaciente(Paciente paciente) throws PersistenciaException {
@@ -61,7 +70,13 @@ public class PacienteDAO implements IPacienteDAO {
         return paciente;
     }
 
-    /* Falta corregir este metodo consultarPacientePorId*/
+    /**
+     * Consulta un paciente por su ID.
+     *
+     * @param id El ID del paciente que se va a consultar.
+     * @return El paciente consultado, o null si no se encuentra.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
     @Override
     public Paciente consultarPacientePorId(int id) throws PersistenciaException {
         Paciente paciente = null;
@@ -113,11 +128,13 @@ public class PacienteDAO implements IPacienteDAO {
     }
 
     /**
-     * Actualiza el estado de un paciente
+     * Actualiza la información de un paciente existente.
      *
-     * @param paciente
-     * @return el paciente actualizado.
-     * @throws PersistenciaException
+     * @param id El ID del paciente que se va a actualizar.
+     * @param paciente El objeto Paciente con la información actualizada.
+     * @return El paciente actualizado.
+     * @throws PersistenciaException Si ocurre un error durante la
+     * actualización.
      */
     @Override
     public Paciente actualizarPacientePorID(int id, Paciente paciente) throws PersistenciaException {
@@ -159,7 +176,14 @@ public class PacienteDAO implements IPacienteDAO {
             throw new PersistenciaException("ERROR: Hubo un problema con la base de datos y no se pudieron actualizar los datos.");
         }
     }
-    
+
+    /**
+     * Consulta un paciente por su número de celular.
+     *
+     * @param celular El número de celular del paciente que se va a consultar.
+     * @return El paciente consultado, o null si no se encuentra.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
     @Override
     public Paciente consultarPacientePorCelular(String celular) throws PersistenciaException {
         Paciente paciente = null;

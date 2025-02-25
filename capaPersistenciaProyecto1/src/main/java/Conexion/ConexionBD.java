@@ -8,30 +8,34 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Esta clase representa la conexion hacia la base de datos.
+ * Clase que implementa la interfaz IConexionBD para la conexión a la base de datos.
+ * Esta clase se encarga de establecer la conexión con la base de datos MySQL,
+ * utilizando las credenciales y la URL especificadas.
+ *
  * @author Brandon Valenzuela
  */
-public class ConexionBD implements IConexionBD{
+public class ConexionBD implements IConexionBD {
+
     final String USER = "root";
     final String PASS = "itson";
-    final String STR_CONECTION = "jdbc:mysql://localhost:3306/clinica"; /*ALTER USER 'root'@'localhost' IDENTIFIED BY 'itson';*/
+    final String STR_CONECTION = "jdbc:mysql://localhost:3306/clinica";
 
-    /**
+    /*ALTER USER 'root'@'localhost' IDENTIFIED BY 'itson';*/
+
+   /**
+     * Crea una conexión a la base de datos.
      *
-     * @return
-     * @throws PersistenciaException
+     * @return Un objeto Connection que representa la conexión a la base de datos.
+     * @throws PersistenciaException Si ocurre un error al conectar a la base de datos.
      */
     @Override
     public Connection crearConexion() throws PersistenciaException {
-            try {
+        try {
             Connection conexion = DriverManager.getConnection(STR_CONECTION, USER, PASS);
             return conexion;
         } catch (SQLException ex) {
             Logger.getLogger(ConexionBD.class.getName()).log(Level.SEVERE, null, ex);
             throw new PersistenciaException("Error al conectar a la base de datos", ex);
-
         }
     }
-    
-    
 }
