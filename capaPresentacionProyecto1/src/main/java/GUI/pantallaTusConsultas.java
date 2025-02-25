@@ -84,7 +84,7 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
         txtSubTituloConsulta.setText("Fecha Fin");
         add(txtSubTituloConsulta, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 120, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Medicina General", "Cardiologia", "Dermatologia", "Psiquiatria", " " }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Medicina General", "Cardiologia", "Dermatologia", "Psiquiatria" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -95,23 +95,23 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
         jTable1.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Paciente", "Médico", "Especialidad", "Tratamiento", "Notas", "Fecha", "Estado"
+                "Paciente", "Médico", "Especialidad", "Tratamiento", "Notas", "Fecha", "Estado", "Diagnostico"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -274,11 +274,14 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
 
             List<MedicoNuevoDTO> medicosDTO = new ArrayList<>();
             List<ConsultaNuevaDTO> consultasNuevaDTO = new ArrayList<>();
-
+            
             for (Cita cita : citasPaciente) {
                 Usuario usuarioConsulta = cita.getMedico().getUsuario();
+   
                 medicosDTO.add(medicoBO.consultarMedico(usuarioConsulta));
+ 
                 consultasNuevaDTO.add(consultaBO.obtenerConsultasPaciente(cita));
+
             }
 
             consultasNuevaDTO.removeIf(element -> element == null);
@@ -301,7 +304,7 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
             }
 
             // Definir las columnas de la tabla
-            String[] columnas = {"PACIENTE", "MEDICO", "ESPECIALIDAD", "TRATAMIENTO", "NOTAS", "FECHA", "ESTADO"};
+            String[] columnas = {"PACIENTE", "MEDICO", "ESPECIALIDAD", "DIAGNOSTICO" ,"TRATAMIENTO", "NOTAS", "FECHA", "ESTADO"};
 
             // Filtrar consultas por especialidad y rango de fechas
             List<String[]> datosFiltrados = new ArrayList<>();
@@ -336,6 +339,7 @@ public class pantallaTusConsultas extends javax.swing.JPanel {
                         nombrePaciente,
                         nombreMedico,
                         especialidadMedico,
+                        consultaNueva.getDiagnostico(),
                         consultaNueva.getTratamiento(),
                         consultaNueva.getObservaciones(),
                         consultaNueva.getFechaHora().toString(),

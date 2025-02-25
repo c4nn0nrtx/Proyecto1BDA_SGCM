@@ -21,6 +21,7 @@ import Mapper.Mapper;
 import configuracion.DependencyInjector;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -71,6 +72,7 @@ public class pantallaConsultasPacientes extends javax.swing.JPanel {
         selectorFechaFin = new com.toedter.calendar.JDateChooser();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        btnSelecionar1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -82,31 +84,31 @@ public class pantallaConsultasPacientes extends javax.swing.JPanel {
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("Fecha Fin:");
-        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 140, 200, -1));
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 120, 200, -1));
 
         inputCelular.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        add(inputCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 180, 226, -1));
+        add(inputCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 150, 240, -1));
 
         jTable1.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Paciente", "Médico", "Especialidad", "Tratamiento", "Notas", "Fecha", "Estado"
+                "Paciente", "Médico", "Especialidad", "Tratamiento", "Notas", "Fecha", "Estado", "Diagnostico"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -133,31 +135,39 @@ public class pantallaConsultasPacientes extends javax.swing.JPanel {
                 btnSelecionarActionPerformed(evt);
             }
         });
-        add(btnSelecionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 180, 110, 30));
-        add(selectorFechaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(438, 170, 210, 40));
-        add(selectorFechaFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 170, 220, 40));
+        add(btnSelecionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, 110, 30));
+        add(selectorFechaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 150, 210, 40));
+        add(selectorFechaFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 150, 220, 40));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel5.setText("Celular:");
-        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 150, 226, -1));
+        jLabel5.setText("Celular del paciente:");
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 226, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel6.setText("Fecha Inicio:");
-        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 140, 200, -1));
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 120, 200, -1));
+
+        btnSelecionar1.setText("Restablecer");
+        btnSelecionar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelecionar1ActionPerformed(evt);
+            }
+        });
+        add(btnSelecionar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 190, 110, 30));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseClicked
         framePrincipal.cambiarPanel("pantallaMedicosMenu");
-        jTable1.setModel(new DefaultTableModel());
-        jScrollPane1.setViewportView(jTable1);
         jScrollPane1.revalidate();
         jScrollPane1.repaint();
         inputCelular.setText("");
+        selectorFechaInicio.setDate(null);
+        selectorFechaFin.setDate(null);
+
     }//GEN-LAST:event_btnVolverMouseClicked
 
     private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
         try {
-            // TODO add your handling code here:
             consultarPaciente();
         } catch (PersistenciaException ex) {
             Logger.getLogger(pantallaConsultasPacientes.class.getName()).log(Level.SEVERE, null, ex);
@@ -168,9 +178,16 @@ public class pantallaConsultasPacientes extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnSelecionarActionPerformed
 
+    private void btnSelecionar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionar1ActionPerformed
+        inputCelular.setText("");
+        selectorFechaInicio.setDate(null);
+        selectorFechaFin.setDate(null);
+    }//GEN-LAST:event_btnSelecionar1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSelecionar;
+    private javax.swing.JButton btnSelecionar1;
     private javax.swing.JLabel btnVolver;
     private javax.swing.JTextField inputCelular;
     private javax.swing.JLabel jLabel4;
@@ -187,8 +204,17 @@ public class pantallaConsultasPacientes extends javax.swing.JPanel {
         try {
             Date fechaInicio = selectorFechaInicio.getDate();
             Date fechaFin = selectorFechaFin.getDate();
-            
-            
+
+            LocalDateTime fechaInicioLocal = null;
+            LocalDateTime fechaFinLocal = null;
+
+            if (fechaInicio != null) {
+                fechaInicioLocal = fechaInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            }
+            if (fechaFin != null) {
+                fechaFinLocal = fechaFin.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            }
+
             String celular = inputCelular.getText().trim();
             if (celular.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Por favor, ingrese un número de celular.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -215,19 +241,32 @@ public class pantallaConsultasPacientes extends javax.swing.JPanel {
                 MedicoNuevoDTO medico = medicoBO.consultarMedico(usuario);
                 ConsultaNuevaDTO consulta = consultaBO.obtenerConsultasPaciente(cita);
 
-                if (consulta != null) {  // Solo agregamos consultas no nulas
-                    medicosDTO.add(medico);
-                    consultasNuevaDTO.add(consulta);
+                if (consulta != null) {
+                    LocalDateTime fechaConsulta = consulta.getFechaHora();
+
+                    boolean filtrarPorFecha = true;
+                    if (fechaInicioLocal != null && fechaFinLocal != null) {
+                        filtrarPorFecha = !fechaConsulta.isBefore(fechaInicioLocal) && !fechaConsulta.isAfter(fechaFinLocal);
+                    } else if (fechaInicioLocal != null) {
+                        filtrarPorFecha = !fechaConsulta.isBefore(fechaInicioLocal);
+                    } else if (fechaFinLocal != null) {
+                        filtrarPorFecha = !fechaConsulta.isAfter(fechaFinLocal);
+                    }
+
+                    if (filtrarPorFecha) {
+                        medicosDTO.add(medico);
+                        consultasNuevaDTO.add(consulta);
+                    }
                 }
             }
 
             if (consultasNuevaDTO.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "No se encontraron consultas válidas para este paciente.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "No se encontraron consultas en el rango de fechas especificado.", "Información", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
 
-            String[] columnas = {"PACIENTE", "MEDICO", "ESPECIALIDAD", "TRATAMIENTO", "NOTAS", "FECHA", "ESTADO"};
-            String[][] datos = new String[consultasNuevaDTO.size()][7];
+            String[] columnas = {"PACIENTE", "MEDICO", "ESPECIALIDAD", "DIAGNOSTICO", "TRATAMIENTO", "NOTAS", "FECHA", "ESTADO"};
+            String[][] datos = new String[consultasNuevaDTO.size()][8];
             String nombrePaciente = paciente.getNombre() + " " + paciente.getApellidoPaterno();
 
             for (int i = 0; i < consultasNuevaDTO.size(); i++) {
@@ -237,17 +276,16 @@ public class pantallaConsultasPacientes extends javax.swing.JPanel {
                 datos[i][0] = nombrePaciente;
                 datos[i][1] = "Dr. " + medicoNuevo.getNombre() + " " + medicoNuevo.getApellidoPaterno();
                 datos[i][2] = medicoNuevo.getEspecialidad();
-                datos[i][3] = consultaNueva.getTratamiento();
-                datos[i][4] = consultaNueva.getObservaciones();
-                datos[i][5] = consultaNueva.getFechaHora().toString();
-                datos[i][6] = consultaNueva.getEstado();
+                datos[i][3] = consultaNueva.getDiagnostico();
+                datos[i][4] = consultaNueva.getTratamiento();
+                datos[i][5] = consultaNueva.getObservaciones();
+                datos[i][6] = consultaNueva.getFechaHora().toString();
+                datos[i][7] = consultaNueva.getEstado();
             }
 
-            // 🟢 ACTUALIZAR LA TABLA CORRECTAMENTE
             DefaultTableModel model = new DefaultTableModel(datos, columnas);
             jTable1.setModel(model);
             jScrollPane1.setViewportView(jTable1);
-
             jScrollPane1.revalidate();
             jScrollPane1.repaint();
 

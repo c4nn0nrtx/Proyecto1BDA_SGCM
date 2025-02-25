@@ -45,32 +45,33 @@ public class MedicoDAO implements IMedicoDAO {
     @Override
     public Medico consultarMedicoPorId(int id) throws PersistenciaException {
         Medico medico = null;
-        String consultaSQL = "SELECT nombre, apellidoPat, apellidoMat, cedulaProf, estado, especialidad FROM MEDICOS WHERE idMedico = ?";
-        //inicializo la conexion y le paso la consulta.
-        try (Connection con = this.conexion.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL)) {
+        String consultaSQL = "SELECT idMedico, nombre, apellidoPat, apellidoMat, cedulaProf, estado, especialidad FROM MEDICOS WHERE idMedico = ?";
 
+        try (Connection con = this.conexion.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL)) {
             ps.setInt(1, id);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     medico = new Medico();
+
+                    // Como idMedico también es idUsuario, usamos directamente el ID del método
                     Usuario usuario = usuarioDAO.consultarUsuarioPorId(id);
                     medico.setUsuario(usuario);
+
                     medico.setNombre(rs.getString("nombre"));
                     medico.setApellidoPaterno(rs.getString("apellidoPat"));
                     medico.setApellidoMaterno(rs.getString("apellidoMat"));
                     medico.setCedulaProfesional(rs.getString("cedulaProf"));
                     medico.setEstado(rs.getString("estado"));
                     medico.setEspecialidad(rs.getString("especialidad"));
-
+                    System.out.println("Connsultando para el id del medico : "+id);
                 } else {
-                    logger.severe("No se encontro medico con id " + id);
+                    logger.severe("No se encontró médico con id " + id);
                 }
             }
-
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "Error al consultar medico con ID: " + id, ex);
-            throw new PersistenciaException("Error al consultar medico con ID " + id + " desde la base de datos", ex);
+            logger.log(Level.SEVERE, "Error al consultar médico con ID: " + id, ex);
+            throw new PersistenciaException("Error al consultar médico con ID " + id + " desde la base de datos", ex);
         }
         return medico;
     }
@@ -181,11 +182,13 @@ public class MedicoDAO implements IMedicoDAO {
             throw new PersistenciaException("Error al obtener médicos con horario desde la base de datos.", ex);
         }
     }
+
     /**
      * Obtiene un medico por su nombre Completo.
+     *
      * @param nombreCompleto
      * @return Un medico tipo Medico
-     * @throws PersistenciaException 
+     * @throws PersistenciaException
      */
     public Medico obtenerMedicoPorNombre(String nombreCompleto) throws PersistenciaException {
         String consultaSQL = "SELECT idMedico, nombre, apellidoPat, apellidoMat, cedulaProf, estado, especialidad "

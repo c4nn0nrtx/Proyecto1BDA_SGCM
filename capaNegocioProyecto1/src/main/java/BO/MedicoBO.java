@@ -58,11 +58,8 @@ public class MedicoBO {
         Connection con = null;
         try {
             con = this.conexionBD.crearConexion();
-
             Medico medico = medicoDAO.consultarMedicoPorId(usuario.getIdUsuario());
-
             MedicoNuevoDTO medicoNuevo = mapper.MedicoToNuevoDTO(medico);
-
             return medicoNuevo;
         } catch (PersistenciaException ex) {
             logger.log(Level.SEVERE, "Error, No se pudo encontrar al medico. Intenta de nuevo.", ex);
