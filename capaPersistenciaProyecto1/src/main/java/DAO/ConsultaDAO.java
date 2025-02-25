@@ -15,20 +15,35 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Esta clase representa una consulta generada por una cita del paciente.
+ * Esta clase representa un objeto de acceso a datos (DAO) para la entidad
+ * Consulta. Proporciona métodos para agregar y obtener consultas médicas.
  *
- * @author Ramon Valencia
+ * @author Ramon Valencia, Sebastian
  */
 public class ConsultaDAO implements IConsultaDAO {
 
     private IConexionBD conexionBD;
 
+    /**
+     * Constructor de la clase ConsultaDAO.
+     *
+     * @param conexion La conexión a la base de datos.
+     */
     public ConsultaDAO(IConexionBD conexion) {
         this.conexionBD = conexion;
     }
 
     private static final Logger logger = Logger.getLogger(ConsultaDAO.class.getName());
 
+    /**
+     * Agrega una nueva consulta médica a la base de datos.
+     *
+     * @param consulta La consulta médica que se va a agregar.
+     * @return La consulta médica agregada, incluyendo el ID generado por la
+     * base de datos.
+     * @throws PersistenciaException Si ocurre un error durante la persistencia
+     * de la consulta.
+     */
     @Override
     public Consulta agregarConsulta(Consulta consulta) throws PersistenciaException {
         String consultaSQL = "INSERT INTO CONSULTAS (idCita, estado, diagnostico, tratamiento, observaciones, fechaHoraEntrada) "
@@ -65,34 +80,39 @@ public class ConsultaDAO implements IConsultaDAO {
 
     }
 
+    /**
+     * Obtiene la consulta médica asociada a una cita específica.
+     *
+     * @param cita La cita cuya consulta se va a obtener.
+     * @return La consulta médica asociada a la cita, o null si no existe.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
     @Override
     public Consulta obtenerConsultasPaciente(Cita cita) throws PersistenciaException {
         String consultaSQL = "SELECT estado, diagnostico, tratamiento, observaciones, fechaHoraEntrada "
                 + "FROM CONSULTAS WHERE idCita = ?";
 
-        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL)) {
+        try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             ps.setInt(1, cita.getIdCita());
 
             try (ResultSet rs = ps.executeQuery()) {
-                if (!rs.next()) {
-                    System.out.println("No se encontró una consulta para la cita con ID: " + cita.getIdCita());
-                    return null;
+                if (rs.next()) {
+                    Consulta consulta = new Consulta();
+                    consulta.setEstado(rs.getString("estado"));
+                    consulta.setDiagnostico(rs.getString("diagnostico"));
+                    consulta.setTratamiento(rs.getString("tratamiento"));
+                    consulta.setObservaciones(rs.getString("observaciones"));
+                    consulta.setFechaHora(rs.getTimestamp("fechaHoraEntrada").toLocalDateTime());
+                    return consulta;
                 }
-
-                Consulta consulta = new Consulta();
-                consulta.setEstado(rs.getString("estado"));
-                consulta.setDiagnostico(rs.getString("diagnostico"));
-                consulta.setTratamiento(rs.getString("tratamiento"));
-                consulta.setObservaciones(rs.getString("observaciones"));
-                consulta.setFechaHora(rs.getTimestamp("fechaHoraEntrada").toLocalDateTime());
-
-                return consulta;
+            } catch (SQLException ex) {
+                Logger.getLogger(ConsultaDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ConsultaDAO.class.getName()).log(Level.SEVERE, "Error al obtener consulta", ex);
-            throw new PersistenciaException("Error al obtener consulta", ex);
+            Logger.getLogger(ConsultaDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return null;
     }
 
 }

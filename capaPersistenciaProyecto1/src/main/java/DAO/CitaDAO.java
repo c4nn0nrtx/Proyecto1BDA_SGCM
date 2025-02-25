@@ -23,6 +23,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Clase que implementa la interfaz ICitaDAO para el acceso a datos de citas.
+ * Esta clase contiene métodos para agendar, consultar y gestionar citas en la
+ * base de datos.
  *
  * @author Ramon Valencia
  */
@@ -30,6 +33,11 @@ public class CitaDAO implements ICitaDAO {
 
     private IConexionBD conexionBD;
 
+    /**
+     * Constructor de la clase CitaDAO.
+     *
+     * @param conexion Objeto IConexionBD para la conexión a la base de datos.
+     */
     public CitaDAO(IConexionBD conexion) {
         this.conexionBD = conexion;
     }
@@ -37,11 +45,12 @@ public class CitaDAO implements ICitaDAO {
     private static final Logger logger = Logger.getLogger(CitaDAO.class.getName());
 
     /**
-     * Metodo que agenda una cita pasandole un Objeto del tipo Cita.
+     * Agenda una cita programada.
      *
-     * @param cita
-     * @return Una cita si se agenda.
-     * @throws PersistenciaException
+     * @param cita Objeto Cita con la información de la cita.
+     * @return Objeto Cita con la información de la cita, incluyendo el ID
+     * generado.
+     * @throws PersistenciaException Si ocurre un error al agendar la cita.
      */
     @Override
     public Cita agendarCitaProgramada(Cita cita) throws PersistenciaException {
@@ -50,6 +59,7 @@ public class CitaDAO implements ICitaDAO {
 
         try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
+            // Asignar estado y tipo por defecto si no están definidos
             if (cita.getEstado() == null || cita.getEstado().trim().isEmpty()) {
                 cita.setEstado("Programada"); // Asigna un estado por defecto
                 cita.setTipo("programada");
@@ -85,6 +95,14 @@ public class CitaDAO implements ICitaDAO {
         return cita;
     }
 
+    /**
+     * Agenda una cita de emergencia.
+     *
+     * @param cita Objeto Cita con la información de la cita.
+     * @return Objeto Cita con la información de la cita, incluyendo el ID y
+     * folio generados.
+     * @throws PersistenciaException Si ocurre un error al agendar la cita.
+     */
     @Override
     public Cita agendarCitaEmergencia(Cita cita) throws PersistenciaException {
         String consultaSQL = "INSERT INTO CITAS (estado, fechaHoraProgramada, folio, tipo, idMedico, idPaciente) "
@@ -92,11 +110,13 @@ public class CitaDAO implements ICitaDAO {
 
         try (Connection con = this.conexionBD.crearConexion(); PreparedStatement ps = con.prepareStatement(consultaSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
+            // Asignar estado y tipo por defecto si no están definidos
             if (cita.getEstado() == null || cita.getEstado().trim().isEmpty()) {
                 cita.setEstado("Programada");
                 cita.setTipo("emergencia");
             }
 
+            // Generar folio para emergencia
             String folioGenerado = generarFolio();
 
             ps.setString(1, cita.getEstado());
@@ -146,6 +166,19 @@ public class CitaDAO implements ICitaDAO {
         return cita;
     }
 
+    /**
+     * Consulta las citas programadas en la agenda de un médico específico.
+     *
+     * Este método recupera una lista de citas médicas programadas para un
+     * médico, filtrando por su ID y asegurando que las citas estén dentro de su
+     * horario laboral, sean futuras y tengan el estado y tipo 'Programada'.
+     *
+     * @param idMedico El ID del médico cuyas citas se van a consultar.
+     * @return Una lista de objetos Cita que cumplen con los criterios de
+     * búsqueda.
+     * @throws PersistenciaException Si ocurre un error durante la consulta a la
+     * base de datos.
+     */
     @Override
     public List<Cita> consultarCitasProgramadasAgenda(int idMedico) throws PersistenciaException {
         List<Cita> citas = new ArrayList<>();
@@ -221,6 +254,21 @@ public class CitaDAO implements ICitaDAO {
         return citas;
     }
 
+    /**
+     * Consulta las citas de emergencia en la agenda de un médico específico.
+     *
+     * Este método recupera una lista de citas médicas de emergencia para un
+     * médico, filtrando por su ID y asegurando que las citas estén dentro de su
+     * horario laboral, sean futuras y tengan el estado 'Programada' y tipo
+     * 'emergencia'.
+     *
+     * @param idMedico El ID del médico cuyas citas de emergencia se van a
+     * consultar.
+     * @return Una lista de objetos Cita de emergencia que cumplen con los
+     * criterios de búsqueda.
+     * @throws PersistenciaException Si ocurre un error durante la consulta a la
+     * base de datos.
+     */
     @Override
     public List<Cita> consultarCitasEmergenciaAgenda(int idMedico) throws PersistenciaException {
         List<Cita> citas = new ArrayList<>();
@@ -296,6 +344,18 @@ public class CitaDAO implements ICitaDAO {
         return citas;
     }
 
+    /**
+     * Genera un folio único para una cita.
+     *
+     * Este método genera un número aleatorio de 8 dígitos y verifica si ya
+     * existe en la base de datos. Si el folio ya existe, genera uno nuevo y
+     * repite el proceso hasta que encuentra uno único.
+     *
+     * @return Un folio único para una cita.
+     * @throws SQLException Si ocurre un error durante la consulta a la base de
+     * datos.
+     * @throws PersistenciaException Si ocurre un error de persistencia.
+     */
     public String generarFolio() throws SQLException, PersistenciaException {
         String nuevoFolio;
         boolean folioExiste;
@@ -321,14 +381,20 @@ public class CitaDAO implements ICitaDAO {
     }
 
     /**
-     * Obtiene los horarios disponibles de un médico con su nombre y
-     * especialidad.
+     * Obtiene las citas disponibles de un médico para un día específico.
+     *
+     * Este método consulta los horarios de un médico en un día de la semana
+     * específico y genera intervalos de 30 minutos. Luego, consulta las citas
+     * ya programadas para ese médico y día, y filtra los intervalos
+     * disponibles. Las citas disponibles se retornan con estado "Disponible" y
+     * sin paciente asignado.
      *
      * @param idMedico ID del médico.
      * @param diaSemana Día de la semana (Ejemplo: "Lunes").
      * @param fecha Fecha específica en formato "YYYY-MM-DD".
-     * @return Lista con los datos en formato "Doctor | Especialidad | Horario".
-     * @throws Exception.PersistenciaException
+     * @return Lista de objetos Cita con las citas disponibles.
+     * @throws PersistenciaException Si ocurre un error durante la consulta a la
+     * base de datos.
      */
     @Override
     public List<Cita> cargarCitas(int idMedico, String diaSemana, String fecha) throws PersistenciaException {
@@ -451,6 +517,18 @@ public class CitaDAO implements ICitaDAO {
         return intervalos;
     }
 
+    /**
+     * Obtiene la próxima cita pendiente de un paciente.
+     *
+     * Este método busca la cita más próxima en el futuro para un paciente, que
+     * tenga estado 'Programada' o 'No Atendida'.
+     *
+     * @param idPaciente El ID del paciente.
+     * @return La próxima cita pendiente del paciente, o null si no tiene citas
+     * pendientes.
+     * @throws PersistenciaException Si ocurre un error durante la consulta a la
+     * base de datos.
+     */
     @Override
     public Cita obtenerProximaCitaPendiente(int idPaciente) throws PersistenciaException {
         String sql = "SELECT c.idCita, c.estado, c.fechaHoraProgramada, c.folio, c.tipo, "
@@ -519,6 +597,18 @@ public class CitaDAO implements ICitaDAO {
         return null; // No hay citas pendientes
     }
 
+    /**
+     * Obtiene la última cita (futura) programada de un paciente.
+     *
+     * Este método busca la última cita programada en el futuro para un
+     * paciente.
+     *
+     * @param idPaciente El ID del paciente.
+     * @return La última cita programada del paciente, o null si no tiene citas
+     * programadas.
+     * @throws PersistenciaException Si ocurre un error durante la consulta a la
+     * base de datos.
+     */
     @Override
     public Cita obtenerUltimaCita(int idPaciente) throws PersistenciaException {
         Cita ultimaCita = null;
@@ -581,6 +671,17 @@ public class CitaDAO implements ICitaDAO {
         return ultimaCita;
     }
 
+    /**
+     * Consulta las citas de un paciente específico.
+     *
+     * Este método recupera una lista de citas médicas para un paciente,
+     * filtrando por su ID.
+     *
+     * @param paciente2 El objeto Paciente cuyas citas se van a consultar.
+     * @return Una lista de objetos Cita que pertenecen al paciente.
+     * @throws PersistenciaException Si ocurre un error durante la consulta a la
+     * base de datos.
+     */
     @Override
     public List<Cita> consultarCitasPaciente(Paciente paciente2) throws PersistenciaException {
         List<Cita> citas = new ArrayList<>();
@@ -651,6 +752,20 @@ public class CitaDAO implements ICitaDAO {
         return citas;
     }
 
+    /**
+     * Cancela una cita específica.
+     *
+     * Este método actualiza el estado de una cita a 'Cancelada' si la fecha y
+     * hora actual están dentro de las 24 horas previas a la fecha y hora
+     * programada de la cita.
+     *
+     * @param idCita El ID de la cita que se va a cancelar.
+     * @return true si la cita fue cancelada exitosamente, false si no se pudo
+     * cancelar(ya sea porque no se encontró la cita o porque no está dentro del
+     * tiempo permitido).
+     * @throws PersistenciaException Si ocurre un error durante la consulta a la
+     * base de datos.
+     */
     @Override
     public boolean cancelarCita(int idCita) throws PersistenciaException {
         String verificarSql = "SELECT fechaHoraProgramada FROM Citas WHERE idcita = ?";
@@ -684,6 +799,18 @@ public class CitaDAO implements ICitaDAO {
         }
     }
 
+    /**
+     * Obtiene la última cita de emergencia (futura) programada de un paciente.
+     *
+     * Este método busca la última cita de emergencia programada en el futuro
+     * para un paciente.
+     *
+     * @param idPaciente El ID del paciente.
+     * @return La última cita de emergencia programada del paciente, o null si
+     * no tiene citas programadas.
+     * @throws PersistenciaException Si ocurre un error durante la consulta a la
+     * base de datos.
+     */
     @Override
     public Cita obtenerUltimaCitaEmergencia(int idPaciente) throws PersistenciaException {
         Cita ultimaCita = null;
@@ -746,6 +873,19 @@ public class CitaDAO implements ICitaDAO {
         return ultimaCita;
     }
 
+    /**
+     * Consulta una cita por su número de folio.
+     *
+     * Este método busca una cita en la base de datos utilizando el número de
+     * folio como criterio de búsqueda.
+     *
+     * @param folio El número de folio de la cita que se va a buscar.
+     * @return Un objeto Cita si se encuentra una cita con el folio
+     * especificado, o null si no se encuentra ninguna cita.
+     * @throws SQLException Si ocurre un error durante la consulta a la base de
+     * datos.
+     * @throws PersistenciaException Si ocurre un error de persistencia.
+     */
     @Override
     public Cita consultarCitaPorFolio(String folio) throws SQLException, PersistenciaException {
         String consultaSQL = "SELECT idCita, estado, fechaHoraProgramada, folio, tipo, idMedico, idPaciente "
@@ -774,6 +914,21 @@ public class CitaDAO implements ICitaDAO {
         return cita;
     }
 
+    /**
+     * Consulta una cita por la fecha y hora exacta, y los datos del paciente.
+     *
+     * Este método busca una cita en la base de datos utilizando la fecha y hora
+     * exacta, así como el nombre y apellidos del paciente.
+     *
+     * @param nombrePaciente El nombre del paciente.
+     * @param apellidoPat El apellido paterno del paciente.
+     * @param apellidoMat El apellido materno del paciente.
+     * @param fechaHora La fecha y hora exacta de la cita.
+     * @return Un objeto Cita si se encuentra una cita que coincide con los
+     * criterios especificados, o null si no se encuentra ninguna cita.
+     * @throws PersistenciaException Si ocurre un error durante la consulta a la
+     * base de datos.
+     */
     @Override
     public Cita consultarCitaPorFecha(String nombrePaciente, String apellidoPat, String apellidoMat, LocalDateTime fechaHora) throws PersistenciaException {
         String sql = "SELECT c.idCita, c.estado, c.fechaHoraProgramada, c.folio, c.tipo, "
@@ -840,10 +995,18 @@ public class CitaDAO implements ICitaDAO {
         } catch (SQLException e) {
             throw new PersistenciaException("Error al consultar la cita", e);
         }
-
         return null;  // Si no hay cita, devuelve null
     }
 
+    /**
+     * Actualiza las citas marcadas como no asistidas en la base de datos,
+     * utilizando un procedimiento almacenado.
+     *
+     * @throws SQLException Si ocurre un error durante la interacción con la
+     * base de datos.
+     * @throws PersistenciaException Si ocurre un error en la capa de
+     * persistencia.
+     */
     @Override
     public void actualizarCitas() throws SQLException, PersistenciaException {
         String procedimiento = "CALL actualizar_citas_no_asistidas()";
@@ -857,6 +1020,15 @@ public class CitaDAO implements ICitaDAO {
         }
     }
 
+    /**
+     * Consulta el folio de una cita específica en la base de datos.
+     *
+     * @param cita La cita cuyo folio se va a consultar. Se espera que el objeto
+     * cita tenga el idCita.
+     * @return El folio de la cita, o `null` si no se encuentra la cita.
+     * @throws PersistenciaException Si ocurre un error durante la consulta en
+     * la capa de persistencia.
+     */
     @Override
     public String consultarFolio(Cita cita) throws PersistenciaException {
         String sql = "SELECT folio FROM citas WHERE idCita = ?";
