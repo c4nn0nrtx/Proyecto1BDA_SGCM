@@ -87,9 +87,7 @@ public class CitaBO {
         if (citaNueva.getFechaHora() == null) {
             throw new NegocioException("La fecha y hora de la cita no pueden ser nulas");
         }
-        if (citaNueva.getEstado() == null) {
-            throw new NegocioException("El estado de la cita no puede ser nulo");
-        }
+
 
         Connection con = null;
         try {

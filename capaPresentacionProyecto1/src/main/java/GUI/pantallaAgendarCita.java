@@ -68,6 +68,8 @@ public class pantallaAgendarCita extends javax.swing.JPanel {
         this.framePrincipal = frame;
         initComponents();
         selectorFechas.setMinSelectableDate(new Date());
+        LocalDate maxDate = LocalDate.now().plusYears(1);
+        selectorFechas.setMaxSelectableDate(java.sql.Date.valueOf(maxDate));
 
     }
 
