@@ -6,6 +6,7 @@ import Entidades.Medico;
 import Entidades.Paciente;
 import Entidades.Usuario;
 import Exception.PersistenciaException;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -841,6 +842,20 @@ public class CitaDAO implements ICitaDAO {
         }
 
         return null;  // Si no hay cita, devuelve null
+    }
+    
+    @Override
+    public void actualizarCitas() throws SQLException, PersistenciaException {
+        String procedimiento = "CALL actualizar_citas_no_asistidas()";
+
+        try (Connection con = this.conexionBD.crearConexion(); 
+             CallableStatement cs = con.prepareCall(procedimiento)) {
+
+            cs.execute(); // Ejecutar el procedimiento
+
+        } catch (SQLException e) {
+            throw new SQLException("Error al consultar la cita", e);
+        }
     }
 
 }

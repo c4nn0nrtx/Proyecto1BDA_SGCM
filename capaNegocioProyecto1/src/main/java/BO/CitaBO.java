@@ -440,5 +440,9 @@ public class CitaBO {
         }
         return null;
     }
+    
+    public void actualizarCita() throws SQLException, PersistenciaException {
+        citaDAO.actualizarCitas();
+    }
 
 }

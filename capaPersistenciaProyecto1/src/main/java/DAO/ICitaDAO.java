@@ -59,4 +59,5 @@ public interface ICitaDAO {
     
     public Cita consultarCitaPorFecha(String nombrePaciente, String apellidoPat, String apellidoMat, LocalDateTime fechaHora) throws PersistenciaException;
    
+    public void actualizarCitas() throws SQLException, PersistenciaException;
 }

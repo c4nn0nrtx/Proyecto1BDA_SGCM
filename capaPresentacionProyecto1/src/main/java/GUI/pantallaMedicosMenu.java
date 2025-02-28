@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import BO.CitaBO;
 import BO.Direccion_PacienteBO;
 import BO.MedicoBO;
 import BO.PacienteBO;
@@ -32,6 +33,7 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
     private PacienteBO pacienteBO = DependencyInjector.crearPacienteBO();
     private Direccion_PacienteBO direccionBO = DependencyInjector.crearDireccionBO();
     private MedicoBO medicoBO = DependencyInjector.crearMedicoBO();
+    private CitaBO citaBO = DependencyInjector.crearCitaBO();
     private FramePrincipal framePrincipal;
 
     public pantallaMedicosMenu(FramePrincipal frame) {
@@ -308,6 +310,13 @@ public class pantallaMedicosMenu extends javax.swing.JPanel {
     private void btnAgendarCitaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarCitaMouseClicked
         framePrincipal.cambiarPanel("pantallaCitasPendientes");
         pantallaCitasPendientes citas = framePrincipal.getPantallaCitasPendientes();
+        try {
+            actualizarCitas();
+        } catch (SQLException ex) {
+            Logger.getLogger(pantallaMedicosMenu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(pantallaMedicosMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
         citas.consultarCitasProgramadas();
         citas.consultarCitasEmergencia();
     }//GEN-LAST:event_btnAgendarCitaMouseClicked
@@ -373,6 +382,10 @@ public void actualizarEstadoMedicoInactivo() throws NegocioException, SQLExcepti
 
         }
 
+    }
+    
+    public void actualizarCitas() throws SQLException, PersistenciaException {
+        citaBO.actualizarCita();
     }
 
 }
